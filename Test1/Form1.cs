@@ -22,7 +22,8 @@ namespace Test1
         {
             //this.txtOutput.Text = EncryptHelper.AESDecrypt(this.txtInput.Text.Trim());
             //MessageBox.Show(EncryptHelper.AESDecrypt(this.txtInput.Text.Trim()));
-            this.txtOutput.Text = EncryptHelper.AESEncrypt(this.txtInput.Text.Trim());
+            this.txtOutput.Text = EncryptHelper.StringToBase16(this.txtInput.Text.Trim());
+            
         }
     }
 }

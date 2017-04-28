@@ -41,6 +41,9 @@ namespace Iwenli.Text
 
         private string key;
         private string m_key;
+        /// <summary>
+        /// 秘钥(MD5加密过的key)
+        /// </summary>
         private string Key
         {
             get
@@ -55,6 +58,9 @@ namespace Iwenli.Text
 
         private string iv;
         private string m_iv;
+        /// <summary>
+        /// 向量(MD5加密过的IV)
+        /// </summary>
         private string IV
         {
             get

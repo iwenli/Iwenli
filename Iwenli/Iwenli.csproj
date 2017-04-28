@@ -43,6 +43,14 @@
     <Compile Include="Text\EncryptHelper.cs" />
     <Compile Include="Text\IwenliAES.cs" />
     <Compile Include="Text\LevenshteinDistance.cs" />
+    <Compile Include="TimerPlan\Enum\DayRateEnum.cs" />
+    <Compile Include="TimerPlan\Enum\ExecIntervalEnum.cs" />
+    <Compile Include="TimerPlan\Enum\ExecRateEnum.cs" />
+    <Compile Include="TimerPlan\Enum\MonthRateEnum.cs" />
+    <Compile Include="TimerPlan\Enum\PlanTypeEnum.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="TimerPlan\TimeHandler\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
