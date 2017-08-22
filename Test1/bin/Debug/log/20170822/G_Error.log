@@ -1,0 +1,3 @@
+2017-08-22 17:21:08,212 [15836] ERROR - 尝试除以零。
+System.DivideByZeroException: 尝试除以零。
+   在 Test1.Form1..ctor() 位置 F:\0.Project\Donet\Iwenli\Test1\Form1.cs:行号 26

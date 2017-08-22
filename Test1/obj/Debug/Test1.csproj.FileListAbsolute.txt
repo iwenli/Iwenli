@@ -12,3 +12,4 @@ F:\0.Project\Donet\Iwenli\Test1\obj\Debug\Test1.pdb
 F:\0.Project\Donet\Iwenli1\Test1\bin\Debug\Test1.exe.config
 F:\0.Project\Donet\Iwenli1\Test1\obj\Debug\Test1.exe
 F:\0.Project\Donet\Iwenli1\Test1\obj\Debug\Test1.pdb
+F:\0.Project\Donet\Iwenli\Test1\bin\Debug\Iwenli.config

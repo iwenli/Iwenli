@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.21005.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26228.9
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Iwenli", "Iwenli\Iwenli.csproj", "{8CC1DC47-F654-4FD6-B853-9B0184272D2B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test1", "Test1\Test1.csproj", "{FB8FA543-D40A-4DDC-89DE-68E950FC5017}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test2", "Test2\Test2.csproj", "{A11E79D9-B006-489B-BFE7-08609ED9BCF1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{FB8FA543-D40A-4DDC-89DE-68E950FC5017}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FB8FA543-D40A-4DDC-89DE-68E950FC5017}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FB8FA543-D40A-4DDC-89DE-68E950FC5017}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A11E79D9-B006-489B-BFE7-08609ED9BCF1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A11E79D9-B006-489B-BFE7-08609ED9BCF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A11E79D9-B006-489B-BFE7-08609ED9BCF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A11E79D9-B006-489B-BFE7-08609ED9BCF1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

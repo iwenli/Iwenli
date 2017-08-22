@@ -167,7 +167,7 @@ namespace Iwenli.Text
                 return string.Empty;
             }
 
-            IwenliAES txCaes = new IwenliAES(key, iv);
+            AES txCaes = new AES(key, iv);
             string encrypt = txCaes.AESEncrypt(plainStr);//加密
             if (string.IsNullOrEmpty(encrypt))
             {
@@ -204,7 +204,7 @@ namespace Iwenli.Text
             {
                 return string.Empty;
             }
-            IwenliAES txCaes = new IwenliAES(key, iv);
+            AES txCaes = new AES(key, iv);
             string decrypt = txCaes.AESDecrypt(decryptStr);//解密
             if (string.IsNullOrEmpty(decrypt))
             {

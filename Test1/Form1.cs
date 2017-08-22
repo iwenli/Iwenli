@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Iwenli.Text;
+using Iwenli;
 
 namespace Test1
 {
@@ -16,6 +17,20 @@ namespace Test1
         public Form1()
         {
             InitializeComponent();
+            for (int i = 0; i < 50; i++)
+            {
+                this.LogInfo(i.ToString());
+                if (i == 49) {
+                    try
+                    {
+                      var j =   i / 0;
+                    }
+                    catch (Exception ex)
+                    {
+                        this.LogError(ex.Message,ex); 
+                    }
+                }
+            }
         }
 
         private void btnRun_Click(object sender, EventArgs e)
