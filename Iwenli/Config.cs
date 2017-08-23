@@ -21,19 +21,59 @@ namespace Iwenli
         /// <summary>
         /// 节点名称
         /// </summary>
-        public string Name { get => _name; set => _name = value; }
+        public string Name
+        {
+            get
+            {
+                return _name;
+            }
+            set
+            {
+                _name = value;
+            }
+        }
         /// <summary>
         /// 加载节点时间
         /// </summary>
-        public DateTime LoadTime { get => _loadTime; set => _loadTime = value; }
+        public DateTime LoadTime
+        {
+            get
+            {
+                return _loadTime;
+            }
+            set
+            {
+                _loadTime = value;
+            }
+        }
         /// <summary>
         /// 当前解析的节点
         /// </summary>
-        public XmlNode ConfigNode { get => _configNode; set => _configNode = value; }
+        public XmlNode ConfigNode
+        {
+            get
+            {
+                return _configNode;
+            }
+            set
+            {
+                _configNode = value;
+            }
+        }
         /// <summary>
         /// 当前配置结点键值对信息
         /// </summary>
-        public Dictionary<string, string> Variables { get => _variables; set => _variables = value; }
+        public Dictionary<string, string> Variables
+        {
+            get
+            {
+                return _variables;  
+            }
+            set
+            {
+                _variables = value;
+            }
+        }
         #endregion
 
         /// <summary>
@@ -47,7 +87,7 @@ namespace Iwenli
         /// 通过一个XmlElement初始化一个Config实例
         /// </summary>
         /// <param name="node"></param>
-        public Config(XmlElement node):this()
+        public Config(XmlElement node) : this()
         {
             Load(node);
         }
