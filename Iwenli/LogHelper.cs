@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Runtime.Caching;
 using System.Text;
@@ -64,7 +65,7 @@ namespace Iwenli
         {
             _initTime = DateTime.Now;
 
-            _defaultConfigFile = AppDomain.CurrentDomain.SetupInformation.ApplicationBase + "Iwenli.config";
+            _defaultConfigFile = Path.Combine(AppDomain.CurrentDomain.SetupInformation.ApplicationBase, "Iwenli.config");
 
             //监控配置文件信息
             log4net.Config.XmlConfigurator.ConfigureAndWatch(new System.IO.FileInfo(_defaultConfigFile));
@@ -87,7 +88,7 @@ namespace Iwenli
             {
                 return MemoryCache.Default.Get("LOG_SAVE_PATH").ToString();
             }
-            else if (System.IO.File.Exists(_defaultConfigFile))
+            else if (File.Exists(_defaultConfigFile))
             {
                 //读取XML信息
                 XmlDocument _reader = new XmlDocument();
