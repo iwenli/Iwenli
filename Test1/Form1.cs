@@ -38,8 +38,11 @@ namespace Test1
             {
                 //string _sql = @"SELECT * FROM [Customer] order by [CustomerId] desc";
                 //var _dt = helper.SqlGetDataTable(_sql);
+<<<<<<< HEAD
                 var baseList = helper.GetDatabaseList();
                 var b = helper.get
+=======
+>>>>>>> b90e22f000e8fc6bd7bccd0ee2e8673feb31d74a
                 txtOutput.Text = JsonConvert.SerializeObject(helper.GetDatabaseList());
             }
         }
