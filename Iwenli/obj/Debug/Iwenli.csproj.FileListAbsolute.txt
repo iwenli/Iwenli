@@ -1,5 +1,0 @@
-F:\0.Project\Donet\Iwenli\Iwenli\bin\Debug\Iwenli.dll
-F:\0.Project\Donet\Iwenli\Iwenli\bin\Debug\Iwenli.pdb
-F:\0.Project\Donet\Iwenli\Iwenli\obj\Debug\Iwenli.dll
-F:\0.Project\Donet\Iwenli\Iwenli\obj\Debug\Iwenli.pdb
-F:\0.Project\Donet\Iwenli\Iwenli\bin\Debug\MySql.Data.dll

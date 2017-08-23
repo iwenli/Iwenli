@@ -1,9 +1,0 @@
-F:\0.Project\Donet\Iwenli\Test2\obj\Debug\Test2.csprojResolveAssemblyReference.cache
-F:\0.Project\Donet\Iwenli\Test2\bin\Debug\Test2.exe.config
-F:\0.Project\Donet\Iwenli\Test2\bin\Debug\Test2.exe
-F:\0.Project\Donet\Iwenli\Test2\bin\Debug\Test2.pdb
-F:\0.Project\Donet\Iwenli\Test2\bin\Debug\Iwenli.dll
-F:\0.Project\Donet\Iwenli\Test2\bin\Debug\Iwenli.pdb
-F:\0.Project\Donet\Iwenli\Test2\obj\Debug\Test2.exe
-F:\0.Project\Donet\Iwenli\Test2\obj\Debug\Test2.pdb
-F:\0.Project\Donet\Iwenli\Test2\bin\Debug\MySql.Data.dll
