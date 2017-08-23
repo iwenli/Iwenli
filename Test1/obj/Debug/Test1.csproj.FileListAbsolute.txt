@@ -1,0 +1,14 @@
+F:\0.Project\Donet\Iwenli\Test1\bin\Debug\Iwenli.config
+F:\0.Project\Donet\Iwenli\Test1\bin\Debug\Test1.exe.config
+F:\0.Project\Donet\Iwenli\Test1\bin\Debug\Test1.exe
+F:\0.Project\Donet\Iwenli\Test1\bin\Debug\Test1.pdb
+F:\0.Project\Donet\Iwenli\Test1\bin\Debug\Iwenli.dll
+F:\0.Project\Donet\Iwenli\Test1\bin\Debug\MySql.Data.dll
+F:\0.Project\Donet\Iwenli\Test1\bin\Debug\Iwenli.pdb
+F:\0.Project\Donet\Iwenli\Test1\obj\Debug\Test1.csprojResolveAssemblyReference.cache
+F:\0.Project\Donet\Iwenli\Test1\obj\Debug\Test1.Form1.resources
+F:\0.Project\Donet\Iwenli\Test1\obj\Debug\Test1.Properties.Resources.resources
+F:\0.Project\Donet\Iwenli\Test1\obj\Debug\Test1.csproj.GenerateResource.Cache
+F:\0.Project\Donet\Iwenli\Test1\obj\Debug\Test1.exe
+F:\0.Project\Donet\Iwenli\Test1\obj\Debug\Test1.pdb
+F:\0.Project\Donet\Iwenli\Test1\bin\Debug\Newtonsoft.Json.dll
