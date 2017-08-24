@@ -40,7 +40,7 @@ namespace Iwenli.Text
         /// </summary>
         /// <param name="data"></param>
         /// <returns></returns>
-        public static string Base64Encode(string data)
+        public static string Base64Encode(this string data)
         {
             try
             {
@@ -59,7 +59,7 @@ namespace Iwenli.Text
         /// </summary>
         /// <param name="data"></param>
         /// <returns></returns>
-        public static string Base64Decode(string data)
+        public static string Base64Decode(this string data)
         {
             try
             {
@@ -87,7 +87,7 @@ namespace Iwenli.Text
         /// </summary>
         /// <param name="str">需要加密的字符串</param>
         /// <returns>加密后的字符串</returns>
-        public static string MD5(string str)
+        public static string MD5(this string str)
         {
             byte[] bt = System.Text.UTF8Encoding.UTF8.GetBytes(str);//UTF8需要对Text的引用
             System.Security.Cryptography.MD5CryptoServiceProvider objMD5;
@@ -95,7 +95,6 @@ namespace Iwenli.Text
             byte[] output = objMD5.ComputeHash(bt);
             return BitConverter.ToString(output).Replace("-", "");
         }
-
         #endregion
 
         #region 16进制转化
@@ -147,7 +146,7 @@ namespace Iwenli.Text
         /// </summary>
         /// <param name="plainStr">明文字符串</param>
         /// <returns></returns>
-        public static string AESEncrypt(string plainStr)
+        public static string AESEncrypt(this string plainStr)
         {
             return AESEncrypt(plainStr, iKey, iIV);
         }
@@ -160,7 +159,7 @@ namespace Iwenli.Text
         /// <param name="key">蜜钥</param>
         /// <param name="iv">向量</param>
         /// <returns>密文</returns>
-        public static string AESEncrypt(string plainStr, string key, string iv)
+        public static string AESEncrypt(this string plainStr, string key, string iv)
         {
             if (string.IsNullOrEmpty(plainStr))
             {
@@ -184,7 +183,7 @@ namespace Iwenli.Text
         /// </summary>
         /// <param name="decryptStr">密文字符串</param>
         /// <returns>明文</returns>
-        public static string AESDecrypt(string decryptStr)
+        public static string AESDecrypt(this string decryptStr)
         {
             return AESDecrypt(decryptStr, iKey, iIV);
         }
@@ -197,7 +196,7 @@ namespace Iwenli.Text
         /// <param name="key">蜜钥</param>
         /// <param name="iv">向量</param>
         /// <returns>明文</returns>
-        public static string AESDecrypt(string decryptStr, string key, string iv)
+        public static string AESDecrypt(this string decryptStr, string key, string iv)
         {
             decryptStr = Base16ToString(decryptStr);//16进制转换
             if (string.IsNullOrEmpty(decryptStr))
@@ -242,7 +241,7 @@ namespace Iwenli.Text
         /// </summary>
         /// <param name="str"></param>
         /// <returns></returns>
-        public static string SHA1(string str)
+        public static string SHA1(this string str)
         {
             byte[] StrRes = Encoding.Default.GetBytes(str);
             HashAlgorithm iSHA = new SHA1CryptoServiceProvider();
