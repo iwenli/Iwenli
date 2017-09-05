@@ -1,0 +1,431 @@
+﻿body {
+    padding-top: 2.5rem;
+    display: none;
+}
+
+.P_Pages {
+    padding: 0 0.5625rem 0;
+    background: #fff;
+    color: #fff;
+    min-height: 100%;
+    position: relative;
+}
+
+    .P_Pages form {
+    }
+
+    .P_Pages .reg_nav {
+        line-height: 2rem;
+    }
+
+        .P_Pages .reg_nav .right a {
+            color: #939393;
+        }
+
+    .P_Pages ul {
+        background: #fff;
+        margin-top: 1.5rem;
+    }
+
+        .P_Pages ul li {
+            height: 2.5rem;
+            line-height: 2.5rem;
+            margin-top: 1rem;
+            border-bottom: 1px solid #dedede;
+            position: relative;
+        }
+
+            .P_Pages ul li:nth-of-type(1) {
+                margin-top: 0;
+            }
+
+            .P_Pages ul li input {
+                height: 100%;
+                border: none;
+                color: #888888;
+                width: 18rem;
+                float: left;
+                box-sizing: border-box;
+                background: #fff;
+            }
+
+                .P_Pages ul li input#regName {
+                    width: 8.9375rem;
+                }
+
+            .P_Pages ul li .code_btn {
+                height: 100%;
+                text-align: center;
+                line-height: 2.125rem;
+            }
+
+                .P_Pages ul li .code_btn input {
+                    display: inline-block;
+                    vertical-align: middle;
+                    height: 2.125rem;
+                    line-height: 2.125rem;
+                    border-radius: 0.16rem;
+                    color: #fff;
+                    background: #f9a81b;
+                    width: auto;
+                    float: initial;
+                    padding: 0 0.64rem;
+                    appearance: none;
+                    -webkit-appearance: none;
+                }
+
+            .P_Pages ul li .eye {
+                float: right;
+                height: 100%;
+                text-align: right;
+                width: 1.5625rem;
+            }
+
+                .P_Pages ul li .eye i {
+                    font-size: 1.2rem;
+                    color: #c2c0c0;
+                }
+
+                .P_Pages ul li .eye.show i {
+                    color: #fb9856
+                }
+
+            .P_Pages ul li.promote {
+                height: 1.25rem;
+                line-height: 1.25rem;
+                padding: 0 0.64rem;
+                color: #afafaf;
+                background: none;
+                margin: 0;
+                font-size: 0.65rem;
+            }
+
+        .P_Pages ul .line {
+            display: block;
+            height: 0.96rem;
+            border-bottom: 1px dashed #f0efef;
+        }
+
+    .P_Pages .reg_btn {
+        height: 2.8125rem;
+        line-height: 2.8125rem;
+        color: #fff;
+        font-size: 1rem;
+        background: #fd8100;
+        text-align: center;
+        border-radius: 0.25rem;
+        width: 19rem;
+        margin-top: 1.5rem;
+    }
+
+        .P_Pages .reg_btn a {
+            width: 100%;
+            height: 2.8125rem;
+            background: none;
+            color: #fff;
+            line-height: 2.8125rem;
+            display: block;
+        }
+
+.shuoming {
+    font-size: 0.75rem;
+    line-height: 1rem;
+    color: #666;
+    margin: 0.5rem 0 0.5rem;
+    padding: 0 0.75rem;
+}
+
+    .shuoming a {
+        text-decoration: underline;
+        color: #333;
+        padding: 0 0.125rem;
+    }
+
+.service {
+    background: #fff;
+    color: #666;
+    padding: 0.5rem 0.25rem;
+    line-height: 1.25rem;
+}
+
+    .service p {
+        text-indent: 2em;
+    }
+
+    .service h1 {
+        font-size: 1rem;
+        text-align: center;
+        padding-bottom: 0.5rem;
+    }
+
+.reg_ok_mask {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+    background: rgba(0,0,0,0.5) url(/Skin/Passport/Img/Reel_bj.png) no-repeat top center;
+    background-size: 100% auto;
+}
+
+.reg_ok_box {
+    width: 100%;
+    overflow: hidden;
+    margin-top: 10%;
+}
+
+    .reg_ok_box .cancel {
+        float: right;
+        width: 2rem;
+        height: 2rem;
+        margin-right: 1rem;
+    }
+
+        .reg_ok_box .cancel img {
+            display: block;
+            width: 100%;
+        }
+
+    .reg_ok_box .reel_box {
+        clear: both;
+    }
+
+    .reg_ok_box .reel_up {
+        width: 100%;
+        height: 2rem;
+        background: url(/Skin/Passport/Img/Reel_up.png)no-repeat;
+        background-size: cover;
+    }
+
+    .reg_ok_box .reel_down {
+        width: 100%;
+        height: 2rem;
+        background: url(/Skin/Passport/Img/Reel_down.png) no-repeat;
+        background-size: cover;
+    }
+
+    .reg_ok_box .reel_con {
+        width: 100%;
+        background: url(/Skin/Passport/Img/Reel_con.png)repeat-y;
+        background-size: 100% auto;
+    }
+
+        .reg_ok_box .reel_con .title {
+            line-height: 2rem;
+            text-align: center;
+            color: #ffd718;
+            font-size: 0.875rem;
+            width: 100%;
+            height: 2rem;
+            background: url(/Skin/Passport/Img/Reel_title.png) no-repeat;
+            background-size: cover;
+        }
+
+    .reg_ok_box .reel_list {
+        width: 14rem;
+        height: 4rem;
+        background: url(/Skin/Passport/Img/Reel_list.png) no-repeat;
+        background-size: cover;
+        margin: 0.75rem auto 0;
+    }
+
+        .reg_ok_box .reel_list dt {
+            float: left;
+            width: 5.25rem;
+            text-align: center;
+            height: 4rem;
+            margin-right: 0.5rem;
+        }
+
+            .reg_ok_box .reel_list dt em {
+                color: #f73535;
+                font-size: 1.25rem;
+                line-height: 2rem;
+                height: 2rem;
+                margin-top: 0.75rem;
+                display: block;
+            }
+
+            .reg_ok_box .reel_list dt span {
+                display: block;
+                color: #fff;
+                line-height: 1rem;
+            }
+
+        .reg_ok_box .reel_list dd.tit {
+            padding-top: 0.75rem;
+            color: #000;
+            font-size: 0.875rem;
+            line-height: 1.25rem;
+        }
+
+        .reg_ok_box .reel_list dd.con {
+            line-height: 1.5rem;
+        }
+
+    .reg_ok_box a.bottom {
+        display: block;
+        text-align: center;
+        margin-top: 0.75rem;
+        line-height: 1.5rem;
+        height: 1.5rem;
+        color: #e02107;
+        text-decoration: underline;
+    }
+
+
+.help_box {
+    padding: 0.75rem;
+    line-height: 1.5rem;
+    border: 0.5rem solid #ff5c0c;
+    box-sizing: border-box;
+}
+
+.P_Pages label.error {
+    left: 0;
+    top: 2.75rem;
+}
+
+/*提示框*/
+.dialog-mask-div {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.3;
+    display: block;
+    position: fixed;
+    z-index: 999999998;
+    background-color: #000000;
+}
+
+.dialog-main-div {
+    top: 50%;
+    width: 70%;
+    left: 50%;
+    opacity: 1;
+    position: fixed;
+    margin-left: -35%;
+    font-size: 20px;
+    text-align: center;
+    font-family: 'Microsoft Yahei';
+    background: #FFFFFF;
+    border-radius: 0.35rem;
+    z-index: 999999999;
+    box-sizing: content-box;
+    opacity: 1;
+    -webkit-transition-duration: .4s;
+    transition-duration: .4s;
+    -webkit-transform: translate3d(0,0,0) scale(1);
+    transform: translate3d(0,0,0) scale(1);
+}
+
+.modal-inner {
+    padding: .75rem;
+    border-radius: .35rem .35rem 0 0;
+    position: relative;
+}
+
+    .modal-inner:after {
+        content: '';
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        right: auto;
+        top: auto;
+        height: 1.1px;
+        width: 100%;
+        background-color: #e0dcdc;
+        display: block;
+        z-index: 15;
+        -webkit-transform-origin: 50% 100%;
+        transform-origin: 50% 100%;
+    }
+
+.modal-buttons {
+    height: 2.8rem;
+    overflow: hidden;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+}
+
+.dialog-button {
+    width: 100%;
+    padding: 0 .25rem;
+    height: 2.8rem;
+    font-size: .8rem;
+    line-height: 2.8rem;
+    text-align: center;
+    display: block;
+    position: relative;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    cursor: pointer;
+    box-sizing: border-box;
+    -webkit-box-flex: 1;
+}
+
+    .dialog-button:first-child {
+        border-radius: 0 0 0 .35rem;
+    }
+
+    .dialog-button:last-child {
+        border-radius: 0 0 .35rem 0;
+    }
+
+.dialog-button-normal {
+    float: left;
+    background: #ff8201;
+    color: #fff;
+}
+
+
+.dialog-title {
+    font-weight: 500;
+    font-size: .8rem;
+    text-align: center;
+}
+
+.dialog-content {
+    margin-top: .5rem;
+    font-size: .8rem;
+    line-height: 1.5;
+}
+
+/*自适应 */
+/*5.5*/
+@media(max-width:414px) {
+    .dialog-main-div {
+        width: 60%;
+        margin-left: -30%;
+        top: 35%;
+    }
+}
+
+@media(max-width:388px) {
+    .dialog-main-div {
+        width: 70%;
+        margin-left: -35%;
+    }
+}
+
+@media(max-width:380px) {
+    .dialog-main-div {
+        width: 70%;
+        margin-left: -35%;
+    }
+}
+
+/*4.7*/
+@media(max-width:375px) {
+    .dialog-main-div {
+        width: 70%;
+        margin-left: -35%;
+    }
+}

@@ -1,0 +1,48 @@
+﻿body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,form,legend,input,button,textarea,p{margin:0;padding:0;outline:none;}
+/*html5 新标签*/
+article,section,header,nav,aside,hgroup,figure,figcaption,footer,dialog{margin:0;padding:0;}
+
+body{font-size:0.75rem;line-height:0.875rem;font-family: "Microsoft YaHei","微软雅黑",Helvetica,"黑体",Arial,Tahoma; color:#666;}
+h1,h2,h3,h4,h5,h6{font-size:100%;font-weight:normal}
+table{border-collapse:collapse;border-spacing:0}
+input,button,textarea,select,optgroup,option{border:none;}
+li{list-style:none}
+em,i{font-style:normal;}
+img,fieldset,iframe{border:0}
+input,button,textarea,select{font-family:inherit;font-size:inherit;font-weight:inherit;*font-size:100%}
+
+.left{float:left;}
+.right{float:right;}
+a{text-decoration:none;color:#fff;outline:none;}
+
+/*引入图标*/
+@font-face {font-family: 'iconfont';
+    src: url('/Skin/Passport/Img/Iconfont/iconfont.eot'); /* IE9*/
+    src: url('/Skin/Passport/Img/Iconfont/iconfont.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+    url('/Skin/Passport/Img/Iconfont/iconfont.woff') format('woff'), /* chrome、firefox */
+    url('/Skin/Passport/Img/Iconfont/iconfont.ttf') format('truetype'), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/
+    url('/Skin/Passport/Img/Iconfont/iconfont.svg#iconfont') format('svg'); /* iOS 4.1- */
+}
+i{display:block; font-family:'iconfont';}
+
+@media (min-width:720px) {
+    html{font-size:20.7px!important; /*414px下的大小，414为iPhone6 Plus宽*/}
+    body{width:20rem; margin:0 auto;}
+}
+.P_Header{width:100%; height:2.5rem; line-height:2.5rem; overflow:hidden; background:#f6f7f8; position:fixed; top:0; margin:auto; z-index:99;}
+.P_Header .P_goBack{float:left; width:1.625rem; text-align:center; color:#646464; font-size:1rem;}
+.P_title{position:absolute; left:50%; transform:translateX(-50%); -webkit-transform:translateX(-50%); text-align:center; font-size:1rem; color:#101010; font-weight:400;}
+.P_Header_info{float:right; margin-right:0.5625rem; font-size:0.8125rem; color:#fff;}
+.P_Header_info a{color:#fff;}
+.P_title_select{ margin-left:1rem;}
+.P_title_select select{border:none; color:#fff; background:#FF7900; margin-right:1.25rem; }
+
+.loading_box { position: fixed; left: 0; top: 0; width: 100%; height: 100%; z-index: 1000; background: rgba(0,0,0,0.5); display: none; }
+.loading_box p{color:#909090; padding:1rem 0; font-size:0.75rem; text-align:center; margin:44% auto; line-height:1.75rem; width:10rem; border-radius:0.25rem; background:#fff;}
+.loading_box p img{ width:2rem; height:2rem; display:block; margin:0 auto;}
+
+
+
+
+
+

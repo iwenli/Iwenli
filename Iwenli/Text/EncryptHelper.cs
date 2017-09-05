@@ -1,22 +1,4 @@
-﻿/*----------------------------------------------------------------
- *  Copyright (C) 2017 天下商机（txooo.com）版权所有
- * 
- *  文 件 名：EncryptHelper
- *  所属项目：
- *  创建用户：张玉龙
- *  创建时间：2017/4/25 15:19:01
- *  
- *  功能描述：
- *          1、
- *          2、
- * 
- *  修改标识：
- *  修改描述：
- *  待 完 善：
- *          1、
-----------------------------------------------------------------*/
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
@@ -166,8 +148,8 @@ namespace Iwenli.Text
                 return string.Empty;
             }
 
-            AES txCaes = new AES(key, iv);
-            string encrypt = txCaes.AESEncrypt(plainStr);//加密
+            AES caes = new AES(key, iv);
+            string encrypt = caes.AESEncrypt(plainStr);//加密
             if (string.IsNullOrEmpty(encrypt))
             {
                 return string.Empty;
@@ -203,8 +185,8 @@ namespace Iwenli.Text
             {
                 return string.Empty;
             }
-            AES txCaes = new AES(key, iv);
-            string decrypt = txCaes.AESDecrypt(decryptStr);//解密
+            AES caes = new AES(key, iv);
+            string decrypt = caes.AESDecrypt(decryptStr);//解密
             if (string.IsNullOrEmpty(decrypt))
             {
                 return string.Empty;

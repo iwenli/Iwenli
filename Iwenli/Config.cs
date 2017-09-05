@@ -8,7 +8,7 @@ using System.Xml;
 namespace Iwenli
 {
     /// <summary>
-    /// 配置文件解析类，读取根目录下的Iwenli.config文件
+    /// 配置文件解析类，读取根目录下的wl.config文件
     /// </summary>
     public class Config : IConfig
     {
@@ -16,7 +16,10 @@ namespace Iwenli
         string _name;
         DateTime _loadTime;
         XmlNode _configNode;
-        Dictionary<string, string> _variables;
+        /// <summary>
+        /// 当前配置结点键值对信息
+        /// </summary>
+        protected Dictionary<string, string> _variables;
 
         /// <summary>
         /// 节点名称

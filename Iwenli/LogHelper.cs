@@ -17,7 +17,7 @@ namespace Iwenli
         /// <summary>
         /// 记录日志对象
         /// 对于独立类，
-        /// 请使用引用Txooo命名空间后，使用this.TxLogDebug()记录日志信息
+        /// 请使用引用Iwenli命名空间后，使用this.LogDebug()记录日志信息
         /// </summary>
         public static readonly log4net.ILog Logger = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
@@ -65,7 +65,7 @@ namespace Iwenli
         {
             _initTime = DateTime.Now;
 
-            _defaultConfigFile = Path.Combine(AppDomain.CurrentDomain.SetupInformation.ApplicationBase, "Iwenli.config");
+            _defaultConfigFile = Path.Combine(AppDomain.CurrentDomain.SetupInformation.ApplicationBase, "wl.config");
 
             //监控配置文件信息
             log4net.Config.XmlConfigurator.ConfigureAndWatch(new System.IO.FileInfo(_defaultConfigFile));

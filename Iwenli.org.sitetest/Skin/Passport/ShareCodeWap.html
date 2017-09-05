@@ -1,0 +1,87 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <title>注册</title>
+    <link type="text/css" rel="stylesheet" href="/Skin/Passport/Css/Public.css" />
+    <link type="text/css" rel="stylesheet" href="/Skin/Passport/Css/FindPwd.css" />
+    <script src="//cdn.txooo.com/public/jquery/jquery-1.7.2.js"></script>
+    <script type="text/javascript" src="//cdn.txooo.com/public/html5/rem.js"></script>
+    <script type="text/javascript" src="//cdn.txooo.com/public/jquery.validate/jquery.validate.js"></script>
+    <script type="text/javascript" src="//cdn.txooo.com/public/jquery.validate/validate-ex.js"></script>
+    <link href="/Skin/Passport/Css/Validate.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript">
+        $.ajaxSetup({ cache: false, contentType: "application/x-www-form-urlencoded; charset=utf-8", error: function () { } });
+        function postForm() {
+            if ($("#getCodeForm").valid()) {
+                $.post("/Txooo/SalesV2/Passport/Ajax/SalesAjax.ajax/GetShareCodeByTxId", $("#getCodeForm").serialize(), function (data) {
+                    var obj = eval(data);
+                    if (obj.success == "true") {
+                        window.location.href = "/Register.html?ShareCode=" + obj.msg;
+                    } else {
+                        alert(obj.msg);
+                    }
+                })
+            }
+        }
+        $(function () {
+            $(".reg_show").click(function () {
+                if ($(this).hasClass("hover")) {
+                    $(this).removeClass("hover");
+                    $(".reg_show_box").hide();
+                } else {
+                    $(this).addClass("hover");
+                    $(".reg_show_box").show();
+                }
+               
+            })
+        })
+    </script>
+</head>
+<body>
+    <!-- 头部信息begin -->
+    <header class="P_Header" id="header1">
+        <div class="P_goBack" onclick="javascript:history.go(-1)"><i>&#xe602;</i></div>
+        <div class="P_title">注册</div>
+    </header>
+    <!-- 头部信息end -->
+    <form id="getCodeForm" method="post" style="display:block;">
+        <!--新用户注册-->
+        <div class="modify_safety">
+            <dl class="safety_password">
+                <dt>
+                    <input class="{required:true,isPhone:true} txt " type="text" name="mobile" value="" placeholder="邀请人手机号" />
+                </dt>
+            </dl>
+            <p><a href="/helper.html" style="color: #fd8100;">什么是邀请人？</a></p>
+        </div>
+        <div class="bottom_btn">
+            <a class="positive_button" onclick="postForm()">下一步</a>
+        </div>
+    </form>
+
+    <div class="reg_bottom">
+        <div class="reg_show"><i>&#xe66f;</i></div>
+        <div class="reg_show_box">
+            <dl>
+                <dt><i>&#xe670;</i>什么是邀请人？</dt>
+                <dd>邀请人必须为已经在创业赚钱平台成功注册的会员，如果您忘记了他的电话号码，请先联系您的朋友索要，填写了邀请人手机号并注册成功后，你即成为您填写邀请人的团队成员。</dd>
+            </dl>
+            <dl>
+                <dt><i>&#xe670;</i>如何赚大钱？</dt>
+                <dd>你邀请的好友，会成为您的团队成员，当你的团队成员通过本平台购买商品成交订单后，你就会获得相应的佣金和创业基金，发展的团队成员越多，赚钱的机会就会越大。</dd>
+            </dl>
+            <dl>
+                <dt><i>&#xe670;</i>如何发展会员？</dt>
+                <dd>你可以将商品、店铺资讯、店铺、我的推广二维码等通过微信、QQ、短信等方式推广给您的好友，好友通过你的推广，并成功注册成为平台会员，即成为你的团队成员。</dd>
+            </dl>
+            <dl>
+                <dt><i>&#xe670;</i>创业基金、佣金、牛币如何使用？</dt>
+                <dd>佣金和创业基金可以通过推广商品给好友获取，牛币可以通过购买商品获取，佣金可以直接提现或购买商品，创业基金将与牛币等比兑换成现金后才可以进行提现。</dd>
+            </dl>
+        </div>
+    </div>
+
+</body>
+</html>

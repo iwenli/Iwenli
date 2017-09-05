@@ -1,0 +1,47 @@
+﻿.P_Pages{ padding:0 0.5625rem 0;background-image:url("/Skin/SalesV2/Img/Store/body_bg.jpg");background-repeat:no-repeat; background-position:left top; background-size:100% 100%; color:#fff; min-height:100%; position:relative;}
+.P_Pages form{ padding-bottom:3.5rem;}
+.P_Pages .reg_nav{ height:2.8125rem; line-height:2.8125rem; padding-top:2.5rem;}
+.P_Pages .reg_nav .right a{ color:#fed204;}
+.P_Pages .reg_nav .right a i{ display:inline; margin-right:0.25rem;}
+.P_Pages ul{ background:#fff; padding:0.96rem 0.64rem 0.75rem; border-radius:0.16rem; }
+.P_Pages ul li{ height:3.125rem; line-height:3.125rem; margin-top:0.96rem; border-radius:0.16rem;background:#f0efef; padding-right:0.64rem; overflow:hidden; position:relative;}
+.P_Pages ul li:nth-of-type(1){ margin-top:0;}
+.P_Pages ul li input{ height:100%; padding:0 0.64rem;  border:none;  color:#888888; width:17.5rem; float:left; box-sizing:border-box; background:#f0efef;}
+.P_Pages ul li input#regName{ width:8.9375rem;}
+.P_Pages ul li .code_btn{ height:100%;  text-align:center; line-height:3.125rem; }
+.P_Pages ul li .code_btn input{ display:inline-block; vertical-align:middle;  height:2.34375rem;line-height:2.34375rem; border-radius:0.16rem;color:#fff; background:#ff5c0c; width:auto; float:initial; padding:0 0.64rem; appearance: none; -webkit-appearance: none;}
+.P_Pages ul li .eye{ float:right;  height:100%;  text-align:right; width:1.5625rem;}
+.P_Pages ul li .eye i{ font-size:1.2rem; color:#c2c0c0;}
+.P_Pages ul li .eye.show i{ color:#fb9856}
+.P_Pages ul li.promote{ height:1.25rem; line-height:1.25rem; padding:0 0.64rem; color:#afafaf; background:none; margin:0; font-size:0.65rem;}
+.P_Pages ul .line{ display:block; height:0.96rem; border-bottom:1px dashed #f0efef; }
+.P_Pages .reg_btn{ position:absolute; bottom:0; height:2.8125rem; line-height:2.8125rem; color:#fff; font-size:1rem; background:#ff5c0c; text-align:center; border-radius:0.15625rem; width:19rem; margin-bottom:0.64rem;}
+.P_Pages .reg_btn a{ width:100%; height:2.8125rem; background:none; color:#fff;line-height:2.8125rem; display:block;}
+.shuoming{ font-size:0.75rem; line-height:1rem; color:#666; margin:0.5rem 0 0.5rem; padding:0 0.75rem;}
+.shuoming a{text-decoration:underline; color:#333; padding:0 0.125rem;}
+.service{ background:#fff; color:#666; padding:0.5rem 0.25rem; line-height:1.25rem;}
+.service p{text-indent:2em;}
+.service h1{ font-size:1rem; text-align:center; padding-bottom:0.5rem;}
+
+.reg_ok_mask{ position: fixed; left: 0; top: 0; width: 100%; height: 100%; z-index: 1000; background: rgba(0,0,0,0.5) url(/Skin/Passport/Img/Reel_bj.png) no-repeat top center; background-size:100% auto; }
+.reg_ok_box{width:100%;overflow:hidden; margin-top:10%;}
+.reg_ok_box .cancel{float:right;width:2rem; height:2rem; margin-right:1rem;}
+.reg_ok_box .cancel img{display:block;width:100%;}
+.reg_ok_box .reel_box{clear:both;}
+.reg_ok_box .reel_up{width:100%;height:2rem;background:url(/Skin/Passport/Img/Reel_up.png)no-repeat;background-size:cover;}
+.reg_ok_box .reel_down{width:100%;height:2rem;background:url(/Skin/Passport/Img/Reel_down.png) no-repeat;background-size:cover;}
+.reg_ok_box .reel_con{width:100%;background:url(/Skin/Passport/Img/Reel_con.png)repeat-y;background-size:100% auto;}
+.reg_ok_box .reel_con .title{ line-height:2rem;text-align:center;color:#ffd718;font-size:0.875rem; width:100%;height:2rem;background:url(/Skin/Passport/Img/Reel_title.png) no-repeat;background-size:cover;}
+.reg_ok_box .reel_list{width:14rem;height:4rem;background:url(/Skin/Passport/Img/Reel_list.png) no-repeat ;background-size:cover; margin:0.75rem auto 0;}
+.reg_ok_box .reel_list dt{float:left;width:5.25rem; text-align:center; height:4rem;margin-right:0.5rem;}
+.reg_ok_box .reel_list dt em{color:#f73535;font-size:1.25rem; line-height:2rem;height:2rem;margin-top:0.75rem; display:block;}
+.reg_ok_box .reel_list dt span{display:block; color:#fff;line-height:1rem;}
+.reg_ok_box .reel_list dd.tit{padding-top:0.75rem;color:#000;font-size:0.875rem;line-height:1.25rem;}
+.reg_ok_box .reel_list dd.con{line-height:1.5rem;}
+.reg_ok_box a.bottom{display:block; text-align:center; margin-top:0.75rem;line-height:1.5rem;height:1.5rem;color:#e02107;text-decoration:underline;}
+
+
+.help_box{padding:0.75rem;line-height:1.5rem;border:0.5rem solid #ff5c0c;box-sizing:border-box;}
+
+
+

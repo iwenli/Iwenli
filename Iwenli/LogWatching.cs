@@ -21,7 +21,7 @@ namespace Iwenli
 
         public LogWatching()
         {
-            //m_watchingAppender=  TxLogHelper.StartLogWatching();
+            //_watchingAppender=  LogHelper.StartLogWatching();
         }
 
         /// <summary>

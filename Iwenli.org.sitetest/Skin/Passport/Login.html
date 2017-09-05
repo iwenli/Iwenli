@@ -1,0 +1,114 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <title>登录</title>
+    <link rel="stylesheet" href="/Skin/Passport/Css/Public.css">
+    <link rel="stylesheet" href="/Skin/Passport/Css/Login.css">
+    <script type="text/javascript" src="//cdn.txooo.com/public/html5/rem.js"></script>
+    <script src="//cdn.txooo.com/public/jquery/jquery-1.7.2.js"></script>
+    <script type="text/javascript" src="//cdn.txooo.com/public/jquery.validate/jquery.validate.js"></script>
+    <script type="text/javascript" src="//cdn.txooo.com/public/jquery.validate/validate-ex.js"></script>
+    <link href="/Skin/Passport/Css/Validate.css" rel="stylesheet" type="text/css" />
+    <!--对话框-->
+    <script type="text/javascript" src="//cdn.txooo.com/public/aui.artDialog/dist/dialog-plus-min.js"></script>
+    <link rel="stylesheet" href="//cdn.txooo.com/public/aui.artDialog/css/ui-dialog.css" />
+
+    <script>
+        $.ajaxSetup({ cache: false, contentType: "application/x-www-form-urlencoded; charset=utf-8", error: function () { } });
+       
+        function login() {
+            if ($("#loginForm").valid()) {
+                var _diaLoad = dialog({}).showModal();
+                $.post("/Iwenli/Org/Passport/Ajax/UserAjax.ajax/Login", $("#loginForm").serialize(), function (date) {
+                    _diaLoad.close().remove();
+                    var obj = eval(date);
+                    if (obj.success == "true") {
+                        window.location.href = "{$ReturnUrl}";
+                    } else {
+                        alert(obj.msg);
+                    }
+                });
+            }
+        };
+        function getUrlParam(paras) {
+            var url = location.href;
+            var paraString = url.substring(url.indexOf("?") + 1, url.length).split("&");
+            var paraObj = {}
+            for (i = 0; j = paraString[i]; i++) {
+                paraObj[j.substring(0, j.indexOf("=")).toLowerCase()] = j.substring(j.indexOf("=") + 1, j.length);
+            }
+            var returnValue = paraObj[paras.toLowerCase()];
+            if (typeof (returnValue) == "undefined") {
+                return "";
+            } else {
+                return returnValue;
+            }
+        }
+        $(function () {
+            $('.yan').click(function () {
+                if ($(this).hasClass('show')) {
+                    $(this).removeClass('show');
+                    $(this).siblings('input[type=password]').show();
+                    $(this).siblings('input[type=text]').hide();
+                } else {
+                    $(this).addClass('show');
+                    $(this).siblings('input[type=password]').hide();
+                    $(this).siblings('input[type=text]').show();
+                }
+
+            });
+
+            $('#reg_url').attr('href', '/Register.html?source={$ShareSource}&sharecode={$ShareCode}&ReturnUrl=' + escape('{$ReturnUrl}'));
+        })
+
+        //text框失去焦点把text框的值赋值给password框
+        function textBlur() {
+            $("#input_password").val($("#input_text").val());
+        }
+
+        //password框失去焦点把password框的值赋值给text框
+        function passwordBlur() {
+            $("#input_text").val($("#input_password").val());
+        }
+    </script>
+</head>
+<body>
+    <div class="box">
+        <form id="loginForm" class="list list1">
+            <ul class="login_con">
+                <li>
+                    <i class="ico">&#xe629;</i>
+                    <input type="text" class="txt {required:true}" name="userName" tabindex="1" autocomplete="off" maxlength="20" value="" placeholder="请输入用户名" />
+                    <p class="red ico_txt"></p>
+                </li>
+                <li>
+                    <i class="ico">&#xe636;</i>
+                    <input type="password" id="input_password" class="txt {required:true}" name="passWord" tabindex="1" autocomplete="off" maxlength="20" value="" placeholder="请输入密码" onblur="passwordBlur()" />
+                    <input type="text" id="input_text" class="txt {required:true}" style="display:none;" name="passWord1" tabindex="1" autocomplete="off" maxlength="20" value="" onblur="textBlur()" placeholder="请输入密码" />
+                    <i class="yan" onclick="showHidePassword()">&#xe613;</i>
+                </li>
+            </ul>
+            <div class="btn_box"><a href="javascript:login()" class="btn_next btn">立 即 登 录</a></div>
+        </form>
+        <div class="reg_box">
+            <a href="/findpwd.html" class="left">找回密码</a><a id="reg_url" class="right" href="/Register.html?source={$ShareSource}&sharecode={$ShareCode}&ReturnUrl={$ReturnUrl}">立即注册</a>
+        </div>
+        <div class="login_bottom">
+            <b></b><span>第三方账号登录</span><b></b>
+        </div>
+        <div class="login_bottom_box">
+            <div class="login_list">
+                <ul>
+                    <!--<li><a href="" title="微博" class="color_1"><i>&#xe631;</i></a></li>
+                    <li><a href="" title="QQ" class="color_2"><i>&#xe630;</i></a></li>-->
+                    <li><a href="/wxlogin.html" title="微信" class="color_3"><i>&#xe62e;</i></a></li>
+                </ul>
+            </div>
+        </div>
+        
+        
+    </div>
+</body>
+</html>

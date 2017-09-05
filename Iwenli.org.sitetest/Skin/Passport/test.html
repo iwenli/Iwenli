@@ -1,0 +1,37 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>测试</title>
+    <script src="//cdn.txooo.com/public/jquery/jquery-1.7.2.js"></script>
+    <script src="/Skin/SalesV2/Js/html2canvas.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            document.getElementById('qr_img').onload = function () {
+                html2canvas(document.getElementById('myPrint'), {
+                    allowTaint: true,
+                    taintTest: false,
+                    onrendered: function (canvas) {
+                        canvas.id = "mycanvas";
+                        //document.body.appendChild(canvas);
+                        //生成base64图片数据
+                        var dataUrl = canvas.toDataURL();
+                        var newImg = document.createElement("img");
+                        newImg.src = dataUrl;
+                        document.body.appendChild(newImg);
+                    }
+                });
+            };
+        });
+    </script>
+</head>
+<body>
+    Hello!
+    <div class="" style="background-color: #abc;" id='myPrint'>
+        计算机天堂测试html5页面截图
+        <br>jsjtt.com
+        <img id="qr_img" src="/Txooo/SalesV2/Ajax/QrCodeImag.ajax/GetQrCodeImg?domain=www.baidu.com" />
+    </div>
+    生成界面如下：
+</body>
+</html>

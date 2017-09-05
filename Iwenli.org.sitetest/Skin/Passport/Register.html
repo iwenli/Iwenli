@@ -1,0 +1,538 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <title>注册</title>
+    <link rel="stylesheet" href="/Skin/Passport/Css/Public.css">
+    <link rel="stylesheet" href="/Skin/Passport/Css/Register.css">
+    <script type="text/javascript" src="//cdn.txooo.com/public/html5/rem.js"></script>
+    <script src="//cdn.txooo.com/public/jquery/jquery-1.7.2.js"></script>
+    <script type="text/javascript" src="//cdn.txooo.com/public/jquery.validate/jquery.validate.js"></script>
+    <script type="text/javascript" src="//cdn.txooo.com/public/jquery.validate/validate-ex.js"></script>
+    <link href="/Skin/Passport/Css/Validate.css" rel="stylesheet" type="text/css" />
+    <script>
+        /**
+         * User:iwenli
+         * Date: 2017年5月15日10:31:21
+         * 信息提示框插件，依赖Jquery
+         */
+
+        if (typeof jQuery === 'undefined') {
+            throw new Error('jquery-confirm requires jQuery');
+        }
+
+        var jconfirm, Jconfirm;
+        (function ($) {
+
+            $.alert = function (options) {
+                if (typeof options === 'undefined') options = {};
+                if (typeof options === 'string') {
+                    options = {
+                        content: options
+                    };
+                }
+
+                options['buttons'] = {
+                    ok: {
+                        text: '确定',
+                        action: function () {
+                        }
+                    }
+                };
+                return jconfirm(options);
+            },
+
+                $.confirm = function (options) {
+                    if (typeof options === 'undefined') options = {};
+                    if (typeof options === 'string') {
+                        options = {
+                            content: options
+                        };
+                    }
+
+                    options = $.extend({}, jconfirm.pluginDefaults, options);
+                    if (typeof options['buttons'] != 'object')
+                        options['buttons'] = {};
+
+                    if (Object.keys(options['buttons']).length == 0) {
+                        var buttons = {};
+                        options['buttons'] = $.extend({}, jconfirm.pluginDefaults.defaultButtons);
+                    }
+                    return jconfirm(options);
+                },
+
+                jconfirm = function (options) {
+                    if (typeof options === 'undefined') options = {};
+                    options = $.extend({}, jconfirm.pluginDefaults, options);
+                    var instance = new Jconfirm(options);
+                    jconfirm.instances.push(instance);
+                    return instance;
+                },
+
+                Jconfirm = function (options) {
+                    $.extend(this, options);
+                    this._init();
+                },
+
+                Jconfirm.prototype = {
+                    _init: function () {
+                        var that = this;
+                        this._id = Math.round(Math.random() * 99999);
+                        that.open();
+                        /* setTimeout(function () {
+                            that.open();
+                        }, 0);*/
+                    },
+
+                    open: function () {
+                        this._buildHTML();
+                        this.setTitle();
+                        this.setContent();
+                        this._setButtons();
+                        this._bindEvents();
+                    },
+
+                    /*创建弹出窗口*/
+                    _buildHTML: function () {
+                        var that = this;
+
+                        /*初始化之前移除其他弹出框*/
+                        $('.dialog-main-div,.dialog-mask-div').remove();
+
+                        if ($('.dialog-mask-div').length == 0) {
+                            that._buildMainDiv();
+                        } else {
+                            $('.dialog-main-div,.dialog-mask-div').show();
+                        }
+                    },
+
+                    _buildMainDiv: function () {
+                        $('body').append($('<div class="dialog-mask-div"></div>'))
+                            .append($('<div class="dialog-main-div"><div class="modal-inner"></div></div>'));
+
+                        /*禁用遮罩层点击事件*/
+                        $('.dialog_mask_div').on('touchstart touchmove mousedown mouseout', function (e) {
+                            e.preventDefault();
+                        });
+                    },
+
+                    /*标题显示层*/
+                    setTitle: function () {
+                        var $title = $('<div class="dialog-title">' + this.title + '</div>');
+                        $('.modal-inner').append($title);
+                    },
+
+                    /*内容展示层*/
+                    setContent: function () {
+                        var $content = $('<div class="dialog-content">' + this.content + '</div>');
+                        $('.modal-inner').append($content);
+                    },
+
+                    /*设置消息提示框按钮*/
+                    _setButtons: function () {
+                        var that = this;
+                        var $mainDiv = $('.dialog-main-div');
+
+                        var total_buttons = 0;
+                        var button_index = 0;
+
+                        $.each(this.buttons, function (key, button) {
+                            total_buttons += 1;
+                        });
+
+                        var _buttons = $('<div class="modal-buttons"></div>');
+
+                        $.each(this.buttons, function (key, button) {
+                            button_index += 1;
+
+                            if (typeof button === 'function') {
+                                that.buttons[key] = button = {
+                                    action: button
+                                };
+                            }
+
+                            that.buttons[key].text = button.text || key;
+                            that.buttons[key].action = button.action || function () { };
+                            var button_class_name = (button_index == total_buttons ? 'dialog-button dialog-button-normal' : 'dialog-button');
+                            var button_element = $('<span class="' + button_class_name + '">' + that.buttons[key].text + '</span>').click(function (e) {
+                                e.preventDefault();
+                                var res = that.buttons[key].action.apply(that);
+                                that.onAction(key);
+                                if (typeof res === 'undefined' || res)
+                                    that.close();
+                            });
+
+                            _buttons.append(button_element);
+                        });
+
+                        $mainDiv.append(_buttons);
+                    },
+
+                    /*关闭事件*/
+                    close: function () {
+                        var that = this;
+
+                        if (typeof that.onClose === 'function')
+                            that.onClose();
+
+                        $('.dialog-main-div,.dialog-mask-div').each(function (index, item) {
+                            $(item).empty().hide();
+                        });
+                    },
+
+                    /*事件绑定*/
+                    _bindEvents: function () {
+
+                    }
+                }
+
+            jconfirm.instances = [];
+            jconfirm.pluginDefaults = {
+                title: '温馨提示',
+                content: 'Are you sure to continue?',
+                buttons: {},
+                bgOpacity: 0.9,
+                animation: 'zoom',
+                closeAnimation: 'scale',
+                animationSpeed: 400,
+                animationBounce: 1.2,
+                boxWidth: '50%',
+                flag: false,
+                defaultButtons: {
+                    close: {
+                        text: '取消',
+                        action: function () {
+                        }
+                    },
+                    ok: {
+                        text: '确定',
+                        action: function () {
+                        }
+                    },
+                },
+                onContentReady: function () {
+
+                },
+                onOpenBefore: function () {
+
+                },
+                onOpen: function () {
+
+                },
+                onClose: function () {
+
+                },
+                onDestroy: function () {
+
+                },
+                onAction: function () {
+
+                }
+            }
+        })(jQuery);
+    </script>
+    <script type="text/javascript">
+        $.ajaxSetup({ cache: false, contentType: "application/x-www-form-urlencoded; charset=utf-8", error: function () { } });
+        $(function () {
+            if (getUrlParam('sharecode') == '' || getUrlParam('sharecode') == '0') {
+                window.location.href = '/ShareCodeWap.html';
+            } else {
+                $(".P_title").text("注册");
+                $(".P_Header_info").text("");
+                //返回上一页 不返回登录页
+                //$(".P_Header .P_goBack").attr("href", "/login.html");
+                $('body').show();
+
+                InitValidate();
+                $('#source').val(getUrlParam('source') == '' ? '1' : getUrlParam('source'));
+                $('#source_channel').val(GetSourceChannel());
+                $('#share_code').val(getUrlParam('sharecode'));
+
+                //初始验证 解决360 火狐等浏览器underfine的问题
+                $("#regName").focus(regNameValidate);
+            }
+        });
+        //获取来源渠道
+        function GetSourceChannel() {
+            var ua = navigator.userAgent.toLowerCase();
+            if (ua.match(/MicroMessenger/i) == "micromessenger") {
+                return 1;
+            }
+            if (ua.indexOf('qq') > -1) {
+                return 2;
+            }
+            if (ua.indexOf('weibo') > -1) {
+                return 3;
+            }
+            return 0;
+        }
+        function getUrlParam(paras) {
+            var url = location.href;
+            var paraString = url.substring(url.indexOf("?") + 1, url.length).split("&");
+            var paraObj = {}
+            for (i = 0; j = paraString[i]; i++) {
+                paraObj[j.substring(0, j.indexOf("=")).toLowerCase()] = j.substring(j.indexOf("=") + 1, j.length);
+            }
+            var returnValue = paraObj[paras.toLowerCase()];
+            if (typeof (returnValue) == "undefined") {
+                return "";
+            } else {
+                return returnValue;
+            }
+        }
+        //初始化验证控件
+        function InitValidate() {
+            $("#regForm").validate({
+                onfocusout: function (element) { $(element).valid(); },
+                rules: {
+                    regName: {
+                        remote: {
+                            url: "/Txooo/SalesV2/Passport/Ajax/SalesAjax.ajax/CheckUserName",
+                            dataType: "html",
+                            dataFilter: function (data, type) {
+                                if (data == "true")
+                                { return true; }
+                                else {
+                                    dialogComfirm('该手机号已注册');
+                                }
+                            }
+                        }
+                    },
+                    mobilecode: {
+                        remote: {
+                            url: "/Txooo/SalesV2/Passport/Ajax/SalesAjax.ajax/CheckMobileCode",
+                            dataType: "html",
+                            dataFilter: function (data, type) {
+                                if (data == "true")
+                                    return true;
+                            }
+                        }
+                    },
+                    sharecode: {
+                        remote: {
+                            url: "/Txooo/SalesV2/Passport/Ajax/SalesAjax.ajax/CheckUserShareCode",
+                            dataType: "html",
+                            dataFilter: function (data, type) {
+                                if (data == "true")
+                                    return true;
+                            }
+                        }
+                    }
+                },
+                messages: {
+                    regName: {
+                        remote: '该手机号已注册，您可以直接登录'
+                    },
+                    mobilecode: {
+                        remote: '验证码错误'
+                    },
+                    sharecode: {
+                        remote: '您的推荐码不正确'
+                    },
+                    confirm_password: {
+                        equalTo: '两次输入的密码不一致'
+                    }
+                }
+            });
+        };
+        //绑定手机的方法
+        function BtnBindPort() {
+            if ($("#regForm").valid()) {
+                $('.loading_box').show();
+                $.post("/Txooo/SalesV2/Passport/Ajax/SalesAjax.ajax/RegistV2", $("#regForm").serialize(), function (date) {
+                    var obj = eval(date);
+                    if (obj.success == "false") {  //注册失败
+                        $('.share_box').hide();
+                        dialogAlart(obj.msg, function () {
+                            location.reload();
+                        });
+                    } else {
+                        //注册成功
+                        dialogComfirm('注册成功', function () {
+                            var reg_url = unescape(getUrlParam('ReturnUrl') == "" ? "//sales.7518.cn" : getUrlParam('ReturnUrl'));
+                            location.href = reg_url + (reg_url.indexOf('?') > -1 ? "&z=open" : "?z=open");
+                        });
+
+                    }
+                });
+            }
+        };
+        function regNameValidate() {
+            console.log($("#regForm").validate().element($("#regName")));
+            return $("#regForm").validate().element($("#regName"));
+        }
+        //点击获取验证码
+        function sendMobilecode(self) {
+            if (/^1[3|4|5|7|8][0-9]\d{8}$/.test($("#regName").val()) == false) {
+                //dialogAlart('请填写正确的手机号');
+                return;
+            }
+            //单独验证手机号if ($("#regName").validate().valid()) {
+            if (regNameValidate() == false) {
+                dialogComfirm('该手机号已注册');
+                return;
+            }
+            //验证通过 获取验证码
+            var $this = $(self);
+            var count = 60;
+            $this.attr("disabled", true);
+            $this.val('发送中···');
+            $.get("/Txooo/SalesV2/Passport/Ajax/SalesAjax.ajax/SendMobile", "mobile=" + $("#regName").val(), function (data) {
+                if (data) {
+                    var obj = eval(data);
+                    if (obj.success == "true") {
+                        // $("#errormsg").html("验证码已成功发送");
+                        $this.val(count + "秒后重新发送");
+                        var countdown = function () {
+                            $this.val(count - 1 + "秒后重新发送");
+                            if (count == 0) {
+                                $this.val("获取验证码").removeAttr("disabled");
+                                clearInterval(timer);
+                            }
+                            count--;
+                        };
+                        var timer = setInterval(countdown, 1000);
+                    }
+                    else {
+                        $this.val("获取验证码").removeAttr("disabled");
+                        dialogAlart(obj.msg);
+                    }
+
+                }
+            });
+        };
+
+        function dialogAlart(msg, callback) {
+            callback = callback || function () { };
+            $.alert({
+                title: '',
+                content: msg,
+                buttons: {
+                    ok: {
+                        text: '好的',
+                        action: function () {
+                            callback();
+                        }
+                    }
+                }
+            });
+        };
+        function dialogComfirm(msg, callback) {
+            callback = callback || function () { };
+            $.confirm({
+                title: '',
+                content: msg + '，是否下载创业赚钱？',
+                buttons: {
+                    close: {
+                        text: '取消',
+                        action: function () {
+                            callback();
+                        }
+                    },
+                    ok: {
+                        text: '前往下载',
+                        action: function () {
+                            location.href = '//www.7518.cn/Index_wap.html';
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+</head>
+<body>
+    <!-- 头部信息begin -->
+    <!--TX_TMP{tmp=/Skin/SalesV2/Pub/T_Head_info.html}-->
+    <!-- 头部信息end -->
+    <div class="P_Pages">
+        <!--绑定手机-->
+        <form id="regForm" class="list list1" method="post">
+            <input type="hidden" name="source" id="source" value="0" />
+            <input type="hidden" name="source_channel" id="source_channel" value="0" />
+            <ul>
+                <li>
+                    <input class="txt {isMobile: true,required:true}" type="text" id="regName" name="regName" tabindex="1" autocomplete="off" maxlength="20" value="" placeholder="请输入手机号码" />
+                    <div class="code_btn right">
+                        <input id="sendmobilecode" tabindex="4" onclick="sendMobilecode(this)" value="获取验证码" type="button">
+                    </div>
+                </li>
+                <li class="IsNonePhone">
+                    <input type="text" name="mobilecode" class="text txt txt2 {required:true}" maxlength="20" tabindex="5" autocomplete="off" placeholder="请填写验证码" />
+                </li>
+                <li>
+                    <input type="password" class="txt {required:true,minlength: 8,maxlength:16} input_password" id="Password" name="Password" tabindex="1" autocomplete="off" maxlength="16" value="" placeholder="设置密码" />
+                    <!--<input type="text" class="txt {required:true,minlength: 8,maxlength:16} input_text"  id="Password" name="Passwordtext" tabindex="1" autocomplete="off" maxlength="16" value="" placeholder="请输入密码" style="display:none"/>-->
+                    <!--<span class="eye"><i>&#xe613;</i></span>-->
+                </li>
+                <!--<li class="promote">请输入8-16个字符，包含大写字母、小写字母及数字</li>-->
+                <li>
+                    <input type="password" class="txt {required:true,minlength: 8, equalTo: '#Password',maxlength:16} input_password" name="confirm_password" tabindex="1" autocomplete="off" maxlength="16" value="" placeholder="确认密码" />
+                    <!--<input type="text" class="txt {required:true,minlength: 8, equalTo: '#Password',maxlength:16} input_text" name="confirm_passwordtext" tabindex="1" autocomplete="off" maxlength="16" value="" placeholder="请再次输入密码" style="display:none" />-->
+                    <!--<span class="eye"><i>&#xe613;</i></span>-->
+                </li>
+                <div class="line" style="display:none"></div>
+                <li style="display:none">
+                    <input type="text" id="share_code" class="{required:true}" name="sharecode" placeholder="请输入邀请码" value="" />
+                </li>
+                <li style="display:none" class="promote">邀请码为选填，填写后注册可获得系统赠送10牛币</li>
+            </ul>
+            <!--<div class="shuoming">注册即视为同意<a href="/Service.html">创业赚钱平台用户服务协议</a>和<a href="/Privacy.html">隐私声明</a>,我们将同步为您创建账户。</div>-->
+            <div class="reg_btn">
+                <a class="btn_next" onclick="BtnBindPort()">下一步</a>
+            </div>
+        </form>
+        <div class="reg_nav">
+            <span class="right"><a href="/login.html">已有账号登录>> </a></span>
+        </div>
+    </div>
+
+    <div class="loading_box"><p><img src="/Skin/Passport/Img/loading.gif" />请耐心等待</p></div>
+
+    <div class="reg_ok_mask" style="display:none;">
+        <div class="reg_ok_box">
+            <div class="cancel"><img src="/Skin/Passport/Img/false.png" /></div>
+            <div class="reel_box">
+                <div class="reel_up"></div>
+                <div class="reel_con">
+                    <div class="title">恭喜注册成功</div>
+                    <dl class="reel_list">
+                        <dt>
+                            <em>10</em>
+                            <span>牛币</span>
+                        </dt>
+                        <dd class="tit">下载赚钱APP</dd>
+                        <dd class="con">即送 <em>10</em>牛币</dd>
+                    </dl>
+                    <dl class="reel_list">
+                        <dt>
+                            <em>100</em>
+                            <span>牛币</span>
+                        </dt>
+                        <dd class="tit">首次购物成功</dd>
+                        <dd class="con">奖励 <em>100</em>牛币</dd>
+                    </dl>
+                    <dl class="reel_list">
+                        <dt>
+                            <em>1000</em>
+                            <span>牛币</span>
+                        </dt>
+                        <dd class="tit">春节购满1000</dd>
+                        <dd class="con">送 <em>1000</em>牛币</dd>
+                    </dl>
+                    <dl class="reel_list">
+                        <dt>
+                            <em><i>&#xe64b;</i></em>
+                            <span>额外将</span>
+                        </dt>
+                        <dd class="tit">每发展10人</dd>
+                        <dd class="con">额外有奖</dd>
+                    </dl>
+                    <a href="/" class="bottom">更多任务</a>
+                </div>
+                <div class="reel_down"></div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

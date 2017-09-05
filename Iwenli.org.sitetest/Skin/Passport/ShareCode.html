@@ -1,0 +1,153 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <title>注册页面</title>
+    <link type="text/css" rel="stylesheet" href="/Skin/Passport/Css/Public.css" />
+    <link type="text/css" rel="stylesheet" href="/Skin/Passport/Css/FindPwd.css" />
+    <script src="//cdn.txooo.com/public/jquery/jquery-1.7.2.js"></script>
+    <script type="text/javascript" src="//cdn.txooo.com/public/html5/rem.js"></script>
+    <script type="text/javascript" src="//cdn.txooo.com/public/jquery.validate/jquery.validate.js"></script>
+    <script type="text/javascript" src="//cdn.txooo.com/public/jquery.validate/validate-ex.js"></script>
+    <link href="/Skin/Passport/Css/Validate.css" rel="stylesheet" type="text/css" />
+    <script>
+        $(function () {
+            $('.share_code_top li').click(function () {
+                $(this).addClass('current').siblings().removeClass('current');
+                if ($(this).index() == 0) {
+                    $("#getCodeForm").show().siblings("form").hide();
+                } else {
+                    $("#getValidateForm").show().siblings("form").hide();
+                }
+            })
+        })
+    </script>
+</head>
+<body style="background:#f0f0f0;">
+    <!-- 头部信息begin -->
+    <header class="P_Header" id="header1">
+        <div class="P_goBack" onclick="javascript:history.go(-1)"><i>&#xe602;</i></div>
+        <div class="P_title">注册页面</div>
+    </header>
+    <!-- 头部信息end -->
+    <section class="P_Pages">
+        <ul class="share_code_top">
+            <li class="current">新用户注册</li>
+            <li>已注册用户</li>
+        </ul>
+
+
+        <form id="getCodeForm" method="post" style="display:block;">
+            
+            <div class="modify_safety">
+                <dl class="safety_password">
+                    <dt>
+                        <input id="share_mobile" class="{required:true,isPhone:true} txt " type="text" name="mobile" value="" placeholder="邀请人的手机号" />
+                    </dt>
+                    
+                </dl>
+                <div style="overflow:hidden;"><a href="javascript:noShareCode()" style="color:#fd8100;float:right;margin-right:0.5rem;line-height:1.5rem;">没有邀请人，跳过</a></div>
+            </div>
+            <div class="bottom_btn">
+                <a class="positive_button" onclick="postForm()">确　定</a>
+            </div>
+        </form>
+
+        <form id="getValidateForm" method="post" style="display:none;">
+            <!--已注册用户-->
+            <div class="modify_phone">
+                <p>请输入您的手机号进行绑定</p>
+                <dl class="phone_number">
+                    <dt>
+                        <input id="phone" type="text" name="mobile" value="" class="{required:true,isPhone:true} input_text" />
+                    </dt>
+                    <dd>
+                        <input type="button" name="getMoblieCode" value="获取验证码" onclick="GetCode(this)" />
+                    </dd>
+                </dl>
+                <p>请输入手机验证码</p>
+                <dl class="phone_code">
+                    <dt>
+                        <input type="text" name="mobilecode" class="input_text" value="" />
+                    </dt>
+                </dl>
+            </div>
+            <div class="bottom_btn">
+                <input type="hidden" name="flagBind" value="1" />
+                <a class="positive_button" onclick="bindThird()">绑　定</a>
+            </div>
+        </form>    
+    </section>
+        
+        <script type="text/javascript">
+            $.ajaxSetup({ cache: false, contentType: "application/x-www-form-urlencoded; charset=utf-8", error: function () { } });
+            function noShareCode() {
+                $('#share_mobile').val('17744440001');
+                postForm();
+            };
+            function postForm() {
+                if ($("#getCodeForm").valid()) {
+                    $.post("/Txooo/SalesV2/Passport/Ajax/SalesAjax.ajax/GetShareCodeByTxId", $("#getCodeForm").serialize(), function (data) {
+                        var obj = eval(data);
+                        if (obj.success == "true") {
+                            window.location.href = "Bind.html?ShareCode=" + obj.msg;
+                        } else {
+                            alert(obj.msg);
+                            //window.location.href = "//sales.7518.cn/index.html";
+                        }
+
+                    })
+                }
+            }
+            //获取短信验证码
+            function GetCode(self) {
+                if (!$("#getValidateForm").valid()) {
+                    return;
+                }
+                var $this = $(self);
+                var count = 60;
+                $this.attr("disabled", true);
+                $this.val('发送中···');
+                $.get("/Txooo/SalesV2/Passport/Ajax/SalesAjax.ajax/SendMobile", "mobile=" + $("#getValidateForm #phone").val(), function (data) {
+                    if (data) {
+                        var obj = eval(data);
+                        if (obj.success == "true") {
+                            // $("#errormsg").html("验证码已成功发送");
+                            $this.val(count + "秒后重新发送");
+                            var countdown = function () {
+                                $this.val(count - 1 + "秒后重新发送");
+                                if (count == 0) {
+                                    $this.val("获取验证码").removeAttr("disabled");
+                                    clearInterval(timer);
+                                }
+                                count--;
+                            };
+                            var timer = setInterval(countdown, 1000);
+                        }
+                        else {
+                            $this.val("获取验证码").removeAttr("disabled");
+                            alert(obj.msg);
+                        }
+
+                    }
+                });
+            }
+
+            function bindThird() {
+                if ($("#getValidateForm").valid()) {
+                    $.post("/Txooo/SalesV2/Passport/Ajax/SalesAjax.ajax/BindV2", $("#getValidateForm").serialize(), function (data) {
+                        var obj = eval(data);
+                        if (obj.success == "true") {
+                            alert(obj.msg);
+                            window.location.href = "//sales.7518.cn/index.html";
+                        } else {
+                            alert(obj.msg);
+                        }
+                    })
+                }
+            }
+        </script>
+
+</body>
+</html>

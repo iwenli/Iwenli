@@ -12,7 +12,7 @@ namespace Iwenli
     /// <summary>
     /// 配置文件管理类
     /// </summary>
-    public static class ConfigManager
+    public class ConfigManager
     {
         static MemoryCache _configCache;
         static string _defaultConfigFile;
@@ -20,17 +20,20 @@ namespace Iwenli
         /// <summary>
         /// 初始化ConfigManage的新实例
         /// </summary>
-        static ConfigManager() {
+        static ConfigManager()
+        {
             _configCache = new MemoryCache(new Guid().ToString());
-            _defaultConfigFile = Path.Combine(AppDomain.CurrentDomain.SetupInformation.ApplicationBase, "Iwenli.config");
+            _defaultConfigFile = Path.Combine(AppDomain.CurrentDomain.SetupInformation.ApplicationBase, "wl.config");
 
             //读取配置文件
-            if (File.Exists(_defaultConfigFile)) {
+            if (File.Exists(_defaultConfigFile))
+            {
                 XmlDocument reader = new XmlDocument();
                 reader.Load(_defaultConfigFile);
                 foreach (var item in reader.DocumentElement.ChildNodes)
                 {
-                    if (item is XmlElement) {
+                    if (item is XmlElement)
+                    {
                         ConfigAndCache((XmlElement)item);
                     }
                 }
@@ -44,15 +47,18 @@ namespace Iwenli
         /// </summary>
         /// <param name="node"></param>
         /// <returns></returns>
-        static IConfig ConfigAndCache(XmlElement node) {
+        static IConfig ConfigAndCache(XmlElement node)
+        {
             List<string> filePaths = new List<string>();
             filePaths.Add(_defaultConfigFile);
             XmlElement xeNode = node;
 
-            if (xeNode.Attributes["file"] != null) {
+            if (xeNode.Attributes["file"] != null)
+            {
                 string fileName = Path.Combine(AppDomain.CurrentDomain.SetupInformation.ApplicationBase +
                     xeNode.Attributes["file"].Value);
-                if (File.Exists(fileName)) {
+                if (File.Exists(fileName))
+                {
                     XmlDocument configXml = new XmlDocument();
                     configXml.Load(fileName);
                     xeNode = configXml.DocumentElement;
@@ -156,7 +162,7 @@ namespace Iwenli
         }
         #endregion
 
-        #region 从配置文件（Iwenli.config）加载配置信息
+        #region 从配置文件（Wl.config）加载配置信息
 
         /// <summary>
         /// 加载配置信息，默认缓存提取

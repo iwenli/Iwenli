@@ -1,0 +1,218 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/html5/rem.js"></script>
+    <title>找回密码</title>
+    <link type="text/css" rel="stylesheet" href="/Skin/Passport/Css/Public.css" />
+    <link type="text/css" rel="stylesheet" href="/Skin/Passport/Css/FindPwd.css" />
+    <script src="//cdn.txooo.com/public/jquery/jquery-1.7.2.js"></script>
+    <script type="text/javascript" src="//cdn.txooo.com/public/jquery.validate/jquery.validate.js"></script>
+    <script type="text/javascript" src="//cdn.txooo.com/public/jquery.validate/validate-ex.js"></script>
+    <link href="/Skin/Passport/Css/Validate.css" rel="stylesheet" type="text/css" />
+    <script>
+        $(function () {
+            $(".eye_input_text").each(function () {
+                $(this).val($(this).siblings(".eye_input_password").val());
+            })
+
+            $(".eye_input_password").each(function () {
+                $(this).val($(this).siblings(".eye_input_text").val());
+            })
+
+
+            $(".eye").toggle(function () {
+                $(this).addClass("show");
+                $(this).siblings('dt').find('input[type=password]').hide();
+                $(this).siblings('dt').find('input[type=text]').show();
+            }, function () {
+                $(this).removeClass("show");
+                $(this).siblings('dt').find('input[type=password]').show();
+                $(this).siblings('dt').find('input[type=text]').hide();
+            })
+
+
+            //text框失去焦点把text框的值赋值给password框
+            $(".eye_input_text").each(function () {
+                $(this).blur(function () {
+                    var oTxt = $(this).val();
+                    $(this).siblings(".eye_input_password").val(oTxt);
+                })
+            })
+
+            //password框失去焦点把password框的值赋值给text框
+            $(".eye_input_password").each(function () {
+                $(this).blur(function () {
+                    var oPasTxt = $(this).val();
+                    $(this).siblings(".eye_input_text").val(oPasTxt);
+                })
+            })
+        })
+        $.ajaxSetup({ cache: false, contentType: "application/x-www-form-urlencoded; charset=utf-8", error: function () { } });
+        $(function () {
+            //InitValidate();
+        });
+        //初始化验证控件
+        function InitValidate() {
+            $("#regForm").validate({
+                onfocusout: function (element) { $(element).valid(); },
+                rules: {
+                    regName: {
+                        remote: {
+                            url: "/Txooo/SalesV2/Passport/Ajax/SalesAjax.ajax/CheckUserName",
+                            dataType: "html",
+                            dataFilter: function (data, type) {
+                                if (data == "false")
+                                    return true;
+                            }
+                        }
+                    },
+                    mobilecode: {
+                        remote: {
+                            url: "/Txooo/SalesV2/Passport/Ajax/SalesAjax.ajax/CheckMobileCode",
+                            dataType: "html",
+                            dataFilter: function (data, type) {
+                                if (data == "true")
+                                    return true;
+                            }
+                        }
+                    }
+                },
+                messages: {
+                    regName: {
+                        remote: '账户不存在，您可以尝试注册'
+                    },
+                    mobilecode: {
+                        remote: '验证码错误'
+                    }
+                }
+            });
+        };
+        //找回密码
+        function BtnFindPwd() {
+            //$('.loading_box').show();
+            if ($("#regForm").valid()) {
+                $.post("/Txooo/SalesV2/Passport/Ajax/SalesAjax.ajax/ValidateMobileCode", $("#regForm").serialize(), function (date) {
+                    var obj = eval(date);
+                    if (obj.success == "false") {
+                        alert(obj.msg);
+                        //window.location.reload();
+                    } else {
+                        window.location.href = "Choice.html?mobile=" + $("#regName").val();
+                    }
+                });
+            }
+        };
+
+        //点击获取验证码
+        function sendMobilecode(self) {
+            if ($("#regName").valid() && $("#valid_code").valid()) {
+                var $this = $(self);
+                var count = 60;
+                $this.attr("disabled", true);
+                $this.val('发送中···');
+                $.get("/Txooo/SalesV2/Passport/Ajax/SalesAjax.ajax/SendMobileForFindPwd?mobile=" + $("#regName").val() + "&validCode=" + $("#valid_code").val(), function (data) {
+                    if (data) {
+                        var obj = eval(data);
+                        if (obj.success == "true") {
+                            // $("#errormsg").html("验证码已成功发送");
+                            $this.val(count + "秒后重新发送");
+                            var countdown = function () {
+                                $this.val(count - 1 + "秒后重新发送");
+                                if (count == 0) {
+                                    $this.val("获取验证码").removeAttr("disabled");
+                                    clearInterval(timer);
+                                }
+                                count--;
+                            };
+                            var timer = setInterval(countdown, 1000);
+                        }
+                        else {
+                            $this.val("获取验证码").removeAttr("disabled");
+                            changeVCode();
+                            switch (obj.msg) {
+                                case "time":
+                                    alert('请等待一分钟后再次发送');
+                                    break;
+                                case "count":
+                                    alert('今天的验证码发送次数已经用完了');
+                                    break;
+                                default:
+                                    alert(obj.msg);
+                                    break;
+                            }
+                        }
+
+                    }
+                });
+            }
+        };
+        function changeVCode() {
+            $('#valImg').attr('src', '/Txooo/SalesV2/Ajax/ValidateImage.ajax/GetValidateImge?_v=' + Math.random())
+        }
+    </script>
+</head>
+<body style="background:#f0f0f0;">
+    <!-- 头部信息begin -->
+    <header class="P_Header" id="header1">
+        <div class="P_goBack" onclick="javascript:history.go(-1)"><i>&#xe602;</i></div>
+        <div class="P_title">重置登录密码</div>
+    </header>
+    <!-- 头部信息end -->
+    <section class="P_Pages">
+        <form id="regForm" class="list list1" method="post">
+            <div class="modify_phone" id="step1">
+                <p>当前绑定的手机号</p>
+                <dl class="phone_number">
+                    <dt>
+                        <input class="input_text {required:true,isMobile: true}" type="text" id="regName" name="regName" tabindex="1" autocomplete="off" maxlength="11" value="" placeholder="请输入手机号码" />
+                    </dt>
+                    <dd>
+                        <input id="sendmobilecode" tabindex="4" class="btn" onclick="sendMobilecode(this)" value="获取验证码" type="button">
+                    </dd>
+                </dl>
+                <p>请输入验证码</p>
+                <dl class="phone_number">
+                    <dt>
+                        <input id="valid_code" type="text" name="validatecode" class="input_text {required:true}" maxlength="20" tabindex="5" autocomplete="off" />
+                    </dt>
+                    <dd>
+                        <img id="valImg" src="/Txooo/SalesV2/Ajax/ValidateImage.ajax/GetValidateImge" alt="Alternate Text" />
+                        <i onclick="changeVCode()">&#xe626;</i>
+                    </dd>
+                </dl>
+                <p>请输入手机验证码</p>
+                <dl class="phone_code">
+                    <dt>
+                        <input type="text" name="mobilecode" class="input_text {required:true}" maxlength="20" tabindex="5" autocomplete="off"  />
+                    </dt>
+                </dl>
+            </div>
+            <!--<div class="modify_safety">
+                <p>请输入新密码</p>
+                <dl class="safety_password">
+                    <dt>
+                        <input type="password" class="txt {required:true,minlength: 8,maxlength:16} eye_input_password" id="Password" name="Password" tabindex="1" autocomplete="off" maxlength="20" value="" />
+                        
+                    </dt>
+                </dl>
+                <em>最多输入16个字符，包含大写字母、小写字母及数字</em>
+                <p>请再次输入新密码</p>
+                <dl class="safety_password_two">
+                    <dt>
+                        <input type="password" class="txt {required:true,minlength: 8, equalTo: '#Password',maxlength:16} eye_input_password" name="confirm_password" tabindex="1" autocomplete="off" maxlength="20" value="" />
+                        
+                    </dt>
+                </dl>
+            </div>-->
+            <div class="bottom_btn">
+                <a class="positive_button" onclick="BtnFindPwd()">提　交</a>
+            </div>
+        </form>
+
+
+    </section>
+    <div class="loading_box"><p><img src="/Skin/Passport/Img/loading.gif" />请耐心等待</p></div>
+</body>
+</html>

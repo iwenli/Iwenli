@@ -1,0 +1,212 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <title>绑定账户</title>
+    <link rel="stylesheet" href="/Skin/Passport/Css/Public.css">
+    <link rel="stylesheet" href="/Skin/Passport/Css/Bind.css">
+    <script type="text/javascript" src="//cdn.txooo.com/public/html5/rem.js"></script>
+    <script src="//cdn.txooo.com/public/jquery/jquery-1.7.2.js"></script>
+    <script type="text/javascript" src="//cdn.txooo.com/public/jquery.validate/jquery.validate.js"></script>
+    <script type="text/javascript" src="//cdn.txooo.com/public/jquery.validate/validate-ex.js"></script>
+    <link href="/Skin/Passport/Css/Validate.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript">
+        $.ajaxSetup({ cache: false, contentType: "application/x-www-form-urlencoded; charset=utf-8", error: function () { } });
+        $(function () {
+            if ('{$ShareCode}' == '' || parseInt('{$ShareCode}') == 0) {
+                //alert('未检测到您的邀请人信息，暂时不能注册账户');
+                //window.location.href = '//sales.7518.cn/index.html';
+                window.location.href = '/ShareCode.html';
+            }
+            //else {
+            //    $('#sharecode').val('{$ShareCode}');
+            //}
+            InitValidate();
+            $('#source_channel').val(GetSourceChannel());
+            var oHeight = $(document).height();
+            $('body').css('height', oHeight);
+            $('.show_pwd').empty().append($('.show_pwd_temp').html());
+        });
+        //获取来源渠道
+        function GetSourceChannel() {
+            var ua = navigator.userAgent.toLowerCase();
+            if (ua.match(/MicroMessenger/i) == "micromessenger") {
+                return 1;
+            }
+            if (ua.indexOf('qq') > -1) {
+                return 2;
+            }
+            if (ua.indexOf('weibo') > -1) {
+                return 3;
+            }
+            return 0;
+        }
+        function getUrlParam(paras) {
+            var url = location.href;
+            var paraString = url.substring(url.indexOf("?") + 1, url.length).split("&");
+            var paraObj = {}
+            for (i = 0; j = paraString[i]; i++) {
+                paraObj[j.substring(0, j.indexOf("=")).toLowerCase()] = j.substring(j.indexOf("=") + 1, j.length);
+            }
+            var returnValue = paraObj[paras.toLowerCase()];
+            if (typeof (returnValue) == "undefined") {
+                return "";
+            } else {
+                return returnValue;
+            }
+        }
+        //初始化验证控件
+        function InitValidate() {
+            $("#regForm").validate({
+                onfocusout: function (element) { $(element).valid(); },
+                rules: {
+                    regName: {
+                        remote: {
+                            url: "/Txooo/SalesV2/Passport/Ajax/SalesAjax.ajax/CheckUserName",
+                            dataType: "html",
+                            dataFilter: function (data, type) {
+                                if (data == "false") {
+                                    $('.show_pwd').empty();
+                                } else {
+                                    $('.show_pwd').empty().append($('.show_pwd_temp').html());
+                                }
+                                return true;
+                            }
+                        }
+                    },
+                    mobilecode: {
+                        remote: {
+                            url: "/Txooo/SalesV2/Passport/Ajax/SalesAjax.ajax/CheckMobileCode",
+                            dataType: "html",
+                            dataFilter: function (data, type) {
+                                if (data == "true")
+                                    return true;
+                            }
+                        }
+                    },
+                    sharecode: {
+                        remote: {
+                            url: "/Txooo/SalesV2/Passport/Ajax/SalesAjax.ajax/CheckUserShareCode",
+                            dataType: "html",
+                            dataFilter: function (data, type) {
+                                if (data == "true")
+                                    return true;
+                            }
+                        }
+                    }
+                },
+                messages: {
+                    regName: {
+                        remote: '该手机号已注册，您可以直接登录'
+                    },
+                    mobilecode: {
+                        remote: '验证码错误'
+                    },
+                    sharecode: {
+                        remote: '您的推荐人信息不正确'
+                    }
+                }
+            });
+        };
+        //绑定手机的方法
+        function BtnBindPort() {
+            if ($("#regForm").valid()) {
+                $('.loading_box').show();
+                $.post("/Txooo/SalesV2/Passport/Ajax/SalesAjax.ajax/BindV2", $("#regForm").serialize(), function (date) {
+                    //alert(date);
+                    var obj = eval(date);
+                    if (obj.success == "false") {
+                        $('.share_box').hide();
+                        alert(obj.msg);
+                    } else {
+                        window.location.href = "//sales.7518.cn/index.html?localstorage=true&z={$z_source_type}";
+                    }
+                });
+            }
+        };
+
+        //点击获取验证码
+        function sendMobilecode(self) {
+            if (!$("#regName").valid()) {
+                return;
+            }
+            var $this = $(self);
+            var count = 60;
+            $this.attr("disabled", true);
+            $this.val('发送中···');
+            $.get("/Txooo/SalesV2/Passport/Ajax/SalesAjax.ajax/SendMobile", "mobile=" + $("#regName").val(), function (data) {
+                if (data) {
+                    var obj = eval(data);
+                    if (obj.success == "true") {
+                        // $("#errormsg").html("验证码已成功发送");
+                        $this.val(count + "秒后重新发送");
+                        var countdown = function () {
+                            $this.val(count - 1 + "秒后重新发送");
+                            if (count == 0) {
+                                $this.val("获取验证码").removeAttr("disabled");
+                                clearInterval(timer);
+                            }
+                            count--;
+                        };
+                        var timer = setInterval(countdown, 1000);
+                    }
+                    else {
+                        $this.val("获取验证码").removeAttr("disabled");
+                        alert(obj.msg);
+                    }
+
+                }
+            });
+        };
+    </script>
+</head>
+<body>
+    <div class="P_Pages">
+
+        <div class="reg_nav" style="padding:0;">
+            <span class="left">支持国家净网，请填写真实信息</span>
+        </div>
+        <!--绑定手机-->
+        <form id="regForm" class="list list1" method="post">
+            <input type="hidden" name="source" id="source" value="{$ShareSource}" />
+            <input type="hidden" name="source_channel" id="source_channel" value="0" />
+            <ul style="border-radius:0.16rem 0.16rem 0 0;">
+                <li>
+                    <input class="txt {isMobile: true}" type="text" id="regName" name="regName" tabindex="1" autocomplete="off" maxlength="20" value="" placeholder="请输入手机号码" />
+                    <div class="code_btn right">
+                        <input id="sendmobilecode" tabindex="4" onclick="sendMobilecode(this)" value="获取验证码" type="button" />
+                    </div>
+                </li>
+                <li class="IsNonePhone">
+                    <input type="text" name="mobilecode" class="text txt txt2 {required:true}" maxlength="20" tabindex="5" autocomplete="off" placeholder="请填写验证码" />
+                </li>
+            </ul>
+            <ul class="show_pwd" style="border-radius: 0 0 0.16rem 0.16rem; margin-bottom: 1.5rem; "></ul>
+            <div class="reg_btn">
+                <a class="btn_next" onclick="BtnBindPort()">开始创业赚钱之旅</a>
+            </div>
+        </form>
+
+    </div>
+    <ul class="show_pwd_temp" style="display:none">
+        <li>
+            <input type="password" class="txt {required:true,minlength: 8,maxlength:16} input_password" id="Password" name="Password" tabindex="1" autocomplete="off" maxlength="16" value="" placeholder="设置密码" />
+            <!--<input type="text" class="txt {required:true,minlength: 8,maxlength:16} input_text"  id="Password" name="Passwordtext" tabindex="1" autocomplete="off" maxlength="16" value="" placeholder="请输入密码" style="display:none"/>-->
+            <!--<span class="eye"><i>&#xe613;</i></span>-->
+        </li>
+        <li class="promote">最多输入16个字符，包含大写字母、小写字母及数字</li>
+        <li>
+            <input type="password" class="txt {required:true,minlength: 8, equalTo: '#Password',maxlength:16} input_password" name="confirm_password" tabindex="1" autocomplete="off" maxlength="16" value="" placeholder="确认密码" />
+            <!--<input type="text" class="txt {required:true,minlength: 8, equalTo: '#Password',maxlength:16} input_text" name="confirm_passwordtext" tabindex="1" autocomplete="off" maxlength="16" value="" placeholder="请再次输入密码" style="display:none" />-->
+            <!--<span class="eye"><i>&#xe613;</i></span>-->
+        </li>
+        <div class="line" style="display:none"></div>
+        <li style="display:none">
+            <input type="text" id="sharecode" class="{required:true}" name="sharecode" placeholder="请输入邀请码" value="{$ShareCode}" />
+        </li>
+        <li style="display:none" class="promote">邀请码为选填，填写后注册可获得系统赠送10牛币</li>
+    </ul>
+    <div class="loading_box"><p><img src="/Skin/Passport/Img/loading.gif" />请耐心等待</p></div>
+</body>
+</html>

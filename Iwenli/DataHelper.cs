@@ -441,7 +441,7 @@ namespace Iwenli
         /// <summary>
         /// 获得数据操作类
         /// </summary>
-        /// <param name="name">数据库名称，与[Iwenli_Data.config]中配置的一致</param>
+        /// <param name="name">数据库名称，与[Wl_Data.config]中配置的一致</param>
         /// <returns></returns>
         public static DataHelper GetDataHelper(string name)
         {

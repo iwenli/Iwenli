@@ -35,7 +35,12 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>lib\MySql.Data.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>lib\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.OracleClient" />
     <Reference Include="System.Drawing" />
@@ -48,6 +53,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Cache\ICache.cs" />
+    <Compile Include="Cache\MemoryCache.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="ConfigManager.cs" />
     <Compile Include="DataHelper.cs" />
@@ -63,10 +70,53 @@
     <Compile Include="Data\OracleDataHelper.cs" />
     <Compile Include="Data\SqlDataHelper.cs" />
     <Compile Include="Extension\DistinctExtensions.cs" />
+    <Compile Include="Extension\ToolHelper.cs" />
     <Compile Include="IConfig.cs" />
+    <Compile Include="Net\NetHelper.cs" />
+    <Compile Include="StringHelper.cs" />
+    <Compile Include="Web\Ajax\AjaxFactory.cs" />
+    <Compile Include="Web\Ajax\AjaxHandler.cs" />
+    <Compile Include="Web\Domain.cs" />
+    <Compile Include="Web\Htmx\HtmxDataHandler.cs" />
+    <Compile Include="Web\Htmx\HtmxFactory.cs" />
+    <Compile Include="Web\Htmx\HtmxFilter.cs" />
+    <Compile Include="Web\Htmx\HtmxHandler.cs" />
+    <Compile Include="Web\Htmx\HtmxHandler1.cs" />
+    <Compile Include="Web\Htmx\HtmxHandlerBase.cs" />
+    <Compile Include="Web\Module\HtmxModule.cs" />
+    <Compile Include="Web\Htmx\HtmxPage.cs" />
+    <Compile Include="Web\Htmx\Redirect301Page.cs" />
+    <Compile Include="Web\Htmx\RedirectPage.cs" />
+    <Compile Include="Web\Module\StopwatchModule.cs" />
+    <Compile Include="Web\Module\WebLogModule.cs" />
+    <Compile Include="Web\PagePublic.cs" />
+    <Compile Include="Web\Parse\TemplateParser.cs" />
+    <Compile Include="Web\Parse\ParserBase.cs" />
+    <Compile Include="Web\Parse\Tag.cs" />
+    <Compile Include="Web\Parse\VariableParser.cs" />
+    <Compile Include="Web\RequestType.cs" />
+    <Compile Include="Web\RequestViewType.cs" />
+    <Compile Include="Web\Security\Identity.cs" />
+    <Compile Include="Web\Security\Principal.cs" />
+    <Compile Include="Web\Security\SecurityConfig.cs" />
+    <Compile Include="Web\Security\SecurityHelper.cs" />
+    <Compile Include="Web\Module\SecurityModule.cs" />
+    <Compile Include="Web\Security\StopBrowseType.cs" />
+    <Compile Include="Web\Security\User.cs" />
+    <Compile Include="Web\Security\UserTicket.cs" />
+    <Compile Include="Web\Site.cs" />
+    <Compile Include="Web\Skin.cs" />
+    <Compile Include="Web\Url.cs" />
+    <Compile Include="Web\Web.cs" />
+    <Compile Include="Web\Module\DebugModule.cs" />
+    <Compile Include="Web\WebLog\WebLogConfig.cs" />
+    <Compile Include="Web\WebLog\WebLogInfo.cs" />
+    <Compile Include="Web\WebUtility.cs" />
+    <Compile Include="WlException.cs" />
     <Compile Include="LogHelper.cs" />
     <Compile Include="LogWatching.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SingletonHelper.cs" />
     <Compile Include="Text\EncryptHelper.cs" />
     <Compile Include="Text\AES.cs" />
     <Compile Include="Text\LevenshteinDistance.cs" />
@@ -75,6 +125,12 @@
     <Compile Include="TimerPlan\Enum\ExecRateEnum.cs" />
     <Compile Include="TimerPlan\Enum\MonthRateEnum.cs" />
     <Compile Include="TimerPlan\Enum\PlanTypeEnum.cs" />
+    <Compile Include="Web\IParser.cs" />
+    <Compile Include="Web\ISite.cs" />
+    <Compile Include="Web\IWeb.cs" />
+    <Compile Include="Web\ISkin.cs" />
+    <Compile Include="Web\Page.cs" />
+    <Compile Include="Web\PageSaveType.cs" />
     <Compile Include="_open\ICSharpCode.SharpZLib\BZip2\BZip2.cs" />
     <Compile Include="_open\ICSharpCode.SharpZLib\BZip2\BZip2Constants.cs" />
     <Compile Include="_open\ICSharpCode.SharpZLib\BZip2\BZip2Exception.cs" />

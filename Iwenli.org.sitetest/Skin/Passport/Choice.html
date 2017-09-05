@@ -1,0 +1,108 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/html5/rem.js"></script>
+    <title>找回密码</title>
+    <link type="text/css" rel="stylesheet" href="/Skin/Passport/Css/Public.css" />
+    <link type="text/css" rel="stylesheet" href="/Skin/Passport/Css/FindPwd.css" />
+    <script src="//cdn.txooo.com/public/jquery/jquery-1.7.2.js"></script>
+    <script type="text/javascript" src="//cdn.txooo.com/public/jquery.validate/jquery.validate.js"></script>
+    <script type="text/javascript" src="//cdn.txooo.com/public/jquery.validate/validate-ex.js"></script>
+    <link href="/Skin/Passport/Css/Validate.css" rel="stylesheet" type="text/css" />
+    <script>
+
+    </script>
+</head>
+<body style="background:#f0f0f0;">
+    <!-- 头部信息begin -->
+    <header class="P_Header" id="header1">
+        <div class="P_goBack" onclick="javascript:history.go(-1)"><i>&#xe602;</i></div>
+        <div class="P_title">重置登录密码</div>
+    </header>
+    <!-- 头部信息end -->
+    <section class="P_Pages">
+        <form id="regForm" class="list list1" method="post">
+            <div class="choice" style="display:none">
+                <input id="userType" type="hidden" name="name" value="1" />
+                <ul>
+                    <li class="current" data-usertype="1"><!--<input type="radio" checked="checked" name="user_type" value="1" />--><b><img src="/Skin/Passport/Img/choice_1.png" /></b><span>创业赚钱</span><span>密码</span><em><i>&#xe606;</i></em></li>
+                    <li data-usertype="2"><!--<input type="radio" name="user_type" value="2" />--><b><img src="/Skin/Passport/Img/choice_2.png" /></b><span>赚钱商户版</span><span>密码</span><em><i>&#xe606;</i></em></li>
+                </ul>
+            </div>
+            <div class="modify_safety">
+                <p>请输入新密码</p>
+                <dl class="safety_password">
+                    <dt>
+                        <input type="password" class="txt {required:true,minlength: 8,maxlength:16} eye_input_password" id="Password" name="Password" tabindex="1" autocomplete="off" maxlength="20" value="" />
+                        
+                    </dt>
+                </dl>
+                <em>最多输入16个字符，包含大写字母、小写字母及数字</em>
+                <p>请再次输入新密码</p>
+                <dl class="safety_password_two">
+                    <dt>
+                        <input type="password" class="txt {required:true,minlength: 8, equalTo: '#Password',maxlength:16} eye_input_password" name="confirm_password" tabindex="1" autocomplete="off" maxlength="20" value="" />
+                        
+                    </dt>
+                </dl>
+            </div>
+            <div class="bottom_btn">
+                <a class="positive_button" onclick="BtnFindPwd()">确　定</a>
+            </div>
+        </form>
+
+
+    </section>
+    <div class="loading_box"><p><img src="/Skin/Passport/Img/loading.gif" />请耐心等待</p></div>
+    <script>
+        var userInfo = {$user_info};
+        if (userInfo.length == 0) {
+            alert("数据错误，请重新设置！");
+            window.location.href = "FindPwd.html";
+        } else if (userInfo.length == 2) {
+            $(".choice").show();
+        }
+        function BtnFindPwd() {
+            if ($("#regForm").valid()) {
+                var userId = 0;
+                if (userInfo.length == 1) {
+                    userId = userInfo[0].user_id;
+                } else if (userInfo.length == 2) {
+                    if ($("#userType").val() == 1) {//创业赚钱
+                        if (userInfo[0].user_name.indexOf("@7518") == -1) {
+                            userId = userInfo[0].user_id;
+                        } else {
+                            userId = userInfo[1].user_id;
+                        }
+                    } else {//商户
+                        if (userInfo[0].user_name.indexOf("@7518") > 0) {
+                            userId = userInfo[0].user_id;
+                        } else {
+                            userId = userInfo[1].user_id;
+                        }
+                    }
+                }
+
+                $.post("/Txooo/SalesV2/Passport/Ajax/SalesAjax.ajax/FindPwd", { pwd: $("#Password").val(), userId: userId }, function (data) {
+                    var obj = eval(data);
+                    if (obj.success == "true") {
+                        alert(obj.msg);
+                        window.location.href = "Login.html";
+                    } else {
+                        alert(obj.msg);
+                        window.location.href = "FindPwd.html";
+                    }
+                })
+            }
+        }
+        $(".choice ul li").click(function () {
+            $(this).siblings("li").removeClass("current");
+            $(this).addClass("current");
+            $("#userType").val($(this).attr("data-usertype"));
+        })
+
+    </script>
+</body>
+</html>

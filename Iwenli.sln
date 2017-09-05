@@ -9,6 +9,30 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test1", "Test1\Test1.csproj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test2", "Test2\Test2.csproj", "{A11E79D9-B006-489B-BFE7-08609ED9BCF1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Iwenli.Org", "Iwenli.org\Iwenli.Org.csproj", "{3463A862-3B15-49A7-8683-E708A918BEAB}"
+EndProject
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "Iwenli.org.sitetest", "Iwenli.org.sitetest\", "{16779345-5690-4A86-ADDC-3D55BD41C080}"
+	ProjectSection(WebsiteProperties) = preProject
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.5"
+		ProjectReferences = "{3463a862-3b15-49a7-8683-e708a918beab}|Iwenli.org.dll;{8CC1DC47-F654-4FD6-B853-9B0184272D2B}|Iwenli.dll;"
+		Debug.AspNetCompiler.VirtualPath = "/localhost_12117"
+		Debug.AspNetCompiler.PhysicalPath = "Iwenli.org.sitetest\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_12117\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/localhost_12117"
+		Release.AspNetCompiler.PhysicalPath = "Iwenli.org.sitetest\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_12117\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "12117"
+		SlnRelativePath = "Iwenli.org.sitetest\"
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +51,14 @@ Global
 		{A11E79D9-B006-489B-BFE7-08609ED9BCF1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A11E79D9-B006-489B-BFE7-08609ED9BCF1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A11E79D9-B006-489B-BFE7-08609ED9BCF1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3463A862-3B15-49A7-8683-E708A918BEAB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3463A862-3B15-49A7-8683-E708A918BEAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3463A862-3B15-49A7-8683-E708A918BEAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3463A862-3B15-49A7-8683-E708A918BEAB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{16779345-5690-4A86-ADDC-3D55BD41C080}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{16779345-5690-4A86-ADDC-3D55BD41C080}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{16779345-5690-4A86-ADDC-3D55BD41C080}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{16779345-5690-4A86-ADDC-3D55BD41C080}.Release|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
