@@ -12,7 +12,7 @@ namespace Iwenli
     /// <summary>
     /// 数据库操作基类，提供数据库操作的基层封装方法
     ///     1、提供数据SQL，SP操作的方法
-    ///     2、 封装了数据库事务操作方法
+    ///     2、封装了数据库事务操作方法
     /// </summary>
     public abstract class DataHelper : IDisposable
     {

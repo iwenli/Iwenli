@@ -11,7 +11,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
 
-namespace Iwenli.Extension
+namespace System
 {
     /// <summary>
     /// 常用工具类  暂未分类
@@ -119,7 +119,7 @@ namespace Iwenli.Extension
         /// <param name="errcode"></param>
         /// <param name="otherInfo"></param>
         /// <returns></returns>
-        public static string Json(bool success, object msg, int errcode, dynamic otherInfo)
+        public static string Json(bool success, object msg, int errcode, dynamic otherInfo = null)
         {
             JObject _newJson = new JObject();
             _newJson["success"] = success;
@@ -152,9 +152,9 @@ namespace Iwenli.Extension
             }
             var result = string.Format("{{\"success\":{0},\"msg\":\"{1}\"{2}}}", success.ToString().ToLower(), msg, p);
             return result;
-        } 
+        }
 
-      
+
         /// <summary>
         /// 数据序列化
         /// </summary>

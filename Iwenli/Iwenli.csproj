@@ -69,10 +69,30 @@
     <Compile Include="Data\MySqlDataHelper.cs" />
     <Compile Include="Data\OracleDataHelper.cs" />
     <Compile Include="Data\SqlDataHelper.cs" />
+    <Compile Include="Extension\BinarySerializeHelper.cs" />
+    <Compile Include="Extension\CollectionExtension.cs" />
+    <Compile Include="Extension\DateTimeExtension.cs" />
+    <Compile Include="Extension\Diagnostics\ProcessExtension.cs" />
     <Compile Include="Extension\DistinctExtensions.cs" />
+    <Compile Include="Extension\ArrayExtension.cs" />
+    <Compile Include="Extension\ObjectExtension.cs" />
+    <Compile Include="Extension\StringExtension.cs" />
     <Compile Include="Extension\ToolHelper.cs" />
+    <Compile Include="Extension\ValueExtension.cs" />
+    <Compile Include="Extension\XmlSerializeExtension.cs" />
+    <Compile Include="Extension\Xml\XmlExtensionMethods.cs" />
     <Compile Include="IConfig.cs" />
     <Compile Include="Net\NetHelper.cs" />
+    <Compile Include="Resources\SR.en.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SR.en.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Resources\SR1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SR.resx</DependentUpon>
+    </Compile>
     <Compile Include="StringHelper.cs" />
     <Compile Include="Web\Ajax\AjaxFactory.cs" />
     <Compile Include="Web\Ajax\AjaxHandler.cs" />
@@ -117,8 +137,6 @@
     <Compile Include="LogWatching.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SingletonHelper.cs" />
-    <Compile Include="Text\EncryptHelper.cs" />
-    <Compile Include="Text\AES.cs" />
     <Compile Include="Text\LevenshteinDistance.cs" />
     <Compile Include="TimerPlan\Enum\DayRateEnum.cs" />
     <Compile Include="TimerPlan\Enum\ExecIntervalEnum.cs" />
@@ -621,6 +639,16 @@
   <ItemGroup>
     <None Include="lib\MySql\6.8.3\v2.0\MySql.Data.InstallState" />
     <None Include="lib\MySql\6.8.3\v2.0\MySql.Web.InstallState" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\SR.en.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>SR.en.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Resources\SR.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>SR1.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

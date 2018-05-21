@@ -21,7 +21,7 @@ namespace Iwenli.Org
         /// <param name="o">调用方对象</param>
         /// <param name="info">日志信息</param>
         /// <param name="brandID">品牌id，可不传默认0</param>              
-        public static void WriteUserLog(this object o, string userNameOrId, string info, long brandID = 0, string dbName = "TxoooUserLog")
+        public static void WriteUserLog(this object o, string userNameOrId, string info, long brandID = 0, string dbName = "UserLog")
         {
             string _projectName = GetProjectName(o);
 
@@ -51,7 +51,7 @@ namespace Iwenli.Org
         /// <param name="projectName"></param>
         /// <param name="info"></param>
         /// <param name="brandID"></param>
-        public static void WriteUserLog(string projectName, string userNameOrId, string info, long brandID = 0, string dbName = "TxoooUserLog")
+        public static void WriteUserLog(string projectName, string userNameOrId, string info, long brandID = 0, string dbName = "UserLog")
         {
             projectName = projectName ?? "temp";
             using (DataHelper helper = DataHelper.GetDataHelper(dbName))
@@ -63,7 +63,7 @@ namespace Iwenli.Org
                     helper.SpFileValue["@TableName"] = projectName;
                     helper.SpFileValue["@Info"] = info;
                     helper.SpFileValue["@ID"] = brandID;
-                    helper.SpExecute("SP_Service_ZDL_WriteUserLog");
+                    helper.SpExecute("SP_Service_V1_ZYL_WriteUserLog");
                 }
                 catch (Exception ex)
                 {

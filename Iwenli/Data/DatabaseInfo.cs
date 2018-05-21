@@ -1,4 +1,5 @@
 ﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -103,7 +104,7 @@ namespace Iwenli.Data
         {
             get
             {
-                return Text.EncryptHelper.AESEncrypt(ConnString);
+                return ConnString.AESDecrypt();
             }
         }
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -73,12 +74,8 @@ namespace Iwenli.Data
                 string connStr = item.InnerText;
                 if (item.Attributes["IfEncrypt"] != null && item.Attributes["IfEncrypt"].Value == "true")
                 {
-                    connStr = Text.EncryptHelper.AESDecrypt(connStr);
+                    connStr = connStr.AESDecrypt();
                 }
-                //else
-                //{
-                //    connStr = Text.EncryptHelper.AESDecrypt(connStr);
-                //}
                 //连接类型
                 DatabaseType type = DatabaseType.Sql;
                 if (item.Attributes["Type"] != null)

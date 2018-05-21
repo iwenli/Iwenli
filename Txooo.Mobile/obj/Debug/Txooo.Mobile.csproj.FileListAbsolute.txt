@@ -1,0 +1,9 @@
+D:\TxoooGit\Txooo\Bin\Txooo.Mobile.dll.config
+D:\TxoooGit\Txooo\Bin\Txooo.Mobile.xml
+D:\TxoooGit\Txooo\Bin\Txooo.Mobile.dll
+D:\TxoooGit\Txooo\Bin\Txooo.Mobile.pdb
+D:\TxoooGit\txooo-saas\Txooo.Mobile\obj\Debug\Txooo.Mobile.csprojAssemblyReference.cache
+D:\TxoooGit\txooo-saas\Txooo.Mobile\obj\Debug\Txooo.Mobile.csproj.CoreCompileInputs.cache
+D:\TxoooGit\txooo-saas\Txooo.Mobile\obj\Debug\Txooo.Mobile.csproj.CopyComplete
+D:\TxoooGit\txooo-saas\Txooo.Mobile\obj\Debug\Txooo.Mobile.dll
+D:\TxoooGit\txooo-saas\Txooo.Mobile\obj\Debug\Txooo.Mobile.pdb

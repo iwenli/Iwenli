@@ -1,4 +1,5 @@
-﻿using Iwenli.Text;
+﻿using System;
+using Iwenli.Text;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -246,7 +247,7 @@ namespace Iwenli.Web.Security
                 {
                     if (string.IsNullOrEmpty(_key))
                     {
-                        _key = Iwenli.Text.EncryptHelper.MD5(key + SecurityConfig.Instance.Key);
+                        _key = (key + SecurityConfig.Instance.Key).MD5();
                     }
                     return _key;
                 }
@@ -259,75 +260,11 @@ namespace Iwenli.Web.Security
                 {
                     if (string.IsNullOrEmpty(_iv))
                     {
-                        _iv = EncryptHelper.MD5(iv + SecurityConfig.Instance.Key).Substring(0, 16);
+                        _iv = (iv + SecurityConfig.Instance.Key).MD5().Substring(0, 16);
                     }
                     return _iv;
                 }
-            }
-
-
-            /// <summary>
-            /// AES加密
-            /// </summary>
-            /// <param name="plainStr">明文字符串</param>
-            /// <returns>密文</returns>
-            private static string _AESEncrypt(string plainStr)
-            {
-                byte[] bKey = Encoding.Default.GetBytes(Key);
-                byte[] bIV = Encoding.Default.GetBytes(IV);
-                byte[] byteArray = Encoding.Default.GetBytes(plainStr);
-
-                string encrypt = null;
-                Rijndael aes = Rijndael.Create();
-                try
-                {
-                    using (MemoryStream mStream = new MemoryStream())
-                    {
-                        using (CryptoStream cStream = new CryptoStream(mStream, aes.CreateEncryptor(bKey, bIV), CryptoStreamMode.Write))
-                        {
-                            cStream.Write(byteArray, 0, byteArray.Length);
-                            cStream.FlushFinalBlock();
-                            encrypt = Convert.ToBase64String(mStream.ToArray());
-                        }
-                    }
-                }
-                catch { }
-                aes.Clear();
-
-                return encrypt;
-            }
-
-            /// <summary>
-            /// AES解密
-            /// </summary>
-            /// <param name="encryptStr">密文字符串</param>
-            /// <returns>明文</returns>
-            private static string _AESDecrypt(string encryptStr)
-            {
-                byte[] bKey = Encoding.Default.GetBytes(Key);
-                byte[] bIV = Encoding.Default.GetBytes(IV);
-                byte[] byteArray = Convert.FromBase64String(encryptStr);
-
-                string decrypt = null;
-                Rijndael aes = Rijndael.Create();
-                try
-                {
-                    using (MemoryStream mStream = new MemoryStream())
-                    {
-                        using (CryptoStream cStream = new CryptoStream(mStream, aes.CreateDecryptor(bKey, bIV), CryptoStreamMode.Write))
-                        {
-                            cStream.Write(byteArray, 0, byteArray.Length);
-                            cStream.FlushFinalBlock();
-                            decrypt = Encoding.Default.GetString(mStream.ToArray());
-                        }
-                    }
-                }
-                catch { }
-                aes.Clear();
-
-                return decrypt;
-            }
-
+            } 
             #endregion
 
             #region 加密解密方法
@@ -343,7 +280,7 @@ namespace Iwenli.Web.Security
                 {
                     return string.Empty;
                 }
-                string encrypt = _AESEncrypt(plainStr);
+                string encrypt = plainStr.AESEncrypt(Key, IV);
                 if (string.IsNullOrEmpty(encrypt))
                 {
                     return string.Empty;
@@ -366,7 +303,7 @@ namespace Iwenli.Web.Security
                 {
                     return string.Empty;
                 }
-                string decrypt = _AESDecrypt(decryptStr);
+                string decrypt = decryptStr.AESDecrypt(Key, IV);
                 if (string.IsNullOrEmpty(decrypt))
                 {
                     return string.Empty;

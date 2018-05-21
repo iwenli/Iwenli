@@ -19,7 +19,7 @@ namespace Iwenli.Org.Passport.Ajax
         {
             var _form = context.Request.Form;
             string _userName = _form["userName"];
-            string _passWord = EncryptHelper.MD5(_form["passWord"]);
+            string _passWord = _form["passWord"].MD5();
             int _userId = UserDAL.Login(_userName, _passWord);
             if (_userId > 0)
             {

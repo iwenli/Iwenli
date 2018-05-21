@@ -114,25 +114,25 @@ namespace Iwenli.Web.Security
         #endregion
 
         /// <summary>
-        /// Wl角色认证
+        /// 角色认证
         /// </summary>
         /// <param name="role"></param>
         /// <returns></returns>
         public abstract bool IsInWlRole(string role);
         /// <summary>
-        /// Wl权限认证
+        /// 权限认证
         /// </summary>
         /// <param name="permission"></param>
         /// <returns></returns>
         public abstract bool IsInWlPermission(string permission);
         /// <summary>
-        /// Wl部门认证
+        /// 部门认证
         /// </summary>
         /// <param name="role"></param>
         /// <returns></returns>
         public abstract bool IsInWlGroup(string role);
         /// <summary>
-        /// Wl服务认证
+        /// 服务认证
         /// </summary>
         /// <param name="service"></param>
         /// <returns></returns>

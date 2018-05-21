@@ -420,7 +420,7 @@ namespace Iwenli.Data.Entity
         }
 
         /// <summary>
-        /// 根据提供的查询条件，放回实体列表
+        /// 根据提供的查询条件，返回实体列表
         /// </summary>
         /// <typeparam name="T">实体类型</typeparam>
         /// <param name="selectDatabase">查询数据库</param>
