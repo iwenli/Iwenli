@@ -75,6 +75,7 @@
     <Compile Include="Extension\Diagnostics\ProcessExtension.cs" />
     <Compile Include="Extension\DistinctExtensions.cs" />
     <Compile Include="Extension\ArrayExtension.cs" />
+    <Compile Include="Extension\JsonHelper.cs" />
     <Compile Include="Extension\ObjectExtension.cs" />
     <Compile Include="Extension\StringExtension.cs" />
     <Compile Include="Extension\ToolHelper.cs" />
@@ -82,7 +83,10 @@
     <Compile Include="Extension\XmlSerializeExtension.cs" />
     <Compile Include="Extension\Xml\XmlExtensionMethods.cs" />
     <Compile Include="IConfig.cs" />
+    <Compile Include="Net\Files.cs" />
+    <Compile Include="Net\HttpTools.cs" />
     <Compile Include="Net\NetHelper.cs" />
+    <Compile Include="Net\Parameters.cs" />
     <Compile Include="Resources\SR.en.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

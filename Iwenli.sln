@@ -41,6 +41,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Iwenli.Mobile", "Iwenli.Mob
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IwenliTests", "IwenliTests\IwenliTests.csproj", "{9653BF28-F021-4C98-BBF8-E9D920EB9F8F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Iwenli.CodeGenerate", "Iwenli.CodeGenerate\Iwenli.CodeGenerate.csproj", "{E8536404-5773-4511-8714-57E5B2DE32CE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -79,6 +81,10 @@ Global
 		{9653BF28-F021-4C98-BBF8-E9D920EB9F8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9653BF28-F021-4C98-BBF8-E9D920EB9F8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9653BF28-F021-4C98-BBF8-E9D920EB9F8F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E8536404-5773-4511-8714-57E5B2DE32CE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E8536404-5773-4511-8714-57E5B2DE32CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E8536404-5773-4511-8714-57E5B2DE32CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E8536404-5773-4511-8714-57E5B2DE32CE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -87,6 +93,7 @@ Global
 		{8CC1DC47-F654-4FD6-B853-9B0184272D2B} = {D99AAEB5-D1FF-4ADD-8BDC-0E6010130DEC}
 		{9DE070E0-FFBF-40A1-932E-1822FBD6D92F} = {D99AAEB5-D1FF-4ADD-8BDC-0E6010130DEC}
 		{9653BF28-F021-4C98-BBF8-E9D920EB9F8F} = {D99AAEB5-D1FF-4ADD-8BDC-0E6010130DEC}
+		{E8536404-5773-4511-8714-57E5B2DE32CE} = {D99AAEB5-D1FF-4ADD-8BDC-0E6010130DEC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1F78F9BB-FACC-45EE-9ECD-71AEEFC878DD}

@@ -18,13 +18,20 @@
 ----------------------------------------------------------------*/
 #endregion
 
+using Iwenli.Extension;
+using Iwenli.Mobile.Platform;
+using Iwenli.Mobile.Platform.Entity;
+using Iwenli.Net;
 using LitJson;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace Iwenli.Mobile.Api
 {
@@ -570,7 +577,7 @@ namespace Iwenli.Mobile.Api
                     _str = client.DownloadString(_url);
                 }
 
-                Dictionary<string, object> _json = Iwenli.JS.JsonHelper.AnalyseJsonStr(_str);
+                var _json = JsonHelper.DeserializeObject<Dictionary<string, object>>(_str);
                 object value;
                 if (_json.TryGetValue("errcode", out value))
                 {
@@ -660,7 +667,7 @@ namespace Iwenli.Mobile.Api
 
                 if (!string.IsNullOrEmpty(_str))
                 {
-                    Dictionary<string, object> _json = Iwenli.JS.JsonHelper.AnalyseJsonStr(_str);
+                    var _json = JsonHelper.DeserializeObject<Dictionary<string, object>>(_str);
                     object value;
                     if (_json.TryGetValue("errcode", out value))
                     {
@@ -1237,7 +1244,7 @@ namespace Iwenli.Mobile.Api
             preParam.Sort();
 
             string _keyStr = preParam.BuildQueryString(false) + "&key=" + this.m_accountInfo.MchSecret;
-            string _sign = Iwenli.Text.EncryptHelper.MD5(_keyStr).ToUpper();
+            string _sign = _keyStr.MD5().ToUpper();
 
             preParam.Add("sign", _sign);
 
@@ -1299,7 +1306,7 @@ namespace Iwenli.Mobile.Api
             signParam.Add("jsapi_ticket", ((KeyValuePair<string, DateTime>)_ticket).Key);
             signParam.Sort();
 
-            var _sign = Iwenli.Text.EncryptHelper.SHA1(signParam.BuildQueryString(false));
+            var _sign = signParam.BuildQueryString(false).SHA1();
 
             return _sign;
         }
@@ -1341,7 +1348,7 @@ namespace Iwenli.Mobile.Api
             }
             catch (Exception ex)
             {
-                this.LogError("长转短链接错误消息[]", ex);
+                this.LogError("长转短链接错误消息", ex);
             }
             return returnInfo;
         }
@@ -1367,7 +1374,7 @@ namespace Iwenli.Mobile.Api
                 _scanQrParams.Sort();
 
                 string _keyStr = _scanQrParams.BuildQueryString(false) + "&key=" + this.m_accountInfo.MchSecret;
-                string _sign = Iwenli.Text.EncryptHelper.MD5(_keyStr).ToUpper();
+                string _sign = _keyStr.MD5().ToUpper();
                 _scanQrParams.Add("sign", _sign);
 
                 string _qr = _url + _scanQrParams.BuildQueryString(false);
@@ -1401,7 +1408,7 @@ namespace Iwenli.Mobile.Api
                 }
                 else
                 {
-                    this.LogInfo(string.Format("数据库中没有获取到accountId={0}的证书", this.m_accountInfo.AccountId));
+                    this.LogFatal(string.Format("数据库中没有获取到accountId={0}的证书", this.m_accountInfo.AccountId));
                 }
             }
             #endregion
@@ -1419,7 +1426,7 @@ namespace Iwenli.Mobile.Api
             }
             else
             {
-                this.LogInfo(string.Format("本地计算机账户下的个人存储区中没有获取到accountId={0},certName={1}的证书", this.m_accountInfo.AccountId, this.m_accountInfo.CertName ?? ""));
+                this.LogFatal(string.Format("本地计算机账户下的个人存储区中没有获取到accountId={0},certName={1}的证书", this.m_accountInfo.AccountId, this.m_accountInfo.CertName ?? ""));
             }
 
             #endregion
@@ -1451,7 +1458,7 @@ namespace Iwenli.Mobile.Api
             preParam.Sort();
 
             string _keyStr = preParam.BuildQueryString(false) + "&key=" + this.m_accountInfo.MchSecret;
-            string _sign = Iwenli.Text.EncryptHelper.MD5(_keyStr).ToUpper();
+            string _sign = _keyStr.MD5().ToUpper();
 
             preParam.Add("sign", _sign);
 
@@ -1492,7 +1499,7 @@ namespace Iwenli.Mobile.Api
             preParam.Sort();
 
             string _keyStr = preParam.BuildQueryString(false) + "&key=" + this.m_accountInfo.MchSecret;
-            string _sign = Iwenli.Text.EncryptHelper.MD5(_keyStr).ToUpper();
+            string _sign = _keyStr.MD5().ToUpper();
 
             preParam.Add("sign", _sign);
 
@@ -1533,7 +1540,7 @@ namespace Iwenli.Mobile.Api
             preParam.Sort();
 
             string _keyStr = preParam.BuildQueryString(false) + "&key=" + this.m_accountInfo.MchSecret;
-            string _sign = Iwenli.Text.EncryptHelper.MD5(_keyStr).ToUpper();
+            string _sign = _keyStr.MD5().ToUpper();
 
             preParam.Add("sign", _sign);
 

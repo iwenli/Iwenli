@@ -46,7 +46,6 @@
     <Compile Include="AccountInfo.cs" />
     <Compile Include="Api\ApiHelper.cs" />
     <Compile Include="Api\WeixinApiHelper.cs" />
-    <Compile Include="HttpTools.cs" />
     <Compile Include="PlatformType.cs" />
     <Compile Include="Platform\Entity\ReqEventMsg.cs" />
     <Compile Include="Platform\Entity\ReqImageMsg.cs" />
@@ -68,6 +67,11 @@
     <Compile Include="Platform\ResMsg.cs" />
     <Compile Include="Platform\ResMsgType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReplyConfig.cs" />
+    <Compile Include="TerminalType.cs" />
+    <Compile Include="UserFactory.cs" />
+    <Compile Include="UserGroupInfo.cs" />
+    <Compile Include="UserInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Iwenli\Iwenli.csproj">

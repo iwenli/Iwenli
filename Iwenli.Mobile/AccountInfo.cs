@@ -373,8 +373,6 @@ namespace Iwenli.Mobile
         }
         #endregion
 
-        
-
         #region 获取账户Api操作接口
 
         ApiHelper m_apiHelper;
@@ -458,12 +456,6 @@ namespace Iwenli.Mobile
 
         #region 群发消息
 
-        /// <summary>
-        /// 群发消息,所有有效用户
-        /// </summary>
-        /// <param name="message"></param>
-        /// <param name="okCount"></param>
-        /// <param name="errorCount"></param>
         public void SendMessage(Platform.ResMsg message, out int okCount, out int errorCount)
         {
             SendMessage(message, -1, -1, "", out okCount, out errorCount);
@@ -566,8 +558,7 @@ namespace Iwenli.Mobile
 
         #endregion
 
-
-        #region
+        #region 获取账户信息
         /// <summary>
         /// 获取账户信息
         /// </summary>

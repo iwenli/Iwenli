@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Iwenli.Data
 {
     /// <summary>
-    /// TxDataHelpe扩展方法
+    /// DataHelpe扩展方法
     /// </summary>
     public static class DataHelperExtensions
     {
