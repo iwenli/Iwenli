@@ -19,9 +19,11 @@
 #endregion
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Iwenli.Mobile
@@ -202,7 +204,7 @@ namespace Iwenli.Mobile
                     {
                         if (_remoteUser.Nickname != _userInfo.Nickname || _remoteUser.HeadimgUrl != _userInfo.HeadimgUrl)
                         {
-                            Txooo.Mobile.UserFactory.UpdateUserInfo(_remoteUser);
+                            Iwenli.Mobile.UserFactory.UpdateUserInfo(_remoteUser);
                             m_userInfoList[_key] = _remoteUser;
                         }
                     }
@@ -210,7 +212,7 @@ namespace Iwenli.Mobile
                 }
                 catch (Exception ex)
                 {
-                    TxLogHelper.GetLogger("Txooo.Mobile.UserFactory").Error("同步用户数据错误：" + ex.Message);
+                    LogHelper.GetLogger("Txooo.Mobile.UserFactory").Error("同步用户数据错误：" + ex.Message);
                 }
             }));
             _thread.Start();

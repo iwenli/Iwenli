@@ -1036,6 +1036,45 @@ namespace System
         }
         #endregion
 
+        #region 16进制转化
+        /// <summary>
+        /// 按字符十六进制字符编码
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
+        public static string Base16Encode(this string str)
+        {
+            StringBuilder ret = new StringBuilder();
+            foreach (byte b in Encoding.Default.GetBytes(str))
+            {
+                ret.AppendFormat("{0:X2}", b);
+            }
+            return ret.ToString();
+        }
+        /// <summary>
+        /// 按字符十六进制字符解码
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
+        public static string Base16Decode(this string str)
+        {
+            try
+            {
+                byte[] inputByteArray = new byte[str.Length / 2];
+                for (int x = 0; x < str.Length / 2; x++)
+                {
+                    int i = (Convert.ToInt32(str.Substring(x * 2, 2), 16));
+                    inputByteArray[x] = (byte)i;
+                }
+                return Encoding.Default.GetString(inputByteArray);
+            }
+            catch (Exception ee)
+            {
+                return null;
+            }
+        }
+        #endregion
+
         #region AES加密解密方法
         const string _iKey = @")O[N-]6*^NKI,YF}+efc{}JK#JH8>Z'e9M";
         const string _iIV = @"L+\~fUF($#:KL*C4,I+)bkf";
@@ -1056,7 +1095,7 @@ namespace System
         /// <param name="key">秘钥</param>
         /// <param name="iv">向量</param>
         /// <returns>密文</returns>
-        public static string AESEncrypt(this string plainStr,string key,string iv)
+        public static string AESEncrypt(this string plainStr, string key, string iv)
         {
             byte[] bKey = Encoding.Default.GetBytes(key);
             byte[] bIV = Encoding.Default.GetBytes(iv);

@@ -8,6 +8,9 @@ using System.Web;
 
 namespace Iwenli.Web.Module
 {
+    /// <summary>
+    /// Web站点日志Module 需要在wl.config中配置WebLog
+    /// </summary>
     public class WebLogModule: IHttpModule
     {
         public void Dispose()

@@ -1,11 +1,6 @@
-﻿using Iwenli.Extension;
-using Iwenli.Org.RBAC;
+﻿using Iwenli.Web.Authorization;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web;
 using System.Web.SessionState;
 
@@ -23,8 +18,8 @@ namespace Iwenli.Org
         {
             get
             {
-                var _txUser = HttpContext.Current.User.Identity as UserIdentity;
-                if (_txUser == null && HttpContext.Current.Request.Url.AbsolutePath.ToString().ToLower().IndexOf("/app/") > -1)
+                var _user = HttpContext.Current.User.Identity as UserIdentity;
+                if (_user == null && HttpContext.Current.Request.Url.AbsolutePath.ToString().ToLower().IndexOf("/app/") > -1)
                 {
                     string _userId = HttpContext.Current.Request.QueryString["userid"];
                     string _token = HttpContext.Current.Request.QueryString["token"];
@@ -32,9 +27,9 @@ namespace Iwenli.Org
                     {
                         return null;
                     }
-                    _txUser = new UserIdentity("xx|" + _userId);
+                    _user = new UserIdentity("旋风小飞侠|" + _userId);
                 }
-                return _txUser;
+                return _user;
             }
         }
 

@@ -100,6 +100,9 @@
     <Compile Include="StringHelper.cs" />
     <Compile Include="Web\Ajax\AjaxFactory.cs" />
     <Compile Include="Web\Ajax\AjaxHandler.cs" />
+    <Compile Include="Web\Authorization\User.cs" />
+    <Compile Include="Web\Authorization\UserIdentity.cs" />
+    <Compile Include="Web\CooikeHelper.cs" />
     <Compile Include="Web\Domain.cs" />
     <Compile Include="Web\Htmx\HtmxDataHandler.cs" />
     <Compile Include="Web\Htmx\HtmxFactory.cs" />

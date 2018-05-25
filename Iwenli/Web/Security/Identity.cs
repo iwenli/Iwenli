@@ -35,7 +35,7 @@ namespace Iwenli.Web.Security
         }
 
         /// <summary>
-        /// 否验证了用户，接口成员
+        /// 是否验证了用户，接口成员
         /// </summary>
         public bool IsAuthenticated
         {

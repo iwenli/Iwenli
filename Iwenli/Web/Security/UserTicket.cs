@@ -1,12 +1,4 @@
 ﻿using System;
-using Iwenli.Text;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Iwenli.Web.Security
 {
@@ -144,8 +136,7 @@ namespace Iwenli.Web.Security
         /// <param name="code">票证代码</param>
         public UserTicket(string code)
         {
-            _encryptValue = code;
-            _decryptValue = RBACAES.AESDecrypt(_encryptValue);
+            _decryptValue = RBACAES.AESDecrypt(code);
             string[] valueArrage = _decryptValue.Split('|');
             _username = RBACAES.AESDecrypt(valueArrage[0]);//用户名
             _ip = valueArrage[1];//最后IP
@@ -203,38 +194,6 @@ namespace Iwenli.Web.Security
         /// </summary>
         class RBACAES
         {
-            #region 16进制转化
-
-            private static string StringToBase16(string str)
-            {
-                StringBuilder ret = new StringBuilder();
-                foreach (byte b in Encoding.Default.GetBytes(str))
-                {
-                    ret.AppendFormat("{0:X2}", b);
-                }
-                return ret.ToString();
-            }
-
-            private static string Base16ToString(string str)
-            {
-                try
-                {
-                    byte[] inputByteArray = new byte[str.Length / 2];
-                    for (int x = 0; x < str.Length / 2; x++)
-                    {
-                        int i = (Convert.ToInt32(str.Substring(x * 2, 2), 16));
-                        inputByteArray[x] = (byte)i;
-                    }
-                    return Encoding.Default.GetString(inputByteArray);
-                }
-                catch (Exception ee)
-                {
-                    return null;
-                }
-            }
-
-            #endregion
-
             #region AES
 
             const string key = @")O[N-]6,YF}+efcaj{+oESb9d8>Z'e9M";
@@ -287,7 +246,7 @@ namespace Iwenli.Web.Security
                 }
                 else
                 {
-                    return StringToBase16(encrypt);
+                    return encrypt.Base16Encode();
                 }
             }
 
@@ -298,7 +257,7 @@ namespace Iwenli.Web.Security
             /// <returns>明文</returns>
             internal static string AESDecrypt(string decryptStr)
             {
-                decryptStr = Base16ToString(decryptStr);
+                decryptStr = decryptStr.Base16Decode();
                 if (string.IsNullOrEmpty(decryptStr))
                 {
                     return string.Empty;

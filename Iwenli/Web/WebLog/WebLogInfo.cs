@@ -238,42 +238,42 @@ namespace Iwenli.Web.WebLog
                     using (DataHelper helper = DataHelper.GetDataHelper(_config.DatabaseName))
                     {
                         string _sql = @"
-INSERT INTO [dbo].[" + _config.DataTableName + @"]
-           ([start_time]
-           ,[end_time]
-           ,[run_time]
-           ,[vyear]
-           ,[vmonth]
-           ,[vday]
-           ,[vhour]
-           ,[vweek]
-           ,[client_ip]
-           ,[response_status]
-           ,[server_name]
-           ,[referer_host]
-           ,[referer_path]
-           ,[request_method]
-           ,[request_host]
-           ,[request_path]
-           ,[strea_xml])
-     VALUES
-           (@start_time
-           ,@end_time
-           ,@run_time
-           ,@vyear
-           ,@vmonth
-           ,@vday
-           ,@vhour
-           ,@vweek
-           ,@client_ip
-           ,@response_status
-           ,@server_name
-           ,@referer_host
-           ,@referer_path
-           ,@request_method
-           ,@request_host
-           ,@request_path
-           ,@strea_xml)";
+                        INSERT INTO [dbo].[" + _config.DataTableName + @"]
+                                   ([start_time]
+                                   ,[end_time]
+                                   ,[run_time]
+                                   ,[vyear]
+                                   ,[vmonth]
+                                   ,[vday]
+                                   ,[vhour]
+                                   ,[vweek]
+                                   ,[client_ip]
+                                   ,[response_status]
+                                   ,[server_name]
+                                   ,[referer_host]
+                                   ,[referer_path]
+                                   ,[request_method]
+                                   ,[request_host]
+                                   ,[request_path]
+                                   ,[strea_xml])
+                             VALUES
+                                   (@start_time
+                                   ,@end_time
+                                   ,@run_time
+                                   ,@vyear
+                                   ,@vmonth
+                                   ,@vday
+                                   ,@vhour
+                                   ,@vweek
+                                   ,@client_ip
+                                   ,@response_status
+                                   ,@server_name
+                                   ,@referer_host
+                                   ,@referer_path
+                                   ,@request_method
+                                   ,@request_host
+                                   ,@request_path
+                                   ,@strea_xml)";
 
                         helper.SpFileValue["@start_time"] = _startTime.Ticks;
                         helper.SpFileValue["@end_time"] = _endTime.Ticks;

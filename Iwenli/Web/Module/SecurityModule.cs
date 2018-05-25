@@ -34,12 +34,13 @@ namespace Iwenli.Web.Module
             }
 
             //获得认证用户信息
+
             OnAuthenticate(context);
 
             if ((context.User == null)
                 && (SecurityConfig.Instance.LoginUrl != _url.AbsolutePath))
             {
-                //开发域名跳过
+                //开放域名跳过
                 foreach (var item in SecurityConfig.Instance.OpenDomain)
                 {
                     if (_url.Domain.DomainInfo == item)
@@ -47,7 +48,7 @@ namespace Iwenli.Web.Module
                         goto URLCHECK;
                     }
                 }
-                //开放跳过
+                //开放路径跳过
                 foreach (var item in SecurityConfig.Instance.OpenPath)
                 {
                     if (_url.AbsolutePath.IndexOf(item) == 0)

@@ -28,7 +28,7 @@ namespace Iwenli.Org.Passport
     {
         public static string WebUrl
         {
-            get { return @"http://www.iwenli.org"; }
+            get { return @"http://t.iwenli.org"; }
         }
     }
 }

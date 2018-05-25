@@ -16,14 +16,9 @@
  *          1、 
 ----------------------------------------------------------------*/
 
-using Iwenli.Extension;
-using Iwenli.Org.Passport.RBAC;
+using Iwenli.Web.Authorization;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web;
 using System.Web.SessionState;
 

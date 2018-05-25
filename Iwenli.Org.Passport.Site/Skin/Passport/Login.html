@@ -17,14 +17,14 @@
 
     <script>
         $.ajaxSetup({ cache: false, contentType: "application/x-www-form-urlencoded; charset=utf-8", error: function () { } });
-       
+
         function login() {
             if ($("#loginForm").valid()) {
                 var _diaLoad = dialog({}).showModal();
                 $.post("/Iwenli/Org/Passport/Ajax/UserAjax.ajax/Login", $("#loginForm").serialize(), function (date) {
                     _diaLoad.close().remove();
-                    var obj = eval(date);
-                    if (obj.success == "true") {
+                    var obj = JSON.parse(date);
+                    if (obj.success) {
                         window.location.href = "{$ReturnUrl}";
                     } else {
                         alert(obj.msg);
@@ -107,8 +107,8 @@
                 </ul>
             </div>
         </div>
-        
-        
+
+
     </div>
 </body>
 </html>
