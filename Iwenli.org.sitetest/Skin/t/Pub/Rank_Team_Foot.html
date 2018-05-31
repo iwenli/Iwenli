@@ -1,0 +1,73 @@
+﻿<section class="my_rank_bottom"></section>
+<div class="dvLog" style="display:none">
+    <section class="my_rank MRank" style="display:none">
+        <div class="info team_num">
+            <div class="pic mypic"><img src="" /></div>
+            <div class="num">我的团队已赚到<em><span class="spTeamMoney"></span></em>元<span>排名<em><span class="spTeamMoneyRank"></span></em>位</span></div>
+        </div>
+        <div class="right_i"><i>&#xe603;</i></div>
+    </section>
+
+    <section class="my_rank PRank" style="display:none">
+        <div class="info team_num">
+            <div class="pic mypic"><img src="" /></div>
+            <div class="num">我的团队近一月赚到<em><span class="spTeamMoneyMonth"></span></em>元<span>排名<em><span class="spTeamMoneyRankMonth"></span></em>位</span></div>
+        </div>
+        <div class="right_i"><i>&#xe603;</i></div>
+    </section>
+
+    <section class="my_rank BRank" style="display:none">
+        <div class="info team_num">
+            <div class="pic mypic"><img src="" /></div>
+            <div class="num">我的团队近一月新增人数<em><span class="spTeamUsersMonth"></span></em>人<span>排名<em><span class="spTeamUsersRankMonth"></span></em>位</span></div>
+        </div>
+        <div class="right_i"><i>&#xe603;</i></div>
+    </section>
+
+    <section class="my_rank NRank" style="display:none">
+        <div class="info team_num">
+            <div class="pic mypic"><img src="" /></div>
+            <div class="num">我的团队人数<em><span class="spTeamUsers"></span></em>人<span>排名<em><span class="spTeamUsersRank"></span></em>位</span></div>
+        </div>
+        <div class="right_i"><i>&#xe603;</i></div>
+    </section>
+</div>
+
+<div class="dvNoLog my_rank" style="display:none" onclick="GoToLogin()">
+    <div class="noinfo">
+        <div class="nopic">
+            <p>登录注册</p>
+        </div>
+        <div class="nocon">您未登录，暂不能查看团队排名</div>
+    </div>
+    <div class="right_i"><i>&#xe603;</i></div>
+</div>
+
+<script>
+    $.get("/Txooo/SalesV2/Rank/Ajax/RankAjax.ajax/GetMyEstateInfos", function (data) {
+        var obj1 = eval(data);
+        if (obj1.success != "false") {
+            var obj = eval(data)[0];
+            obj.head_pic = obj.head_pic == "" ? "/Skin/t/Img/no_pic.png" : obj.head_pic;
+            $('.mypic').children('img').attr("src", obj.head_pic + ',1,80,80,3');
+            $('.spTeamMoney').text(parseFloat(obj.team_assets));
+            $('.spTeamMoneyRank').text(obj.team_assets_rank);
+            $('.spTeamMoneyMonth').text(parseFloat(obj.team_assets_month));
+            $('.spTeamMoneyRankMonth').text(obj.team_month_assets_rank);
+            $('.spTeamUsersMonth').text(obj.team_newuser_month);
+            $('.spTeamUsersRankMonth').text(obj.team_month_users_rank);
+            $('.spTeamUsers').text(obj.team_users);
+            $('.spTeamUsersRank').text(obj.team_users_rank);
+            $('.MRank').attr('onclick', 'window.location.href = "/Rank/MyTeamRank.html?UserId=' + obj.user_id + '&type=1"');
+            $('.PRank').attr('onclick', 'window.location.href = "/Rank/MyTeamRank.html?UserId=' + obj.user_id + '&type=2"');
+            $('.BRank').attr('onclick', 'window.location.href = "/Rank/MyTeamRank.html?UserId=' + obj.user_id + '&type=4"');
+            $('.NRank').attr('onclick', 'window.location.href = "/Rank/MyTeamRank.html?UserId=' + obj.user_id + '&type=3"');
+            $('.dvLog').show();
+        } else {
+            $('.dvNoLog').show();
+        }
+    });
+    function GoToLogin() {
+        window.location.href = "//passport.93390.cn/login.html?ReturnUrl=" + encodeURIComponent(window.location.href);
+    }
+</script>

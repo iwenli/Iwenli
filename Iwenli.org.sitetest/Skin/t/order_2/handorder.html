@@ -1,0 +1,145 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>确认下单</title>
+    <!--WL_TMP{tmp=/Skin/t/Pub/app_publiccss.html}-->
+    <link href="/Skin/t/Css/sui/index.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="page-group" id="top">
+        <div id="page-order-handorder" class="page">
+            <header class="bar bar-nav bar_ff8201">
+                <a class="icon icon-left pull-left back"></a>
+                <h1 class="title">确认订单</h1>
+            </header>
+            <nav class="bar bar-tab">
+                <div class="row sure_bottom_btn">
+                    <div class="item_1">获<span class="total_point">0</span>V币</div>
+                    <div class="item_2">合计：<span class="red total_money">￥0.00</span></div>
+                    <div class="sub_hand_order item_3">提交订单</div>
+                </div>
+            </nav>
+            <div class="content">
+                <div class="address_info_list"></div>
+                <div class="store_product_list"></div>
+            </div>
+            <!--收货地址模板-->
+            <script type="text/html" id="address_info_temp">
+                <div class="list-block media-list">
+                    <ul>
+                        <li class="sure_address">
+                            <a href="/member_2/address.html?id={{AddressId}}&type=select&mchclass={{MchClass}}" class="item-link item-content">
+                                <div class="item-inner">
+                                    <div class="item-title-row">
+                                        <div class="item-title">收件人：{{TakeName}}</div>
+                                        <div class="item-after">{{Phone}}</div>
+                                    </div>
+                                    <!--<div class="item-subtitle">标题</div>-->
+                                    <div class="item-text">收货地址：{{Area}}{{Address}}</div>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="sure_zebraWay"></div>
+                </div>
+            </script>
+            <script type="text/html" id="store_product_temp">
+                {{each list as value}}
+                <div class="card sure_card_box card-mch-{{value.MchId}}">
+                    <div class="remove-card remove-mch-{{value.MchId}}">
+                        <div class="remove-info">宝贝不能购买了</div>
+                        <button class="remove-card-btn remove-mch-click" data-id="{{value.MchId}}">移除</button>
+                    </div>
+                    <div class="card-header"><img src="{{value.MchLogo | noLogo}}" />{{value.MchComName}}</div>
+                    {{each value.Product as c}}
+                    {{if c.HasActivityRebate&&c.ActivityRebateMoney!=(c.Price*c.ShopCount)}}
+                    <div class="card-content"><div class="list-block media-list">商品价格存在异常，请重新选择商品</div></div>
+                    {{else}}
+                    <div class="one-card-box map_id_{{c.PropertyMapId}}">
+                        <div class="remove-one-card remove-map-{{c.PropertyMapId}}">
+                            <div class="remove-info">宝贝不能购买了</div>
+                            <button class="remove-card-btn remove-map-click" data-id="{{c.PropertyMapId}}">移除</button>
+                        </div>
+
+                        <div class="card-content">
+                            <div class="list-block media-list">
+                                <ul>
+                                    <li class="item-content">
+                                        <div class="item-media">
+                                            <img src="{{c.Img}}" width="66">
+                                        </div>
+                                        <div class="item-inner">
+                                            <div class="item-title-row">
+                                                <div class="item-title">{{c.ProductName}}</div>
+                                            </div>
+                                            <div class="item-subtitle map_id" data-id="{{c.PropertyMapId}}">{{c.JsonInfo}}</div>
+                                            <div class="item-title-row">
+                                                <div class="item-title red">￥{{c.Price}}</div>
+                                                <div class="item-after shop_count" data-count="{{c.ShopCount}}">x{{c.ShopCount}}</div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="card-footer  map_id_{{c.PropertyMapId}} {{if c.ProductIspostage}}postage_click_1{{else}}postage_click_0{{/if}}" data-buyerpostage="{{c.BuyerPostage}}" data-json="{{c.ProductPostage}}">
+                            <span>配送方式</span>
+                            {{if c.ProductIspostage}}
+                            <span class="right">包邮&nbsp;&gt;</span>
+                            {{else}}
+                            <span class="right">快递<span class="red">￥{{c.BuyerPostage}}</span>&nbsp;&gt;</span>
+                            {{/if}}
+                        </div>
+                    </div>
+                    {{/if}}
+                    {{/each}}
+                    <div class="card-footer">
+                        <span>买家留言：<input class="buyer_ly" type="text" value="" placeholder="可在此处给卖家留言，选填" /></span>
+                    </div>
+                    <div class="card-footer">
+                        <span>获{{value.Point}}V币</span>
+                        <span class="right">共计{{value.Count}}件商品<em>&nbsp;</em> 小计：<span class="red">￥{{value.Money}}</span></span>
+                    </div>
+                </div>
+                {{/each}}
+            </script>
+            <script id="postage_temp" type="text/html">
+                <ul>
+                    <li>快递费：￥{{BuyerPostage}}</li>
+                    <li>
+                        配送说明：<p>该商品单笔订单配送费{{postage}}元</p>
+                        {{if append!='0'}}
+                        <p>每增加一件，加配送费{{append}}元</p>{{/if}}
+                        {{if limit!='0'}}
+                        <p>购买{{limit}}件及{{limit}}件以上商品，商家包邮</p>{{/if}}
+                    </li>
+                </ul>
+            </script>
+            <div class="popup pay_iframe_list" style="height: 70%; bottom:0;top:auto;overflow:visible ">
+                <iframe src="" style="width:100%;height:100%;"></iframe>
+            </div>
+            <div class="popup postage_explain_0" style="height: 50%; bottom:0;top:auto;overflow:visible ">
+                <header class="bar bar-nav">
+                    <h1 class="title">配送方式</h1>
+                </header>
+                <nav class="bar bar-tab close-popup close-address-btn">关闭</nav>
+                <div class="content"></div>
+            </div>
+            <div class="popup postage_explain_1" style="height: 50%; bottom:0;top:auto;overflow:visible ">
+                <header class="bar bar-nav">
+                    <h1 class="title">配送方式</h1>
+                </header>
+                <nav class="bar bar-tab close-popup close-address-btn">关闭</nav>
+                <div class="content">快递&nbsp;包邮</div>
+            </div>
+            <div class="popup-overlay close-popup"></div>
+        </div>
+    </div>
+    <!--WL_TMP{tmp=/Skin/t/Pub/app_publicjs.html}-->
+    <script src="/Skin/t/Js/sui/index.js"></script>
+    <!--立即购买规格选择-->
+
+</body>
+</html>

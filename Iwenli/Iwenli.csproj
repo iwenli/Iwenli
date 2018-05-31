@@ -35,7 +35,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>lib\MySql.Data.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>lib\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -78,7 +78,6 @@
     <Compile Include="Extension\JsonHelper.cs" />
     <Compile Include="Extension\ObjectExtension.cs" />
     <Compile Include="Extension\StringExtension.cs" />
-    <Compile Include="Extension\ToolHelper.cs" />
     <Compile Include="Extension\ValueExtension.cs" />
     <Compile Include="Extension\XmlSerializeExtension.cs" />
     <Compile Include="Extension\Xml\XmlExtensionMethods.cs" />

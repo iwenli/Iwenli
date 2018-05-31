@@ -1,0 +1,148 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/html5/rem.js"></script>
+    <script type="text/javascript" src="//cdn.txooo.com/public/jquery/jquery-1.7.2.min.js"></script>
+    <script src="/Skin/t/Js/Public.js"></script>
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Public.css" />
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Store.css" />
+    <title>申请表</title>
+    <script>
+        $(function () {
+            $(".P_title").text("申请表");
+            $(".P_Header_info").text("");
+
+            //LoadData
+            var applyId = getUrlParam("ApplyId");
+            $.post("/Txooo/SalesV2/Store/Ajax/StoreAjax.ajax/GetGoodsInfoById?id=" + applyId, function (data) {
+                var obj = eval('(' + data + ')');
+                if (obj.success != "false") {
+                    var info = eval('(' + obj.list + ')');
+                    $('#spApplyNum').text(info.ApplyNum);
+                    $('#spAddTime').text(formatTime(info.AddTime, "ymd"));
+                    $('#spComName').text(info.ComName);
+                    $('#spComIndustry').text(info.ComIndustry);
+                    $('#spComTelephone').text(info.ComTelephone);
+                    $('#spComAddress').text(info.ComAddress);
+                    $('#spGoodsBrand').text(info.GoodsBrand);
+                    $('#spGoodsName').text(info.GoodsName);
+                    $('#spGoodsClass').text(info.GoodsClass);
+                    $('#spGoodsSpecification').text(info.GoodsSpecification);
+                    $('#spGoodsPrice').text(info.GoodsPrice);
+                    $('#spGoodsCost').text(info.GoodsCost);
+                    $('#spGoodsSummary').text(info.GoodsSummary);
+                    if (info.CheckState == 0 || info.CheckState == 1) {
+                        $('#update_recommend').hide();
+                    }
+                }
+            });
+
+
+            $(".del").click(function () {
+                $(".shade_box").show();
+            });
+            //删除
+            $(".del_ok").click(function () {
+                $.post("/Txooo/SalesV2/Store/Ajax/StoreAjax.ajax/DeleteGoodsById?id=" + applyId, function (data) {
+                    var obj = eval('(' + data + ')');
+                    if (obj.success == "true") {
+                        dialogAlart(obj.msg);
+                        window.location.href = "/Store/list.html";
+                    } else {
+                        dialogAlart(obj.msg);
+                        window.location.reload();
+                    }
+                });
+                $(".shade_box").hide();
+            });
+
+            $(".del_cancel").click(function () {
+                $(".shade_box").hide();
+            });
+
+            //修改
+            $('.modify').click(function () {
+                window.location.href = "/Store/index.html?ApplyId=" + applyId;
+            });
+        })
+    </script>
+</head>
+<body>
+    <!-- 头部信息begin -->
+    <header class="P_Header">
+        <div class="P_goBack" onclick="javascript:history.go(-1)"><i>&#xe602;</i></div>
+        <div class="P_title">申请表</div>
+    </header>
+    <!-- 头部信息end -->
+
+    <section class="P_Pages P_detail">
+        <div class="detail_box">
+            <dl class="dl_tit">
+                <dt class="black">推荐号码：<span id="spApplyNum"></span></dt>
+                <dd class="gray_ccc"><span id="spAddTime"></span>&nbsp;&nbsp;</dd>
+            </dl>
+            <dl>
+                <dt>推荐商品:</dt>
+                <dd><span id="spComName"></span></dd>
+            </dl>
+            <dl>
+                <dt>经营行业</dt>
+                <dd><span id="spComIndustry"></span></dd>
+            </dl>
+            <dl>
+                <dt>联系方式</dt>
+                <dd><span id="spComTelephone"></span></dd>
+            </dl>
+            <dl>
+                <dt>公司地址</dt>
+                <dd><span id="spComAddress"></span></dd>
+            </dl>
+            <div class="line"></div>
+            <dl>
+                <dt>商品品牌:</dt>
+                <dd><span id="spGoodsBrand"></span></dd>
+            </dl>
+            <dl>
+                <dt>商品名称</dt>
+                <dd><span id="spGoodsName"></span></dd>
+            </dl>
+            <dl>
+                <dt>所属类别</dt>
+                <dd><span id="spGoodsClass"></span></dd>
+            </dl>
+            <dl>
+                <dt>规　　格</dt>
+                <dd><span id="spGoodsSpecification"></span></dd>
+            </dl>
+            <dl>
+                <dt>零售价格</dt>
+                <dd><span id="spGoodsPrice"></span></dd>
+            </dl>
+            <dl>
+                <dt>供货价格</dt>
+                <dd><span id="spGoodsCost"></span></dd>
+            </dl>
+            <dl>
+                <dt>补充说明</dt>
+                <dd><span id="spGoodsSummary"></span></dd>
+            </dl>
+        </div>
+        <!--<div class="btn_box">
+            <input type="button" class="left modify" id="update_recommend" value="提 交" />
+            <input type="button" class="right del" value="删 除" />
+        </div>-->
+    </section>
+    <div class="shade_box" style="display:none;">
+        <div class="shade"></div>
+        <div class="tc_con del_con">
+            <p>确认删除？<span class="red">此操作不可逆</span></p>
+            <div class="dis_box del_btn_box">
+                <div class="box_flex_1 del_cancel">取消</div>
+                <div class="box_flex_1 del_ok">确认</div>
+            </div>
+        </div>
+    </div>
+ <!--WL_TMP{tmp=/Skin/t/Pub/T_Public.html}--> </body>
+</html>

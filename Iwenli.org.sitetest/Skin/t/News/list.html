@@ -1,0 +1,123 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>消息列表</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/html5/rem.js"></script>
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Public.css" />
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/News.css" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/jquery/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="//cdn.txooo.com/public/aui.artTemplate/artTemplate.js"></script>
+    <script src="/Skin/t/Js/Public.js"></script>
+    <script>
+        var pageIndex = 0;
+        var pageSize = 10;
+        var scrollTrue;
+        var msgType = getUrlParam('type');
+        $(function () {
+            $('.P_Header .P_title').text('我的消息');
+            SystemList();
+            window.onscroll = function () {
+                if (getScrollTop() + getClientHeight() == getScrollHeight()) {
+                    if (scrollTrue) {
+                        scrollTrue = false;
+                        SystemList();
+                    }
+                }
+            }
+            ClkSystemIsOpen();
+        })
+
+        //个人消息
+        function SystemList() {
+            $.get('/Txooo/SalesV2/News/Ajax/NewAjax.ajax/GetSystemList',
+                { pageIndex: pageIndex, pageSize: pageSize, msgType: msgType }, function (data) {
+                    var obj = eval(data);
+                    if (pageIndex == 0 && obj.length == 0) {
+                        $(".no_data").show();
+                    }
+                    if (obj.length > 0) {
+                        var data = { list: obj };
+                        $('#systemlist').append(template('systemlist_temp', data));
+                        scrollTrue = true;
+                        if (obj.length < pageSize) { scrollTrue = false; }
+                        if (pageIndex > 0) { $('.more_btn').show(); }
+                        pageIndex++;
+                    }
+                });
+        }
+
+        template.helper("formatTime", function (a) {
+            return formatTime(a, 'ymd');
+        });
+        //内容点击链接
+        template.helper('contentExtra', function (data) {
+            var _href = "javascript:void(0);";
+            if (data) {
+                var obj = eval("(" + data + ")");
+                switch (obj.type) {
+                    case 1:
+                        //_href = "/order/orderRefundInfo.html?orderId=" + obj.order_id;
+                        //if (obj.refund_state == 0 || obj.refund_state == 6) {
+                        //    _href = "/order/orderInfo.html?orderId=" + obj.order_id;
+                        //}
+                        _href = "/order_2/list.html";
+                        break;
+                    default:
+                        _href = obj.href;
+                        break;
+                }
+            }
+            return _href;
+        });
+        //删除
+        function DelSys(sysid) {
+            dialogComfirm("确定删除吗？", function () {
+                $.get("/Txooo/SalesV2/News/Ajax/NewAjax.ajax/DelSystem?r_id=" + sysid + "", function (data) {
+                    var obj = eval(data);
+                    if (obj.success == "true") {
+                        $('#s_' + sysid).remove();
+                    } else {
+                        dialogAlart(obj.msg);
+                    }
+                })
+            });
+        };
+        function ClkSystemIsOpen() {
+            $.get("/Txooo/SalesV2/News/Ajax/NewAjax.ajax/UpdateSystemIsOpen", { msgType: msgType }, function (data) { })
+        };
+    </script>
+
+</head>
+<body>
+    <script type="text/html" id="systemlist_temp">
+        {{each list as o}}
+        <li id="s_{{o.sys_id}}">
+            <div class="tit">
+                <div class="left black news_tit">{{o.title}}</div>
+                <div class="right gray_ccc date"><span>{{formatTime(o.add_time)}}</span><i onclick="DelSys('{{o.sys_id}}')">&#xe605;</i></div>
+            </div>
+            <div class="con">
+                <a href="{{contentExtra(o.content_extra)}}"><p>{{o.content}}</p></a>
+            </div>
+        </li>
+        {{/each}}
+    </script>
+    <!-- 头部信息begin -->
+    <!--WL_TMP{tmp=/Skin/t/Pub/T_Head_info.html}-->
+    <!-- 头部信息end -->
+    <section class="P_Pages P_new">
+        <ul id="systemlist"></ul>
+
+        <div class="more_btn" style="display:none"><a href="javascript:void(0)" id="list_show"><span>没有记录了</span></a></div>
+
+        <!--没有数据页面-->
+        <div class="no_data" style="display:none">
+            <div class="pic"><i>&#xe607;</i></div>
+            <div class="word">您还没有消息记录</div>
+        </div>
+    </section>
+    <!--WL_TMP{tmp=/Skin/t/Pub/T_Public.html}-->
+</body>
+</html>

@@ -1,166 +1,110 @@
 ﻿<!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>首页</title>
-    <!--WL_TMP{tmp=/Skin/SalesV2/Pub/app_publiccss.html}-->
-    <link href="/Skin/SalesV2/Css/sui/index.css?v=4.2" rel="stylesheet" />
+    <title>【下载APP|买客app下载】- 买客</title>
+    <meta name="keywords" content="买客，下载app,app下载,下载买客app" />
+    <meta name="description" content="一部手机、一个微信，买客app躺着都赚钱！下载买客app，开始赚钱了。" />
+    <link href="/skin/www/Css/Public.css" rel="stylesheet" type="text/css" />
+    <link href="/skin/www/Css/Index.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/jquery/jquery-1.7.2.min.js"></script>
+    <!--<script type="text/javascript">
+        $(function () {
+            $('.page-warp').height($(window).width() * 950 / 1920);
+            $('.page-warp.page1').height($(window).width() * 900 / 1920)
+            $('.page-warp.page5').height($(window).width() * 700 / 1920)
+        })
+    </script>-->
 </head>
 <body>
-    <div class="page-group appPage">
-        <!--主页-->
-        <div id="page-index-index" class="page">
-            <header class="bar bar-nav bar_ff7800">
-                <div class="searchbar row">
-                    <a href="#" class="search-input col-90 j-app-active j-search-input" data-id="8">
-                        <label class="icon icon-search" for="search" style="color: #524d4d;"></label>
-                        <input type="search" id='search' placeholder='输入关键字...' style="padding-left: 1.5rem;" readonly />
-                    </a>
-                    <a href="#" title="消息" data-id="4" class="msg col-10 j-app-active">
-                        <i>&#xe676;</i>
-                    </a>
-                </div>
-            </header>
-            <!--<div class="bar bar-header-secondary download">
-                <p><i>×</i>创业赚钱&nbsp;&nbsp; 一个能赚钱的电商APP<a class="download_android download_app">去下载</a></p>
-            </div>-->
-            <!--返回顶部-->
-            <section class="footprint-Top">
-                <a href="#" title="任务" data-id="5" class="icon_store j-app-active"><i>&#xe685;</i><em class="task_times"></em></a>
-                <a href="#" title="足迹" data-id="6" class="j-app-active"><i>&#xe656;</i></a>
-                <a class="print_top"><i>&#xe657;</i></a>
-            </section>
-            <div class="download" style="display:none;bottom:3rem;top:initial">
-                <p><i>×</i>创业赚钱&nbsp;&nbsp; 一个能赚钱的电商APP<a class="download_android download_app">去下载</a></p>
-            </div>
-            <!-- 底部NAV begin -->
-            <!--TX_TMP{tmp=/Pub/sui/T_Foot.html}-->
-            <!-- 底部NAV end -->
-            <div class="content pull-to-refresh-content infinite-scroll infinite-scroll-bottom pull_content_reload_init" data-ptr-distance="80" data-distance="180">
-                <!-- 默认的下拉刷新层 -->
-                <div class="pull-to-refresh-layer">
-                    <div class="layer-contioner">
-                        <div class="preloader"></div>
-                        <span class="preloader-txt"></span>
-                        <span class="last_refresh_time">最后更新：今天</span>
-                    </div>
-                </div>
-                <div class="module-on">
-                    <div class="layout-type1">
-                        <ul class="menu-box">
-                            <li class="j-app-active" data-id="1">
-                                <a href="#">
-                                    <span class="pic">
-                                        <img class="ios-icon-edit" src="/Skin/SalesV2/Img/Index/nav1.png">
-                                    </span>
-                                    <span class="txt">
-                                        招商加盟
-                                    </span>
-                                </a>
-                            </li>
-                            <li class="j-app-active" data-id="2">
-                                <a href="#">
-                                    <span class="pic">
-                                        <img class="ios-icon-edit" src="/Skin/SalesV2/Img/Index/nav2.png">
-                                    </span>
-                                    <span class="txt">
-                                        周边
-                                    </span>
-                                </a>
-                            </li>
-                            <li class="j-app-active" data-id="3">
-                                <a href="#">
-                                    <span class="pic">
-                                        <img class="ios-icon-edit" src="/Skin/SalesV2/Img/Index/nav3.png">
-                                    </span>
-                                    <span class="txt">
-                                        闲置二手
-                                    </span>
-                                </a>
-                            </li>
-                            <li class="j-app-active" data-id="7">
-                                <a class="j-goAllStore" href="#">
-                                    <span class="pic">
-                                        <img class="ios-icon-edit" src="/Skin/SalesV2/Img/Index/nav4.png">
-                                    </span>
-                                    <span class="txt">
-                                        店铺
-                                    </span>
-                                </a>
-                            </li>
-                            <li class="j-app-active" data-id="9">
-                                <a href="#" class="j-goProductClass">
-                                    <span class="pic">
-                                        <img class="ios-icon-edit" src="/Skin/SalesV2/Img/Index/nav5.png">
-                                    </span>
-                                    <span class="txt">
-                                        分类
-                                    </span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="module-on">
-                    <div class="layout-type1">
-                        <div class="rank-scroll">
-                            <img class="c1 ios-icon-edit" src="/Skin/SalesV2/Img/Index/rank-icon.png">
-                            <!--<span class="c1">赚钱排行榜</span>-->
-                            <div class="rank-j-rank">
-                                <div class="swiper-wrapper j-rank" id="rank-wrap">
-                                    <div class="swiper-slide">
-                                        <span>创业0天</span>
-                                        <span>已赚到0元</span>
-                                        <span>排名0位</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <!--<div class="swiper-pagination"></div>-->
-                        </div>
-                    </div>
-                </div>
-                <div class="module-on user-ad-contioner">
-                </div>
-                <div class="j-tempalte-ontainer">
-                </div>
-                <div class="module-tempalte">
-                    <div class="tempalte-title">
-                        <span class="vline left"></span>
-                        <span class="text">猜你喜欢</span>
-                        <span class="vline right"></span>
-                    </div>
-                    <div class="tempalte-content products-con">
-                        <ul class="j-products"></ul>
-                    </div>
-                    <div class="infinite-scroll-preloader loading-2">
-                        <img src="https://img.txooo.com/2017/08/02/84c86d01107943b0847cf58f48ebb68d.gif">
-                    </div>
+    <!-- 头部begin -->
+    <!--WL_TMP{tmp=/skin/Www/Pub/T_Header_nav.html}-->
+    <!-- 头部end -->
+    <div class="page-warp page1" id="particle-warp">
+        <canvas id="can-particle"></canvas>
+        <div class="container">
+            <div class="phone">
+                <img src="/skin/www/Img/shouji.png">
+                <div class="iframe">
+                    <iframe width="100%" height="100%" frameborder="0" scrolling="no" src="//0.u.93390.cn/"></iframe>
                 </div>
             </div>
-            <script type="text/html" id="d-home-contents">
-                <!--Tx_Common{class=Home.ContentLinks;}-->
+            <div class="download">
+                <div class="text"><img src="/skin/www/Img/dazi.png"></div>
+                <div class="as">
+                    <a href="//cdn.txooo.com/android/maike/maike.apk" class="btn_1" title="Android下载">
+                        <img src="/skin/www/Img/Android.png">
+                    </a>
+                </div>
+                <div class="and">
+                    <a href="https://itunes.apple.com/cn/app/id1334520457?mt=8" class="btn_2" title="IPhone下载">
+                        <img src="/skin/www/Img/APPstore.png">
+                    </a>
+                </div>
+                <div class="ewm"><img src="/skin/www/Img/wx_mp.png"></div>
+                <div class="clear"></div>
+            </div>
+            <script>
+                //鼠标移入导航色
+                $('.download a').hover(
+                    function (e) {
+                        if ($(this).hasClass('btn_1')) {
+                            $(this).find('img')[0].src = '/skin/www/Img/Android1.png'
+                        } else {
+                            $(this).find('img')[0].src = '/skin/www/Img/APPstore1.png'
+                        }
+                    },
+                    function (e) {
+                        if ($(this).hasClass('btn_1')) {
+                            $(this).find('img')[0].src = '/skin/www/Img/Android.png'
+                        } else {
+                            $(this).find('img')[0].src = '/skin/www/Img/APPstore.png'
+                        }
+                    }
+                );
             </script>
         </div>
-        <!--TX_TMP{tmp=/Skin/SalesV2/index/temp/index_template.html}-->
-        <!--TX_TMP{tmp=/Skin/SalesV2/index/temp/new_product_template.html}-->
     </div>
-    <!--签到活动提示弹出框-->
-    <div class="shade_box shade-index" id="j-shade-index">
-        <div class="activity-popup">
-            <div class="index-activity-bj">
-                <img src="/Skin/SalesV2/Img/Activity/index_bj.png">
-                <a class="btn_close" onclick="openClose()" href="#">关闭</a>
-                <a class="btn_signin external j-close-popup" onclick="openClose()" href="/activity/signin.html">马上签到</a>
+    <div class="clear"></div>
+    <div class="page-warp page2">
+        <div class="container">
+            <img class="p1" src="/skin/www/Img/p11.png" alt="" />
+            <img class="p2" src="/skin/www/Img/p12.png" alt="" />
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div class="page-warp page3">
+        <div class="container">
+            <img class="p1" src="/skin/www/Img/p21.png" alt="" />
+            <img class="p2" src="/skin/www/Img/p22.png" alt="" />
+        </div>
+    </div>
+    <div class="page-warp page4">
+        <div class="container">
+            <img class="p1" src="/skin/www/Img/p31.png" alt="" />
+            <img class="p2" src="/skin/www/Img/p32.png" alt="" />
+        </div>
+    </div>
+    <div class="page-warp page5">
+        <div class="container">
+            <img class="p1" src="/skin/www/Img/logo100.png" alt="" />
+            <p>
+                <img class="p2" src="/skin/www/Img/xiaozi.png" alt="" />
+            </p>
+            <div class="download">
+                <img class="qr" src="/skin/www/Img/download_qr.png">
+                <a href="https://itunes.apple.com/cn/app/id1334520457?mt=8" class="btn_1" title="IPhone下载">
+                    <img src="/skin/www/Img/APPstore1.png">
+                </a>
+                <a href="//cdn.txooo.com/android/maike/maike.apk" class="btn_2" title="Android下载">
+                    <img src="/skin/www/Img/Android1.png">
+                </a>
             </div>
         </div>
     </div>
-    <script>
-        //隐藏弹窗
-        function openClose() {
-            document.getElementById("j-shade-index").style.display = "none";
-        }
-    </script>
-    <!--TX_TMP{tmp=/Skin/SalesV2/Pub/app_publicjs.html}-->
-    <script src="/Skin/SalesV2/Js/sui/index.js?v=4"></script>
+    <!-- 底部begin -->
+    <!--WL_TMP{tmp=/skin/Www/Pub/T_Footer_nav.html}-->
+    <!-- 底部end -->
+    <script type="text/javascript" src="/Www/Js/particle.js?v=1.1"></script>
 </body>
 </html>

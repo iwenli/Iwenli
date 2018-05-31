@@ -1,0 +1,277 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/html5/rem.js"></script>
+    <script type="text/javascript" src="//cdn.txooo.com/public/jquery/jquery-1.7.2.min.js"></script>
+    <script src="/Skin/t/Js/Public.js"></script>
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Public.css" />
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Order.css" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/aui.artTemplate/artTemplate.js"></script>
+    <script src="/Skin/t/Js/Template.js"></script>
+    <title>已完成订单</title>
+    <script type="text/javascript">
+        $(function () {
+            $(".P_title").text("订单详情");
+            $(".P_Header_info").text(" ");
+            //$(".P_Header .P_goBack").attr("href", "/order/orderlist.html");
+            //$(".P_Header_info .P_goBack").click(function () {
+            //    window.location.href = '/order/orderlist.html';
+            //})
+        })
+    </script>
+    <style>
+        .payTpye_0 {
+            display: none;
+        }
+        .payTpye_1 {
+            display:block;
+        }
+    </style>
+</head>
+<body>
+    <!-- 头部信息begin -->
+    <!--WL_TMP{tmp=/Skin/t/Pub/T_Head_info.html}-->
+    <!-- 头部信息end -->
+
+    <div class="O_main det_page">
+        <div id="oInfo">
+            
+        </div>
+        <div class="add">
+            
+        </div>
+        <div class="goods">
+            <div id="eInfo">
+               
+            </div>
+            <div id="orderCode">
+
+            </div>
+            <div class="step_box">
+                <ul class="step">
+                   
+                </ul>
+            </div>
+            <div id="operation" class="operation">
+
+            </div>
+        </div>
+    </div>
+
+    <script type="text/html" id="orderInfo">
+        <div class="det_nav" onclick="window.location.href='/shop.html?id={{info.ProductId}}'">
+            <div class="pic"><img src="{{info.ProImg}},1,250,250,3" /></div>
+            <div class="word">
+                <h4>{{info.ProductName}}</h4>
+                <em>{{info.Price}}元</em>
+            </div>
+           
+        </div>
+        <div class="det_info">
+            <p>规格：{{info.JsonInfo}}</p>
+            <p>订单号：{{info.OrderId}}</p>
+            <p>购买日期：{{info.AddTime | dateFormat:'yyyy年MM月dd日'}}</p>
+            <p>购买数量：{{info.ProductCount}}</p>
+            <p class="payTpye_{{info.PayState}}">支付方式：{{info.PayTypeShow}}</p>
+            <p>买家留言：{{info.BuyerLy}}</p>
+            <div class="total_price"> 合计：<b class="orange">{{info.RealTotalMoney}}元</b>（含运费 {{info.Postage}}元）</div>
+        </div>
+    </script>
+    <script type="text/html" id="expressInfo">
+        <dl>
+            <dt>物流公司：</dt>
+            <dd>{{info.ExpressName}}</dd>
+        </dl>
+        <dl>
+            <dt>快递单号：</dt>
+            <dd>{{info.ExpressNum}}</dd>
+        </dl>
+    </script>
+    <script type="text/html" id="wasteInfo">
+        {{each info as l}}
+        <li>
+            <div class="state">
+                <span>{{l.waste_info}}</span>
+                <em>{{l.add_time}}</em>
+            </div>
+        </li>
+        {{/each}}
+    </script>
+    <script id="addressInfo" type="text/html">
+        <dl>
+            <dt>收货地址：</dt>
+            <dd>{{info.Area}}{{info.Address}}</dd>
+        </dl>
+        <dl>
+            <dt>收 货 人：</dt>
+            <dd>{{info.TakeName}}</dd>
+        </dl>
+        <dl>
+            <dt>联系电话：</dt>
+            <dd>{{info.Phone}}</dd>
+        </dl>
+    </script>
+    
+    <script>
+
+        var oid = getUrlParam("orderId");
+        //var addressId = getUrlParam("addressId");
+        //加载订单信息
+        $.get("/Txooo/SalesV2/Shop/Ajax/ShopAjax.ajax/GetOrderById?orderid="+oid, function (data) {
+            if (data != "") {
+                var js = eval("(" + data + ")");
+                var imgs = js.ProductImgs.split(",");
+                js.ProImg = imgs[0];
+                var html = template("orderInfo", { info: js });//订单信息
+                $("#oInfo").html(html);
+                if (js.OrderState == 4 || js.OrderState == 3) {
+                    html = template("expressInfo", { info: js });//配送信息
+                    $("#eInfo").html(html);
+                }
+                var addressInfo = eval("("+js.AddressInfo+")");
+                html = template("addressInfo", { info: addressInfo });//地址信息
+                $(".add").html(html);
+                
+                var opHtml = "";
+                switch (js.OrderState) {
+                    case 0:
+                        opHtml = "<a href='JavaScript:void(0);' onclick='SetOrderState(" + js.OrderId + "," + js.OrderState + ",6)'>取消订单</a>";
+                        //opHtml += navigator.userAgent.toLowerCase().indexOf("txooo.app") > -1 ? "<a href='javascript:;' onclick='window.plus.txservice.topay([" + js.OrderId + "]);' class='bg_orange'>去支付</a>" : "<a href='/shop/pay.html?orderid=" + js.OrderId + "' class='bg_orange'>去支付</a>";
+                        opHtml += "<a href='/shop/pay.html?orderid=" + js.OrderId + "' class='bg_orange'>去支付</a>";
+                        break;
+                    //case 1:
+                    //case 8:
+                    case 2:
+                        opHtml = "<a href='JavaScript:void(0);' onclick='SetOrderState(" + js.OrderId + "," + js.OrderState + ",6)'>取消订单</a>";
+                        break;
+                    case 3:
+                        opHtml = "<a href='javascript:void(0);' onclick='SetOrderState(" + js.OrderId + "," + js.OrderState + ",4)' class='bg_orange'>确认收货</a>";
+
+                        var refundBtn = "";
+                        if (js.Refund == 1) {
+                            if (js.RefundState == 0) {
+                                refundBtn = "<a onclick='applyRefund(" + js.OrderId + "," + js.RefundState + ")' href='javascript:void(0);'>退货/售后</a>";
+                            } else {
+                                refundBtn = "<a href='/order/orderRefundInfo.html?orderId=" + js.OrderId + "'>退货/售后</a>";
+                            }
+                        }
+                        opHtml += refundBtn;
+                        break;
+                    case 4:
+                        if (js.IsReview == 0) {
+                            opHtml = "<a href='review.html?orderid=" + js.OrderId + "' class='bg_orange'>去评价</a>";
+                        }
+                        var refundHtml = "";
+                        if (js.Refund == 1) {//支持退货功能
+                            if (!js.IsRebate && js.RefundState == 0) {
+                                //收货之后，未返利可以申请退货
+                               refundHtml= "<a onclick='applyRefund(" + js.OrderId + "," + js.RefundState + ")'  href='javascript:void(0);'>退货/售后</a>";
+                            } else if (js.RefundState != 0) {
+                                refundHtml = "<a href='/order/orderRefundInfo.html?orderId=" + js.OrderId + "'>退货/售后</a>";
+                            }
+                        }
+                        opHtml += refundHtml;
+                        break;
+                    default:
+                        break;
+                }
+                $("#operation").html(opHtml);
+                if (opHtml == "") {
+                    $("#operation").hide();
+                }
+
+                //if (js.OrderState < 5 || js.OrderState == 8) {
+                if (js.IsReview == 0) {
+                    var optWaste = [{ waste_info: GetStateMsg(js.OrderState, js.IsReview), add_time: "" }];
+                    $(".step_box .step").html(template("wasteInfo", { info: optWaste }));
+                }
+                getOrderWaste();
+                
+                //loadAddress(js.AddressId);
+            }
+        })
+        function GetStateMsg(OrderState, IsReview) {
+            switch (OrderState) {
+                case 0: return "等待支付";
+                case 1: return "等待系统审核";
+                case 8: return "等待出库";
+                case 2: return "等待发货";
+                case 3: return "等待收货";
+                case 4:
+                    if (IsReview == 0) {
+                        return "待评价";
+                    }
+                    else if (IsReview == 1) {
+                        return "已收货";
+                    }
+                    return "";
+                case 5: return "订单已取消";
+                case 6: return "交易关闭";
+                case 7: return "审核未通过";
+                default: return "";
+            }
+        }
+        //function loadAddress(addressId) {
+        //    //加载地址信息
+        //    $.get("/Txooo/SalesV2/Shop/Ajax/ShopAjax.ajax/GetAddress?addressId=" + addressId, function (data) {
+        //        if (data != "") {
+        //            var js = eval("(" + data + ")");
+        //            var html = template("addressInfo", { info: js });
+        //            $(".add").html(html);
+        //        } else {
+        //            $(".add").html("没有选择地址！");
+        //        }
+        //    })
+        //}
+
+        function applyRefund(oid,r_state) {
+            if (r_state == 0) {
+                window.location.href = "applyRefund.html?orderid=" + oid;
+            } else {
+                window.location.href = "/order/orderRefundInfo.html?orderId=" + oid;
+            }
+        }
+        //加载订单流水信息
+        function getOrderWaste() {
+            $.get("/Txooo/SalesV2/Shop/Ajax/ShopAjax.ajax/GetOrderWaste?orderid=" + oid, function (data) {
+                //if (data != "") {
+                    var arr = eval(data);
+                    $.each(arr, function (i, v) {
+                        v.add_time = formatTime(v.add_time, true);
+                    })
+                    var html = template("wasteInfo", { info: arr });
+                    $(".step_box .step").append(html);
+                    $(".step_box .step li:eq(0)").addClass("current");
+                //}
+            })
+        }
+       
+        //设置订单状态
+        function SetOrderState(orderid, orderState,state) {
+            var msg = "";
+            if (state == 6) {
+                msg = "确认取消该订单吗？";
+            }
+            if (state == 4) {
+                msg = "确认收货吗？";
+            }
+            dialogComfirm(msg, function () {
+                $.get("/Txooo/SalesV2/Shop/Ajax/ShopAjax.ajax/SetOrderState?orderid=" + orderid + "&state=" + state + "&orderState=" + orderState+"&cancel=1", function (data) {
+                    var obj = eval(data);
+                    if (obj.success == "true") {
+
+                    } else {
+                        dialogAlart("操作失败，稍后再试！");
+                    }
+                    window.location.reload();
+                })
+            })
+            //if (confirm(msg)) {
+               
+            //}
+        }
+    </script>
+ <!--WL_TMP{tmp=/Skin/t/Pub/T_Public.html}--> </body>
+</html>

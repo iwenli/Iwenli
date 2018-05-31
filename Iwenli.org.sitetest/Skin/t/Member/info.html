@@ -1,0 +1,248 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <link href="/skin/salesv2/Css/app.min.css?v=4" rel="stylesheet" />
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Public.v2.css?v=4" />
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Member.css" />
+    <script src="//cdn.txooo.com/public/jquery/jquery-1.7.2.js"></script>
+    <script src="/Skin/t/Js/Public.js"></script>
+    <script src="/Skin/t/Js/appImgUpload.js?i=1234567"></script>
+    <script type="text/javascript" src="//cdn.txooo.com/public/html5/rem.js"></script>
+
+    <link rel="stylesheet" href="//cdn.txooo.com/public/jquery.validate/Css/Validate.css" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/jquery.validate/jquery.validate.js"></script>
+    <script type="text/javascript" src="//cdn.txooo.com/public/jquery.validate/validate-ex.js"></script>
+
+    <script type="text/javascript" src="//cdn.txooo.com/public/aui.artTemplate/artTemplate.js"></script>
+
+    <title>个人资料</title>
+    <script>
+        window.opensource.wx.bind(function () {
+            wxShare.wxImgCount = 1;
+            wxShare.wxImgSrc = function (src) {
+                $('#head_pic').attr('src', wxShare.wxLocalIds[0]);
+            };
+            wxShare.wxUpImgAjax = function (src) {
+                //异步函数
+                $.post("/Txooo/SalesV2/Member/Ajax/MemberAjax.ajax/UpdateHeadImg", { pics: src }, function (data) {
+                    var obj = eval(data);
+                    if (obj.success == "true") {
+                        window.localStorage.ZQUSERSTORE = '';
+                        window.location.reload();
+                    } else {
+                        appDialogAlert(obj.msg);
+                    }
+                });
+            };
+            $('#uploadpic').click(function () {
+                wxShare.wxSetImg();
+            });
+        });
+        window.opensource.app.bind(function () {
+            appImgUpload.getImgSrc = appImgUpload.uploadZip;
+            appImgUpload.uploadImg = function (imgurl) {
+                plus.nativeUI.closeWaiting();
+                appImgUpload.files = [];
+                showImg(imgurl);
+            };
+            $('#uploadpic').click(function () {
+                appImgUpload.setImg();
+            });
+        });
+        $(function () {
+            window.opensource.init();
+            setTimeout(show, 100);
+        })
+        function show() {
+            GetUserInfo(ShowMember);
+        }
+        function ShowMember(userInfo) {
+            $("#head_pic").attr("src", userInfo.head_pic == "" ? "/Skin/t/Img/no_pic.png" : userInfo.head_pic);
+            $("#nick_name").text(userInfo.nick_name);
+            $("#security_phone").text(userInfo.show_phone);
+            $("#user_sex").text(userInfo.sex == 1 ? '男' : userInfo.sex == 0 ? "女" : "");
+            $("#user_word").text(userInfo.user_word == null ? '' : userInfo.user_word);
+            $('#user_address').text(userInfo.user_address == null ? '' : userInfo.user_address);
+        }
+        function ClearProCookie() {
+            var dt = new Date();
+            if (cookie("Cookie_SalesProInfo") != null) {
+                cookie("Cookie_SalesProInfo", null, { path: "/" });
+            }
+            window.location.href = "/member/address.html";
+        };
+        //app图片上传完成后
+        function showImg(_imgUrl) {
+            $('#head_pic').attr('src', _imgUrl);
+            $.get('/Txooo/SalesV2/Member/Ajax/MemberAjax.ajax/SetUserHeadPic', 'imgurl=' + _imgUrl, function (data) {
+                var obj = eval(data);
+                if (obj.success == "false") {
+                    appDialogAlert('修改失败了，请稍后再试');
+                } else {
+                    window.localStorage.clear();
+                }
+            });
+        };
+        //设置个性签名完成后
+        function setUserWordFinish(str) {
+            App.back(function () {
+                $("#user_word").text(str);
+            });
+        };
+        //设置用户性别
+        function userSex(sex) {
+            $.get('/Txooo/SalesV2/Member/Ajax/UserAjax.ajax/SetUserSex', { sex: sex }, function (data) {
+                var obj = eval(data);
+                if (obj.success == "true") {
+                    App.back(function () {
+                        $("#user_sex").text(sex == 1 ? '男' : sex == 0 ? "女" : "");
+                    });
+                } else {
+                    appDialogAlert(obj.msg);
+                }
+            });
+        };
+        //设置用户地区
+        function userAddress(region_code, region_name) {
+            region_name = window.sessionStorage["#user_area_1"] + window.sessionStorage["#user_area_2"] + region_name;
+            $('#user_address').text(region_name);
+            $.post('/Txooo/SalesV2/Member/Ajax/UserAjax.ajax/SetUserAddress', { address_code: region_code, user_address: region_name }, function (data) {
+                var obj = eval(data);
+                if (obj.success == "false") {
+                    appDialogAlert(obj.msg);
+                }
+            });
+        };
+        function appDialogAlert(msg, callback) {
+            App.dialog({
+                title: '买客',
+                text: msg,
+                okButton: '好的'
+            }, function (tryAgain) {
+                if (callback) {
+                    callback();
+                }
+            });
+        };
+    </script>
+</head>
+<body style="background:#f0f0f0;">
+    <div class="app-page" data-page="home">
+        <!-- 头部信息begin -->
+        <div class="app-topbar h1010">
+            <a class="app-button left" data-back href="/member/index.html"></a>
+            <div class="app-title">个人资料</div>
+        </div>
+        <!-- 头部信息end -->
+        <!--内容信息begin-->
+        <div class="app-content">
+            <ul class="info_box app-list">
+                <li class="pic_top">
+                    <!--<a href="javascript:void(0)" id="uploadpic">-->
+                    <span>头像</span>
+                    <i>&#xe603;</i>
+                    <em id="uploadpic"><img src="" id="head_pic" /></em>
+                    <!--</a>-->
+                </li>
+                <li class="last">
+                    <a href="/member/nickNameModify.html">
+                        <span>昵称</span>
+                        <i>&#xe603;</i>
+                        <em id="nick_name"></em>
+                    </a>
+                </li>
+            </ul>            
+            <ul class="info_box mar_10 app-list">
+                <li>
+                    <a href="/member/phone.html">
+                        <span>手机</span>
+                        <i>&#xe603;</i>
+                        <em id="security_phone"></em>
+                    </a>
+                </li>
+                <li>
+                    <a href="/member/bank.html">
+                        <span>银行卡管理</span>
+                        <i>&#xe603;</i>
+                    </a>
+                </li>
+                <li class="last">
+                    <a href="javascript:void(0);" onclick="ClearProCookie()">
+                        <span>地址管理</span>
+                        <i>&#xe603;</i>
+                    </a>
+                </li>
+            </ul>
+            <ul class="info_box  mar_10 app-list">
+                <li class="app-button" data-target="usersex">
+                    <span>性别</span>
+                    <i>&#xe603;</i><em id="user_sex"></em>
+                </li>
+                <li class="app-button" data-target="user_area_1">
+                    <span>地区</span>
+                    <i>&#xe603;</i>
+                    <em id="user_address"></em>
+                </li>
+                <li class="app-button last_li" data-target="userword">
+                    <span>个性签名</span>
+                    <i>&#xe603;</i>
+                    <em id="user_word"></em>
+                </li>
+            </ul>
+        </div>
+        <!-- 内容信息end -->
+        <!--设置个性签名-->
+        <div class="app-page" data-page="userword">
+            <div class="app-topbar  h1010">
+                <div class="app-button left" data-back></div>
+                <div class="app-title">设置个性签名</div>
+            </div>
+            <div class="app-content"></div>
+        </div>
+        <!--设置性别-->
+        <div class="app-page" data-page="usersex">
+            <div class="app-topbar  h1010">
+                <div class="app-button left" data-back></div>
+                <div class="app-title">性别</div>
+            </div>
+            <div class="app-content">
+                <ul class="app-list user_sex">
+                    <li onclick="userSex(1)"><input type="radio" name="user_sex" value="1" />男</li>
+                    <li onclick="userSex(0)"><input type="radio" name="user_sex" value="0" />女</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+        
+    <!--WL_TMP{tmp=/Skin/t/Member/useraddress.html}-->
+    <!--<script src="/skin/salesv2/Js/zepto.js"></script>-->
+    <script src="/skin/salesv2/Js/app.min.js?v=1"></script>
+    <script type="text/javascript">
+        App.controller('user_area_1', function (page) {
+            getAreaList(1);
+        });
+        App.controller('user_area_3', function (page) {
+            $(page).find('.app-button').live('click', function () {
+                App.back('home', function () { area_count = 0; });
+                console.log();
+                userAddress($(this).data('code'), $(this).text());
+            });
+        });
+        App.controller('home', function (page) { });
+        App.controller('userword', function (page) {
+            setTimeout(function () {
+                $(page).find('.app-content').load($(page).data('page') + '.html');
+            }, 500);
+        });
+
+        try {
+            App.restore();
+        } catch (err) {
+            App.load('home');
+        }
+    </script>
+    <!--WL_TMP{tmp=/Skin/t/Pub/T_Public.html}-->
+</body>
+</html>

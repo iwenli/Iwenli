@@ -25,7 +25,7 @@ namespace Iwenli.Org.Passport.Ajax
             {
                 return _userBll.Login(_userName, _passWord);
             }
-            return ToolHelper.Json(false, "用户名或密码错误");
+            return JsonHelper.Json(false, "用户名或密码错误");
         }
     }
 }

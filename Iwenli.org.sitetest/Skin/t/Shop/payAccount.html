@@ -1,0 +1,100 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/html5/rem.js"></script>
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Public.css" />
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Shop2.css" />
+
+    <script type="text/javascript" src="//cdn.txooo.com/public/jquery/jquery-1.7.2.min.js"></script>
+
+    <script type="text/javascript" src="//cdn.txooo.com/public/aui.artTemplate/artTemplate.js"></script>
+    <script src="/Skin/t/Js/Public.js"></script>
+
+    <title>账号支付</title>
+</head>
+<body style="background:#f0f0f0; padding-bottom:2.75rem;">
+    <header class="P_Header">
+        <div class="P_goBack" onclick="if (window.txservice.success()) { window.txservice.call('goback'); } else { history.go(-1); }"><i>&#xe602;</i></div>
+        <div class="P_title">账号支付</div>
+    </header>
+    <section class="pay_order">
+        <ul class="proInfo">
+            
+        </ul>
+        <ul class="addrInfo" style="display:none;">
+            
+        </ul>
+    </section>
+    <section class="pay_password">
+        <span>支付密码</span>
+        <input type="password" class="input_text" />
+        <a href="javascript:ForgetPayWap()">忘记密码?</a>
+    </section>
+    <section class="pay_btn">
+        <a href="javascript:void(0);" class="btn" onclick="GoToPay()">确　定</a>
+    </section>
+
+    <script type="text/html" id="proInfoTemp">
+        <li><span>订单号：</span><p>{{info.OrderId}}</p></li>
+        <li><span>购买产品：</span><p>{{info.ProductName}}</p></li>
+        <li><span>规格：</span><p>{{info.JsonInfo}}</p></li>
+        <li><span>支付金额：</span><p><em>{{info.TotalMoney}}</em>元</p></li>
+    </script>
+
+    <script type="text/html" id="addrTemp">
+        <li><span>配送至：</span><p>{{info.Area}}{{info.Address}}</p></li>
+        <li><span>收货人：</span><p>{{info.TakeName}}</p></li>
+        <li><span>电　话：</span><p>{{info.Phone}}</p></li>
+    </script>
+
+    <script>
+        window.txservice.init();
+        function ForgetPayWap(){
+            window.location.href = "/member/phoneCheck.html?ReturnUrl=" + encodeURIComponent('/shop/payAccount.html?orderid='+ getUrlParam("orderid"));
+        }
+        $.get("/Txooo/SalesV2/Shop/Ajax/ShopAjax.ajax/GetOrderById?orderid=" + getUrlParam("orderid"), function (data) {
+            if (data != '') {
+                var obj = eval("(" + data + ")");
+                obj.TotalMoney = obj.TotalMoney + obj.Postage;
+                $(".pay_order .proInfo").html(template("proInfoTemp", { info: obj }));
+
+                if (obj.IsVirtual == 0) {//虚拟商品 不显示收货地址
+                    $(".pay_order .addrInfo").show().html(template("addrTemp", { info: eval("(" + obj.AddressInfo + ")") }));
+                }
+            }
+        })
+       
+        //去支付
+        function GoToPay() {
+            var payPwd = $(".pay_password .input_text").val();
+            if (payPwd =="") {
+                dialogAlart("请输入支付密码！");
+                return;
+            }
+            //余额支付
+            dialogComfirm("确定支付吗？", function () {
+                $.post("/Txooo/SalesV2/Shop/Ajax/ShopAjax.ajax/GoToPayFromBalanceWeb", { orderid: getUrlParam("orderid"), payType: 1, payPwd: payPwd }, function (data) {
+                    var obj = eval(data);
+                    if (obj.success == "true") {
+                        //dialogAlart("支付成功！");
+                        window.localStorage.ZQUSERSTORE = '';//清除本地用户信息的缓存
+                        window.location.href = "/shop/paysccess.html?orderid=" + getUrlParam("orderid");
+                    } else {
+                        //if (obj.msg == "1") {
+                        //    dialogAlart("支付密码错误！");
+                        //} else {
+                        dialogAlart(obj.msg);
+                        $(".pay_password .input_text").val("");
+                        //}
+                    }
+                })
+            })
+            //if (confirm("确定支付吗？")) {
+                
+            //}
+        }
+    </script>
+ <!--WL_TMP{tmp=/Skin/t/Pub/T_Public.html}--> </body>
+</html>

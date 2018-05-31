@@ -1,0 +1,85 @@
+﻿<section class="index_top">
+    <div class="index_top_bg"></div>
+    <ul>
+        <li class="tit" id="name"></li>
+        <li class="pic" ><a href="/Quan/mypost.html?uId={$UserId}"><img id="h_pic" src="/Skin/t/Img/no_pic.png" /></a></li>
+    </ul>
+</section>
+<script src="/Skin/t/Js/appImgUpload.js"></script>
+<script>
+    window.opensource.wx.bind(function () {
+        wxShare.wxImgCount = 1;
+        wxShare.wxImgSrc = function (src) {
+            $('.index_top_bg').css("background-image", "url(" + wxShare.wxLocalIds[0] + ",1,480,480,3)");
+        };
+        wxShare.wxUpImgAjax = function (src) {
+            //异步函数
+            $.post("/Txooo/SalesV2/Quan/Ajax/PostAjax.ajax/UpdateQuanHeadPic", { img: src }, function (data) {
+                var obj = eval(data);
+                if (obj.success == "true") {
+                    window.localStorage.ZQUSERSTORE = '';
+                } else {
+                    dialogAlart('修改失败了，请稍后再试');
+                }
+            });
+        };
+        $('.index_top_bg').click(function () {
+            wxShare.wxSetImg();
+        });
+    });
+    window.opensource.app.bind(function () {
+        appImgUpload.getImgSrc = appImgUpload.uploadZip;
+        appImgUpload.uploadImg = function (imgurl) {
+            plus.nativeUI.closeWaiting();
+            appImgUpload.files = [];
+            showImg(imgurl);
+        };
+        $('.index_top_bg').click(function () {
+            appImgUpload.setImg();
+        });
+    });
+
+    opensource.wx.bind(function () {
+        $(".link_temp").live("click", function () {
+            window.location = $(this).attr("url");
+        });
+    });
+    opensource.browser.bind(function () {
+        $(".link_temp").live("click", function () {
+            window.location = $(this).attr("url");
+        });
+    });
+    opensource.app.bind(function () {
+        $(".link_temp").live("click", function () {
+            var url = $(this).attr("url");
+            plus.txservice.openQuanlink([url]);
+        });
+    })
+    window.opensource.init();
+    //setTimeout(show, 100);
+    //app图片上传完成后
+    function showImg(_imgUrl) {
+        $('.index_top_bg').css("background-image", "url(" + _imgUrl + ",1,480,480,3)");
+        $.post('/Txooo/SalesV2/Quan/Ajax/PostAjax.ajax/SetQuanHeadPic', { img: _imgUrl }, function (data) {
+            var obj = eval(data);
+            if (obj.success == "false") {
+                dialogAlart('修改失败了，请稍后再试');
+            } else {
+                window.localStorage.clear();
+            }
+        });
+    };
+
+    function setUserInfo(userInfo) {
+        $("#name").html(userInfo.nick_name);
+        $("#h_pic").attr("src", userInfo.head_pic + ',1,150,150,3');
+        if (userInfo.quan_head_pic) {
+            $(".index_top_bg").css("background-image", "url(" + userInfo.quan_head_pic + ",1,480,480,3)");
+        }
+    }
+    GetUserInfo(setUserInfo);
+
+</script>
+
+
+

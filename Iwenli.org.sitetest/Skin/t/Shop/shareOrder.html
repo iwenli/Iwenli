@@ -1,0 +1,416 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>确认下单</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/html5/rem.js"></script>
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Public.css" />
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Shop.css" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/jquery/jquery-1.7.2.min.js"></script>
+    <script src="/Skin/t/Js/Public.js?v=022502"></script>
+    <script type="text/javascript" src="//cdn.txooo.com/public/aui.artTemplate/artTemplate.js"></script>
+    <link rel="stylesheet" href="//cdn.txooo.com/public/jquery.validate/Css/Validate.css" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/jquery.validate/jquery.validate.js"></script>
+    <script type="text/javascript" src="//cdn.txooo.com/public/jquery.validate/validate-ex.js"></script>
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=1.4"></script>
+    <style>
+        .ismain_0 {
+            display: none;
+        }
+        .add_address dl dd input.add_botton {
+            text-align: center;
+            width: 92%;
+            float: none;
+            margin: 0 auto;
+            display: block;
+            height: 2.75rem;
+            line-height: 2.75rem;
+            border: none;
+            border-radius: 0.25rem;
+            background: #67829f;
+            color: #fff;
+            font-size: 0.875rem;
+        }
+
+        .add_address dl.last_dl {
+            border: none;
+        }
+
+            .add_address dl.last_dl dd {
+                height: auto;
+            }
+        .tc_con{overflow:auto;}
+    </style>
+    <script type="text/javascript">
+        $(function () {
+            $("#refund_msg .submit_btn").click(function () {
+                $("#refund_msg").hide();
+                postOrder();
+
+            })
+            $("#refund_msg .close").click(function () {
+                $("#refund_msg").hide();
+            })
+            $("#addAddress .close").click(function () {
+                $("#addAddress").css("visibility", "hidden");
+            })
+        })
+    </script>
+</head>
+<body style="background:#f0f0f0;">
+    <!--模板-->
+    <script id="infoTemp" type="text/html">
+        <ul class="{{info.RecomClass}}">
+            <li class="pic"><img src="{{info.ProImg}}" /></li>
+            <li class="name">{{info.ProductName}} <!--<span class="count">X{{info.Count}}</span>--></li>
+            <li class="price">￥<em id="proPrice"></em></li>
+            <li>{{info.JsonInfo}}</li>
+        </ul>
+    </script>
+    <script type="text/html" id="postageTemp">
+        {{each list as info}}
+        <div class="radio_box">
+            <input type="radio" name="postage" value="{{info.id}}" id="radio_{{info.id}}" />
+            <label for="radio_{{info.id}}">{{info.express}}</label>
+        </div>
+        {{/each}}
+    </script>
+
+    <header class="P_Header">
+        <div class="P_goBack" onclick="javascript:if(window.txservice.success()){window.txservice.call('goback'); }else{window.location.href = '/shop.html?id=' + getUrlParam('id');}"><i>&#xe602;</i></div>
+        <div class="P_title">确认订单</div>
+    </header>
+    <section class="order_box">
+
+        <!--商品信息-->
+        <div id="infoPro" class="order_info"></div>
+        <!--商品规格信息-->
+        <div id="proPropertyInfo"></div>
+        <div class="order_gui">
+            <ul>
+                <li class="number">
+                    <div class="num_last">数量<p>(库存<span class="remain_count">0</span>件)</p></div>
+                    <div class="num_box">
+                        <a class="num_down" onclick="sub()">-</a>
+                        <input type="text" name="count" value="" id="pro_count" />
+                        <a onclick="add()" class="num_up">+</a>
+                    </div>
+                </li>
+
+            </ul>
+        </div>
+        <div class="userPhone"></div>
+        <!--配送方式-->
+        <div id="express" class="order_express clear" style="display:none;">
+            <h2 class="left">配送方式：</h2>
+            <div class="postage right"></div>
+        </div>
+        <div class="gongji"><p>共计<span class="total_count">0</span>件商品</p></div>
+        <div class="order_ly"><span>买家留言：</span><input id="liuyan" type="text" name="ly" value="" placeholder="可在此处为卖家留言，选填" /><i>&#xe649;</i></div>
+        <div id="refundMsg"></div>
+        <div class="user_phone">
+            <ul>
+                <li class="item1">
+                    <input type="text" name="user_phone" value="" id="mobile" placeholder="请输入手机号" />
+                    <input type="button" name="btn_getCode" value="获取验证码" onclick="GetCode(this)" />
+                </li>
+                <li class="item2">
+                    <input id="mobilecode" type="text" name="validate_code" value="" placeholder="请输入验证码" />
+                </li>
+            </ul>
+        </div>
+        <div class="totalMoney_bottom"></div>
+        <div id="totalMoney" class="order_totalmoney">
+            <div class="total_left"><p class="left">合计：<span class="total_money">￥0.0</span></p><p class="right">获<span class="total_point">0</span>个V币</p></div>
+            <div class="total_right"><a href="JavaScript:void(0);" id="handOrder">立即购买</a></div>
+        </div>
+
+        <div id="refund_msg" class="shade_box" style="display:none;">
+            <div class="shade"></div>
+            <div class="tc_con tuihuo">
+                <div class="close"><i>&#xe649;</i></div>
+                <div class="word">
+                    <img src="/Skin/t/Img/Order/tuihuo.png" />
+                    <p>不可退换货</p>
+                    <div class="promote">您购买的商品属于不可退换货类别！</div>
+                    <a href="javascript:void(0)" class="submit_btn">好的，确认提交</a>
+                </div>
+            </div>
+        </div>
+        
+    </section>
+    <section>
+        <div id="addAddress" class="shade_box" style="visibility:hidden;">
+            <!--<div class="shade"></div>-->
+            <div class="tc_con tuihuo">
+                <div class="close"><i>&#xe649;</i></div>
+                <div id="dialog_addr"></div>
+            </div>
+        </div>
+        
+    </section>
+
+    
+
+
+    <script>
+        window.txservice.init();
+        $("#dialog_addr").load("/shop/temp/addAddress.html");
+        var proId = getUrlParam("id");//商品id
+        var postageVal = getUrlParam("postageVal");//邮费标识
+        var proCount = getUrlParam("count");//购买数量
+        var proInfo = {};//商品信息
+        var addressId=0,regionCode=0;
+        var totalMoney = 0.0;//商品总价格
+        var totalPostage = 0.0;//总邮费
+        var proPropertyId = getUrlParam("proProperty");
+
+        var proPropertyInfo = eval({$ProPropertyInfo})[0];
+
+        $("#proPrice").html(proPropertyInfo.price);
+        $("#pro_count").val(proCount);
+        $(".total_count").html(proCount);
+        $(".remain_count").html(proPropertyInfo.remain_inventory);
+        //商品详细信息
+        $.get("/Txooo/SalesV2/Shop/Ajax/ShopOpenAjax.ajax/GetProductInfoById?id=" + proId, function (data) {
+            if (data != '') {
+                proInfo = eval("(" + data + ")");
+                //var imgs = proInfo.ProductImgs.split(",");
+                proInfo.ProImg = proPropertyInfo.img;
+                proInfo.Count = proCount;
+                proInfo.JsonInfo=proPropertyInfo.json_info;
+                //$("#propertyName").html(proInfo.PropertyName);
+                $("#infoPro").html(template("infoTemp", { info: proInfo }));
+
+                $("#proPrice").html(parseFloat(proPropertyInfo.price));
+                if(proInfo.Refund==0){//不支持退货功能 提示
+                    $("#refundMsg").html("<div class='no_change'><i>&#xe63a;</i>购物提示：您购买的商品属于<span>不可退换</span>类别！");
+                }
+                if(proInfo.IsVirtual==0){
+                    $("#express").show();
+                    if (proInfo.ProductIspostage) {
+                        var postageInfo = eval(proInfo.ProductPostage);
+                        $("#express .postage").html(template("postageTemp", { list: postageInfo }));
+                        $("#express .postage input[name=postage][value=" + postageVal + "]").attr("checked", true).parent().addClass('chosen');
+
+                    } else {
+                        $("#express .postage").html("<span style='float:right;'>快递 包邮</span>");
+                    }
+                    $(".userPhone").hide();
+                }
+                //注册提交订单的点击事件
+                $("#handOrder").on("click", function () {
+                    if ($("#mobilecode").val() == '') {
+                        dialogAlart("手机验证码不能为空");
+                        return
+                    }
+                    var ds={mobilecode:$("#mobilecode").val(), Password:'00000000',sharecode:'{$DomainShareCode}', source:'2', source_channel:GetSourceChannel()};
+                    var postUrl="RegistV2";
+                    if (userAgent.indexOf("micromessenger") > -1) {//微信中打开的页面
+                        postUrl="BindV2";
+                    }
+                    $.post("/Txooo/SalesV2/Passport/Ajax/SalesAjax.ajax/"+postUrl,ds,function (dt) {
+                        var obj=eval(dt);
+                        if (obj.success=="true") {
+
+                            if($.trim($("#liuyan").val()).length>150){
+                                dialogAlart("留言字数过长！");
+                                return;
+                            }
+                            if (proInfo.IsVirtual==0) {//非虚拟物品 填写地址
+                                //显示添加地址窗口
+                                $("#addAddress").css("visibility", "visible");
+                                return;
+                            }
+                            
+                            //if(proInfo.Refund==0){//不支持退货功能 提示
+                            //    $("#refund_msg").show();
+                            //}else{
+                                postOrder();
+                            //}
+                    
+                        }
+                        else {
+                            dialogAlart(obj.msg);
+                        }
+                    })
+
+                });
+            } else {
+                dialogAlart("该商品不存在，去看看其他商品！");
+                window.location.href = "/index.html";
+                return;
+            }
+            setMoney(postageVal);
+        })
+        //获取来源渠道
+        function GetSourceChannel() {
+            var ua = navigator.userAgent.toLowerCase();
+            if (ua.match(/MicroMessenger/i) == "micromessenger") {
+                return 1;
+            }
+            if (ua.indexOf('qq') > -1) {
+                return 2;
+            }
+            if (ua.indexOf('weibo') > -1) {
+                return 3;
+            }
+            return 0;
+        }
+        //设置金额
+        function setMoney(postageValue) {
+
+            totalMoney = parseFloat((proCount * proPropertyInfo.price).toFixed(2));
+            //$(".proMoney").html(totalMoney + ' 元');
+
+            //if (proInfo.ProductIspostage && proInfo.IsVirtual==0) {//虚拟商品 不需要邮费
+            //    var jsonPostage = eval(proInfo.ProductPostage);
+            //    $.each(jsonPostage, function (i, v) {
+            //        if (v.id == postageValue) {
+            //            totalPostage = parseFloat(v.price) + parseFloat((v.addone * proCount).toFixed(2));
+            //        }
+            //    })
+            //}
+            $(".postageMoney").html( totalPostage + ' 元 ');
+            $("#totalMoney .total_money").html((totalMoney + totalPostage) + ' 元 ');
+            $("#totalMoney .total_point").html(proCount * parseInt(proPropertyInfo.rebate_point));
+        }
+
+        //数量-
+        function sub() {
+            if (proCount == 1) {
+                return;
+            }
+            proCount--;
+            $("#pro_count").val(proCount);
+            $(".total_count").html(proCount);
+            setMoney(postageVal);
+        }
+
+        //数量+
+        function add() {
+            if (proCount >= parseInt(proPropertyInfo.remain_inventory)) {
+                return;
+            }
+            proCount++;
+            $("#pro_count").val(proCount);
+            $(".total_count").html(proCount);
+            setMoney(postageVal);
+        }
+
+        //输入数量
+        $("#pro_count").live("blur", function () {
+            var reg = /^\d+$/;
+            var inputCount = $("#pro_count").val();
+            if ($.trim(inputCount) == "" || !reg.test(inputCount) || inputCount <= 0) {
+                $("#pro_count").val(proCount);
+                return;
+            } else if (parseInt(inputCount) > proPropertyInfo.remain_inventory) {
+                $("#pro_count").val(proCount);
+                return;
+            }
+            proCount = inputCount;
+            $(".total_count").html(proCount);
+            setMoney(postageVal);
+        })
+        var userAgent =window.navigator.userAgent.toLowerCase();
+        function postOrder() {
+            $.post("/Txooo/SalesV2/Shop/Ajax/ShopAjax.ajax/HandOrder", { proId: proId, proCount: proCount, addressId: addressId, postageVal: postageVal,propertyId:proPropertyId,regionCode:regionCode,ly:$.trim($("#liuyan").val())  }, function (data) {
+                var result = eval(data);
+                if (result.success == "true") {
+                    //if(userAgent.indexOf("txooo.app") > -1)
+                    if (window.txservice.success())
+                    {
+                        //window.plus.txservice.topay([result.msg]);
+                        window.txservice.call('toPay',{orderId:result.msg}); 
+                    }
+                    else
+                    {
+                        window.location.href = "pay.html?orderid=" + result.msg;
+                    }
+                } else {
+                    dialogAlart("提交订单失败，请稍后再试！");
+                }
+            })
+        }
+
+        //给单选框加单击事件 //更换配送方式
+        $(document).delegate(".radio_box", "click", function () {
+            $(this).addClass('chosen').find('input[type=radio]').attr('checked', true);
+            $(this).siblings().removeClass('chosen').find('input[type=radio]').attr('checked', false);
+            postageVal = $(this).find('input[type=radio]').val();
+            setMoney(postageVal);
+        });
+
+        //获取效验码
+        function GetCode(me){
+            if($.trim($('#mobile').val())=="")
+            {
+                dialogAlart("手机号不能为空");return;
+            }
+            var $self = $(me); $self.attr('disabled', true);
+            $.get('/Txooo/SalesV2/Passport/Ajax/SalesAjax.ajax/SendMobile', { "mobile": $("#mobile").val() }, function (data) {
+                if (data) {
+                    var obj = eval(data);
+                    dialogAlart(obj.msg);
+                    if(obj.success=="true"){
+                        btnInterval($self);
+                    }else{
+                        $self.attr('disabled', false);
+                    }
+                }
+            });
+        }
+        //验证手机号验证码
+        //function mobileCode(){  
+        //    var mobile=$("#mobile").val();
+        //    var mobilecode=$("#mobilecode").val();
+        //    if (mobile=="" ||mobilecode=="") {
+        //        return;
+        //    }
+        //    var a="";
+        //    $.ajax({
+        //        type: "post", async:false,
+        //        url: "/Txooo/SalesV2/Passport/Ajax/SalesAjax.ajax/CheckMobileCode?mobilecode=" + $("#mobilecode").val(),
+        //        success: function (data) {  a=data; }})
+        //    return a;
+        //}
+        function BtnAddressModify() {
+            if ($("#addForm").valid()) {
+                $.post("/Txooo/SalesV2/Member/Ajax/MemberAjax.ajax/AddAddress?proId="+proId,
+                      $("#addForm").serialize(), function (data) {
+                          var obj = eval(data);
+                          if (obj.success=="true") {
+                              $("#addAddress").css("visibility", "hidden");
+                              regionCode=$("#addForm input[name=region_code]").val();
+                              //if(proInfo.Refund==0){//不支持退货功能 提示
+                              //    $("#refund_msg").show();
+                              //}else{
+                                  addressId=obj.msg;
+                                  postOrder();
+                              //}
+
+                          } else {
+                              dialogAlart(obj.msg);
+                          }
+                      });
+            }
+        }
+        $(function(){
+            $('.order_ly input').bind('input propertychange', function() {
+                if($(this).val() !==""){
+                    $('.order_ly i').show();
+                }else{
+                    $('.order_ly i').hide();
+                }
+            })
+            $('.order_ly i').click(function(){
+                $('.order_ly input').val("")
+                $(this).hide();
+            })
+        })
+    </script>
+    <!--WL_TMP{tmp=/Skin/t/Pub/T_Public.html}-->
+</body>
+</html>

@@ -1,0 +1,262 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>商品详情</title>
+    <!--WL_TMP{tmp=/Skin/t/Pub/app_publiccss.html}-->
+    <link href="/Skin/t/Css/sui/index.css?v=3" rel="stylesheet" />
+</head>
+<body>
+    <div class="page-group" id="top">
+        <div id="page-shop-details-v2" class="page">
+            <div class="buttons-tab fixed-tab t_header" data-offset="0">
+                <a class="icon icon-left click_back" href="/index.html">&nbsp;</a>
+            </div>
+            <div class="buttons-tab fixed-tab d_header" data-offset="0">
+                <a class="icon icon-left click_back" href="/index.html">&nbsp;</a>
+                <div class="d_nav">
+                    <h1 class="title1 current"><i>&#xe63d;</i>宝贝</h1>
+                    <h1 class="title2"><i>&#xe63d;</i>评价</h1>
+                    <h1 class="title3"><i>&#xe63d;</i>详情</h1>
+                    <h1 class="title4 shop_explain"><i>&#xe63d;</i>售后</h1>
+                </div>
+            </div>
+            <div class="download" style="bottom: 2.5rem; top: initial; display: block;">
+                <p><i>×</i>买客&nbsp;&nbsp; 一个能赚钱的电商APP<a class="download_android download_app">去下载</a></p>
+            </div>
+            <!--返回顶部-->
+            <section class="back-Top">
+                <a class="print_top"><i>&#xe657;</i></a>
+            </section>
+            <nav class="bar bar-tab p_bar_bottom">
+                <ul class="nav_list">
+                    <li class="li_text" style="flex:1.5"><a class="mch_chat" data-agent="{$AgentChatUserId}" data-mch="{$MchUserId}"><i>&#xea2c;</i>联系商家</a></li>
+                    <li class="li_text"><a class="collect_click nav_collect"><i>&#xe65a;</i>收藏</a></li>
+                    <li class="li_text"><a class="store_click"><i>&#xe659;</i>店铺</a></li>
+                    <li class="li_btn"><a class="open_property_list">立即购买</a></li>
+                </ul>
+            </nav>
+            <div class="content infinite-scroll">
+                <input type="hidden" class="product_id" value="{$U_QUERY_ID}" />
+                <div class="info_index">
+                    <!--轮播-->
+                    <div class="swiper-container details_lunbo" data-space-between='10'>
+                        <div class="swiper-wrapper"></div>
+                        <div class="swiper-pagination"></div>
+                    </div>
+                    <ul class="shop_info">
+                        <li class="tit share_collect"><a href="javascript:void(0);" class="pro_collect toShare" onclick="AddOrCancelCollectProduct(0)"><i class="">&#xe608;</i>收藏</a></li>
+                        <li class="vip_price">
+                            <em id="vip_money">￥0</em>
+                            <span class="money">购买得0V币</span>
+                            <span class="money">不可退换货商品</span>
+                        </li>
+                        <li class="freight" style=""><div class="left">邮费：<span class="postage">卖家包邮</span></div><div class="right">发货地：<span>株洲市</span></div></li>
+                    </ul>
+                    <div class="division evaluate"><em>——</em><i>&#xe642;</i>评价<em>——</em></div>
+                    <div class="list-block list_block">
+                        <ul>
+                            <li class="item-content item-link">
+                                <a class="item-inner" href="/shop/review.html?id={$U_QUERY_ID}">
+                                    <div class="item-title">宝贝评价（<span class="review_count">0</span>）</div>
+                                </a>
+                            </li>
+                        </ul>
+                        <div class="product_review_list"></div>
+                    </div>
+                    <!--店铺推荐-->
+                    <div class="storeInfo">
+                        <div class="storeInfo_box_left">
+                            <div class="store_pic"><img src="{$MchLogo},1,150,150,3" onerror="this.src='https://img.txooo.com/2017/06/27/b7beec709a71995b2cdce3715147f54d.png'" /></div>
+                            <p class="store_name"><span class="mchComName">{$MchComName}</span></p>
+                            <p class="store_zg"><span><i></i>资格认证</span><span><i></i>7天退换</span></p>
+                            <a href="JavaScript:void(0);" class="store_click btn">进店逛逛</a>
+                        </div>
+                        <ul class="storeInfo_box_down">
+                            <li>
+                                <p>{$ProductNewCount}</p>
+                                <p>上新商品</p>
+                            </li>
+                            <li>
+                                <p>{$ProductCount}</p>
+                                <p>全部商品</p>
+                            </li>
+                            <li>
+                                <p>{$AttentCount}</p>
+                                <p>收藏人数</p>
+                            </li>
+                        </ul>
+                        <div class="row no-gutter store_pro_list">
+                            <div class="col-33">
+                                <div class="card demo-card-header-pic">
+                                    <div valign="bottom" class="card-header color-white no-border no-padding">
+                                        <img class="card-cover" src="/Skin/t/Img/nologo.png" alt="">
+                                    </div>
+                                    <div class="card-footer no-border">
+                                        <span class="link">商品名称</span>
+                                        <span class="link">0</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-33">
+                                <div class="card demo-card-header-pic">
+                                    <div valign="bottom" class="card-header color-white no-border no-padding">
+                                        <img class="card-cover" src="/Skin/t/Img/nologo.png" alt="">
+                                    </div>
+                                    <div class="card-footer no-border">
+                                        <span class="link">商品名称</span>
+                                        <span class="link">0</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-33">
+                                <div class="card demo-card-header-pic">
+                                    <div valign="bottom" class="card-header color-white no-border no-padding">
+                                        <img class="card-cover" src="/Skin/t/Img/nologo.png" alt="">
+                                    </div>
+                                    <div class="card-footer no-border">
+                                        <span class="link">商品名称</span>
+                                        <span class="link">0</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 加载提示符 -->
+                    <!--<div class="infinite-scroll-preloader">
+                    </div>-->
+                </div>
+                <div class="division details_index"><em>——</em><i>&#xe6a8;</i>详情<em>——</em></div>
+                <!--商品详情-->
+                <div class="product_details img_text_details"></div>
+                <section class="footer_p_name"></section>
+                <section class="product_brand_list" style="display:none"></section>
+            </div>
+            <!--数据模板-----------开始-->
+            <script type="text/html" id="footer_p_name_temp">
+                <ul class="proBottom">
+                    <li>您目前浏览的为：{{product_name}}</li>
+                    <li class="vip_price">
+                        <em id="vip_money">￥{{price}}</em>
+                        <span class="money">购买得{{rebate_point}}V币</span>
+                        {{if is_virtual==1}}
+                        <span class="money">不可退换货商品</span>
+                        {{/if}}
+                    </li>
+                </ul>
+            </script>
+            <div class="tx_share_content">
+                <input type="hidden" class="share_content_url" value="https://{$_tx_this_domain}/shop.html?id=" />
+            </div>
+            <script type="text/html" id="lunbo_temp">
+                {{each list as value}}
+                <div class="swiper-slide carry" style="background-image:url({{value}},1,480,480,3)"></div>
+                {{/each}}
+            </script>
+            <script type="text/html" id="shop_info_temp">
+                <li class="tit share_collect">
+                    {{info.product_name}}
+                    {{if info.is_tx_app==true}}
+                    <a href="javascript:void(0)" class="share_click toShare"><i>&#xe658;</i>推广</a>
+                    {{/if}}
+                    {{if info.is_tx_app==false}}
+                    <a href="javascript:void(0);" class="collect_click toShare is_collect_{{info.is_collect}}" data-collect="{{info.is_collect}}"><i>&#xe608;</i>收藏</a>
+                    {{/if}}
+                </li>
+                <li class="vip_price">
+                    <em id="vip_money">￥{{info.price}}</em>
+                    <span class="money">购买得{{info.rebate_point}}V币</span>
+                    {{if info.is_virtual==1}}
+                    <span class="money">不可退换货商品</span>
+                    {{/if}}
+                </li>
+                <li class="freight" style="">
+                    <div class="left">
+                        邮费：
+                        {{if info.product_ispostage==1}}卖家包邮{{/if}}
+                        {{if info.product_ispostage==0}}买家承担{{/if}}
+                    </div>
+                    <div class="right">发货地：{{info.region_name}}</div>
+                </li>
+            </script>
+            <script type="text/html" id="product_review_temp">
+                {{each list as value}}
+                <div class="evaluate_info">
+                    <div class="name"><img src="{{value.head_pic | headPic}}" />{{value.nick_name}}</div>
+                    <div class="info">{{value.review_content}}</div>
+                    <div class="time">{{value.add_time | dateFormat:'yyyy-MM-dd'}}</div>
+                </div>
+                {{/each}}
+            </script>
+            <script type="text/html" id="store_temp">
+                {{each list as value}}
+                <a class="col-33 product_click" data-id="{{value.product_id}}" href="/shop.html?id={{value.product_id}}&source=shop" data-no-cache="true">
+                    <div class="card demo-card-header-pic">
+                        <div valign="bottom" class="card-header color-white no-border no-padding">
+                            <div class='card-cover pic' style="background-image:url({{value.product_imgs | productImgs}})"></div>
+                        </div>
+                        <div class="card-footer no-border">
+                            <span>{{value.product_name}}</span>
+                            <span>￥{{value.price}}</span>
+                        </div>
+                    </div>
+                </a>
+                {{/each}}
+            </script>
+            <script type="text/html" id="product_property_temp">
+                <div class="pro_pay_box">
+                    <dl class="pro_pay_top">
+                        <dt><img class="property_img" src="//img.txooo.com/2017/06/10/fa970f46408509dad6fc6f7e3ee5f3ca.png" /></dt>
+                        <dd class="money">￥<span class="property_price"></span></dd>
+                        <dd>库存<span class="remain_inventory"></span>件</dd>
+                        <dd><div class="default_show">请选择  {{each list as n}}{{n.PropertyName}} {{/each}}</div><div class="select_show" style="display:none;">已选择<ul></ul></div></dd>
+                        <dd class="close_btn"><a class="close-popup "><i>&#xe652;</i></a></dd>
+                    </dl>
+                    <div class="pro_pay_bottom select_property_div">
+                        {{each list as n}}
+                        <dl class="pro_spec property-{{n.Id}}">
+                            <dt class="parent_name index-{{n.Id}}" data-id="{{n.Id}}">{{n.PropertyName}}</dt>
+                            {{each n.ChildList as v}}
+                            <dd class="property_select index-{{v.Id}}" data-id="{{v.Id}}">{{v.PropertyName}}</dd>
+                            {{/each}}
+                        </dl>
+                        {{/each}}
+                        <dl class="pro_num">
+                            <dt>购买数量</dt>
+                            <dd class="num_box">
+                                <a class="num_down operation_num">-</a>
+                                <input type="text" value="1" readonly="readonly" class="pro_count">
+                                <a class="num_up operation_num">+</a>
+                            </dd>
+                        </dl>
+                        <a class="button button-fill button-big button-warning go_shop_order button_btn" data-show="{$ProductOnlyShow}">{{if {$ProductOnlyShow}==1}}确定{{/if}}{{if {$ProductOnlyShow}==2}}仅展示不售卖{{/if}}</a>
+                    </div>
+
+                </div>
+
+            </script>
+            <script type="text/html" id="product_brand_temp">
+                <dl data-mch="{{mch_id}}" data-brand="{{brand_id}}" class="store_brand">
+                    <dt><img src="{{brand_logo}},1,80,80,3" /></dt>
+                    <dd class="tit">{{brand_name}}</dd>
+                    <dd>若您也想加盟此品牌创业，请点击</dd>
+                </dl>
+            </script>
+            <script type="text/html" class="product_data">
+                <!--Tx_Common{class=Product.Details;productid={$U_QUERY_ID};source={$U_QUERY_SOURCE}}-->
+            </script>
+            <script type="text/html" class="product_property">
+                <!--Tx_Common{db=TxoooAgent;tb=sales_product_property;top=20;where=is_del=0 AND product_id={$U_QUERY_ID};order=map_id asc;output=json;}-->
+            </script>
+            <!--数据模板-----------结束-->
+            <div class="popup" id="product_property_list" style="height: 70%; bottom:0;top:auto;overflow:visible "></div>
+            <div class="popup-overlay close-popup"></div>
+        </div>
+    </div>
+    <!--WL_TMP{tmp=/Skin/t/Pub/app_publicjs.html}-->
+    <script src="/Skin/t/Js/sui/index.js?v=3"></script>
+    <!--立即购买规格选择-->
+
+</body>
+</html>

@@ -1,0 +1,147 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/html5/rem.js"></script>
+    <script type="text/javascript" src="//cdn.txooo.com/public/jquery/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="//cdn.txooo.com/public/aui.artTemplate/artTemplate.js"></script>
+    <script src="/Skin/t/Js/Public.js"></script>
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Public.css" />
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Task.css" />
+    <title>任务详情</title>
+    <script  type="text/javascript">
+        $(function () {
+            var aid = getUrlParam("r_id");
+            var obj = { task_id: '0' };
+            $.get("/Txooo/SalesV2/MemberTask/Ajax/TaskAjax.ajax/GetTask?r_id=" + aid, function (data) {
+                if (data != "[]") {
+                    obj = eval("(" + data + ")");
+                    for (var i = 0; i < obj.length; i++) {
+                        if (obj[i].total_inventory == "0") {
+                            obj[i].rest_inventory = "不限";
+                        } else if (parseInt(obj[i].total_inventory) <= parseInt(obj[i].get_inventory)) {
+                            obj[i].rest_inventory = "已领完";
+                        } else {
+                            obj[i].rest_inventory = parseInt(obj[i].total_inventory) - parseInt(obj[i].get_inventory);
+                        }
+                        if (obj[i].task_type == 1) {//长期任务
+                            obj[i].end_time = "长期";
+                        }
+                        if (obj[i].task_type == 2) {//阶段任务
+                            obj[i].end_time = formatTime(obj[i].start_time) + ' - ' + formatTime(obj[i].end_time);
+                        }
+                    }
+                    $('#taskCon').html(template('temptaskCon', { list: obj }));
+                    if (obj[0].total_inventory != "0") {
+                        if (parseInt(obj[0].total_inventory) <= parseInt(obj[0].get_inventory)) {
+                            $("#divtask").children('input').css('background-color', 'gray').val('已领完').removeAttr('onclick');
+                        }
+                    }
+                    if (obj[0].my_state == "0") {
+                        $('.task_img').remove();
+                    }
+                    if (obj[0].my_state == "1") {
+                        $("#divtask").children('input').css('background-color', 'gray').val('已领取').removeAttr('onclick');
+                        $('.task_img').attr('src', '/Skin/t/Img/Task/task_2.png');
+                    }
+                    if (obj[0].my_state == "2") {
+                        $("#divtask").children('input').css('background-color', 'gray').val('已完成').removeAttr('onclick');
+                        $('.task_img').attr('src', '/Skin/t/Img/Task/task_1.png');
+                    }
+                }
+            })
+
+
+            $('#btnOk').click(function () {
+                window.location.reload();
+            });
+        })
+        //领任务
+        function GetTackUserMap(task_class)
+        {
+            $.get("/Txooo/SalesV2/MemberTask/Ajax/TaskAjax.ajax/GetTackUserMap?task_class=" + task_class, function (data) {
+                var obj = eval(data);
+                if (obj.success == "true") {
+                    $('.take_success').show();
+                } else {
+                    dialogAlart(obj.msg);
+                    window.location.reload();
+                }
+            })
+        }
+
+        template.helper('FormateLevel', function (level, format) {
+            switch (level) {
+                case "0": return "简单"; break;
+                case "1": return "中等"; break;
+                case "2": return "困难"; break;
+            }
+        });
+    </script>
+    <style type="text/css">
+        /*弹窗*/
+        .shade{ width:100%; height:100%; background:rgba(0,0,0,0.8); position:fixed; left:0; top:0; z-index:100;}
+        .tc_con{ width:90%; position:fixed; left:50%; margin-left:-9.4375rem; top:50%; text-align:center;border-radius:0.15625rem; background:#f6f6f6; color:#666;z-index:199;}
+
+        .del_con{ height:20rem; margin-top:-10rem;}
+        .del_con .del_btn_box{ width:100%; height:3.125rem; line-height:3.125rem;}
+        .del_con .del_btn_box input{ height:1.125rem; line-height:1.125rem; padding:1rem 0;}
+        .del_con .del_btn_box .del_ok{ background:#ff5c0c;color:#fff; border-left:1px solid #e1e1e1;}
+
+        .alert_msg{ border-bottom:0px solid #e1e1e1}
+        .alert-pic{background:url(/skin/SalesV2/img/Task/receive_ok.png) left top no-repeat;background-size:100%;height:6.718rem;margin:2.875rem auto 0;width:7.968rem;}
+        .alert_msg b{color:#000;height:3rem;line-height:3rem;font-size:1rem;}
+        .alert_msg p{line-height:1rem;font-size:0.8rem}
+        .alert_btn .alert_ok_check{background:#ff7900;color:#fff;height:3rem;line-height:3rem;margin:1rem 0 0;width:16rem}
+
+    </style>
+</head>
+<body style="background:#f0f0f0; padding-bottom:0.5rem;">
+    <!-- 头部信息begin -->
+    <header class="P_Header">
+        <div class="P_goBack" onclick="javascript:history.go(-1)"><i>&#xe602;</i></div>
+        <div class="P_title">任务详情</div>
+    </header>
+    <!-- 头部信息end -->
+    <script type="text/html" id="temptaskCon">
+        {{each list as o}}
+        <dl>
+            <dt><img src="{{o.task_img}}" /></dt>
+            <dd class="title">{{o.task_title}}</dd>
+            <dd class="bottom">
+                <span class="color_1"><i>&#xe64b;</i>奖励{{o.prize_point}}V币</span>
+                <span class="color_2"><i>&#xe64a;</i>{{o.get_inventory}}人领取</span>
+            </dd>
+        </dl>
+        <ul>
+            <li>有效期：{{o.end_time}}</li>
+            <li>难度：{{o.task_grade | FormateLevel}} </li>
+            <li>数量：{{o.rest_inventory}}</li>
+            <li class="last"><em class="TackState"><img src="" class="task_img" /></em></li>
+        </ul>
+        <div class="task_info">
+            <h2>任务介绍</h2>
+            <div class="content">{{o.task_explain}}</div>
+        </div>
+
+        <div id="divtask">
+            <input type="button" value="领取" onclick="GetTackUserMap('{{o.task_class}}')" />
+        </div>
+        {{/each}}
+    </script>
+    <section id="taskCon"></section>
+
+    <div class="take_success" style="display:none;">
+        <div class="shade"></div>
+        <div class="tc_con ok_con del_con validatebox">
+            <div class="alert-pic"></div>
+            <div class="alert_msg"><b>任务领取成功</b><p>在有效期内完成任务</br>既可赚取V币，快去完成任务吧~</p></div>
+            <div class="dis_box ok_btn_box alert_btn">
+                <div class="box_flex_1 alert_ok_check" id="btnOk">好的，我知道了</div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

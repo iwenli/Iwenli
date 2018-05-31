@@ -1,0 +1,39 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>绑定微信提现账户</title>
+    <!--WL_TMP{tmp=/Skin/t/Pub/app_publiccss.html}-->
+    <!--<link rel="stylesheet" href="//g.alicdn.com/msui/sm/0.6.2/css/sm-extend.min.css">-->
+    <link href="/Skin/t/Css/sui/index.css?v=1.1" rel="stylesheet" />
+    <style>
+        .d_n { display: none; }
+    </style>
+</head>
+<body>
+    <div class="page-group">
+        <div id="page-trans-bind" class="page">
+            <div class="content">
+                <div id="user_info" class="d_n">当前微信已绑定到提现账户：<span></span> </div>
+                <div id="user_bind" class="d_n">
+                    <div class="item-content" style="padding: 0 .75rem;margin-top:1.75rem;">
+                        <div class="item-input" style="border:1px solid #dedede;border-radius:0.25rem;height:2.25rem;background:#fff;margin-bottom:1rem;">
+                            <input type="text" class="binding_input_text_half user_mobile" placeholder="请输入手机号"><a class="getcode get_msg_code" href="">获取验证码</a>
+                        </div>
+                        <div class="item-input">
+                            <input type="text" class="input_mobile_code  binding_input_text" placeholder="请输入验证码">
+                        </div>
+                    </div>
+                    <div class="content-block">
+                        <p><a class="button button-fill button-warning button-big disabled sub_bind_mobile">绑定</a></p>
+                        <div class="right get_voice_code" style="float:right;color:#ff6a00;font-size:0.7rem;">收不到验证码？</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style="display:none" id="d_pageData">{$data}</div>
+    </div>
+    <!--WL_TMP{tmp=/Skin/t/Pub/app_publicjs.html}-->
+    <script src="/Skin/t/Js/sui/index.js?v=1.1"></script>
+</body>
+</html>

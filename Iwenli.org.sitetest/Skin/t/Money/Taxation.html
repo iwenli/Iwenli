@@ -1,0 +1,105 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/html5/rem.js"></script>
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Public.css" />
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Money.css" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/jquery/jquery-1.7.2.min.js"></script>
+    <link rel="stylesheet" href="//cdn.txooo.com/public/jquery.validate/Css/Validate.css" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/jquery.validate/jquery.validate.js"></script>
+    <script type="text/javascript" src="//cdn.txooo.com/public/jquery.validate/validate-ex.js"></script>
+    <script src="/Skin/t/Js/Public.js"></script>
+    <script type="text/javascript" src="//cdn.txooo.com/public/aui.artTemplate/artTemplate.js"></script>
+    <title>个税缴纳说明</title>
+    <script>
+        window.txservice.init();
+    </script>
+</head>
+<body class="bg_gray">
+    <!-- 头部信息begin -->
+    <header class="P_Header">
+        <div class="P_goBack" onclick="if (window.txservice.success()) { window.txservice.call('goback'); } else { history.go(-1); }"><i>&#xe602;</i></div>
+        <div class="P_title">个税缴纳说明</div>
+    </header>
+    <!-- 头部信息end -->
+
+    <div class="Taxation">
+        <div class="part_1">
+            根据《中华人民共和国个人所得税法》里的规定，劳务报酬所
+            得，是指个人独立从事各种非雇佣的各种劳务所取得的所得。
+            其适用比例税率，税率为20%。对劳务报酬所得一次收入畸高
+            的，可以实行加成征收，具体办法由国务院规定（可见下表）
+        </div>
+        <div class="arrow"><span></span></div>
+        <div class="part_2"><img src="/Skin/t/Img/Money/table.jpg" /></div>
+        <div class="part_3">
+            <dl>
+                <dt>
+                    当劳务报酬收入不足800元时，不缴纳个人所得税。
+                    即：提款金额为800元以下时（含800元）不扣税。
+                </dt>
+
+            </dl>
+            <dl>
+                <dt>
+                    当收入不足4000元时，用收入减去不扣税的800元部分，剩
+                    下的收入缴纳个人所得税，税率为20%，速算扣除数为0。
+                    即：801元≤提款金额≤4000元时，缴税金额为：（提款金
+                    额-800）x20%-0
+                </dt>
+                <dd>
+                    <div>
+                        例：提款金额为3000元，则缴税金额为：（3000-800）
+                        x20%-0=440元，实际到账金额：2560元。
+                    </div>
+                </dd>
+            </dl>
+            <dl>
+                <dt>
+                    当收入大于4000元且不超过20000元时，用收入减去不扣税
+                    的800元部分，剩下的收入缴纳个人所得税，税率为20%，
+                    速算扣除数为0。
+                    即：4001元≤提款金额≤20000元时，缴税金额为：（提款
+                    金额-800）x20%-0
+                </dt>
+                <dd>
+                    <div>
+                        例：提款金额为8000元，则缴税金额为：（8000-800）
+                        x 20%-0=1280元，实际到账金额：6720元。
+                    </div>
+                </dd>
+            </dl>
+            <dl>
+                <dt>
+                    当收入金额的80%大于20000元且不超过50000元时，用总
+                    收入减去收入的20%元部分，剩下的再减去速算扣除数，余
+                    下的部分缴纳个人所得税，税率为30%，速算扣除数为2000。
+                </dt>
+                <dd>
+                    <div>
+                        例：提款金额为30000元，则缴税金额为：30000x（1-
+                        20%）x30%-2000=5200元，实际到账金额：24800元。
+                    </div>
+                </dd>
+            </dl>
+            <dl>
+                <dt>
+                    当收入金额的80%超过50000元时，用总收入减去收入的
+                    20%元部分，剩下的再减去速算扣除数，余下的部分缴纳个
+                    人所得税，税率为40%，速算扣除数为7000。
+                    即：50000元≤提款金额的80%，缴税金额为：提款金额x
+                    （1-20%）x40%-7000
+                </dt>
+                <dd>
+                    <div>
+                        例：提款金额为80000元，则缴税金额为：80000x（1-
+                        20%）x40%-7000=18600元，实际到账金额：61400元。
+                    </div>
+                </dd>
+            </dl>
+        </div>
+    </div>
+</body>
+</html>

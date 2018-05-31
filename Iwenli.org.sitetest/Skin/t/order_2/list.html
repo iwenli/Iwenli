@@ -1,0 +1,122 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>我的订单</title>
+    <!--WL_TMP{tmp=/Skin/t/Pub/app_publiccss.html}-->
+    <link href="/Skin/t/Css/sui/index.css" rel="stylesheet" />
+
+</head>
+<body>
+    <div class="page-group">
+        <div id="page-order-all" class="page">
+            <header class="bar bar-nav bar_ff8201">
+                <a class="icon icon-left pull-left" href="/member/index.html"></a>
+                <h1 class="title">我的订单</h1>
+            </header>
+            <div class="content pull-to-refresh-content pull_content_diy" data-ptr-distance="55">
+                <!-- 默认的下拉刷新层 -->
+                <div class="pull-to-refresh-layer">
+                    <div class="preloader"></div>
+                    <div class="pull-to-refresh-arrow"></div>
+                </div>
+                <div class="order_type_list buttons-tab fixed-tab"></div>
+                <div class="order_div_list tabs infinite-scroll"></div>
+            </div>
+            <!--模板代码--------------开始------->
+            <!--订单类型-->
+            <script type="text/html" id="order_type_temp">
+                {{each list as value}}
+                <a href="#tab{{value.id}}" class="tab-link button tab-id-{{value.id}}" data-id="{{value.id}}">{{value.name}}</a>
+                {{/each}}
+            </script>
+            <!--订单列表架子-->
+            <script type="text/html" id="order_div_temp">
+                {{each list as value}}
+                <div id="tab{{value.id}}" class="tab tab-id-{{value.id}}">
+                    <div class="list"></div>
+                    <!-- 加载提示符 -->
+                    <div class="infinite-scroll-preloader infinite-{{value.id}}">
+                        <div class="preloader"></div>
+                    </div>
+                    <div class="content-block more_container">--------没有更多记录了--------</div>
+                </div>
+                {{/each}}
+            </script>
+            <!--订单列表内容-->
+            <script type="text/html" id="order_content_temp">
+                {{each list as value}}
+                <div class="card orderList_box">
+                    <div class="card-header"><a><img src="{{value.MchLogo}}" width="20" />{{value.ComName}}</a><span class="right" style="color:#ff6a00"> {{if id==61}}{{if value.RefundState==1}}等待卖家同意{{/if}}{{if value.RefundState==2}}等待买家回寄{{/if}}{{if value.RefundState==3}}等待卖家确认收货{{/if}}{{if value.RefundState==4}}退款成功{{/if}}{{if value.RefundState==5}}卖家不同意退货{{/if}}{{if value.RefundState==6}}已取消退货{{/if}}{{else}}{{value.StateName}}{{/if}}</span></div>
+                    <div class="card-content orderList_con">
+                        <div class="list-block media-list">
+                            {{each value.OrderStoreChildList as c}}
+                            <ul>
+                                <li class="item-content">
+                                    <div class="item-media">
+                                        <img src="{{c.Img}}" width="66">
+                                    </div>
+                                    <div class="item-inner">
+                                        <div class="item-subtitle">{{c.ProductName}}</div>
+                                        <div class="item-subtitle" style="color:#999">{{c.JsonInfo}}</div>
+                                        <div class="item-title-row">
+                                            <div class="item-title" style="color:#f00;">￥{{c.TotalMoney}}</div>
+                                            <div class="item-after">x{{c.ProductCount}}</div>
+                                        </div>
+                                        <!--<div class="item-subtitle">{{c.TotalMoney}}</div>-->
+                                    </div>
+                                </li>
+                            </ul>
+                            {{/each}}
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <span>共计{{value.Count}}件商品</span><span>合计：<em>￥{{value.Money}}</em>(含运费￥{{value.Postage}})</span>
+                    </div>
+                    <!--<div class="card-footer bottom">
+                        {{if id==61}}
+                        <a>查看进度</a>
+                        {{else}}
+                        {{if value.OrderState==0}}<a class="cor">去支付</a>{{/if}}
+                        {{if value.OrderState==2}}<a class="cor">等待发货</a>{{/if}}
+                        {{if value.OrderState==3}}<a class="cor">等待收货</a>{{/if}}
+                        {{if value.OrderState==4}}<a class="cor">删除订单</a>{{/if}}
+                        {{if value.OrderState==6}}<a class="cor">删除订单</a>{{/if}}
+                        {{/if}}
+                    </div>-->
+                </div>
+                {{/each}}
+            </script>
+            <!--订单待评价列表内容-->
+            <script type="text/html" id="order_unreview_temp">
+                {{each list as c}}
+                <div class="card">
+                    <ul class="list-block media-list">
+                        <li class="item-content">
+                            <div class="item-media">
+                                <img src="{{c.Img}}" width="66">
+                            </div>
+                            <div class="item-inner">
+                                <div class="item-subtitle">{{c.ProductName}}</div>
+                                <div class="item-title-row">
+                                    <div class="item-title" style="color:#999">{{c.JsonInfo}}</div>
+                                    <div class="item-after">x{{c.ProductCount}}</div>
+                                </div>
+                                <!--<div class="item-title-row">
+                                    <div class="item-title"></div>
+                                    <a class="item-after">去评价</a>
+                                </div>-->
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                {{/each}}
+            </script>
+            <!--模板代码--------------结束------->
+        </div>
+        <!--WL_TMP{tmp=/Skin/t/Pub/app_publicjs.html}-->
+        <script src="/Skin/t/Js/sui/index.js"></script>
+    </div>
+</body>
+</html>

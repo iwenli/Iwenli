@@ -1,0 +1,41 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/html5/rem.js"></script>
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Public.css" />
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Shop.css" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/jquery/jquery-1.7.2.min.js"></script>
+
+    <script type="text/javascript" src="//cdn.txooo.com/public/aui.artTemplate/artTemplate.js"></script>
+    <script src="/Skin/t/Js/Public.js"></script>
+    <title>入驻帮助</title>
+    <script type="text/javascript">
+        window.txservice.init();
+        $(function () {
+            if (window.txservice.success()) {
+                $('#header1').hide();
+            }
+            $.get('/Txooo/SalesV2/Member/Ajax/HelperAjax.ajax/GetHelperList', {helperId:40}, function (data) {
+                var obj = eval(data);
+                $('#helpContent').append(template("listTemp", obj[0]));
+            });
+        });
+    </script>
+    <style type="text/css">
+        #helpContent img{width:100%}
+    </style>
+</head>
+<body>
+    <!-- 头部信息begin -->
+    <header class="P_Header" id="header1">
+        <a onclick="history.go(-1)" class="P_goBack"><i>&#xe602;</i></a>
+        <div class="P_title">入驻帮助</div>
+    </header>
+    <section id="helpContent"></section>
+    <script type="text/html" id="listTemp">
+        <div>{{#helper_content}}</div>
+    </script>
+</body>
+</html>

@@ -1,0 +1,58 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/html5/rem.js"></script>
+    <script type="text/javascript" src="//cdn.txooo.com/public/jquery/jquery-1.7.2.min.js"></script>
+    <script src="/Skin/t/Js/Public.js"></script>
+    <title>申请退货</title>
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Member.css" />
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Public.css" />
+    <script type="text/javascript">
+        $(function () {
+            $(".P_title").text("申请退货");
+            $(".P_Header_info").text(" ");
+            $(".P_Header .P_goBack").attr("href", "/order/orderlist.html");
+            //$(".P_Header_info .P_goBack").click(function () {
+            //    window.location.href = '/order/orderlist.html';
+            //})
+        })
+    </script>
+    <style>
+        .textarea{ border:none; width:96%; height:5rem; background:#fff; padding:2%;}
+    </style>
+</head>
+<body style="background:#f0f0f0">
+    <!-- 头部信息begin -->
+    <!--WL_TMP{tmp=/Skin/t/Pub/T_Head_info.html}-->
+    <!-- 头部信息end -->
+    <form id="formRefund" method="post">
+        
+        <textarea id="reson" name="refund_reson" class="textarea" placeholder="请输入退货原因，最多500字"></textarea>
+
+        <div class="bottom_btn">
+            <a href="JavaScript:void(0);" class="positive_button" onclick="applyRefund()">确　定</a>
+        </div>
+        
+    </form>
+    <script>
+        function applyRefund() {
+            if ($("#reson").val().length > 500) {
+                dialogAlart("原因输入过长，请重新输入！");
+                return;
+            }
+            $.post("/Txooo/SalesV2/Shop/Ajax/ShopAjax.ajax/ApplyRefund", { orderId: getUrlParam("orderid"), reson: $("#reson").val() }, function (data) {
+                var obj = eval(data);
+                if (obj.success == "true") {
+                    window.location.href = "refundList.html";
+                } else {
+                    dialogAlart(obj.msg);
+                    
+                }
+            })
+        }
+        
+    </script>
+ <!--WL_TMP{tmp=/Skin/t/Pub/T_Public.html}--> </body>
+</html>

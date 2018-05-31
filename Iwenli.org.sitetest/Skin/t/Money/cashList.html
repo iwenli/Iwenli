@@ -1,0 +1,122 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/html5/rem.js"></script>
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Public.css" />
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Money.css" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/jquery/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="//cdn.txooo.com/public/aui.artTemplate/artTemplate.js"></script>
+    <script src="/Skin/t/Js/Public.js"></script>
+    <script src="/Skin/t/Js/Template.js"></script>
+    <title>提现记录</title>
+    <script>
+        var pageIndex = 0;
+        var pageSize = 10;
+        var scrollTrue;
+        $(function () {
+            CashList();
+            window.onscroll = function () {
+                if (getScrollTop() + getClientHeight() == getScrollHeight()) {
+                    if (scrollTrue) {
+                        scrollTrue = false;
+                        CashList();
+                    }
+                }
+            }
+            window.txservice.init();
+        })
+        function CashList() {
+            $.get('/Txooo/SalesV2/Money/Ajax/MoneyAjax.ajax/GetCashListV2', { pageIndex: pageIndex, pageSize: pageSize }, function (data) {
+
+                var obj = eval(data);
+                if (obj.length > 0) {
+                    $('.cashList_pages').append(template('cashList_pages_temp', { list: obj }));
+                    if (obj.count <= parseInt(pageIndex) * parseInt(10)) {
+                        scrollTrue = false;
+                        if (obj.length == 0) {
+                            $('#list_show').html('<span>没有记录了</span>');
+                        }
+                    } else {
+                        scrollTrue = true;
+                    }
+                    pageIndex++;
+                } else {
+                    if (pageIndex == 0) {
+                        $('.cashList_pages').html('<div class="no_cash"><i>&#xe62a;</i><p class="no_card">您还没提现记录哦！</p></div>')
+                    }
+                    else {
+                        $('#list_show').html('<span>没有记录了</span>');
+                    }
+                }
+            });
+        }
+
+        template.helper("handlerName", function (a) {
+            if (a.length > 0) {
+                switch (a.length) {
+                    case 1:
+                        return "*" + a;
+                    case 2:
+                        return getSignStr(1) + a.substr(a.length - 1, 1);
+                    default:
+                        return a.substr(0, 1) + getSignStr(a.length - 2) + a.substr(a.length - 1, 1);
+                }
+            }
+            return "";
+        });
+        function getSignStr(count) {
+            var _str = "";
+            for (var i = 0; i < count; i++) {
+                _str += "*"
+            }
+            return _str;
+        };
+        template.helper("handlerCardNum", function (a) {
+            if (a) {
+                var _xing = "**** **** ****";
+                if (a.length > 4) {
+                    return _xing + a.substr(a.length - 4, 4);
+                }
+                return _xing + a;
+            }
+            return "";
+        });
+    </script>
+</head>
+<body class="bg_gray">
+    <script type="text/html" id="cashList_pages_temp">
+        {{each list as o}}
+        <div class="cashList_list box_fff">
+            <div class="list_dt ov_h">
+                <div class="left">申请日期：<span>{{o.add_time | dateFormat:'yyyy年MM月dd日'}}</span></div>
+                <div class="right c_orange">{{o.state}}</div>
+            </div>
+            <ul class="list_dd">
+                <li><span class="tit left">持卡人姓名：</span><span class="con right">{{o.card_name | handlerName}}</span></li>
+                <li><span class="tit left">提现银行：</span><span class="con right">{{o.card_type}}</span></li>
+                <li><span class="tit left">银行卡号：</span><span class="con right">{{o.card_num | handlerCardNum}}</span></li>
+                <li><span class="tit left">提现金额：</span><span class="con right"><em>{{toFixed(o.can_money,2)}}</em>元</span></li>
+                <li><span class="tit left">个人所得税：</span><span class="con right"><em>{{toFixed(o.penson_tax,2)}}</em>元</span></li>
+                {{if o.check_state!=0}}
+                <li><span class="tit left">审核时间：</span><span class="con right"><em>{{o.check_time | dateFormat:'yyyy-MM-dd hh:mm'}}</em></span></li>
+                {{/if}}
+            </ul>
+            <div class="to_account">到账金额：<em>{{toFixed(o.arrival_money,2)}}</em>元</div>
+        </div>
+        {{/each}}
+    </script>
+    <!-- 头部信息begin -->
+    <header class="P_Header" id="header1">
+        <div class="P_goBack" onclick="if (window.txservice.success()) { window.txservice.call('goback'); } else { history.go(-1); }"><i>&#xe602;</i></div>
+        <div class="P_title">提现记录</div>
+    </header>
+    <!-- 头部信息end -->
+
+    <div class="cashList_pages"></div>
+    <div class="more_btn"><a href="javascript:void(0)" id="list_show"></a></div>
+
+    <!--WL_TMP{tmp=/Skin/t/Pub/T_Public.html}-->
+</body>
+</html>

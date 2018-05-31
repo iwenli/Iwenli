@@ -1,0 +1,184 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/html5/rem.js"></script>
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Public.css" />
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Money.css" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/jquery/jquery-1.7.2.min.js"></script>
+    <script src="/Skin/t/Js/Public.js"></script>
+    <title>我的资产</title>
+</head>
+<body>
+    <header class="P_Header">
+        <div class="P_goBack" onclick="if (window.txservice.success()) { window.txservice.call('goback'); } else { history.go(-1); }"><i>&#xe602;</i></div>
+        <div class="P_title">我的资产</div>
+        <div class="P_Header_info"><!--<a href="/money_2/list.html">明细</a>--></div>
+    </header>
+
+    <section class="P_Top">
+        <div class="head_portrait"><img class="img_b" src="" /></div>
+        <div class="user_name"><span id="spUserName"></span></div>
+        <div class="have_make">已赚到<em class="money"><span id="spTotalMoney"></span></em>元</div>
+        <div class="champion"><i class="left">&#xe612;</i><a href=""><span class="champion_name spFirstName"></span><span class="champion_money spFirstMoney"></span>元</a></div>
+    </section>
+    <section class="index_pages">
+        <dl class="page_list">
+            <dt class="list_dt">
+                <span class="tit"><i class="c_yellow left">&#xe621;</i><em>我的钱包</em></span>
+                <span class="info" onclick="toastAlert()"><em class="c_orange left">可提现 <span id="spCashBonus"></span> 元，去提现</em><i class="left">&#xe603;</i></span>
+            </dt>
+            <dd class="list_dd dis_box">
+                <div class="list_dd_con box_flex_1">
+                    <span class="money"><a href="/money_2/list.html"><em><span id="spCanMoney"></span></em>元</a></span>
+                    <span class="money_tit">当前资产</span>
+                </div>
+                <div class="list_dd_con box_flex_1">
+                    <span class="money"><a href="/money_2/list.html"><em><span id="spTotalBrokerage"></span></em>元</a></span>
+                    <span class="money_tit">佣金</span>
+                </div>
+                <div class="list_dd_con box_flex_1">
+                    <span class="money"><a href="/money_2/list.html"><em><span id="spTotalBonus"></span></em>元</a></span>
+                    <span class="money_tit">创业金</span>
+                </div>
+            </dd>
+            <dd class="list_dd dis_box">
+                <div class="list_dd_con box_flex_1">
+                    <span class="money"><a href="/money_2/list.html"><em><span id="spUserMoneyMonth"></span></em>元</a></span>
+                    <span class="money_tit">近一月赚钱</span>
+                </div>
+                <div class="list_dd_con box_flex_1">
+                    <span class="money"><a href="/money_2/list.html"><em><span id="spUserBrokerageMonth"></span></em>元</a></span>
+                    <span class="money_tit">近一月佣金</span>
+                </div>
+                <div class="list_dd_con box_flex_1">
+                    <span class="money"><a href="/money_2/list.html"><em><span id="spUserBonusMonth"></span></em>元</a></span>
+                    <span class="money_tit">近一月创业金</span>
+                </div>
+            </dd>
+        </dl>
+        <dl class="page_list">
+            <dt class="list_dt">
+                <span class="tit"><i class="c_yellow left">&#xe62f;</i><em>我的V币</em></span>
+            </dt>
+            <dd class="list_dd dis_box">
+                <div class="list_dd_con box_flex_1" onclick="window.location.href = '/money_2/list.html'">
+                    <span class="money"><em><span id="spTotalPoint"></span></em>个</span>
+                    <span class="money_tit">总V币</span>
+                </div>
+                <div class="list_dd_con box_flex_1" onclick="window.location.href = 'Recent.html?r=4'">
+                    <span class="money"><em><span id="spUserPointMonth"></span></em>个</span>
+                    <span class="money_tit">近一月获得</span>
+                </div>
+                <div class="list_dd_con box_flex_1" onclick="window.location.href = '/money_/bonus.html'">
+                    <span class="money"><em><span id="spCanPoint"></span></em>个</span>
+                    <span class="money_tit">可使用V币</span>
+                </div>
+            </dd>
+        </dl>
+        <dl class="page_list">
+            <dt class="list_dt">
+                <span class="tit"><i class="c_yellow left">&#xe60f;</i><em>我的团队</em></span>
+                <span class="info"><a href="/Member/team.html?level=0"><em class="left c_gray">查看团队成员</em></a><i class="left">&#xe603;</i></span>
+            </dt>
+            <dd class="list_dd dis_box">
+                <div class="list_dd_con box_flex_1" onclick="window.location.href='/Member/team.html?level=0'">
+                    <span class="money"><em><span id="spTeamUsers"></span></em>人</span>
+                    <span class="money_tit">总人数</span>
+                </div>
+                <div class="list_dd_con box_flex_1" onclick="window.location.href = '/Member/team.html?level=0'">
+                    <span class="money"><em><span id="spTeamUsersMonth"></span></em>人</span>
+                    <span class="money_tit">近一月新增</span>
+                </div>
+            </dd>
+            <!--<dd class="list_dd dis_box">
+                <div class="list_dd_con box_flex_1" onclick="window.location.href='/Member/team.html?level=1'">
+                    <span class="money"><em><span id="spUserMoney1"></span></em>人</span>
+                    <span class="money_tit">第一级</span>
+                </div>
+                <div class="list_dd_con box_flex_1" onclick="window.location.href = '/Member/team.html?level=2'">
+                    <span class="money"><em><span id="spUserMoney2"></span></em>人</span>
+                    <span class="money_tit">第二级</span>
+                </div>
+                <div class="list_dd_con box_flex_1" onclick="window.location.href = '/Member/team.html?level=3'">
+                    <span class="money"><em><span id="spUserMoney3"></span></em>人</span>
+                    <span class="money_tit">第三级</span>
+                </div>
+            </dd>-->
+        </dl>
+    </section>
+    <section class="fixed_btn">
+        <div class="btn exchange"><a href="/money_2/bonus.html">兑换创业金</a></div>
+        <div class="btn extract"><!--<a href="/money/cash.html">申请提现</a>--><a href="javascript:toastAlert()">申请提现</a></div>
+    </section>
+
+    <script>
+        function toastAlert() {
+            dialogComfirm('您现在只能使用APP申请提现，现在就去下载吧！', function () {
+                window.location.href = '{$ConfigOfficialWebUrl}/Index_wap.html';
+            });
+        };
+        function ToFloat(a) {
+            var money = parseFloat(a);
+            if (money >= 10000) {
+                return parseFloat((money / 10000)).toFixed(1) + '万';
+            } else {
+                return (parseFloat(a));
+            }
+        }
+        window.txservice.init();
+
+        $.get("/Txooo/SalesV2/Member/Ajax/AttentionAjax.ajax/GetRankNo1Infos", function (data) {
+            var obj = eval('(' + data + ')');
+            if (obj.success != "false") {
+                $('.spFirstName').text(obj.msg.split(',')[0]).parent().attr("href", "/Rank/TotalRank.html?type=1&UserId=" + obj.msg.split(',')[2]).click(function () {
+                    window.txservice.call('totalrank', { type: 1, userid: obj.msg.split(',')[2] });
+                });
+                
+                $('.spFirstMoney').text(ToFloat(obj.msg.split(',')[1]));
+            }
+        });
+        
+        $.get("/Txooo/SalesV2/Member/Ajax/AttentionAjax.ajax/GetMyCurrentBonus", function (data) {
+            if(data!="false"){
+                $('#spTotalBonus').text(ToFloat(data));
+            }
+        });
+        LoadEst();
+        function LoadEst() {
+            $.get("/Txooo/SalesV2/Member/Ajax/AttentionAjax.ajax/GetMyEstateInfos?update=1", function (data) {
+                var obj1 = eval(data);
+                if (obj1.success != "false") {
+                    var obj = obj1[0];
+                    obj.head_pic = obj.head_pic == "" ? "/Skin/t/Img/no_pic.png" : obj.head_pic;
+                    $('.img_b').attr('src', obj.head_pic + ',1,80,80,3');
+                    $('#spUserName').text(obj.nick_name);
+                    //$('#spTotalBonus').text(parseFloat(obj.total_bonus));
+                    $('#spTotalMoney').text(ToFloat(obj.total_assets));
+                    //$('#spCashBonus').text(obj.CashBonus);
+                    $('#spCanMoney').text(ToFloat(obj.total_assets));
+                    $('#spCashBonus').text(ToFloat(obj.can_tocash));
+                    $('#spTotalBrokerage').text(ToFloat(obj.total_brokerage));
+                    $('#spUserMoneyMonth').text(ToFloat(obj.month_assets));
+                    $('#spUserBrokerageMonth').text(ToFloat(obj.month_brokerage));
+                    $('#spUserBonusMonth').text(ToFloat(obj.month_bonus));
+                    $('#spTotalPoint').text(ToFloat(obj.total_points));
+                    $('#spUserPointMonth').text(ToFloat(obj.month_points));
+                    $('#spCanPoint').text(ToFloat(obj.real_points));
+                    $('#spTeamUsers').text(obj.team_users);
+                    $('#spTeamUsersMonth').text(obj.team_newuser_month);
+                }
+            });
+        }
+        $.get("/Txooo/SalesV2/Member/Ajax/TeamAjax.ajax/GetTeamLevelCount", function (data) {
+            if (data != "") {
+                var obj = eval(data)[0];
+                $('#spUserMoney1').text(obj.level1_users);
+                $('#spUserMoney2').text(obj.level2_users);
+                $('#spUserMoney3').text(obj.level3_users);
+            }
+        })
+    </script>
+ <!--WL_TMP{tmp=/Skin/t/Pub/T_Public.html}--> </body>
+</html>

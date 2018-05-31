@@ -1,0 +1,34 @@
+﻿
+<script type="text/javascript">
+    $(function () {
+        GetUserInfo(ShowMember);
+    });
+
+    function ShowMember(userInfo) {
+        $("#temp_user_word").val(userInfo.user_word);
+    };
+
+    function submitForm() {
+        if ($("#EditForm").valid()) {
+            $.post('/Txooo/SalesV2/Member/Ajax/UserAjax.ajax/SetUserWord', $("#EditForm").serialize(), function (data) {
+                var obj = eval(data);
+                if (obj.success == "true") {
+                    setUserWordFinish($('#temp_user_word').val());
+                } else {
+                    appDialogAlert(obj.msg);
+                }
+            });
+        }
+    };
+</script>
+<section class="P_Pages">
+    <div class="update_name">
+        <form id="EditForm" class="app-section" onsubmit="return false" method="post">
+            <textarea class="{required:true,maxlength:30} app-input" id="temp_user_word" name="user_word"></textarea>
+        </form>
+        <em>支持最多输入30个字符</em>
+    </div>
+    <div onclick="submitForm()">
+        <p class="keep_btn">保　存</p>
+    </div>
+</section>

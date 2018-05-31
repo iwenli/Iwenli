@@ -1,0 +1,53 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>选择城市</title>
+    <!--WL_TMP{tmp=/Skin/t/Pub/app_publiccss.html}-->
+    <link href="/Skin/t/Css/sui/index.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="page-group" id="top">
+        <!--省市区级联-1-->
+        <div id="page-member-select-area-1" class="page list-page">
+            <header class="bar bar-nav bar_ff8201">
+                <a class="icon icon-left pull-left back_click"></a>
+                <h1 class="title">选择地区</h1>
+            </header>
+            <div class="content"></div>
+        </div>
+        <!--省市区级联-2-->
+        <div id="page-member-select-area-2" class="page list-page">
+            <header class="bar bar-nav bar_ff8201">
+                <a class="icon icon-left pull-left back"></a>
+                <h1 class="title">选择地区</h1>
+            </header>
+            <div class="content"></div>
+        </div>
+        <!--省市区级联-3-->
+        <div id="page-member-select-area-3" class="page list-page">
+            <header class="bar bar-nav bar_ff8201">
+                <a class="icon icon-left pull-left back"></a>
+                <h1 class="title">选择地区</h1>
+            </header>
+            <div class="content"></div>
+        </div>
+        <script type="text/html" id="public_area_temp">
+            <div class="list-block">
+                <ul>
+                    {{each list as c}}
+                    <li class="public_area_click" data-id="{{c.region_id}}" data-code="{{c.region_code}}">
+                        <div class="item-content item-link">
+                            <div class="item-inner">{{c.region_name}}</div>
+                        </div>
+                    </li>
+                    {{/each}}
+                </ul>
+            </div>
+        </script>
+    </div>
+    <!--WL_TMP{tmp=/Skin/t/Pub/app_publicjs.html}-->
+    <script src="/Skin/t/Js/sui/index.js"></script>
+</body>
+</html>

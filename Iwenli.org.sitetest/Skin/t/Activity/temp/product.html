@@ -1,0 +1,22 @@
+﻿
+<script id="j-pageDate">
+    var pageData = eval{$pageData};
+</script>
+<div class="m-product">
+    <a class="" href="#">
+        <div class="row pos-rel">
+            <div class="col-25">
+                <img class="pro-img" alt="{$name}" src="{$image}" style="opacity: 1;">
+            </div>
+            <div class="col-75">
+                <span class="p-name">{$name}</span>
+                <span class="free_post">{$postage}</span>
+                <span class="row d-positive">
+                    <span class="col-50 pull-left"><em>¥</em>{$price}</span>
+                    <span class="pull-right" style="color: #666;"><i style="display: inline;">&#xe63d;</i>{$regionName}</span>
+                </span>
+            </div>
+        </div>
+    </a>
+    <div style="background-size: 25%;" class="seal {$sealStyle}"></div>
+</div>

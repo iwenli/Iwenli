@@ -1,0 +1,149 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>7518导航</title>
+    <!--WL_TMP{tmp=/Skin/t/Pub/app_publiccss.html}-->
+    <link href="/Skin/t/Css/sui/member.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="page-group">
+        <div id="page-member-webnav" class="page">
+            <header class="bar bar-nav bar_ff8201">
+                <a class="icon icon-left pull-left back"></a>
+                <!--<h1 class="title">店铺资讯详情</h1>-->
+                <div class="searchbar noshare">
+                    <a class="searchbar-cancel btn">搜索</a>
+                    <div class="search-input">
+                        <label class="icon icon-search" for="search"></label>
+                        <input type="search" id='search' placeholder='请输入物流单号' />
+                    </div>
+                </div>
+            </header>
+            <div class="bar bar-header-secondary download" style="display:none">
+                <p><i>×</i>买客&nbsp;&nbsp; 一个能赚钱的电商APP<a href="{$ConfigOfficialWebUrl}/Index_wap.html" class="download_android download_app">去下载</a></p>
+            </div>
+            <div class="content">
+                <div class="buttons-tab webnav_parent_name" data-offset="44">
+                    <div class="swiper-wrapper">
+                        <a href="#tab0" class="tab-link button active swiper-slide">关注</a>
+                    </div>
+                </div>
+                <div class="tabs webnav_parent_content_list">
+                    <div id="tab0" class="tab active">
+                        <ul class="follow_list list"></ul>
+                        <div class="history_box">
+                            <div class="history_tit">历史记录<em>清空</em></div>
+                            <ul class="history_list">
+                                <li>
+                                    <a href="">
+                                        <img src="http://img.txooo.com/2017/02/24/1e18153183c9128f91c1b9d4bf26a205.jpg" />
+                                        <span>支付宝</span>
+                                    </a>
+                                    <span class="follow_btn_0 btn">关注</span>
+                                </li>
+                                <li>
+                                    <a href="/">
+                                        <img src="http://img.txooo.com/2017/02/24/1e18153183c9128f91c1b9d4bf26a205.jpg" />
+                                        <span>支付宝</span>
+                                    </a>
+                                    <span class="follow_btn_1 btn">已关注</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--iframe独立页面-->
+            <div class="popup popup-services">
+                <header class="bar bar-nav bar_ff8201">
+                    <a class="icon icon-left pull-left close-popup"></a>
+                    <h1 class="title">我关注的</h1>
+                </header>
+                <div class="content"></div>
+            </div>
+            <!--代码模板--------开始----->
+            <!--父分类模板-->
+            <script type="text/html" id="webnav_parent_name_temp">
+                {{each list as value i}}
+                <a href="#tab{{i+1}}" data-navid="{{value.NavId}}" class="tab-link button swiper-slide add_nav_name">{{value.NavName}}</a>
+                {{/each}}
+            </script>
+            <!--关注类模板-->
+            <script type="text/html" id="collect_web_nav_temp">
+                {{each list as value i}}
+                <li class="list_li" data-collectid="{{value.CollectId}}">
+                    <em>×</em>
+                    <div class="user_collect" data-navhref="{{value.NavHref}}">
+                        <img src="{{value.IconImg}}" />
+                        <p>{{value.NavName}}</p>
+                    </div>
+                </li>
+                {{/each}}
+                <li class="last">
+                    <a href=""><i>&#xe62a;</i><p>管理</p></a>
+                </li>
+                <li class="last">
+                    <a class="add_web_nav"><i>&#xe645;</i><p>添加</p></a>
+                </li>
+            </script>
+            <!--独立iframe模板-->
+            <script type="text/html" id="iframe_temp">
+                <iframe src="{{NavHref}}" style="width:100%;height:{{NavHeight}}px;"></iframe>
+            </script>
+            <!--子分类模板-->
+            <script type="text/html" id="child_web_nav_temp">
+                <div id="{{href}}" class="tab add_nav_name">
+                    <div class="buttons-tab web_nav_name_list">
+                        <div class="swiper-wrapper">
+                            {{each list as value i}}
+                            <a href="#{{href}}-{{i}}" class="tab-link button swiper-slide">{{value.NavName}}</a>
+                            {{/each}}
+                        </div>
+                    </div>
+                    <div class="tabs web_nav_content_list">
+                        {{each list as value i}}
+                        <div class='tab' id='{{href}}-{{i}}' data-navid="{{value.NavId}}"></div>
+                        {{/each}}
+                    </div>
+                </div>
+            </script>
+            <!--代码模板--------结束----->
+        </div>
+        <div id="page-member-webnavid" class="page">
+            <header class="bar bar-nav bar_ff8201">
+                <a class="icon icon-left pull-left gotonav"></a>
+                <h1 class="title">关注标题</h1>
+                <a href="/" class="icon pull-right follow_0"><i class="no">&#xe644;</i><i class="yes">&#xe643;</i></a>
+            </header>
+            <div class="content"></div>
+        </div>
+    </div>
+
+    <!--WL_TMP{tmp=/Skin/t/Pub/app_publicjs.html}-->
+    <script src="/Skin/t/Js/sui/member.js?v=2"></script>
+    <script>
+        //var follow = document.querySelectorAll('.follow_list .list_li');
+        //var follEm = document.querySelectorAll('.follow_list em')
+        //for (var n = 0; n < follow.length;n++){
+        //    follow[n].addEventListener('touchstart', function () {
+        //        timeout = setTimeout(function () {
+        //            for (var i = 0; i < follEm.length; i++) {
+        //                follEm[i].classList.add('show')
+        //            }
+        //        }, 1500);
+        //        window.addEventListener('touchmove', function (e) {
+        //            if (e.target.className != 'show') {
+        //                for (var i = 0; i < follEm.length; i++) {
+        //                    follEm[i].classList.remove('show')
+        //                }
+        //                clearTimeout(timeout)
+        //            }
+        //        })
+        //    })
+        //}
+
+
+    </script>
+</body>
+</html>

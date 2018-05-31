@@ -1,0 +1,257 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/html5/rem.js"></script>
+    <script type="text/javascript" src="//cdn.txooo.com/public/jquery/jquery-1.7.2.min.js"></script>
+    <script src="/Skin/t/Js/Public.js"></script>
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Public.css" />
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Store.css" />
+    <link rel="stylesheet" href="//cdn.txooo.com/public/jquery.validate/Css/Validate.css" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/jquery.validate/jquery.validate.js"></script>
+    <script type="text/javascript" src="//cdn.txooo.com/public/jquery.validate/validate-ex.js"></script>
+    <title>申请表</title>
+    <script type="text/javascript">
+        $(function () {
+            $(".P_title").text("申请表");
+            $(".P_Header_info a").text("查看");
+        })
+    </script>
+    <style type="text/css">
+        /*弹窗*/
+        .shade {
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            position: fixed;
+            left: 0;
+            top: 0;
+            z-index: 100;
+        }
+
+        .tc_con {
+            width: 90%;
+            position: fixed;
+            left: 50%;
+            margin: -50% 0 0 -9.4375rem;
+            top: 50%;
+            text-align: center;
+            border-radius: 0.15625rem;
+            background: #f6f6f6;
+            color: #666;
+            padding: 1rem 0;
+            z-index: 199;
+        }
+
+        .alert_msg {
+            border-bottom: 0px solid #e1e1e1;
+        }
+
+        .alert-pic {
+            background: url(/skin/SalesV2/img/Task/apply_ok.png) left top no-repeat;
+            background-size: 100%;
+            height: 6.718rem;
+            margin: 2.875rem auto 0;
+            width: 7.968rem;
+        }
+
+        .alert_msg b {
+            color: #000;
+            display: block;
+            height: 3rem;
+            line-height: 3rem;
+            font-size: 1rem;
+        }
+
+        .alert_msg p {
+            line-height: 1.2rem;
+            font-size: 0.8rem;
+        }
+
+        .alert_btn .alert_ok_check {
+            background: #ff7900;
+            color: #fff;
+            height: 3rem;
+            line-height: 3rem;
+            margin: 0.5rem auto 0;
+            width: 16rem;
+        }
+        .P_Pages .store_info dl dd{position:relative;}
+         label.error {
+            position: absolute;
+            background:none;padding:0;margin:0;font-size:0.75rem;right:0;top:0;line-height:2.25rem;
+        }
+    </style>
+
+</head>
+<body>
+    <!-- 头部信息begin -->
+    <header class="P_Header">
+        <div class="P_goBack" onclick="window.location.href = '/Member/index.html'"><i>&#xe602;</i></div>
+        <div class="P_title">商家入驻</div>
+        <div class="P_Header_info"><a href="/store/list.html">查看</a></div>
+    </header>
+    <!-- 头部信息end -->
+
+    <section class="P_Pages">
+        <!--<h4>每种产品仅申请一次，请您如实填写</h4>-->
+        <div class="store_info">
+            <form id="postForm">
+                <input type="hidden" name="applyIdHid" id="applyIdHid" />
+                <dl>
+                    <dt>公司名称</dt>
+                    <dd><input type="text" name="com_name" id="com_name" class="{required:true}" /></dd>
+                </dl>
+                <dl>
+                    <dt>经营行业</dt>
+                    <dd><input type="text" name="com_industry" id="com_industry" class="{required:true}" /></dd>
+                </dl>
+                <dl>
+                    <dt>联系方式</dt>
+                    <dd><input type="text" name="com_telephone" id="com_telephone" class="{required:true,isTel:true}" /></dd>
+                </dl>
+                <dl>
+                    <dt>公司地址</dt>
+                    <dd><input type="text" name="com_address" id="com_address" class="{required:true}" /></dd>
+                </dl>
+                <div class="line"></div>
+                <dl>
+                    <dt>商品品牌</dt>
+                    <dd><input type="text" name="goods_brand" id="goods_brand" class="{required:true}" /></dd>
+                </dl>
+                <dl>
+                    <dt>商品名称</dt>
+                    <dd><input type="text" name="goods_name" id="goods_name" class="{required:true}" /></dd>
+                </dl>
+                <dl>
+                    <dt>所属类别</dt>
+                    <dd><input type="text" name="goods_class" id="goods_class" placeholder="请填写行业类别如:服装/餐饮等" class="{required:true}" /></dd>
+                </dl>
+                <dl>
+                    <dt>规　　格</dt>
+                    <dd><input type="text" name="goods_specification" id="goods_specification" placeholder="请填写商品规格或商品量词" class="{required:true}" /></dd>
+                </dl>
+
+                <dl>
+                    <dt>商品零售价</dt>
+                    <dd><input type="text" class="input_money {required:true,number:true}" name="goods_price" id="goods_price" /><span>元</span></dd>
+                </dl>
+                <dl>
+                    <dt>商品供货价</dt>
+                    <dd><input type="text" class="input_money {required:true,number:true}" name="goods_cost" id="goods_cost" /><span>元</span></dd>
+                </dl>
+                <dl>
+                    <dt>补充说明</dt>
+                    <dd><textarea type="text" class="textarea {required:true}" name="goods_summary" id="goods_summary"></textarea></dd>
+                </dl>
+            </form>
+        </div>
+        <div class="btn">
+            <input type="button" value="提交申请" onclick="SubForm()" id="submit_btn" />
+        </div>
+    </section>
+
+    <!--<div class="shade_box" style="display:none;">
+        <div class="shade"></div>
+        <div class="tc_con ok_con del_con">
+            <p><i>&#xe606;</i>操作成功！</p>
+            <div class="dis_box ok_btn_box">
+                <div class="box_flex_1 ok_check">查看我的商品</div>
+                <div class="box_flex_1 ok_continue">继续申请商品</div>
+            </div>
+        </div>
+    </div>-->
+
+    <!--新弹窗-->
+    <div class="shade_box" style="display:none;">
+        <div class="shade"></div>
+        <div class="tc_con">
+            <div class="alert-pic"></div>
+            <div class="alert_msg"><b>提交成功</b><p>您的申请已提交成功</br>请等待审核，约3~5个工作日</p></div>
+            <div class="alert_btn">
+                <div class="alert_ok_check" id="btnOk">好的，我知道了</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="shade_box_2 validatebox_box" style="display:none;">
+        <div class="shade"></div>
+        <div class="tc_con ok_con del_con validatebox">
+            <div class="alert_msg">请输入公司名称！</div>
+            <div class="dis_box ok_btn_box alert_btn">
+                <div class="box_flex_1 alert_ok_check">确定</div>
+            </div>
+        </div>
+    </div>
+
+    <!--<div class="validatebox" style="display:none">
+        <div class="alert_msg">请输入公司名称！</div>
+        <div class="dis_box ok_btn_box alert_btn">
+            <div class="box_flex_1 alert_ok_check">确定</div>
+        </div>
+    </div>-->
+
+    <script>
+        var applyId = getUrlParam("ApplyId") == "" ? "0" : getUrlParam("ApplyId");
+        if (applyId > 0) {//编辑回填
+            $.post("/Txooo/SalesV2/Store/Ajax/StoreAjax.ajax/GetGoodsInfoById?id=" + applyId, function (data) {
+                var obj = eval('(' + data + ')');
+                if (obj.success != "false") {
+                    var info = eval('(' + obj.list + ')');
+                    $('#com_name').val(info.ComName);
+                    $('#com_industry').val(info.ComIndustry);
+                    $('#com_telephone').val(info.ComTelephone);
+                    $('#com_address').val(info.ComAddress);
+                    $('#goods_brand').val(info.GoodsBrand);
+                    $('#goods_name').val(info.GoodsName);
+                    $('#goods_class').val(info.GoodsClass);
+                    $('#goods_specification').val(info.GoodsSpecification);
+                    $('#goods_price').val(info.GoodsPrice);
+                    $('#goods_cost').val(info.GoodsCost);
+                    $('#goods_summary').val(info.GoodsSummary);
+                }
+            });
+        }
+        //添加Or编辑商品信息
+        function SubForm() {
+
+            $('#applyIdHid').val(applyId);
+            if ($('#postForm').valid()) {
+                $.post("/Txooo/SalesV2/Store/Ajax/StoreAjax.ajax/AddOrUpdateGoods", $('#postForm').serialize(), function (data) {
+                    var obj = eval(data);
+                    if (obj.success == "true") {
+                        $(".shade_box").show();
+                    } else {
+                        dialogAlart(obj.msg);
+                        window.location.reload();
+                    }
+                });
+            }
+        }
+
+        //弹窗提示
+        function ValidateForm() {
+            $(".validatebox_box").show();
+        }
+
+        $(".alert_ok_check").click(function () {
+            $(".validatebox_box").hide();
+        })
+
+        $('.ok_check').click(function () {
+            window.location.href = "/Store/list.html";
+        });
+
+        $('.ok_continue').click(function () {
+            window.location.href = "/Store/index.html";
+        });
+
+        $('#btnOk').click(function () {
+            window.location.href = "/Store/List.html";
+        });
+    </script>
+
+    <!--WL_TMP{tmp=/Skin/t/Pub/T_Public.html}-->
+</body>
+</html>

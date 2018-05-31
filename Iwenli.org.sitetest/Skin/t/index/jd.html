@@ -1,0 +1,167 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+    <link rel="stylesheet" href="//g.alicdn.com/msui/sm/0.6.2/css/sm.min.css">
+    <link rel="stylesheet" href="//g.alicdn.com/msui/sm/0.6.2/css/sm-extend.min.css">
+    <link rel="stylesheet" href="//cdn.txooo.com/public/jquery.swiper/swiper.min.css" />
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/publicv3.css" />
+    <title>jd轮播</title>
+    <style>
+        ul { list-style:none;}
+        .f_l { float:left;}
+        .jd_banner .banner_imgs { /* 10倍屏幕宽度 */ width: 1500%; }
+        .jd_banner .banner_imgs li { /* 一倍的屏幕宽度 */ width: 10%;}
+        .jd_banner .banner_imgs li a { display: block; width: 100%; }
+        .jd_banner .banner_imgs li a img { display: block; width: 90%; }
+        .jd_banner .banner_index { position: absolute; bottom: 15px; left: 50%; margin-left: -64px; }
+        .jd_banner .banner_index li { float: left; width: 6px; height: 6px; border: 1px solid white; border-radius: 50%; margin: 0 5px; }
+        .jd_banner .banner_index li.current { background-color: #fff; }
+    </style>
+</head>
+<body>
+    <div class="jd_banner">
+        <ul class='banner_imgs clearfix'>
+            <li class='f_l'>
+                <a href="#"><img src="https://img1.360buyimg.com/da/jfs/t5821/291/4019598402/76778/5590da9/5944d767Ndb107d07.jpg" alt="" /></a>
+            </li>
+            <li class='f_l'>
+                <a href="#"><img src="https://img1.360buyimg.com/da/jfs/t5821/291/4019598402/76778/5590da9/5944d767Ndb107d07.jpg" alt="" /></a>
+            </li>
+            <li class='f_l'>
+                <a href="#"><img src="https://img1.360buyimg.com/da/jfs/t5821/291/4019598402/76778/5590da9/5944d767Ndb107d07.jpg" alt="" /></a>
+            </li>
+            <li class='f_l'>
+                <a href="#"><img src="https://img1.360buyimg.com/da/jfs/t5821/291/4019598402/76778/5590da9/5944d767Ndb107d07.jpg" alt="" /></a>
+            </li>
+            <li class='f_l'>
+                <a href="#"><img src="https://img1.360buyimg.com/da/jfs/t5821/291/4019598402/76778/5590da9/5944d767Ndb107d07.jpg" alt="" /></a>
+            </li>
+            <li class='f_l'>
+                <a href="#"><img src="https://img1.360buyimg.com/da/jfs/t5821/291/4019598402/76778/5590da9/5944d767Ndb107d07.jpg" alt="" /></a>
+            </li>
+            <li class='f_l'>
+                <a href="#"><img src="https://img1.360buyimg.com/da/jfs/t5821/291/4019598402/76778/5590da9/5944d767Ndb107d07.jpg" alt="" /></a>
+            </li>
+            <li class='f_l'>
+                <a href="#"><img src="https://img1.360buyimg.com/da/jfs/t5821/291/4019598402/76778/5590da9/5944d767Ndb107d07.jpg" alt="" /></a>
+            </li>
+        </ul>
+        <!-- 轮播图的 索引 -->
+        <ul class="banner_index clearfix">
+            <li class="current"></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+    </div>
+    <script>
+
+        window.onload = function () {
+            slide();
+        }
+
+        function slide() {
+            var bannerImgs = document.querySelector(".banner_imgs");
+            var Indexs = document.querySelectorAll(".banner_index li");
+            var imgLis = document.querySelectorAll(".banner_imgs li");
+
+            //屏幕宽度
+            var screenWidth = document.body.offsetWidth;
+            var index = 1;
+
+            //默认显示的应该是第二张图片
+            bannerImgs.style.transform = "translateX(" + screenWidth * index * -1 + "px)";
+
+            //添加过渡效果
+            function setTransition() {
+                bannerImgs.style.webkitTransition = "all .2s";
+                bannerImgs.style.transition = "all .2s";
+            }
+
+            //清除过渡效果
+            function clearTransition() {
+                bannerImgs.style.webkitTransition = "none";
+                bannerImgs.style.transition = "none";
+            }
+
+            //设置移动距离
+            function setTranslateX(distance) {
+                bannerImgs.style.webkitTransform = "translateX(" + distance + "px)";
+                bannerImgs.style.transform = "translateX(" + distance + "px)";
+            }
+
+            //控制小圆点
+            function setPoint() {
+                for (var i = 0; i < Indexs.length; i++) {
+                    Indexs[i].className = "";
+                }
+                Indexs[index - 1].className = "current";
+            }
+
+            //设置定时器
+            var timer = setInterval(function () {
+                index++;
+                setTransition();
+                setTranslateX(screenWidth * index * -1);
+            }, 1000);
+
+            //添加过渡动画结束事件
+            bannerImgs.addEventListener("transitionend", function () {
+                if (index > 8) {
+                    index = 1;
+                } else if (index < 1) {
+                    index = 8;
+                }
+                clearTransition();
+                setTranslateX(screenWidth * index * -1);
+                setPoint();
+            })
+
+
+            //添加touch事件
+            var startX = 0;
+            var moveX = 0;
+            var isMove = false;
+
+            bannerImgs.addEventListener("touchstart", function (event) {
+                isMove = false;
+                clearInterval(timer);
+                startX = event.touches[0].clientX;
+            })
+
+            bannerImgs.addEventListener("touchmove", function (event) {
+                isMove = true;
+                moveX = event.touches[0].clientX - startX;
+                setTranslateX(moveX + index * screenWidth * -1);
+            })
+
+            bannerImgs.addEventListener("touchend", function (event) {
+                if (isMove && Math.abs(moveX) > screenWidth / 3) {
+                    if (moveX < 0) {
+                        index++;
+                    } else if (moveX > 0) {
+                        index--;
+                    }
+                }
+                setTransition();
+                setTranslateX(index * screenWidth * -1);
+                timer = setInterval(function () {
+                    index++;
+                    setTransition();
+                    setTranslateX(screenWidth * index * -1);
+                }, 1000);
+            })
+        }
+    </script>
+</body>
+</html>

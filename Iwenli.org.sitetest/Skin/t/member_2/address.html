@@ -1,0 +1,45 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>地址管理</title>
+    <!--WL_TMP{tmp=/Skin/t/Pub/app_publiccss.html}-->
+    <link href="/Skin/t/Css/sui/index.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="page-group" id="top">
+        <div id="page-member-address" class="page">
+            <header class="bar bar-nav bar_ff8201">
+                <a class="icon icon-left pull-left back"></a>
+                <a class="icon pull-right" href="/member_2/addressAdd.html?mchclass={$U_QUERY_MCHCLASS}">添加</a>
+                <h1 class="title">地址管理</h1>
+            </header>
+            <div class="content">
+                <div class="address_list"></div>
+            </div>
+            <script type="text/html" id="address_list_temp">
+                {{each list as c}}
+                <div class="card address_box">
+                    <div class="card-content" data-id="{{c.AddressId}}">
+                        <div class="card-content-inner">
+                            <p style="font-size:0.875rem;">{{c.TakeName}}<span class="card-right">{{c.Phone}}</span></p>
+                            <p>{{c.Area}}{{c.Address}}</p>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <label class="label-checkbox item-content set_main_address is_main_{{if c.IsMain}}true{{else}}false{{/if}}" data-id="{{c.AddressId}}">
+                            <input type="radio" name="my-radio">
+                            <div class="item-media"><i class="icon icon-form-checkbox"></i><span class="item-text">默认地址</span></div>                            
+                        </label>
+                        <span class="card-right"><a href="/member_2/addressAdd.html?id={{c.AddressId}}&mchclass={$U_QUERY_MCHCLASS}"><i>&#xe668;</i>编辑</a><a class="del_address" data-id="{{c.AddressId}}"><i>&#xe669;</i>删除</a></span>
+                    </div>
+                </div>
+                {{/each}}
+            </script>
+        </div>
+    </div>
+    <!--WL_TMP{tmp=/Skin/t/Pub/app_publicjs.html}-->
+    <script src="/Skin/t/Js/sui/index.js"></script>
+</body>
+</html>

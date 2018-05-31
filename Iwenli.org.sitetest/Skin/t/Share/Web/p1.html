@@ -1,0 +1,121 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/html5/rem.js"></script>
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Public.css" />
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/ShareWeb.css" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/jquery/jquery-1.7.2.min.js"></script>
+    <script src="/Skin/t/Js/Public.js?v=20160112"></script>
+    <script type="text/javascript" src="//cdn.txooo.com/public/aui.artTemplate/artTemplate.js"></script>
+    <title>我的推广网页</title>
+    <script>
+        opensource.wx.bind(function () {
+            if (Number('{$UserId}') && getUrlParam('shareuid') == '{$UserId}') {
+                $(".share_index1").show();
+            }
+        });
+
+        opensource.browser.bind(function () {
+
+        });
+        window.opensource.app.bind(function () {
+            plus.txservice.share(['{$Thirdtitle}'.replace('##', '{$UserNickName}'),
+                '{$Thirdcontent_info}'.replace('##', '{$UserNickName}'),
+                '{$Thirdimg_url}',
+                window.location.href]);
+        });
+
+        $(function () {
+            if (Number('{$UserId}') && getUrlParam('shareuid') == '{$UserId}') {
+                $('.T_banner .reg_span').hide();
+            } else {
+                $('#back_html').hide();
+            }
+            $(".share_index1").click(function () {
+                $(this).hide();
+            });
+
+            $('#re_day').text(formatTime('{$UserAddTime}', 'day'));
+            window.opensource.init();
+        });
+    </script>
+    <style type="text/css">
+        .share_btn {
+            background: #ff8201;
+            color: #fff;
+            display: block;
+            height: 2.5rem;
+            line-height: 2.5rem;
+            width: 80%;
+            margin: 0.3rem auto;
+            border-radius: 0.25rem;
+            border: none;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <script type="text/html" id="listTemp">
+        <ul>
+            {{each list as l}}
+            <li>
+                <div class="pic">
+                    <em></em><img src="{{l.head_pic}}" /><span><strong class="rankStrong">1</strong><b></b></span>
+                </div>
+                <div class="info">
+                    <h4>{{l.nick_name}}</h4>
+                    <p>共赚到 <span>{{l.total_assets | toFloat}}</span> 元</p>
+                </div>
+            </li>
+            {{/each}}
+        </ul>
+    </script>
+    <section class="share_index1">
+        <div class="web_share">
+            <img src="/Skin/t/Img/Share/webshare.png" />
+        </div>
+    </section>
+    <div style="height:3rem;"></div>
+    <div class="T_top">
+        <div class="topPic"><img id="head_img" src="{$UserHeadPic}" class="img_b" /></div>
+        <div class="topPic_r">
+            <p class="p_1">我是<span id="nick_name" class="name"> {$UserNickName} </span></p>
+            <p>
+                我在这买客<span id="re_day" class="day"> 102 </span>天了,<br />
+                邀你一起来赚钱！不要本钱！
+            </p>
+        </div>
+        <span id="back_html"><a href="/share/index.html"><img src="/Skin/t/Img/Share/false_x.png" /></a></span>
+    </div>
+    <div class="share_btn" onclick="window.opensource.init();">立 即 推 广</div>
+    <div class="T_banner">
+        <span class="reg_span"><a href="//{$DomainShareCode}.u.93390.cn/?i={$DomainShareCode}">立即加入</a></span>
+    </div>
+    <div class="Ta_p">他们都在这赚钱！</div>
+    <div class="T_list">
+
+    </div>
+    <script>
+        template.helper('toFloat', function (data, format) {
+            return parseFloat(data);
+        })
+        $.get("/Txooo/SalesV2/Rank/Ajax/RankAjax.ajax/GetUserInfos?top=3&order=total_assets_rank", function (data) {
+            var obj = eval(data);
+            if (obj.success != "false") {
+                var list = { list: obj };
+                var html = template("listTemp", list);
+                $('.T_list').append(html);
+                $('.T_list ul li').each(function (i, v) {
+                    $(v).addClass('my_li_' + (i + 1));
+                });
+                $('.rankStrong').each(function (index, item) {
+                    $(item).text(index + 1);
+                });
+            }
+        });
+    </script>
+    <!--WL_TMP{tmp=/Skin/t/Pub/T_Public.html}-->
+</body>
+</html>

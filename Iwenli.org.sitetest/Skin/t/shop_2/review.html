@@ -1,0 +1,233 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <!--WL_TMP{tmp=/Skin/t/Pub/app_publiccss.html}-->
+    <link href="/Skin/t/Css/sui/index2.css?v=1" rel="stylesheet" />
+</head>
+<body>
+    <div class="page-group">
+        <!--商品评价-->
+        <div id="page-review-index" class="page">
+            <header class="bar bar-nav bar_ff7800">
+                <a class="icon icon-left pull-left click_back"></a>
+                <h1 class="title">商品评价</h1>
+            </header>
+            <div class="content appContent">
+                <!-- 默认的下拉刷新层 -->
+                <!--<div class="pull-to-refresh-layer">
+                    <div class="preloader"></div>
+                    <div class="pull-to-refresh-arrow"></div>
+                </div>-->
+                <div class="product-container j-product-container">
+                </div>
+                <div class="review-container j-review-container infinite-scroll">
+                    <ul class="rate-all"></ul>
+                </div>
+                <!-- 底部加载提示符 -->
+                <div class="infinite-scroll-preloader">
+                    <div class="preloader"></div>
+                </div>
+            </div>
+        </div>
+        <!--评价详情-->
+        <div id="page-review-details" class="page">
+            <header class="bar bar-nav bar_ff7800">
+                <a class="icon icon-left pull-left back"></a>
+                <h1 class="title">评价详情</h1>
+            </header>
+            <div class="content appContent">
+                <div class="review-container">
+                    <div class="item j-review-item">
+                    </div>
+                </div>
+                <div class="product-container">
+                </div>
+                <div class="replay-detials-container">
+                    <div class="detials-title">
+                        <span class="nolike">
+                            <i></i>全部评论
+                        </span>
+                    </div>
+                    <div class="detials-content j-detials-content  infinite-scroll">
+                    </div>
+                </div>
+                <!-- 底部加载提示符 -->
+                <div class="infinite-scroll-preloader">
+                    <div class="preloader"></div>
+                </div>
+            </div>
+            <nav class="bar bar-tab detials-active" style="height:2.5rem;position:fixed;padding-top:0;">
+                <div class="j-detials-cative">
+                    <a class="tab-item external" href="#">
+                        <span class="like-icon">
+                            <i>&#xe9d5;</i>
+                        </span>
+                        <span class="tab-label">点赞</span>
+                    </a>
+                    <a class="tab-item external" href="#">
+                        <span class="like-icon">
+                            <i>&#xe676;</i>
+                        </span>
+                        <span class="tab-label">评论</span>
+                    </a>
+                </div>
+                <div class="searchbar row j-detials-input" style="display:none;">
+                    <div class="search-input col-80">
+                        <input type="search" id='replayInput' placeholder='回复楼主' />
+                    </div>
+                    <a class="button button-fill button-primary col-20 j-replaySend">发送</a>
+                </div>
+            </nav>
+        </div>
+        <!--商品评价-顶端商品信息-->
+        <script type="text/html" id="review-index-product">
+            {{each list}}
+            <div class="row product-wrap">
+                <div class="col-20 pro_pic">
+                    <img src="{{$value.product.ProductImgs | productImgs}}" alt="{{$value.product.ProductName}}" />
+                </div>
+                <div class="col-80">
+                    <span class="product-title">{{$value.product.ProductName}}</span>
+                    <span class="product-price">
+                        <em>￥</em>{{$value.product.Price | priceToFixed}}
+                    </span>
+                </div>
+            </div>
+            <div class="row assess-tit">
+                <div class="col-20 current">
+                    <span data-id="-1" data-count="{{$value.rate.TotalCount}}" class="order-rate">全部</span>
+                </div>
+                <div class="col-80">
+                    <div class="row">
+                        <div class="col-33">
+                            <span data-id="0" data-count="{{$value.rate.Good}}" class="order-rate">好评({{$value.rate.Good | formatReplyCount}})</span>
+                        </div>
+                        <div class="col-33">
+                            <span data-id="1" data-count="{{$value.rate.Center}}" class="order-rate">中评({{$value.rate.Center | formatReplyCount}})</span>
+                        </div>
+                        <div class="col-33">
+                            <span data-id="2" data-count="{{$value.rate.Bad}}" class="order-rate">差评({{$value.rate.Bad | formatReplyCount}})</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{/each}}
+        </script>
+        <!--商品评价-评价列表-->
+        <script type="text/html" id="review-index-item">
+            {{each data}}
+            <li class="item">
+                <div class="row author">
+                    <div class="col-15 head">
+                        <img src="{{$value.HeadPic | headPic}}" alt="{{$value.NickName}}头像" />
+                    </div>
+                    <div class="col-85 nike">{{$value.NickName}}</div>
+                </div>
+                <div class="info">
+                    <div class="row">
+                        <span class="col-33 info-time">{{dateFormat($value.AddTime,'yyyy-MM-dd')}}</span>
+                        <span class="col-66 info-spec">颜色分类：{{$value.PropertyName}}</span>
+                    </div>
+                    <div class="row mar_top">
+                        <span class="col-50">
+                            <span class="info-text">商品质量：</span>
+                            <span class="info-xing review-rate review-level-{{$value.ProductReview}}"></span>
+                        </span>
+                        <span class="col-50">
+                            <span class="info-text">商品快递：</span>
+                            <span class="info-xing review-rate review-level-{{$value.ExpressReview}}"></span>
+                        </span>
+                    </div>
+                </div>
+                <div class="review-content-wrap">
+                    <div class="review-content">
+                        <span>{{$value.ReviewContent}}</span>
+                        {{$value.ReviewImgs | reviewImages}}
+                    </div>
+                    {{if $value.MchReplyContent != null &&  $value.MchReplyContent != ''}}
+                    <div class="review-reply">
+                        卖家回复：
+                        {{$value.MchReplyContent}}
+                    </div>
+                    {{/if}}
+                </div>
+                <div class="action-wrap" data-id="{{$value.ReviewId}}"  data-use="{{$value.isUse}}">
+                    {{if $value.Liked == false}}
+                    <span class="like nolike like-active{{if $value.LikeCount > 0}} count{{/if}}">
+                        <i>&#xe9d5;</i>
+                        {{if $value.LikeCount > 0}}<label>{{$value.LikeCount}}</label>{{/if}}
+                    </span>
+                    {{else}}
+                    <span class="like{{if $value.LikeCount > 0}} count{{/if}}">
+                        <i>&#xe9d4;</i>
+                        {{if $value.LikeCount > 0}}<label>{{$value.LikeCount}}</label>{{/if}}
+                    </span>
+                    {{/if}}
+                    <span class="reply{{if $value.ReplyCount > 0}} count{{/if}}">
+                        <i>&#xe676;</i>
+                        {{if $value.ReplyCount > 0}}<label>{{$value.ReplyCount}}</label>{{/if}}
+                    </span>
+                </div>
+            </li>
+            {{/each}}
+        </script>
+        <!--评价详情-商品信息-->
+        <script type="text/html" id="review-details-product">
+            {{each list}}
+            <div class="product-wrap">
+                <div class="row">
+                    <span class="col-75 info-spec">{{$value.PropertyName}}</span>
+                </div>
+                <div class="row pro_pic_bottom">
+                    <div class="col-20">
+                        <img src="{{$value.ProductImgs | productImgs}}" alt="{{$value.ProductName}}" />
+                    </div>
+                    <div class="col-80">
+                        <span class="product-title">{{$value.ProductName}}</span>
+                        <span class="product-price">
+                            <em>￥</em>{{$value.Price | priceToFixed}}
+                        </span>
+                    </div>
+                </div>
+            </div>
+            {{/each}}
+        </script>
+        <!--评价详情-回复列表-->
+        <script type="text/html" id="review-details-replay">
+            {{each data}}
+            <dl>
+                <dt class="other_user">
+                    <img src="{{$value.HeadPic | headPic}}" alt="{{$value.NickName}}" />
+                </dt>
+                <dd class="list_name">
+                    <a class="other_user external" href="#">
+                        {{$value.NickName}}
+                        <em>{{dateFormat($value.AddTime,'yyyy-MM-dd','diy')}}</em>
+                    </a>
+                    <span class="right" data-id="{{$value.ReviewId}}" data-use="{{$value.isUse}}">
+                        {{if $value.Liked == false}}
+                        <span class="like nolike like-active{{if $value.LikeCount > 0}} count{{/if}}">
+                            <i>&#xe9d5;</i>
+                            {{if $value.LikeCount > 0}}<label>{{$value.LikeCount}}</label>{{/if}}
+                        </span>
+                        {{else}}
+                        <span class="like{{if $value.LikeCount > 0}} count{{/if}}">
+                            <i>&#xe9d4;</i>
+                            {{if $value.LikeCount > 0}}<label>{{$value.LikeCount}}</label>{{/if}}
+                        </span>
+                        {{/if}}
+                    </span>
+                </dd>
+                <dd class="list_content">
+                    {{$value.ReviewContent}}
+                </dd>
+            </dl>
+            {{/each}}
+        </script>
+    </div> 
+    <!--WL_TMP{tmp=/Skin/t/Pub/app_publicjs.html}-->
+    <script src="/Skin/t/Js/sui/index2.js?v=1"></script>
+</body>
+</html>

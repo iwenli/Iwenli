@@ -1,0 +1,162 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/html5/rem.js"></script>
+    <script type="text/javascript" src="//cdn.txooo.com/public/jquery/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="//cdn.txooo.com/public/aui.artTemplate/artTemplate.js"></script>
+    <script src="/Skin/t/Js/Public.js"></script>
+    <script src="/Skin/t/Js/Template.js"></script>
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Public.css" />
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Task.css" />
+    <title>我的任务</title>
+
+    <script type="text/javascript">
+        var pageIndex = 0;
+        var pageSize = 10;
+        var scrollTrue;
+        var _isDefault = 0;
+        var _finishState = 0;
+        $(function () {
+            LoadList(_isDefault, _finishState, 0);
+
+            window.onscroll = function () {
+                if (getScrollTop() + getClientHeight() == getScrollHeight()) {
+                    if (scrollTrue) {
+                        scrollTrue = false;
+                        LoadList(_isDefault, _finishState, 1);
+                    }
+                }
+            }
+
+            $('.li_state').click(function () {
+                $('.more_btn').hide();
+                $(".no_data").hide();
+                _finishState = parseInt($(this).attr('data-fs'));
+                if (_finishState != 0) {
+                    _isDefault = 1;
+                } else {
+                    _isDefault = 0;
+                }
+                pageIndex = 0;
+                LoadList(_isDefault, _finishState, 0);
+            });
+
+            $(".dis_box li").click(function () {
+                $(this).addClass("current").siblings().removeClass("current")
+            })
+        })
+
+        function LoadList(isDefault,finishState,isAppend) {
+            $.get('/Txooo/SalesV2/MemberTask/Ajax/TaskAjax.ajax/GetUserTaskList',
+                { pageIndex: pageIndex, pageSize: pageSize, isDefault: isDefault, finishState: finishState }, function (data) {
+                    if (isAppend == 0) {
+                        $('#default_list').empty();
+                    }
+                    var obj = eval(data);
+                    if (pageIndex == 0 && obj.length == 0) {
+                        var _state = "";
+                        switch (finishState) {
+                            case 1: _state = "<i>&#xe67c;</i>还没有进行中的任务哦~<span>赶快去领取吧</span>"; break;
+                            case 2: _state = "<i>&#xe67c;</i>还没有已完成的任务哦~<span>赶快去领取吧</span>"; break;
+                            case 3: _state = "<i>&#xe67c;</i>还没有未完成的任务哦~<span>再接再厉，去挑战新任务吧</span>"; break;
+                            default: _state = "<i>&#xe67c;</i>还没有进行中的任务哦~<span>赶快去领取吧</span>"; break;
+                        }
+                        $(".no_data").show().children('div').html(_state);
+                    }
+                    if (obj.length > 0) {
+                        var data = { list: obj };
+                        var temp = 'list_temp';
+                        if (_isDefault != 0) {
+                            temp = 'list_temp2';
+                        }
+                        $('#default_list').append(template(temp, data));
+                        scrollTrue = true;
+                        if (obj.length < pageSize) { scrollTrue = false; }
+                        if (pageIndex > 0) { $('.more_btn').show(); }
+                        pageIndex++;
+                    }
+                    if (_isDefault == 0) {
+                        $('#default_list ul').each(function (index, item) {
+                            var userPrizeCount = parseInt($(item).attr('data-prize'));
+                            var doTimes = parseInt($(item).attr('data-dotimes'));
+                            if (userPrizeCount == 1 & doTimes == 1) {
+                                $(item).css('background-color', 'gray');
+                            }
+                        });
+                    } else {
+                        $('.end_time').each(function (i, o) {
+                            var fstate = parseInt($(o).attr('data-fstate'));
+                            if (fstate == 2) {
+                                $(o).css('display', 'block');
+                            }
+                        });
+                    }
+                });
+        }
+    </script>
+    <style>
+        .P_Header_info a {color: #fff;border: #fff 1px solid;border-radius: 0.25rem;padding: 0.25rem 0.5rem;font-size:0.625rem;}
+        .nav{line-height:2.5rem;height:2.5rem;background:#fff;border-bottom:1px solid #dedede; text-align:center;}
+        .nav li.current span{border-bottom:0.125rem solid #ff8901;display:inline-block;height:2.25rem;}
+        .P_Pages{}
+        .task_list{border-bottom:1px solid #dedede;padding:0.5rem ; position:relative; min-height:3rem;background:#fff;margin-top:0.5rem;}
+        .task_list .tit{color:#000;font-size:0.875rem;line-height:1rem;width:78%;overflow:hidden;height:1rem;}
+        .task_list .tit .money{color:#ff8901;margin-left:0.125rem;}
+        .task_list .info{color:#666;font-size:0.75rem;line-height:1rem;margin-top:0.25rem;max-height:2rem;overflow:hidden; width:78%;}
+        .task_list .succ{position:absolute;width:22%;border-left:1px solid #dedede;right:0;text-align:center;top:0;min-height:4rem;color:#000; background:#fff3e5}
+        .task_list .succ span{display:block;line-height:1.5rem;color:#898989; margin-top:0.75rem;}
+        .task_list .time{width:78%;font-size:0.5rem;line-height:1rem;}
+        .no_data {line-height:1.5rem; color:#333;text-align:center;}
+        .task_list .tit .money i{display:inline-block;padding-left:0.25rem;}
+        .no_data span{display:block;font-size:0.875rem;}
+        .no_data i{color:#989898;font-size:5.5rem;line-height:7rem; margin-top:2rem;}
+    </style>
+</head>
+<body style="background:#f0f0f0; padding-bottom:0.5rem;">
+    <header class="P_Header">
+        <div class="P_goBack" onclick="javascript:history.go(-1)"><i>&#xe602;</i></div>
+        <div class="P_title">我的任务</div>
+        <div class="P_Header_info"><a href="/Task/index.html">领取新任务</a></div>
+    </header>
+
+    <div class="nav">
+        <ul class="dis_box" id="navgation">
+            <li class="box_flex_1 li_state current" data-fs="0"><span>常规任务</span></li>
+            <li class="box_flex_1 li_state" data-fs="1"><span>进行中</span></li>
+            <li class="box_flex_1 li_state" data-fs="3"><span>未完成</span></li>
+            <li class="box_flex_1 li_state" data-fs="2"><span>已完成</span></li>
+        </ul>
+    </div>
+    <section class="P_Pages P_new">
+        <div id="default_list"></div>
+
+        <div class="more_btn" style="display:none"><a href="javascript:void(0)" id="list_show"><span>没有记录了</span></a></div>
+
+        <div class="no_data" style="display:none">
+            <div class="word"></div>
+        </div>
+    </section> 
+    <!--WL_TMP{tmp=/Skin/t/Pub/T_Public.html}-->
+    <script type="text/html" id="list_temp">
+        {{each list as l}}
+        <ul class="task_list" data-prize="{{l.user_prize_count}}" data-dotimes="{{l.do_times}}">
+            <li class="tit"><span class="name">{{l.task_title}}</span><span class="money"><i>&#xe654;</i>{{l.prize_point}}</span></li>
+            <li class="info">{{l.task_explain}}</li>
+            <li class="succ"><span>已完成</span>{{l.do_times}}次</li>
+        </ul>
+        {{/each}}
+    </script>
+    <script type="text/html" id="list_temp2">
+        {{each list as l}}
+        <ul class="task_list">
+            <li class="tit"><span class="name">{{l.task_title}}</span><span class="money"><i>&#xe654;</i>{{l.get_point}}</span></li>
+            <li class="info">{{l.task_explain}}</li>
+            <li class="time">领取日期:{{l.add_time | dateFormat:'yyyy年MM月dd日'}} </li>
+            <li class="end_time time" data-fstate="{{l.finish_state}}" style="display:none">结束时间:{{l.last_time | dateFormat:'yyyy年MM月dd日'}}</li>
+        </ul>
+        {{/each}}
+    </script>
+</body>
+</html>

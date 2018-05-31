@@ -1,0 +1,146 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <!--WL_TMP{tmp=/Skin/t/Pub/app_publiccss.html}-->
+    <!--<link rel="stylesheet" href="//g.alicdn.com/msui/sm/0.6.2/css/sm-extend.min.css">-->
+    <link href="/Skin/t/Css/sui/index.css?v=1.1" rel="stylesheet" />
+    <link href="/Skin/t/Css/sui/zepto.mdater.css?v=1.1" rel="stylesheet" />
+</head>
+<body>
+    <div class="page-group appPage">
+        <!--签到入口-->
+        <div id="page-signIn-dir" class="page" style="display:none;">
+            <div class="content" style="background:#fff;">
+                <div class="close-poster"><img src="/Skin/t/Img/Activity/closeicon.png" /></div>
+                <div class="poster-box">
+                    <img src="/Skin/t/Img/Activity/banner_01.jpg" />
+                    <a href="#" class="poster-btn">点击参与</a>
+                </div>
+                <div class="activity-rule">
+                    <h2><span>活动规则</span></h2>
+                    <div class="rule-text">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--签到-->
+        <div id="page-signIn-index" class="page">
+            <div class="content" style="height:100%;background:#fff;">
+                
+                <div class="activity-box">
+
+                    <div class="activity-top">
+                        <div class="nav_top">
+                            <a href="#" class="icon_close close-poster"><img src="/Skin/t/Img/Activity/closeicon.png" /></a>
+                            <h1>签到活动</h1>
+                            <a href="#" class="icon_share j-share"><img src="/Skin/t/Img/Activity/shareicon.png" /></a>
+                        </div>
+                    </div>
+
+                    <div class="sign-check">
+                        <em class="checkbox-em current">
+                            <input type="checkbox" name="sign" id="sign" value="" checked="checked" />
+                            <label for="sign"></label>
+                        </em>
+                        <span>签到提醒</span>
+                    </div>
+                    <div class="sign-textinfo">
+                        <ul>
+                            <li>
+                                <h2>签到累计获得</h2>
+                                <p>现金<span>0.00</span>元&nbsp;&nbsp;&nbsp;&nbsp; 创业金<span>0.00</span>元</p>
+                            </li>
+                            <li>
+                                <h2>签到冻结奖励</h2>
+                                <p>现金<span>0.00</span>元&nbsp;&nbsp;&nbsp;&nbsp; 创业金<span>0.00</span>元</p>
+                            </li>
+                        </ul>
+                        <a href="#" class="receive-btn j-receive-btn">一键领取</a>
+                    </div>
+                    <div class="sign-btn sign-btn-ok">
+                        <a href="#" class="j-signIn">立即签到</a>
+                    </div>
+
+                    <div class="history_sign rili-container">
+                        <ul></ul>
+                    </div>
+                    <div class="sign_bottom">
+                        <a href="#" class="j-history">历史签到</a>
+                        <a href="#" class="j-rule">活动规则</a>
+                    </div>
+                </div>
+            </div>
+
+            <!--活动说明弹出框-->
+            <div class="shade_box shade-box1">
+                <div class="activity-popup">
+                    <div class="info rule-text">
+                    </div>
+                    <div class="bg-white"></div>
+                    <div class="close-popup-box1 j-close-popup-box">
+                        <img src="/Skin/t/Img/Activity/closeicon2.png" />
+                    </div>
+                </div>
+            </div>
+
+            <!--签到成功弹出框-->
+            <div class="shade_box shade-box2">
+                <div class="activity-popup">
+                    <div class="sign-success">
+                        <div class="success-top">
+                            <h2>签到成功</h2>
+                            <p>
+                                本次签到获得<span>0.00</span>元<br />
+                                明天可能会获得更多哦~~
+                            </p>
+                        </div>
+                        <div class="success_bottom">
+                            <p>包含</p>
+                            <p>现金红包：<span j>0.00</span>元</p>
+                            <p>创业金：<span>0</span>元<em>（可用V币兑换现金）</em></p>
+                            <p style="margin-top:0.25rem;">
+                                <em>
+                                    快去将喜悦分享给小伙伴们，让大家一同来创业
+                                    赚钱平台赚钱吧。
+                                </em>
+                            </p>
+                            <a href="#" class="j-share">分享赚V币</a>
+                        </div>
+                    </div>
+                    <div class="close-popup-box2 j-close-popup-box">
+                        <img src="/Skin/t/Img/Activity/closeicon2.png" />
+                    </div>
+                </div>
+            </div>
+
+            <!--没有签到弹出框-->
+            <div class="shade_box shade-box3">
+                <div class="activity-popup">
+                    <div class="forget-sign">
+                        <div class="close-popup-box3 j-close-popup-box">
+                            <img src="/Skin/t/Img/Activity/closeicon1.png" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--日历弹出框-->
+            <div class="shade_box shade-box4">
+                <div class="activity-popup">
+                    <div class="sign-rili">
+
+                    </div>
+                    <div class="close-popup-box2 j-close-popup-box">
+                        <img src="/Skin/t/Img/Activity/closeicon2.png" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--WL_TMP{tmp=/Skin/t/Pub/app_publicjs.html}-->
+    <script src="/Skin/t/Js/sui/index.js?v=1.1"></script>
+    <script src="/Skin/t/Js/sui/zepto.mdater.js?v=1.0"></script>
+</body>
+</html>

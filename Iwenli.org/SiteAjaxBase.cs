@@ -1,4 +1,5 @@
-﻿using Iwenli.Web.Authorization;
+﻿using Iwenli.Extension;
+using Iwenli.Web.Authorization;
 using System;
 using System.Reflection;
 using System.Web;
@@ -43,7 +44,7 @@ namespace Iwenli.Org
                     | BindingFlags.IgnoreCase
                     | BindingFlags.NonPublic
                     | BindingFlags.Public);
-            if (method == null) { context.Response.Write(ToolHelper.Json(false, "请求的处理函数不存在")); return; }
+            if (method == null) { context.Response.Write(JsonHelper.Json(false, "请求的处理函数不存在")); return; }
 
             var fun = (Func<HttpContext, string>)method.CreateDelegate(typeof(Func<HttpContext, string>), this);
             context.Response.Write(fun(context));

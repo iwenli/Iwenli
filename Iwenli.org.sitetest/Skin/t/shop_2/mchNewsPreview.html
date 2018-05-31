@@ -1,0 +1,33 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>店铺资讯详情</title>
+    <!--WL_TMP{tmp=/Skin/t/Pub/app_publiccss.html}-->
+    <link href="/Skin/t/Css/sui/index.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="page-group">
+        <div id="page-shop-mchnewspreview" class="page">
+            <div class="content">
+                <input id="news_id" type="hidden" value="{$U_QUERY_NEWSID}" />
+                <!--资讯内容-->
+                <div class="news_detail"></div>
+            </div>
+            <!--资讯内容模板-->
+            <script type="text/html" id="news_data_temp">
+                <ul>
+                    <li class="news_title">{{NewsTitle}}</li>
+                    <li class="news_source"><span>来源：买客</span>&nbsp;&nbsp;&nbsp;&nbsp;<span>作者：{{UserNickName}}</span><span class="news_time">{{CheckTime | dateFormat:'yyyy年 MM月 dd日'}}</span></li>
+                    <li class="img_text_details">{{#NewsContent}}</li>
+                    <li class="news_likes"><br /></li>
+                    <li class="news_state">免责声明：以上内容，版权归原作者所有，如有侵犯原创版权请告知，我们将尽快删除相关内容。</li>
+                </ul>
+            </script>
+        </div>
+    </div>
+
+    <!--WL_TMP{tmp=/Skin/t/Pub/app_publicjs.html}-->
+    <script src="/Skin/t/Js/sui/index.js?v=1"></script>
+</body>
+</html>

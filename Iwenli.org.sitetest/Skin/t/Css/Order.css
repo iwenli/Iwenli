@@ -1,0 +1,147 @@
+﻿.black{ color:#666;}
+.gray{ color:#666;}
+.gray_ccc{ color:#a4a4a4;}
+.orange{ color:#ff7900;}
+/*body{margin:0;}*/
+
+.O_main{ background:#f5f5f5;}
+
+.nav{ width:100%; height:2.5625rem; line-height:2.5625rem; border-bottom:1px solid #e1e1e1; background:#fff;color:#666; position:fixed; left:0; top:2.5rem; z-index:99;}
+.nav ul{width:100%; height:100%;}
+.nav ul li{height:2.5rem; border-bottom:0.0625rem solid #fff; text-align:center;}
+.nav ul li.current{ font-weight:bold; border-bottom-color:#f98701;}
+
+/*我的订单--全部*/
+.order_lists{ padding:3.15rem 0 0.64rem;}
+.order_lists ul li{background:#fff; border-top:1px solid #e1e1e1; border-bottom:1px solid #e1e1e1;color:#666; overflow:hidden; margin-bottom:0.64rem;}
+.order_lists ul li:nth-last-of-type(1){ margin-bottom:0;}
+.order_lists ul li >p{ height:2.5rem; line-height:2.5rem; padding:0 0.64rem; }
+.order_lists ul li .order_info{ background:#f5f5f5; padding:0.64rem; width:92.5%;}
+/*.order_lists ul li .order_info>div{ float:left;}*/
+.order_lists ul li .order_info .pic{ width:3.75rem; height:4.21875rem; border:1px solid #e2e2e2;}
+.order_lists ul li .order_info .pic img{ display:block;width:100%; height:100%;}
+.order_lists ul li .order_info .introduce{  width:10rem; overflow:hidden; line-height:1.09375rem;}
+.order_lists ul li .order_info .introduce h4{ height:2.8rem; overflow:hidden; font-weight:normal; font-size:0.75rem; line-height:1.4rem;}
+.order_lists ul li .order_info .introduce .time{ color:#a4a4a4;}
+.order_lists ul li .order_info .price{ text-align:right; line-height:1.09375rem;}
+.order_lists ul li .total_price{ height:2.5rem; line-height:2.5rem;padding:0 0.64rem;}
+.order_lists ul li .total_price p{  border-bottom:1px solid #e1e1e1; text-align:right;}
+.order_lists ul li .total_price p span{ font-size:1rem;}
+.order_lists ul li .btn_box{ height:3.125rem;line-height:3.125rem; text-align:right; padding-right:0.64rem;}
+.order_lists ul li .btn_box a{ display:inline-block; height:1.78125rem; line-height:1.78125rem; padding:0 0.64rem; border-radius:0.16rem; vertical-align:middle; border:1px solid #e1e1e1; background:none;}
+.order_lists ul li .btn_box a:nth-of-type(1){ margin-right:0.64rem;}
+.order_lists ul li .btn_box a.order_btn_color{ color:#09D317; border:1px solid #09D317;}
+
+.order_lists ul li .btn_2{ height:3.125rem;line-height:3.125rem; text-align:right; padding-right:0.64rem;}
+.order_lists ul li .btn_2 a{ display:inline-block; height:1.78125rem; line-height:1.78125rem; padding:0 0.64rem; border-radius:0.16rem; vertical-align:middle; border:1px solid #e1e1e1; background:none;}
+
+
+.more,.no_more{display:block; height:2.5625rem; line-height:2.5625rem; background:#fff; text-align:center; color:#666;}
+.no_order{ margin:5.125rem 0 ;}
+.no_order span{ display:block; width:5.9375rem; height:5.9375rem; line-height:5.9375rem; text-align:center; margin:0 auto; background:#d7d8da; border-radius:100%;}
+.no_order span i{ color:#fff;font-size:3rem; }
+.no_order p{ height:1.875rem; line-height:1.875rem; color:#d7d8da; text-align:center; margin-top:0.64rem;}
+.no_order .go{ display:block; width:4.25rem; height:1.75rem; line-height:1.75rem; text-align:center; border:1px solid #d7d8da ; border-radius:0.15625rem; margin:0 auto;}
+.no_order .go a{ color:#09D317;}
+
+/*我的订单--已完成*/
+.order_lists ul li >p .finish{ float:right; color:#09D317;}
+.order_lists ul li >p .finish.os_5{ color:#a4a4a4;}
+
+/*订单详情*/
+.det_page{ color:#666; line-height:1.4375rem;}
+.det_page .det_nav{ height:4.21875rem; padding:0.64rem; background:#fff; border-bottom:1px solid #e1e1e1;}
+.det_page .det_nav .pic{ width:3.75rem; height:100%; border:1px solid #e1e1e1; float:left;}
+.det_page .det_nav .pic img{ display:block; width:100%; height:100%;}
+.det_page .det_nav .word{ float:left; padding:0.32rem 0 0 0.64rem; width:11.875rem;}
+.det_page .det_nav .word h4{ max-height:2.96875rem; overflow:hidden;}
+.det_page .det_nav .word em{ display:block;} 
+.det_page .det_info{ margin-top:0.64rem; padding:0.32rem 0.64rem; background:#fff;  border-bottom:1px solid #e1e1e1;}
+.det_page .det_info .total_price{ height:2.96875rem; line-height:2.96875rem; border-top:1px solid #e1e1e1;}
+.det_page .add{ color:#b3b4b4; background:#fff; margin-top:0.64rem; padding:0.32rem 0.64rem; border-bottom:1px solid #e1e1e1;}
+.det_page .add dl{ overflow:hidden; min-height:1.25rem;}
+.det_page .add dl dt{ float:left; height:1.25rem; }
+.det_page .add dl dd{ float:left; width:14.375rem;}
+.det_page .goods{color:#b3b4b4; background:#fff; margin-top:0.64rem; padding:0.32rem 0;  padding-bottom:3.125rem;}
+.det_page .goods dl{ height:1.25rem; overflow:hidden; padding:0 0.64rem;}
+.det_page .goods dl dt{ float:left;}
+.det_page .goods dl dd{ float:left;}
+.det_page .goods .step_box{ }
+.det_page .goods .step_box .step{  padding-left:2.5rem; padding-top:0.64rem;}
+.det_page .goods .step_box .step li{overflow:hidden; border-left:1px solid #9fa0a0; padding:0 0 0.75rem 1.875rem;}
+.det_page .goods .step_box .step li:before{ content:""; display:inline-block; width:0.4375rem; height:0.4375rem; background:#9fa0a0; border-radius:100%; border:0.064rem solid #f4f4f4; margin-left:-2.15775rem; position:absolute; z-index:10; }
+.det_page .goods .step_box .step li .dot{ float:left;width:2.03125rem; height:1.25rem; }
+.det_page .goods .step_box .step li .state{  border-bottom:1px solid #e1e1e1; box-sizing:border-box; padding-bottom:0.875rem;}
+.det_page .goods .step_box .step li .state span{ display:block; height:1rem; line-height:1rem;}
+.det_page .goods .step_box .step li .state em{ display:block; height:1rem;line-height:1rem;}
+.det_page .goods .step_box .step li.current:before{ background:#09D317;}
+.det_page .goods .step_box .step li.current span{color:#09D317; }
+.det_page .goods .step_box .step li:nth-last-of-type(1){ border-left:none; }
+.det_page .operation{ height:3.125rem;line-height:3.125rem; text-align:right; background:#eaedf1; width:100%; position:fixed;left: 0; bottom:0; z-index:111 }
+.det_page .operation a{ display:inline-block; height:1.78125rem; line-height:1.78125rem; padding:0 0.64rem; border-radius:0.26rem; vertical-align:middle; border:1px solid #a4a4a4; background:#fff; border:1px solid #e1e1e1; margin-right:0.64rem; color:#666;}
+.det_page .operation a.bg_orange{ color:#fff; border:1px solid #09D317; background:#09D317;}
+
+/*评价订单*/
+.Review_page{ color:#666; line-height:1.4375rem;}
+.review_tit{height:4.21875rem; padding:0.64rem; background:#fff; border-bottom:1px solid #e1e1e1; }
+.review_tit .pic{ float:left; width:3.75rem; height:100%; border:1px solid #e1e1e1; box-sizing:border-box;}
+.review_tit .pic img{ display:block; width:100%; height:100%;}
+.review_tit .pic_r{ width:14.3rem; float:left; padding-left:0.64rem;}
+.review_tit .pic_r .pic_r_t{ height:2.875rem; overflow:hidden;}
+.review_tit .pic_r .pic_r_t .left{ width:9.375rem; }
+.review_tit .pic_r .pic_r_t .right{ text-align:right;}
+.review_tit .pic_r .pic_r_t .right em{ display:block;}
+.review_tit .pic_r .pic_r_b{ height:1.4375rem;}
+.review_form h4{ height:2.375rem; line-height:2.375rem; padding:0.64rem 0.64rem 0; font-size:1.1rem; font-weight:normal;}
+.review_form .review_level{ background:#fff; padding:0 0.64rem; border-bottom:1px solid #e1e1e1;}
+.review_form .review_level dl{ height:3.125rem; line-height:3.125rem; border-bottom:1px solid #e1e1e1;}
+.review_form .review_level dl:nth-last-of-type(1){ border-bottom:none;}
+.review_form .review_level dl dt{ float:left; width:4.1875rem;}
+.review_form .review_level dl dd{ float:left; width:14.0625rem;}
+.review_form .review_level dl dd span{ display:inline-block; width:1.2rem; margin-right:0.9rem; }
+.review_form .review_level dl dd span i{ font-size:1.2rem; color:#d7d6d6;}
+.review_form .review_level dl dd span.current i{ color:#ff7900;}
+.review_form .textarea{ height:5.3125rem; padding:0.64rem; background:#fff; color:#a4a4a4;border-bottom:1px solid #e1e1e1;}
+.review_form .textarea textarea{display:block; height:100%; background:#fff; border:none; resize:none; width:92.5%; }
+.review_form .submit_btn{ margin-top:1.25rem; padding:0 0.64rem; height:2.8125rem; line-height:2.8125rem;}
+.review_form .submit_btn a{display:block; height:100%; text-align:center;  background:#ff7900; color:#fff; border-radius:0.15625rem; font-size:1.2rem;}
+
+/*售后服务*/
+.Explain_con{ background:#f0f0f0;}
+.Explain_con dl{ overflow:hidden; padding:0.64rem 0;}
+.Explain_con dl dt{ float:left; width:2.8125rem; height:2.8125rem; padding:0 0.46875rem 0 0.7rem; }
+.Explain_con dl dt span{ display:block; width:100%; height:100%; background:#09D317; border-radius:100%;}
+.Explain_con dl dt span img{ display:block; width:100%; height:100%;}
+.Explain_con dl dd{ float:left; padding:0.64rem 0.64rem 0.64rem 0; width:15rem; border-bottom:0.0625rem dashed #999; }
+.Explain_con dl dd.last{border-bottom:none;}
+.Explain_con dl dd h4{ color:#333; font-size:0.9rem; height:1.7rem; line-height:1.7rem;}
+.Explain_con dl dd p{ line-height:1.1rem; font-size:0.8rem; color:#666666; margin-bottom:0.32rem; }
+
+.goBack{ padding:0 0.64rem; line-height:1.5625rem;}
+
+.order_lists ul li .btn_5{ height:3.125rem;line-height:3.125rem; text-align:right; padding-right:0.64rem;}
+.order_lists ul li .btn_5 a{ display:inline-block; height:1.78125rem; line-height:1.78125rem; padding:0 0.64rem; border-radius:0.16rem; vertical-align:middle; border:1px solid #e1e1e1; background:none;}
+.order_lists ul li .btn_1{ height:3.125rem;line-height:3.125rem; text-align:right; padding-right:0.64rem;}
+.order_lists ul li .btn_1 a{ display:inline-block; height:1.78125rem; line-height:1.78125rem; padding:0 0.64rem; border-radius:0.16rem; vertical-align:middle; border:1px solid #e1e1e1; background:none;}
+.order_lists ul li .btn_2{ height:3.125rem;line-height:3.125rem; text-align:right; padding-right:0.64rem;}
+.order_lists ul li .btn_2 a{ display:inline-block; height:1.78125rem; line-height:1.78125rem; padding:0 0.64rem; border-radius:0.16rem; vertical-align:middle; border:1px solid #e1e1e1; background:none;}
+.order_lists ul li .btn_3{ height:3.125rem;line-height:3.125rem; text-align:right; padding-right:0.64rem;}
+.order_lists ul li .btn_3 a{ display:inline-block; height:1.78125rem; line-height:1.78125rem; padding:0 0.64rem; border-radius:0.16rem; vertical-align:middle; border:1px solid #e1e1e1; background:none;}
+.order_lists ul li .btn_4{ height:3.125rem;line-height:3.125rem; text-align:right; padding-right:0.64rem;}
+.order_lists ul li .btn_4 a{ display:inline-block; height:1.78125rem; line-height:1.78125rem; padding:0 0.64rem; border-radius:0.16rem; vertical-align:middle; border:1px solid #e1e1e1; background:none;}
+.order_lists ul li .btn_6{ height:3.125rem;line-height:3.125rem; text-align:right; padding-right:0.64rem;}
+.order_lists ul li .btn_6 a{ display:inline-block; height:1.78125rem; line-height:1.78125rem; padding:0 0.64rem; border-radius:0.16rem; vertical-align:middle; border:1px solid #e1e1e1; background:none;}
+
+.det_page .goods .step_box .step_btn{height:2.5rem; text-align:center;line-height:2.5rem;}
+.det_page .goods .step_box .step_btn a{float:left; width:50%;}
+.det_page .goods .step_box .step_btn a.current{border-bottom:1px solid #e1e1e1;}
+.det_page .goods .step_box .step_btn a.current span{border-bottom:0.125rem solid #09D317; padding:0.65rem;}
+
+.det_page .goods.virOrderGoods{padding:0.32rem 0.64rem; }
+.OrderCodeTit{ height:2.96875rem; line-height:2.96875rem; border-bottom:0.03125rem solid #d7d7d7; margin-bottom:0.32rem;}
+.det_page .goods.virOrderGoods ul{ height:1.5625rem; line-height:1.5625rem;}
+.det_page .goods.virOrderGoods ul li.noUse{ color:#333;}
+.virOperation{ left:0;}
+.det_page .tuihuo{line-height:3rem;text-indent:0.75rem; }
+.det_page .tuihuo span{color:#9c3e3e}
+#refuseInfo div,#refundExpress div{padding:0 0.75rem;color:#666;}

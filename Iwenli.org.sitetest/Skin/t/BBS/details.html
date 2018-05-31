@@ -1,0 +1,86 @@
+﻿<!DOCTYPE html>
+<html style="font-size:inherit">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>评论详情</title>
+    <!--WL_TMP{tmp=/Skin/t/Pub/app_publiccss.html}-->
+    <link href="/Skin/t/Css/sui/index.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="page-group">
+        <div id="page-bbs-details" class="page">
+            <header class="bar bar-nav bar_ff8201">
+                <a class="icon icon-left pull-left back"></a>
+                <h1 class="title">评论详情</h1>
+            </header>
+            <nav class="bar bar-tab">
+                <input type="text" class="download_app" readonly="readonly" placeholder="我要写评论" />
+            </nav>
+            <div class="content">
+                <input id="bbs_id" type="hidden" value="{$U_QUERY_BBSID}" />
+                <div class="user_bbs news_bbs" style="margin:0"><div class="list"></div></div>
+                <div class="like_img"><a href="#page-bbs-details-like" class="list"></a></div>
+                <div class="all_bbs news_bbs" style="margin:0;background:none;border-top:1px solid #dedede;">
+                    <div class="new_bbs_tit">全部评论</div><div class="list infinite-scroll"></div>
+                    <!-- 加载提示符 -->
+                    <div class="infinite-scroll-preloader">
+                        <div class="preloader">
+                        </div>
+                    </div>
+                    <div class="content-block more_container">--------没有更多评论了--------</div>
+                </div>
+            </div>
+            <!--评论-->
+            <script type="text/html" id="bbs_details_temp">
+                {{each list as value}}
+                <dl>
+                    <dt><img src="{{value.UserHeadPic}}" /></dt>
+                    <dd class="list_name"><a class="external" href="/homepage/index.html?uid={{value.UserId}}">{{value.UserNikeName}}</a><em>{{value.AddTime | dateFormat:'yyyy-MM-dd hh:mm','diy'}}·回复</em><span class="right is_like_click is_like_{{value.IsLike | bbsClickLike:value.BbsId}}" data-like="{{value.IsLike | bbsClickLike:value.BbsId}}" data-bbsid="{{value.BbsId}}"><i class="nocolor">&#xe9d5;</i><i class="color">&#xe9d4;</i><span>{{value.LikeCount}}</span></span></dd>
+                    <dd class="list_reply">{{if value.ReviewBbsId>0}}<em>回复</em><a class="external" href="/homepage/index.html?uid={{value.ReviewUserId}}">{{value.ReviewNikeName}}：</a>{{/if}}{{value.ContentText | replaceBrContent}}</dd>
+                </dl>
+                {{/each}}
+            </script>
+            <!--点赞横排列表-->
+            <script type="text/html" id="like_img_temp">
+                <ul>
+                    {{each list as value}}
+                    <li><img src="{{value.UserHeadPic}}" /></li>
+                    {{/each}}
+                </ul>
+                <div class="right">更多 ></div>
+            </script>
+        </div>
+        <div id="page-bbs-details-like" class="page">
+            <header class="bar bar-nav bar_ff8201">
+                <a class="icon icon-left pull-left back"></a>
+                <h1 class="title">赞过的人</h1>
+            </header>
+            <div class="content">
+                <div class="like_list">
+                    <div class="list infinite-scroll"></div>
+                    <!-- 加载提示符 -->
+                    <div class="infinite-scroll-preloader">
+                        <div class="preloader">
+                        </div>
+                    </div>
+                    <div class="content-block more_container">--------没有更多点赞的了--------</div>
+                </div>
+            </div>
+            <!--点赞竖排列表-->
+            <script type="text/html" id="like_list_temp">
+                {{each list as value}}
+                <a class="external" href="/homepage/index.html?uid={{value.UserId}}">
+                    <dl>
+                        <dt><img src="{{value.UserHeadPic}}" /></dt>
+                        <dd><span>{{value.UserNikeName}}</span></dd>
+                    </dl>
+                </a>
+                {{/each}}
+            </script>
+        </div>
+    </div>
+
+    <!--WL_TMP{tmp=/Skin/t/Pub/app_publicjs.html}-->
+    <script src="/Skin/t/Js/sui/index.js?v=1"></script>
+</body>
+</html>

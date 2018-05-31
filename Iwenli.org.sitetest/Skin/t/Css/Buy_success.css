@@ -1,0 +1,11 @@
+﻿.ewm{width:100%;height:auto;}
+.ewm img{width:20rem;height:18.96875rem;}
+.ewm .ewm_an{width:7.3125rem;height:7.3125rem;position:absolute;top:12.5rem;right:0.5rem;}
+.footer{width:95%;height:auto;background:#dfdfdf;padding:0.25rem 0.5rem;color:#000;font-size:0.75rem;position:relative; line-height:1.5rem;margin-top:-0.5rem;}
+.footer span{margin-left:2.6rem;}
+.footer p{margin-left:2.6rem;}
+.footer a{color:#f23619;}
+.zhuan{width:2.5rem;height:2.5rem;position:absolute;left:0.5rem;bottom:0.5rem;}
+.xiazai{width:5.53125rem;height:2.40625rem;position:absolute;right:0.4rem;bottom:0.5rem;}
+.fenxiang{background:rgba(0,0,0,0.8);width:20rem;height:29rem;position:absolute;top:2.6rem;left:0;color:#fff;text-align:center;z-index:1000;line-height:3rem;font-size:1rem;font-weight:bold;padding-top:4rem;}
+.fenxiang img{transform:rotate(-45deg); -ms-transform:rotate(-45deg); 	/* IE 9 */-moz-transform:rotate(-45deg); 	/* Firefox */-webkit-transform:rotate(-45deg); /* Safari 和 Chrome */ -o-transform:rotate(-45deg); 	/* Opera */ position:absolute;top:1.5rem;right:0.5rem;}

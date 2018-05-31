@@ -1,0 +1,102 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/html5/rem.js"></script>
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Public.css" />
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Member.css" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/jquery/jquery-1.7.2.min.js"></script>
+
+    <link rel="stylesheet" href="//cdn.txooo.com/public/jquery.swiper/swiper.min.css" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/jquery.swiper/swiper.jquery.min.js"></script>
+    <script type="text/javascript" src="//cdn.txooo.com/public/aui.artTemplate/artTemplate.js"></script>
+    <script src="/Skin/t/Js/Public.js"></script>
+    <script src="/Skin/t/Js/Template.js"></script>
+    <title>我的收藏</title>
+    <script type="text/javascript">
+        var pageIndex = 0;
+        var pageSize = 10;
+        var scrollTrue;
+
+        $(function () {
+            LoadList();
+
+            window.onscroll = function () {
+                if (getScrollTop() + getClientHeight() == getScrollHeight()) {
+                    if (scrollTrue) {
+                        LoadList();
+                    }
+                }
+            }
+        })
+
+        function LoadList() {
+            $.get('/Txooo/SalesV2/Shop/Ajax/ShopAjax.ajax/GetCollectProductList', { page_index: pageIndex, page_size: pageSize}, function (data) {
+                if (data != "[]") {
+                    var obj = eval('(' + data + ')');
+                    if (obj.length > 0) {
+                        var data = { list: obj };
+                        $('.foot_list').append(template('list_temp', data));
+                        if (obj.length <= parseInt(pageIndex) * parseInt(10)) {
+                            if (data.list.length == 0) {
+                                $('#list_show').html('<span>没有记录了</span>');
+                            }
+                        } else {
+                            scrollTrue = true;
+                        }
+                        pageIndex++;
+                    }
+                } else {
+                    if (pageIndex == 0) {
+                        $('#list_show').html('<div class="noRecord"><p>暂无记录</p></div>')
+                    }
+                    else {
+                        $('#list_show').html('<span class="noRecord">没有记录了</span>');
+                    }
+                }
+
+            });
+        }
+
+        function DeleteRecord(productId) {
+            $.get('/Txooo/SalesV2/Shop/Ajax/ShopAjax.ajax/DeleteFootPrintOrCollect?pid=' + productId , function (data) {
+                var obj = eval(data);
+                if (obj.success == "false") {
+                    dialogAlart(obj.msg);
+                }
+                window.location.reload();
+            })
+        }
+    </script>
+    <style>
+        .P_title a { margin: 0 1rem; color: #fff; }
+        .P_title a.tit_link { color: #fff; border-bottom: 0.125rem solid #fff; height: 2rem; display: inline-block; }
+    </style>
+</head>
+<body>
+    <header class="P_Header">
+        <div class="P_goBack" onclick="javascript:history.go(-1)"><i>&#xe602;</i></div>
+        <div class="P_title">
+            <a class="tit_link" href="javascript:void(0)">宝贝</a><a href="/member/mchCollect.html">店铺</a>
+        </div>
+    </header>
+    <script type="text/html" id="list_temp">
+        {{each list as l}}
+        <ul onclick="window.location.href='/shop.html?id={{l.product_id}}'" class="clear">
+            <li class="pic"><img src="{{l.img}},1,250,250,3" width="30" height="30" /></li>
+            <li class="tit">{{l.product_name}}</li>
+            <li class="money"><em>￥</em>{{l.price}}</li>
+            <li class="free" style="display:{{l.product_ispostage}}">包邮</li>
+            <!--<li class="del"><a href="javascript:void(0);" onclick="DeleteRecord('{{l.product_id}}')">删除</a></li>-->
+        </ul>
+        {{/each}}
+    </script>
+
+    <section class="collect_list foot_list"></section>
+
+    <section id="list_show"></section>
+
+    <!--WL_TMP{tmp=/Skin/t/Pub/T_Public.html}-->
+</body>
+</html>

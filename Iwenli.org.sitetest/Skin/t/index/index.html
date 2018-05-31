@@ -1,0 +1,158 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>买客</title>
+    <!--WL_TMP{tmp=/Skin/t/Pub/app_publiccss.html}-->
+    <link href="/Skin/t/Css/sui/index.css?v=0.3" rel="stylesheet" />
+</head>
+<body>
+    <div class="page-group">
+        <!--主页-->
+        <div id="page-index-index" class="page">
+            <header class="bar bar-nav" style="padding-right:0;background: rgba(0,0,0,0);">
+                <div class="row searchbar-cover">
+                </div>
+                <div class="searchbar row">
+                    <a href="#" class="search-input col-90 j-app-active j-search-input" data-id="8" style="margin-left:0;">
+                        <label class="icon icon-search" for="search" style="color: #524d4d;"></label>
+                        <input type="search" id='search' placeholder='输入关键字...' style="padding-left: 1.5rem;" readonly />
+                    </a>
+                    <a href="#" title="消息" data-id="4" class="msg col-10 j-app-active">
+                        <i>&#xe676;</i>
+                    </a>
+                </div>
+            </header>
+            <!--<div class="bar bar-header-secondary download">
+                <p><i>×</i>买客&nbsp;&nbsp; 一个能赚钱的电商APP<a class="download_android download_app">去下载</a></p>
+            </div>-->
+            <!--活动列表-->
+            <section class="activity-list dis-n">
+                <a href="/activity/list.html"><img src="/Skin//t//Img//Activity//list_icon.png" alt="活动列表" /></a>
+            </section>
+            <!--返回顶部-->
+            <!--<section class="footprint-Top">
+                <a href="#" title="任务" data-id="5" class="icon_store j-app-active"><i>&#xe685;</i><em class="task_times"></em></a>
+                <a href="#" title="足迹" data-id="6" class="j-app-active"><i>&#xe656;</i></a>
+                <a class="print_top"><i>&#xe657;</i></a>
+            </section>-->
+            <div class="download" style="display:none;bottom:3rem;top:initial">
+                <p><i>×</i>买客&nbsp;&nbsp; 一个能赚钱的电商APP<a class="download_android download_app">去下载</a></p>
+            </div>
+            <!-- 底部NAV begin -->
+            <!--WL_TMP{tmp=/Pub/sui/T_Foot2.html}-->
+            <!-- 底部NAV end -->
+            <div class="content infinite-scroll infinite-scroll-bottom pull_content_reload_init" data-ptr-distance="80" data-distance="180">
+                <!-- 默认的下拉刷新层 -->
+                <div class="pull-to-refresh-layer">
+                    <div class="layer-contioner">
+                        <div class="preloader"></div>
+
+                        <span class="preloader-txt"></span>
+                        <span class="last_refresh_time">最后更新：今天</span>
+                    </div>
+                </div>
+                <div class="module-on topSliderSwiper">
+                </div>
+                <div class="mch-class-contioner">
+                    <a href="/index/mch.html?type=5">
+                        <img class="f-l" src="/Skin//t//Img//Index/c1.png" alt="企业商户" />
+                    </a>
+                    <a href="/index/mch.html?type=7">
+                        <img class="f-r" src="/Skin//t//Img//Index/c2.png" alt="微商店铺" />
+                    </a>
+                </div>
+                <div class="module-on">
+                    <div class="layout-type1">
+                        <div class="rank-scroll">
+                            <img class="c1 ios-icon-edit" src="/Skin/t/Img/Index/rank-icon.png">
+                            <!--<span class="c1">赚钱排行榜</span>-->
+                            <div class="rank-j-rank">
+                                <div class="swiper-wrapper j-rank" id="rank-wrap">
+                                    <div class="swiper-slide">
+                                        <span>创业0天</span>
+                                        <span>已赚到0元</span>
+                                        <span>排名0位</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="shop-warp j-shop-warp">
+                </div>
+                <div class="module-on user-ad-contioner">
+                </div>
+                <div class="j-tempalte-ontainer">
+                </div>
+                <div class="module-tempalte">
+                    <div class="tempalte-title bg">
+                        <img src="/Skin/t/Img/Index/activitytitle.png" />
+                    </div>
+                    <div class="tempalte-content products-con">
+                        <ul class="j-products"></ul>
+                    </div>
+                    <div class="infinite-scroll-preloader loading-2">
+                        <img src="https://img.txooo.com/2017/08/02/84c86d01107943b0847cf58f48ebb68d.gif">
+                    </div>
+                </div>
+            </div>
+            <script type="text/html" id="d-home-contents">
+                <!--Tx_Common{class=Home.ContentLinks;}-->
+            </script>
+        </div>
+        <!--WL_TMP{tmp=/Skin/t/index/temp/index_template.html}-->
+        <!--WL_TMP{tmp=/Skin/t/index/temp/new_product_template.html}-->
+        <script type="text/html" id="t-shop">
+            {{each list}}
+            <div class="shop-item shop-info-wrapper shop-go-in">
+                <div class="list_item clearfix shop-info-header" style="">
+                    <div class="shop-logo-img-wrapper">
+                        <img class="shop-logo-img lazy" alt="Eva logo" data-original="{{$value.MchLogo | noLogo}}">
+                    </div>
+                    <div class="shop-title">
+                        <label>{{$value.MchComName}}</label>
+                    </div>
+                    <span data-id="{{$value.MchId}}" class="button button-fill j-gostore">进入店铺</span>
+                </div>
+            </div>
+            <div class="shop-item shop-product-warp products-con">
+               
+            </div>
+            <div class="shop-item shop-info-wrapper shop-go-in">
+                <a href="#" data-id="{{$value.MchId}}" class="j-gostore">进入店铺></a>
+            </div>
+            {{/each}}
+        </script>
+        <script type="text/html" id="t-productChild">
+            {{each list}}
+            <div class="shop-product-child-warp">
+                <ul style="display: block;">
+                    <!--引入子模板-->
+                    {{include 't-productShow2' $value}}
+                </ul>
+                <div class="clearfloat"></div>
+            </div>
+            {{/each}}
+        </script>
+    </div>
+    <!--签到活动提示弹出框-->
+    <div class="shade_box shade-index" id="j-shade-index">
+        <div class="activity-popup">
+            <div class="index-activity-bj">
+                <img src="/Skin/t/Img/Activity/index_bj.png">
+                <a class="btn_close" onclick="openClose()" href="#">关闭</a>
+                <a class="btn_signin external j-close-popup" onclick="openClose()" href="/activity/signin.html">马上签到</a>
+            </div>
+        </div>
+    </div>
+    <script>
+        //隐藏弹窗
+        function openClose() {
+            document.getElementById("j-shade-index").style.display = "none";
+        }
+    </script>
+    <!--WL_TMP{tmp=/Skin/t/Pub/app_publicjs.html}-->
+    <script src="/Skin/t/Js/sui/index.js?v=1"></script>
+</body>
+</html>

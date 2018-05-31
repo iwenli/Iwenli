@@ -1,0 +1,74 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <title>意见反馈</title>
+    <script type="text/javascript" src="//cdn.txooo.com/public/jquery/jquery-1.7.2.min.js"></script>
+    <link rel="stylesheet" href="//cdn.txooo.com/public/jquery.validate/Css/Validate.css" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/jquery.validate/jquery.validate.js"></script>
+    <script type="text/javascript" src="//cdn.txooo.com/public/jquery.validate/validate-ex.js"></script>
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Public.css" />
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Member.css" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/html5/rem.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            //$(".feedbackText").focus(function () {
+            //    $(".feedbackTips").hide();
+            //})
+        })
+    </script>
+</head>
+<body style="background:#f0f0f0; padding-bottom:0.5rem;">
+    <!-- 头部信息begin -->
+    <header class="P_Header">
+        <div class="P_goBack" onclick="history.go(-1);"><i>&#xe602;</i></div>
+        <div class="P_title">意见反馈</div>
+    </header>
+    <!-- 头部信息end -->
+
+    <form id="postForm">
+        <textarea name="content" class="{required:true,maxlength:300} feedbackText" placeholder="请写下您的宝贵意见，帮助我们进行改进"></textarea>
+    </form>
+    <!--<div class="feedbackTips">请写下您的宝贵意见，帮助我们进行改进</div>-->
+    <div >
+        <input type="button" value="提交" onclick="SubmitForm()" class="feedbackBtn"/>
+    </div>
+
+    <div class="shade_box feedBackTc" style="display:none;">
+        <div class="shade"></div>
+        <div class="tc_con del_con">
+            <p class="p1"><em><i>&#xe61c;</i></em> 您的留言已提交！</p>
+            <p class="p2">感谢您的配合,我们会根据<br/>
+您的反馈意见做到更好。</p>
+            <div class="dis_box del_btn_box">
+                <div class="box_flex_1 del_cancel">返回</div>
+                <div class="box_flex_1 del_ok">确认</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function SubmitForm() {
+            if ($('#postForm').valid()) {
+                $.post("/Txooo/SalesV2/Member/Ajax/HelperAjax.ajax/AddFeedback", $('#postForm').serialize(), function (data) {
+                    var obj = eval(data);
+                    if (obj.success == "true") {
+                        //dialogAlart(obj.msg);
+                        $(".shade_box").show();
+                    }
+                    $(".del_ok").click(function () {
+                        history.go(-1);
+                    })
+                    $(".del_cancel").click(function () {
+                        history.go(-1);
+                    })
+                    //window.location.reload();
+                });
+            } else {
+                $("label.error").text("不能空白提交哦，请给些意见吧");
+            }
+        }
+    </script>
+</body>
+</html>

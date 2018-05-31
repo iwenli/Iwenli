@@ -1,0 +1,81 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/html5/rem.js"></script>
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Public.css" />
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Member.css" />
+    <script src="//cdn.txooo.com/public/jquery/jquery-1.7.2.js"></script>
+    <link rel="stylesheet" href="//cdn.txooo.com/public/jquery.validate/Css/Validate.css" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/jquery.validate/jquery.validate.js"></script>
+    <script type="text/javascript" src="//cdn.txooo.com/public/jquery.validate/validate-ex.js"></script>
+    <script src="/Skin/t/Js/Public.js"></script>
+    <title>修改昵称</title>
+    <script type="text/javascript">
+        window.txservice.init();
+        $(function () {
+            jQuery.validator.addMethod("isTrue", function (value, element) {
+                var regu = "^[\u4e00-\u9fa5]{1,4}$";
+                var regu1="^[A-Za-z0-9]{1,8}$"
+                var re = new RegExp(regu);
+                var re1 = new RegExp(regu1);
+                if (re.test($("input[name=nickname]").val()) || re1.test($("input[name=nickname]").val())) {
+                    return true;
+                }
+                return false;
+            }, "最多4个汉字或8个字母!");
+
+            GetUserInfo(ShowMember);
+            $("#EditForm").validate({
+                onfocusout: function (element) { $(element).valid(); }
+            });
+          
+
+        })
+        function ShowMember(userInfo) {
+            $("#nickname").val(userInfo.nick_name);
+        }
+
+        function BtnNicknameModify() {
+            if ($("#EditForm").valid()) {
+                $.post("/Txooo/SalesV2/Member/Ajax/MemberAjax.ajax/UpdateNikeName",
+                      $("#EditForm").serialize(), function (data) {
+                          var obj = eval(data);
+                          if (obj.success == "true") {
+                              window.localStorage.ZQUSERSTORE = '';
+                              window.location.href = "/homepage/info.html";
+                              
+                          } else {
+                              dialogAlart(obj.msg);
+                          }
+                      });
+            }
+        }
+
+    </script>
+ </head>
+<body style="background:#f0f0f0;">
+    <!-- 头部信息begin -->
+    <header class="P_Header" id="header1">
+        <div class="P_goBack"><a onclick="if (window.txservice.success()) { window.txservice.call('goback'); } else { history.go(-1); }"><i>&#xe602;</i></a></div>
+        <div class="P_title">修改昵称</div>
+        <div class="P_Header_info"></div>
+    </header>
+    <!-- 头部信息end -->
+
+    <section class="P_Pages">
+        <div class="update_name">
+                <form id="EditForm" onsubmit="return false" method="post">
+                <dl>
+                    <dt><input class="input_text {required:true,isTrue:true}" type="text" id="nickname" name="nickname" value="" /></dt>
+                </dl>
+                </form>
+                <em>支持最多输入4个汉字或8个英文字母</em>
+         </div>
+        <div onclick="BtnNicknameModify()">
+            <p class="keep_btn">保　存</p>
+        </div>
+    </section>
+ <!--WL_TMP{tmp=/Skin/t/Pub/T_Public.html}--> </body>
+</html>

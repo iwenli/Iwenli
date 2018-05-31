@@ -1,0 +1,81 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>兑换创业金</title>
+    <!--WL_TMP{tmp=/Skin/t/Pub/app_publiccss.html}-->
+
+
+</head>
+<body>
+    <div class="page-group">
+        <div id="page-money-bonus" class="page">
+            <header class="bar bar-nav">
+                <a class="icon icon-left pull-left" onclick="if (window.txservice.success()) { window.txservice.call('goback'); } else { history.go(-1); }"></a>
+                <h1 class="title">兑换创业金</h1>
+            </header>
+            <nav class="bar bar-tab">
+                <a href="javascrip:cashBonus()" class="button button-fill button-big button-warning">兑换创业金</a>
+            </nav>
+            <div class="content  pull-to-refresh-content pull-to-refresh-content-reload" data-ptr-distance="70">
+                <!-- 默认的下拉刷新层 -->
+                <div class="pull-to-refresh-layer">
+                    <div class="preloader"></div>
+                    <div class="pull-to-refresh-arrow"></div>
+                </div>
+                <div class="info_box">
+                    <div class="usable_money">可兑换创业金：<em class="c_orange bonus_count">0</em>元</div>
+                    <div class="info_niubi">
+                        <div class="usable_nb c_666">可用V币：<em class="c_000 can_poin">0</em>个</div>
+                        <div class="nb_info c_gray">兑换1元创业金需要1个可用V币(V币不够？<a class="c_orange" href="javascript:goindex()">点我赚取更多</a>)</div>
+                    </div>
+                </div>
+                <div class="infinite-scroll">
+                    <div class="list-block media-list">
+                        <ul id="data_list">                            
+                            <li onclick="selectAllBonus(this)">
+                                <label class="label-checkbox item-content">
+                                    <input type="checkbox" name="checkbox" >
+                                    <div class="item-media"><i class="icon icon-form-checkbox"></i></div>
+                                    <div class="item-inner">
+                                        <div class="item-title-row">
+                                            <div class="item-title">全选</div>
+                                            <div class="item-after">消耗V币<span id="need_total_point">0</span>个</div>
+                                        </div>
+                                    </div>
+                                </label>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- 加载提示符 -->
+                    <div class="infinite-scroll-preloader">
+                        <div class="preloader">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <script type="text/html" id="list_temp">
+                    {{each list as c}}
+                    <li>
+                        <label class="label-checkbox item-content">
+                            <input class="child_checkbox" data-id="{{c.bonus_id}}" type="checkbox" name="checkbox_child">
+                            <div class="item-media"><i class="icon icon-form-checkbox"></i></div>
+                            <div class="item-inner">
+                                <div class="item-title-row">
+                                    <div class="item-title"><span>{{c.bonus_num}}</span>元</div>
+                                    <div class="item-after">有效期至：<span>{{c.end_time | dateFormat:'yyyy-MM-dd hh:mm'}}</span></div>
+                                </div>
+                            </div>
+                        </label>
+                    </li>
+                    {{/each}}
+                </script>
+            </div>
+        </div>
+    </div>
+    <!--WL_TMP{tmp=/Skin/t/Pub/app_publicjs.html}-->
+    <script src="/Skin/t/Js/sui/member.js"></script>
+</body>
+</html>

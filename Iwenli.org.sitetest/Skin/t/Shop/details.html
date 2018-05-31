@@ -1,0 +1,334 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/html5/rem.js"></script>
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Public.css" />
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Shop.css?v=5" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/jquery/jquery-1.7.2.min.js"></script>
+
+    <link rel="stylesheet" href="//cdn.txooo.com/public/jquery.swiper/swiper.min.css" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/jquery.swiper/swiper.jquery.min.js"></script>
+    <script type="text/javascript" src="//cdn.txooo.com/public/aui.artTemplate/artTemplate.js"></script>
+    <script src="/Skin/t/Js/txappOpenShare.min.js?v=1"></script>
+    <script src="/Skin/t/Js/Public.js?v=2"></script>
+    <script src="/Skin/t/Js/Template.js?_r=1"></script>
+    <script src="/Skin/t/Img/Iconfont/iconfont.js"></script>
+    <title>商品详情页</title>
+    <style>
+        /*.discount_0 {
+            display:none;
+        }*/
+        .more_btn {
+            line-height: 2.5rem;
+            height: 2.5rem;
+        }
+
+        .download {
+            top: 2.5rem;
+        }
+        .B_title li {
+            float: left;
+            width:3rem;
+            text-align:center;
+            height: 2.3rem;
+            margin:0 0.5rem;
+        }
+            .B_title li.current {
+                border-bottom: 0.2rem solid #ff8201;
+                color: #ff8201;
+                font-weight: bold;
+            }
+        .B_title {
+            width:12rem;margin:0 auto
+        }
+    </style>
+    <script>
+        var isAuth = '{$IsAuth}';
+        var isCollect = "{$IsCollect}";
+    </script>
+    <script src="/Skin/t/Js/details.js?_r=16"></script>
+</head>
+<body style="background:#f0f0f0; height:100%; padding-bottom:2.75rem">
+    <header class="P_Header">
+        <div class="P_goBack" onclick="if (window.txservice.success()) { window.txservice.call('goback'); } else { history.go(-1); }"><i>&#xe602;</i></div>
+        <div class="B_title">
+            <ul>
+                <li class="pro_ware current" data-div="proDetails" onclick="oneScroll()">商品</li>
+                <li class="pro_info" data-div="proDetails" onclick="towScroll(this)">详情</li>
+                <li class="pro_service" data-div="cuServic">售后</li>
+            </ul>
+        </div>
+    </header>
+    <!--商品信息-->
+    <input type="hidden" id="is_auth" value="{$IsAuth}" />
+    <div class="details_one header_content" style="overflow:hidden;">
+        <div class="download clear" style="display:none">
+            <p><i>×</i>买客&nbsp;&nbsp; 一个能赚钱的电商APP<a href="{$ConfigOfficialWebUrl}/Index_wap.html" class="download_android download_app">去下载</a></p>
+        </div>
+        <section id="infoPro">
+            <section class="top_banner">
+                <div class="banner swiper-container">
+                    <div class="swiper-wrapper">
+
+                    </div>
+                    <div class="banner_indicate">
+                        <div class="swiper-pagination"></div>
+                    </div>
+                </div>
+            </section>
+        </section>
+        <section class="Comment">
+
+            <div class="comment_top">
+                <p><span>宝贝评价(好评率<em class="rate">0%</em>)</span><i>&#xe603;</i></p>
+            </div>
+
+        </section>
+        <div id="storeInfo" class="storeInfo may_like">
+            <div class="storeInfo_box_left">
+                <p class="store_name"><span class="mchComName"></span></p>
+                <p class="store_zg"><span><i>&#xe625;</i>资格认证</span><span><i>&#xe625;</i>7天退换</span></p>
+                <a href="JavaScript:void(0);" class="btn" onclick="GoToStore()">进店逛逛</a>
+            </div>
+            <div class="mchProList">
+
+            </div>
+        </div>
+        <!--<section class="details_bottom"></section>-->
+    </div>
+    <!--商品详情 ↓-->
+    <div class="details_two two_Top header_content">
+        <script>
+            if (navigator.userAgent.toLowerCase().indexOf("txooo.app") > -1) {
+                $(".more_btn").hide();
+            }
+
+        </script>
+        <!--<div class="cushowbr"></div>
+        <div class="proimg_shop_list">
+            <ul>
+                <li class="current first_li"><span><a href="javascipt:;">图文</a></span></li>
+                <li class="review_li"><span><a href="javascipt:;">评价</a></span></li>
+                <li class="cusshow"><span><a href="javascipt:;">售后</a></span></li>
+            </ul>
+        </div>-->
+        <div id="proDetails"></div>
+
+
+        <!--<section id="proList" class="pay_success_btn"></section>-->
+        <!--<section class="operation_box"></section>-->
+
+        <div class="loading_box"><div><p><img src="/Skin/t/Img/loading.gif" />请耐心等待</p></div></div>
+
+    </div>
+    <!--售后-->
+    <div id="cuServic" class="cus_service header_content" style="display:none">
+        <div class="cus_service_title">
+            售后说明
+            <em class="close_cus">×</em>
+        </div>
+        <dl class="bor_bottom">
+            <dt><i>&#xe665;</i></dt>
+            <dd>
+                <h2>予以退换货的类型</h2>
+                <p>
+                    1. 收到的商品属于国家法律所规定的功能性故
+                    障或商品质量问题，经由生产厂家指定或特约
+                    售后服务中心检测确认，并出具检测报告或经
+                    售后客服确认属于商品质量问题。
+                </p>
+                <p>2. 由于物流原因造成的损坏、缺件等情况。</p>
+                <p>3. 收到商品与会员下单购买的商品不符合。</p>
+                <p>
+                    4. 个人原因导致的退换货（如：不想要了），
+                    在商品包装无拆开无破损的情况下。
+                </p>
+                <p>
+                    5. 个人原因导致的退换货，包装已拆开但无使
+                    用，与客服进行详细沟通后的退换货。
+                </p>
+                <h2>不可退换货的类型</h2>
+                <p>
+                    1、鲜活易腐商品、消费者拆封的音像制品、计算机软件、交付的报纸、期刊等商品不在无条件退货之列。
+                </p><p>
+                    2、在线下载或者虚拟化物品不在无条件退货之列。
+                </p><p>
+                    3、消费者定做的商品，如金饰、工艺方面等商品，如属于不符合定做要求或细节不一致，可要求返工，但不可退货。
+                </p><p>
+                    4、不可以利用别的商家物品来伪装成已购的货物进行退货。
+                </p><p>5、其他法律规定不可退货的商品。</p>
+            </dd>
+        </dl>
+        <dl class="refund_false">
+            <dt>
+                <svg class="icon" aria-hidden="true">
+                    <use xlink:href="#icon-tuihuo"></use>
+                </svg>
+            </dt>
+            <dd>
+                <p>
+                    不可退换货商品，一经支付视为购买。
+                </p>
+            </dd>
+        </dl>
+        <dl class="bor_top">
+            <dt><i>&#xe666;</i></dt>
+            <dd>
+                <h2>客服电话</h2>
+                <p>
+                    400-600-1008
+                </p>
+            </dd>
+        </dl>
+    </div>
+    <section id="proBottom"></section>
+
+    <script type="text/html" id="propropertyinfo">
+        {$ProPropertyList}
+    </script>
+    <!--规格属性的选择-->
+    <div id="property" style="display:none"></div>
+    <section class="product_brand_list" style="display: none"></section>
+    <!--购买按钮悬浮-->
+    <section class="operation">
+        <ul>
+            <li class="li_1" id="mch_chat"><a href="javascript:mchChat(0);"><i>&#xe646;</i>私聊</a></li>
+            <li class="li_1"><a href="javascript:void(0);" class="pro_collect"><i>&#xe608;</i>收藏</a></li>
+            <li class="li_1"><a href="javascript:void(0);" onclick="GoToStore()"><i>&#xe619;</i>店铺</a></li>
+            <li class="current"><a href="javascript:void(0);" id="goBuy">立刻购买</a></li>
+        </ul>
+    </section>
+    <!--评价-->
+    <!--<div id="goReview" style="display:none;min-height:20rem;">
+    </div>-->
+    <!--置顶按钮-->
+    <section class="footprint-Top" style="height: 2rem;">
+        <a href="javascript:oneScroll()"><i>&#xe657;</i></a>
+    </section>
+    <script type="text/html" id="proBottomTemp">
+        <ul>
+            <li>您目前浏览的为：{{info.ProductName}}</li>
+            <li>
+                <em>售价：￥{{info.ProductPrice}}</em>
+                <span>购买得{{info.ProductPoint}}V币</span>
+                {{if info.Refund==0}}
+                <span>不可退换货商品</span>
+                {{/if}}
+            </li>
+        </ul>
+    </script>
+    <script type="text/html" id="infoTemp">
+        <ul class="shop_info">
+            <li class="tit share_collect">{{info.ProductName}}<a href="javascript:void(0);" class="pro_collect toShare"><i>&#xe608;</i>收藏</a></li>
+            <li class="vip_price">
+                <em id="vip_money">￥{{info.ProductPrice}}</em>
+                <span class="money">购买得{{info.ProductPoint}}V币</span>
+                {{if info.Refund==0}}
+                <span class="money">不可退换货商品</span>
+                {{/if}}
+                <span class="like_product right">同类商品</span>
+            </li>
+            <li class="freight" style="display:none;"><div class="left">邮费：<span class="postage"></span></div><div class="right">发货地：<span>{{info.RegionName}}</span></div></li>
+            <li class="show_pro_bottom clear" onclick="selectProperty()">产品规格：<div class="right">已选<span class="propertyLi">{{info.JsonInfo}}</span><i style="display:inline;">&#xe603;</i></div></li>
+        </ul>
+        <input type="hidden" class="share_product_name" value="{{info.ProductName}}" />
+        <input type="hidden" class="share_content" value="{$ShareContent}" />
+        <input type="hidden" class="share_product_img" value="{{info.Img}}" />
+        <input type="hidden" class="share_product_url" value="https://{$_tx_this_domain}/shop.html?id={{info.ProductId}}" />
+        <input type="hidden" class="share_product_id" value="{{info.ProductId}}" />
+    </script>
+
+    <script type="text/html" id="store_temp">
+        {{each info as i}}
+        <ul class="like_list" onclick="window.location.href = '/shop.html?id={{i.product_id}}'">
+            <li class="pic"><img src="{{i.product_imgs | getProductImgs}}" /></li>
+            <li class="name">{{i.product_name}}</li>
+            <li class="price">{{i.price}}元</li>
+        </ul>
+        {{/each}}
+    </script>
+
+    <script type="text/html" id="reviewTemp">
+        {{each info as i}}
+        <div class="comment_list">
+            <div class="top"><i class="xing proReivew_{{i.ProductReview}}"></i><span class="right">{{i.NickName}}&nbsp;&nbsp;&nbsp;&nbsp;<em>{{i.AddTime | dateFormat:'yyyy年MM月dd日 hh:mm'}}</em></span></div>
+            <div class="info">
+                {{i.ReviewContent}}
+            </div>
+        </div>
+        {{/each}}
+    </script>
+
+    <script type="text/html" id="propertyTemp">
+        <ul class="gui_box">
+
+            <li class="pic"><img class="pro_img" src="{{info.Img}}" /></li>
+            <li class="money">
+                ￥<span class="proPrice">{{info.ProductPrice}}</span>
+            </li>
+            <li>×<span id="count_show">1</span></li>
+            <li class="last_bor">已选：<span id="property_show">{{info.JsonInfo}}</span></li>
+            <li class="xuan">
+                <span class="xuan_name">规格：</span>
+                <div class="propertyCls">
+
+                </div>
+            </li>
+            <li class="number">
+                <span>数量：</span>
+                <div class="num_box">
+                    <a class="num_down" onclick="sub()">-</a>
+                    <input type="text" name="count" value="1" onchange="setProductCount()" class="pro_count" />
+                    <a onclick="add()" class="num_up">+</a>
+                </div>
+                <div class="sheng"><span>库存：</span><span class="kuCun">{{info.ProductCount}}</span></div>
+            </li>
+            <li class="dc_mode postage_type_show">
+                <div>配送方式：<p>快递<span class="postage_money">￥0</span></p></div>
+            </li>
+            <li class="dc_explain postage_show" style="display: none;">
+                <div class="dc_box"><strong>配送说明：</strong>该商品单笔订单配送费<span class="postage_postage">0</span>元；<div class="postage_append_div">每增加一件，加配送费<span class="postage_append">0</span>元；</div><div class="postage_limit_div">一次性购买<span class="postage_limit">0</span>件及<span class="postage_limit">0</span>件以上商品，商家包邮。</div></div>
+            </li>
+        </ul>
+        <div class="heji">
+            <p class="xiaoji left">合计：<span id="total_money">{{info.ProductPrice}}</span>元</p>
+            <p class="right">获<span class="rebete_point">{{info.ProductPoint}}</span>个V币</p>
+        </div>
+        {{if info.IsShow==1}}
+        <div class="gui_btn"><a href="JavaScript:void(0);" onclick="ConfirmBuy()">立即购买</a></div>
+        {{/if}}
+        {{if info.IsShow==0}}
+        <div class="gui_btn noclick"><a href="JavaScript:void(0);">已下架</a></div>
+        {{/if}}
+    </script>
+    <script type="text/html" id="proTemp">
+        <h2 class="tit">猜你喜欢</h2>
+        {{each list as info}}
+        <ul onclick="window.location.href='/shop.html?id={{info.ProductId}}'">
+            <li class="pic"><img src=" {{info.Img}} " /></li>
+            <li class="info">{{info.ProductName}}</li>
+            <li class="money">￥{{info.ProductPrice}}</li>
+        </ul>
+        {{/each}}
+    </script>
+    <script type="text/html" id="product_brand_temp">
+        <dl onclick="GoToStore({{mch_id}},{{brand_id}})">
+            <dt><img src="{{brand_logo}}" /></dt>
+            <dd class="tit">{{brand_name}}</dd>
+            <dd>若您也想加盟此品牌创业，请点击</dd>
+        </dl>
+    </script>
+    <script>
+        $('.pro_service').click(function () {
+            $("#cuServic").show()
+        })
+        $('.close_cus').click(function () {
+            $("#cuServic").hide()
+        })
+    </script>
+
+    <!--WL_TMP{tmp=/Skin/t/Pub/T_Public.html}-->
+</body>
+</html>

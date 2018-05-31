@@ -1,0 +1,117 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/html5/rem.js"></script>
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Public.css" />
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Shop.css" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/jquery/jquery-1.7.2.min.js"></script>
+    
+    <script type="text/javascript" src="//cdn.txooo.com/public/aui.artTemplate/artTemplate.js"></script>
+    <script src="/Skin/t/Js/Public.js"></script>
+    <script src="/Skin/t/Js/Template.js"></script>
+    <title>回复页面</title>
+</head>
+<body style="background:#f0f0f0;">
+    <header class="P_Header">
+        <div class="P_goBack" onclick="if (window.txservice.success()) { window.txservice.call('goback'); } else { history.go(-1); }"><i>&#xe602;</i></div>
+        <div class="P_title">回复</div>
+    </header>
+    <section class="reply_list">
+       
+    </section>
+    <div class="reply_bottom"><a href="javascript:void(0);" class="more">加载中...</a></div>
+    <div class="reply_totalmoney">
+        <div class="left"><input id="reply_content" type="text" placeholder="说点儿什么呗!" /></div>
+        <div class="right"><a href="JavaScript:void(0);" onclick="AddReply()">提　交</a></div>
+    </div>
+    <script type="text/html" id="replyTemp">
+        {{each info as i}}
+        <dl>
+            <dt><img src="{{i.HeadPic}}" /> {{i.NickName}}</dt>
+            <dd class="info">
+                {{i.ReviewContent}}
+            </dd>
+            <dd class="time">{{i.AddTime | dateFormat:'yyyy年MM月dd日 hh:mm'}}</dd>
+        </dl>
+        {{/each}}
+    </script>
+    <script>
+        window.txservice.init();
+        var pageIndex = 0, pageSize = 5, reviewVal = -1, parentId = getUrlParam("reviewId");
+        LoadReply();
+        //加载回复
+        function LoadReply() {
+            $.post("/Txooo/SalesV2/Shop/Ajax/ShopOpenAjax.ajax/GetProductReview", { proId: getUrlParam("proId"), pageIndex: pageIndex, pageSize: pageSize, reviewVal: reviewVal, parentId: parentId }, function (data) {
+                var obj = eval("(" + data + ")");
+                if (obj.count > 0) {
+                    if (obj.count <= pageSize) {
+                        $(".more").hide();
+                    } else {
+                        $(".more").show();
+                    }
+                    var list = eval(obj.list);
+                    if (list.length == 0) {
+                        $(".more").html("");
+                    } else {
+                        scrollTrue = true;
+                        var reHtml = template("replyTemp", { info: list });
+                        $(".reply_list").append(reHtml);
+                    }
+                } else {
+                    $(".more").css("display", "none");
+                    $(".reply_list").html("<div class='sofo'>快来回复抢沙发~</div>");
+                }
+            })
+        }
+        var scrollTrue = true;
+        window.onscroll = function () {
+            if (getScrollTop() + getClientHeight() == getScrollHeight()) {
+                if (scrollTrue) {
+                    scrollTrue = false;
+                    pageIndex++;
+                    LoadReply();
+                }
+            }
+        }
+
+        //function LoadMore() {
+        //    pageIndex++;
+        //    LoadReply();
+        //}
+
+        function AddReply() {
+            if (window.txservice.success() && "{$IsAuth}" == "false") {
+                window.txservice.call('login');
+                return;
+            }
+            if ("{$IsAuth}" == "false") {//未登录
+                //dialogAlart("您还没登录，请登录！");
+                window.location.href = "//passport.93390.cn/login.html?ReturnUrl=" + encodeURIComponent(window.location.href);
+                return;
+            }
+            var content=$("#reply_content").val();
+            if ($.trim(content).length == 0) {
+                return;
+            }
+            if ($.trim(content).length > 200) {
+                dialogAlart("输入内容过长！");
+                return;
+            }
+            //提交回复
+            $.post("/Txooo/SalesV2/Shop/Ajax/ShopAjax.ajax/ReplyReview", { review_content: $.trim(content), parent_id: parentId }, function (data) {
+                var obj = eval(data);
+                if (obj.success == "true") {
+                    window.location.reload();
+                } else {
+                    dialogAlart("提交失败，请稍后再试！");
+                }
+            })
+
+        }
+        
+
+    </script>
+ <!--WL_TMP{tmp=/Skin/t/Pub/T_Public.html}--> </body>
+</html>

@@ -30,8 +30,30 @@ namespace Iwenli.Extension
     /// <summary>
     /// Json相关操作扩展
     /// </summary>
-    public static class JsonHelper
+    public class JsonHelper
     {
+        #region 序列化
+        /// <summary>
+        /// 全局序列化设置
+        /// </summary>
+        static JsonHelper()
+        {
+            JsonSerializerSettings setting = new JsonSerializerSettings();
+            JsonConvert.DefaultSettings = new Func<JsonSerializerSettings>(() =>
+            {
+                //日期类型默认格式化处理
+                setting.DateFormatHandling = Newtonsoft.Json.DateFormatHandling.MicrosoftDateFormat;
+                setting.DateFormatString = "yyyy-MM-dd HH:mm:ss";
+
+                //空值处理
+                setting.NullValueHandling = NullValueHandling.Ignore;
+
+                ////高级用法九中的Bool类型转换 设置
+                //setting.Converters.Add(new BoolConvert("是,否"));
+                return setting;
+            });
+        }
+
         /// <summary>
         /// 序列化对象到json字符串
         /// </summary>
@@ -51,5 +73,79 @@ namespace Iwenli.Extension
         {
             return JsonConvert.DeserializeObject<T>(value);
         }
+        #endregion
+
+        #region json返回格式统一
+        /// <summary>
+        /// 操作失败定义错误码
+        /// </summary>
+        /// <param name="success"></param>
+        /// <returns></returns>
+        public static string Json(int code)
+        {
+            return Json(false, "failed", code);
+        }
+        /// <summary>
+        /// 操作成功或者失败
+        /// </summary>
+        /// <param name="success"></param>
+        /// <returns></returns>
+        public static string Json(bool success)
+        {
+            return Json(success, success ? "success" : "failed");
+        }
+        /// <summary>
+        /// 操作成功返回数据
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public static string Json(object data)
+        {
+            return Json(true, "success", 1, data);
+        }
+
+        /// <summary>
+        /// 操作成功失败和提示消息
+        /// </summary>
+        /// <param name="success"></param>
+        /// <param name="msg"></param>
+        /// <returns></returns>
+        public static string Json(bool success, string msg)
+        {
+            return Json(success, msg, success ? 1 : 0);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="success"></param>
+        /// <param name="msg"></param>
+        /// <param name="code"></param>
+        /// <returns></returns>
+        public static string Json(bool success, string msg, int code)
+        {
+            return Json(success, msg, code, null);
+        }
+
+        /// <summary>
+        /// 完整的json返回
+        /// </summary>
+        /// <param name="success"></param>
+        /// <param name="msg"></param>
+        /// <param name="code"></param>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public static string Json(bool success, string msg, int code, object data)
+        {
+            var _result = new
+            {
+                success = success,
+                msg = msg,
+                code = code,
+                data = data
+            };
+            return SerializeObject(_result);
+        }
+        #endregion
     }
 }

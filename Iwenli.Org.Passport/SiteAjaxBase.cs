@@ -16,6 +16,7 @@
  *          1、 
 ----------------------------------------------------------------*/
 
+using Iwenli.Extension;
 using Iwenli.Web.Authorization;
 using System;
 using System.Reflection;
@@ -50,7 +51,7 @@ namespace Iwenli.Org.Passport
                     | BindingFlags.Public);
             if (method == null)
             {
-                context.Response.Write(ToolHelper.Json(false, "请求的处理函数不存在", 0));
+                context.Response.Write(JsonHelper.Json(false, "请求的处理函数不存在", 0));
                 context.Response.End();
             }
 

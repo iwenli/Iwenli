@@ -1,0 +1,48 @@
+﻿<div class="download" style="display:block;bottom:3.5rem;top:initial">
+    <p><i>×</i>买客&nbsp;&nbsp; 一个能赚钱的电商APP<a class="download_android download_app">去下载</a></p>
+</div>
+
+<div class="Footer_top"></div>
+<nav class="P_Footer">
+    <a href="/index.html">
+        <dl>
+            <dt><i class="ash">&#xeaae;</i><i class="orange">&#xeaaf;</i></dt>
+            <dd>首页</dd>
+        </dl>
+    </a>
+    <a class="external" href="/index/class.html">
+        <dl>
+            <dt><i class="ash">&#xeab0;</i><i class="orange">&#xeab1;</i></dt>
+            <dd>分类</dd>
+        </dl>
+    </a> 
+    <a class="team" href="/Member/team.html">
+        <dl>
+            <dt><i class="ash">&#xeab8;</i><i class="orange">&#xeab3;</i></dt>
+            <dd>团队</dd>
+        </dl>
+    </a>
+    <a class="cart" href="/cart.html">
+        <dl>
+            <dt><i class="ash">&#xeab4;</i><i class="orange">&#xeab3;</i></dt>
+            <dd>购物车</dd>
+        </dl>
+    </a>
+    <a class="me" href="/Member/index.html">
+        <dl>
+            <dt><i class="ash">&#xeab6;</i><i class="orange">&#xeab7;</i></dt>
+            <dd>我的<em id="msgCount" style="display:none;"></em></dd>
+        </dl>
+    </a>
+</nav>
+<script>
+
+    if ("{$IsAuth}" == "true") {
+        $.get("/Txooo/SalesV2/Member/Ajax/MemberAjax.ajax/SelectMemberIndexCount", function (data) {
+            var obj = eval("(" + data + ")");
+            if (parseInt(obj["@SysmsgCount"]) > 0) {
+                $("#msgCount").show();;
+            }
+        })
+    }
+</script>

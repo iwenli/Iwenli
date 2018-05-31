@@ -1,0 +1,299 @@
+﻿
+<div class="">
+    <form id="addForm" class="add_address" onsubmit="return false" method="post">
+        <input type="hidden" name="address_id" value="0" />
+        <input type="hidden" name="region_code" value="0" />
+        <dl>
+            <dt>收货人：</dt>
+            <dd><input type="text" value="" class="input_text {required:true}" name="take_name" /></dd>
+        </dl>
+        <dl>
+            <dt>手机号：</dt>
+            <dd><input type="text" value="" class="input_text {required:true,isMobile:true}" name="phone" /></dd>
+        </dl>
+        <dl>
+            <dt>所在地区：</dt>
+            <dd><input type="text" value="" readonly="readonly" class="input_text {required:true}" name="area" onclick="ChoiceAddress()" /></dd>
+        </dl>
+        <dl>
+            <dt>详细地址：</dt>
+            <dd><input type="text" value="" class="input_text {required:true}" name="address" /></dd>
+        </dl>
+        <dl>
+            <dt>地图坐标：</dt>
+            <dd>
+                <input id="longitude" type="hidden" name="lng" value="0" />
+                <input id="latitude" type="hidden" name="lat" value="0" />
+                <input id="lnglat" readonly type="text" value="" class="input_text {required:true}" name="LagLng" onclick="SelCoords()" />
+            </dd>
+        </dl>
+        <dl>
+            <dt>邮政编码：</dt>
+            <dd>
+                <input type="text" value="" class="input_text {isZipCode:true}" name="zip" />
+            </dd>
+        </dl>
+        <dl class="last_dl"><dd><input type="button" name="save" class="add_botton" value="保存" onclick="BtnAddressModify()" /></dd></dl>
+    </form>
+    <!--//选择地区-->
+    <div class="address_shares">
+        <ul class="address_choice" id="company0" style="display:none"></ul>
+
+        <ul class="address_choice" id="company1" style="display:none"></ul>
+
+        <ul class="address_choice" id="company2" style="display:none"></ul>
+    </div>
+    <!--//选择地区 end-->
+    <div class="map_box">
+        <div class="map_search">
+            <input id="searchKey" class="map_text" type="text" name="searchKey" value="" />
+            <input type="button" class="map_btn" name="search" value="搜索" onclick="SearchPlace()" />
+        </div>
+        <div class="close_map" onclick="closeMap()">×</div>
+        <div id="allmap"></div>
+    </div>
+</div>
+
+<style>
+    .add_address {
+        width: 100%;
+    }
+
+        .add_address dl {
+            border-bottom: 1px solid #dedede;
+            overflow: hidden;
+            background: #fff;
+            padding: 0 0.5rem;
+            position: relative;
+        }
+
+            .add_address dl dt {
+                float: left;
+                line-height: 2.75rem;
+                height: 2.75rem;
+                color: #666;
+                margin-right: 0.5rem;
+            }
+
+            .add_address dl dd {
+                position: relative;
+                height: 2.75rem;
+                overflow: hidden;
+                height: 1rem;
+                padding: 0.8rem 0;
+            }
+
+                .add_address dl dd input {
+                    -webkit-appearance: none;
+                    display: block;
+                    float: left;
+                    line-height: 1rem;
+                    height: 1rem;
+                    border: none;
+                    outline: none;
+                    width: 14rem;
+                    background: #fff;
+                    outline: medium;
+                }
+
+                .add_address dl dd label.error {
+                    background: none;
+                    position: absolute;
+                    right: 0;
+                    font-size: 0.625rem;
+                    top: 0;
+                    line-height: 2.75rem;
+                }
+    /*addresschoice*/
+    .address_choice {
+        background: #fff;
+        border-bottom: solid 1px #dedede;
+        height: 90%;
+        overflow: auto;
+    }
+
+        .address_choice li {
+            overflow: hidden;
+            height: 2.8125rem;
+            padding: 0 0.5rem;
+            line-height: 2.8125rem;
+            border-bottom: 1px solid #dedede;
+        }
+
+            .address_choice li span {
+                float: left;
+                color: #666;
+            }
+
+            .address_choice li i {
+                float: right;
+                color: #ff7800;
+                display: none;
+            }
+
+            .address_choice li.current i {
+                display: block;
+            }
+
+            .address_choice li.last {
+                border: none;
+            }
+    #allmap {
+        width: 100%;height:100%;
+    }
+
+    .map_box {
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        z-index:9;
+        visibility:hidden;
+    }
+    .close_map {
+        position: absolute;
+        top: 3rem;
+        right: 0.5rem;
+        width: 2rem;
+        height: 2rem;
+        line-height: 2rem;
+        color: #fff;
+        background: rgba(0,0,0,0.7);
+        border-radius: 100%;
+        font-size: 1.5rem;
+        z-index: 999;
+        text-align: center;
+    }
+    .map_search {
+        position: absolute;
+        top: 3rem;
+        left: 1rem;
+        width: 16rem;
+        height: 2rem;
+        line-height: 2rem;
+        color: #fff;
+        background: #fff;
+        border-radius: 0.25rem;
+        font-size: 0.75rem;
+        z-index: 999;
+        border: 1px solid #dedede;
+        overflow: hidden;
+    }
+
+        .map_search .map_text {
+            float: left;
+            padding-left: 0.5rem;
+            height: 2rem;
+            line-height: 2rem;
+            width: 12rem;
+        }
+
+        .map_search .map_btn {
+            float: right;
+            text-align: center;
+            height: 2rem;
+            line-height: 2rem;
+            width: 3rem;
+            color: #fff;
+            background: #358eef;
+        }
+
+</style>
+
+<script>
+    var $area = "";
+    var $area1 = "";
+    var $area2 = "";
+    var $returnlevel = 0;  //判断返回
+    //var areaInfo = "";
+    function ChoiceAddress() {
+        refreshAreas(0, 1);
+        $("#company0").show();//地址显示
+        $(".address_shares").show();
+        $("#addForm").hide();
+    }
+    //地区
+    function refreshAreas(level, parentId) {
+        var myname = "company" + level;
+        $returnlevel = level;
+        if (parentId > 0) {
+            $.get("/Txooo/SalesV2/Member/Ajax/MemberAjax.ajax/Area?level=" + level + "&parentId=" + parentId + "&r=" + Math.random(),
+                function (result) {
+                    if (result) {
+                        $("#" + myname).empty();
+                        var areas = eval("(" + result + ")");
+                        $("#" + myname).show().siblings(".address_choice").hide();
+                        for (var i = 0; i < areas.length; i++) {
+                            var area = areas[i];
+                            $("#" + myname).append("<li regioncode='" + area.region_code + "' classId=\"" + area.region_id + "\" onclick=\"ClickCompany" + level + "(this)\" ><span>" + area.region_name + "</span> <i>&#xe603;</i></li>");
+                        }
+
+                    }
+                });
+        }
+    }
+    function ClickCompany0(me) {
+        refreshAreas(1, parseInt($(me).attr("classid")));
+        $area = $(me).find("span").text();
+    }
+    function ClickCompany1(me) {
+        refreshAreas(2, parseInt($(me).attr("classid")));
+        $area1 = $(me).find("span").text();
+        //areaInfo = $area + " " + $area1 + " " + $area2;
+    }
+    function ClickCompany2(me) {
+        $area2 = $(me).find("span").text();
+        $("input[name=area]").val($area + " " + $area1 + " " + $area2);
+        $("input[name=region_code]").val($(me).attr("regioncode"));
+        $(".address_choice").hide();
+        $(".address_shares").hide();//选择地址的就隐藏
+        $("#addForm").show();
+    }
+    
+</script>
+<script>
+    // 百度地图API功能
+    var longitude = "";  //经度
+    var latitude = "";//纬度
+    var map = new BMap.Map("allmap");//在指定的容器内创建地图实例
+    map.setDefaultCursor("crosshair");//设置地图默认的鼠标指针样式
+    map.enableScrollWheelZoom();//启用滚轮放大缩小，默认禁用。
+    map.centerAndZoom(new BMap.Point(116.404, 39.915), 11);
+    map.addControl(new BMap.NavigationControl());
+
+
+    map.addEventListener("click", function (e) {//地图单击事件
+        longitude = e.point.lng;
+        latitude = e.point.lat;
+
+        $("#longitude").val(longitude);
+        $("#latitude").val(latitude);
+        $("#lnglat").val(longitude + "，" + latitude);
+        $(".map_box").css("visibility", "hidden");
+    });
+    function LoadNewMap(placeName) {
+        if (placeName != "") {
+            var local = new BMap.LocalSearch(map, {
+                renderOptions: { map: map }
+            })
+            local.search(placeName);
+        }
+    }
+    //选择地图坐标
+    function SelCoords() {
+        LoadNewMap($("#addForm input[name=area]").val());
+        $(".map_box").css("visibility", "visible");
+    }
+    //关闭地图
+    function closeMap() {
+        $(".map_box").css("visibility", "hidden");
+    }
+    function SearchPlace() {
+        LoadNewMap($("#addForm input[name=area]").val() + $("#searchKey").val());
+    }
+    $(function () {
+        var oHei = $(window).height();
+        $("#allmap").height(oHei)
+    })
+</script>

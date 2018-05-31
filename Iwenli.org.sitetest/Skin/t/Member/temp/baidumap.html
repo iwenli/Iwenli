@@ -1,0 +1,26 @@
+﻿<div id="allmap"></div>
+<script type="text/javascript">
+    var map = new BMap.Map("allmap");
+    map.centerAndZoom(new BMap.Point(116.404, 39.915), 15);
+    map.addEventListener("dragend", createImgIcon);
+    createImgIcon();
+    //创建小狐狸
+    function createImgIcon() {
+        map.clearOverlays();
+        var center = map.getCenter();
+        window.sessionStorage["baidumapLng"] = center.lng;
+        window.sessionStorage["baidumapLat"] = center.lat;
+        var pt = new BMap.Point(center.lng, center.lat);
+        var myIcon = new BMap.Icon("http://developer.baidu.com/map/jsdemo/img/fox.gif", new BMap.Size(300, 157));
+        var marker2 = new BMap.Marker(pt, { icon: myIcon });  // 创建标注
+        map.addOverlay(marker2);
+        // 创建地理编码实例      
+        var myGeo = new BMap.Geocoder();
+        // 根据坐标得到地址描述    
+        myGeo.getLocation(new BMap.Point(center.lng, center.lat), function (result) {
+            if (result) {
+                window.sessionStorage["baidumapAddressName"] = result.address;
+            }
+        });
+    }
+</script>

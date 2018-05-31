@@ -1,0 +1,64 @@
+﻿<div class="P_header">
+    <div class="container">
+        <div class="head_l">
+            <img src="/skin/www/Img/logo.png" />
+        </div>
+        <div class="head_r">
+            <ul class="nav">
+                <li class="m_index"><a href="index.html">首页</a></li>
+                <li class="m_update"><a href="update.html">更新日志</a></li>
+                <li class="last m_about"><a href="about.html">关于我们</a></li>
+                <!--<li class="m_download"><a href="download.html">下载</a></li>-->
+                <li class="underscore"><i></i></li>
+            </ul>
+        </div>
+        <div class="clear"></div>
+    </div>
+</div>
+<script>
+    $(function () {
+        setMenuStyle();
+
+        ////鼠标移入导航色
+        //$('.head_r li').hover(
+        //    function (e) {
+        //        $('.head_r li').removeClass('current');
+        //        $(this).addClass('current');
+        //    },
+        //    function (e) {
+        //        $('.head_r li').removeClass('current');
+        //        setMenuStyle();
+        //    }
+        //);
+        //切换页面导航色
+        function setMenuStyle() {
+            var _page = 'index';
+            if (location.pathname.length > 6) {
+                _page = /\/(\w+).html/g.exec(location.pathname)[1];
+            }
+            $('.m_' + _page).addClass('current');
+        }
+    });
+</script>
+<script type="text/javascript">
+    $(function () {
+        var e = $(".nav"),
+            t = e.offset().left;
+        $(window).on("resize", function () {
+            t = e.offset().left
+        });
+        var n = e.find("li.current"),
+            r = { width: n.innerWidth(), left: n.offset().left - t },
+            i = $(".nav .underscore i"), s;
+        e.find("li:not(.underscore)").mouseover(function () {
+            var e = $(this);
+            s = setTimeout(function () {
+                i.css({ width: e.innerWidth(), left: e.offset().left - t })
+            }, 100)
+        });
+        var o = function () {
+            clearTimeout(s), i.css(r)
+        };
+        e.mouseleave(o), i.css(r).show(), n.css("border-color", "#fff")
+    })
+</script>

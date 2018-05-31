@@ -1,0 +1,163 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/html5/rem.js"></script>
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Public.css" />
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Shop.css" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/jquery/jquery-1.7.2.min.js"></script>
+    <script src="/Skin/t/Js/Public.js"></script>
+    <script type="text/javascript" src="//cdn.txooo.com/public/aui.artTemplate/artTemplate.js"></script>
+    <!--表单验证-->
+    <link rel="stylesheet" href="//cdn.txooo.com/public/jquery.validate/Css/Validate.css" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/jquery.validate/jquery.validate.js"></script>
+    <script type="text/javascript" src="//cdn.txooo.com/public/jquery.validate/validate-ex.js"></script>
+    <title>确认订单</title>
+    <style>
+        .ismain_0 {
+            display: none;
+        }
+        .add_address dl dd input.add_botton {
+            text-align: center;
+            width: 92%;
+            float:none;
+            margin: 0 auto;
+            display: block;
+            height: 2.75rem;
+            line-height: 2.75rem;
+            border: none;
+            border-radius: 0.25rem;
+            background: #67829f;
+            color: #fff;
+            font-size: 0.875rem;
+        }
+        .add_address dl.last_dl{border:none;}
+        .add_address dl.last_dl dd{height:auto;}
+        .order_info h2{font-size:0.875rem;color:#333;margin-bottom:0.5rem;font-weight:normal;}
+
+        .address_shares{position:fixed;background:rgba(0,0,0,0.5); z-index:999999;width:100%;height:100%;top:2.5rem; left:0;overflow:auto; display:none;}
+        .order_address ul{overflow:auto;}
+    </style>
+    <script type="text/javascript">
+        $(function(){
+            $(".submit_btn").click(function(){
+                $(".shade_box").hide();
+                postOrder();
+
+            })
+            $(".close").click(function(){
+                $(".shade_box").hide();
+            })
+        })
+    </script>
+    <script src="/Skin/t/Js/order.js?_r=11"></script>
+</head>
+<body style="background:#f0f0f0;">
+
+    <script type="text/html" id="propropertyinfo">{$ProPropertyInfo}</script>
+    <!--模板-->
+    <script id="infoTemp" type="text/html">
+        <h2>{{info.com_name}}</h2>
+        <ul onclick="window.location.href = '/shop.html?id={{info.product_id}}'">
+            
+            <li class="pic"><img src="{{info.ProImg}}" /></li>
+            <li class="name">{{info.product_name}} <!--<span class="count">X{{info.Count}}</span>--></li>
+            <li class="price">￥<em id="proPrice">{{info.Price}}</em></li>
+            <li>{{info.JsonInfo}}</li>
+        </ul>
+    </script>
+    <script type="text/html" id="postageTemp">
+        {{each list as info}}
+        <div class="radio_box">
+            <input type="radio" name="postage" value="{{info.id}}" id="radio_{{info.id}}" />
+            <label for="radio_{{info.id}}">{{info.express}}</label>
+        </div>
+        {{/each}}
+    </script>
+
+    <header class="P_Header">
+        <div class="P_goBack" onclick="if (window.txservice.success()) { window.txservice.call('goback'); } else { history.go(-1); }"><i>&#xe602;</i></div>
+        <div class="P_title">确认订单</div>
+    </header>
+    <section class="order_box">
+        <!--收货地址-->
+        <section id="address" class="order_address" style="display:none;"></section>
+
+        <!--地址选择-->
+        <div id="selectAddr"></div>
+
+        <!--商品信息-->
+        <div id="infoPro" class="order_info"></div>
+        
+        <div class="order_gui">
+            <ul>
+                <li class="number">
+                    <div class="num_last">数量<p>(库存<span class="remain_count">0</span>件)</p></div>
+                    <div class="num_box">
+                        <a class="num_down" onclick="sub()">-</a>
+                        <input type="text" name="count" value="" readonly="readonly" id="pro_count" />
+                        <a onclick="add()" class="num_up">+</a>
+                    </div>
+                </li>
+                
+            </ul>
+        </div>
+        
+        <div class="gongji"><p>共计<span class="total_count">0</span>件商品 小计：<span class="total_money">0</span></p></div>
+        <!--配送方式-->
+        <div id="express" class="order_express clear" style="display:none;">
+            <h2 class="left">配送方式：</h2>
+            <div class="postage right">快递<span class="postage_money">￥0</span></div>
+        </div>
+
+        <div class="order_dc_explain"><strong>配送说明：</strong>该商品单笔订单配送费<span class="postage_postage">0</span>元；<div class="postage_append_div">每增加一件，加配送费<span class="postage_append">0</span>元；</div><div class="postage_limit_div">购买<span class="postage_limit">0</span>件及<span class="postage_limit">0</span>件以上商品，商家包邮。</div></div>
+
+        <div class="order_ly"><span>买家留言：</span><input id="liuyan" type="text" name="ly" value="" placeholder="可在此处给卖家留言，选填" /><i>&#xe649;</i></div>
+        <div id="refundMsg"></div>
+        <div class="totalMoney_bottom"></div>
+        <div id="totalMoney" class="order_totalmoney">
+            <div class="total_left"><p class="left">合计：<span class="total_money">￥0.0</span></p><p class="right">获<span class="total_point">0</span>个V币</p></div>
+            <div class="total_right"><a href="JavaScript:void(0);" id="handOrder">立即购买</a></div>
+        </div>
+
+        <div class="shade_box" style="display:none;">
+            <div class="shade"></div>
+            <div class="tc_con tuihuo">
+                <div class="close"><i>&#xe649;</i></div>
+                <div class="word">
+                    <img src="/Skin/t/Img/Order/tuihuo.png" />
+                    <p>不可退换货</p>
+                    <div class="promote">您购买的商品属于不可退换货类别！</div>
+                    <a href="javascript:void(0)" class="submit_btn">好的，确认提交</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="pay_method" style="display:none;">
+            <div class="pay_show">
+                <iframe src="" style="width:100%;height:100%;"></iframe>
+            </div>            
+        </div>
+        <div class="bind_method_login" style="display:none;">
+            <div class="bind_show">
+                <iframe src="" style="width:100%;height:100%;"></iframe>
+            </div>            
+        </div>
+        <section class="pay_password" style="display:none;">
+            <div class="pay_show">
+                <span class="pay_tit">支付密码<em class="close_x" onclick="closePay()">×</em></span>
+                <input type="password" class="input_text" />
+                <a href="javascript:ForgetPayWap()">忘记密码</a>
+                <a href="javascript:void(0);" class="btn" onclick="GoToPay()">确定支付</a>
+            </div>
+            
+        </section>
+    </section>
+
+    <script>
+        
+    </script>
+    <!--WL_TMP{tmp=/Skin/t/Pub/T_Public.html}-->
+</body>
+</html>

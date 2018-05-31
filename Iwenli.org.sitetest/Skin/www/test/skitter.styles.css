@@ -1,0 +1,4 @@
+.box_skitter .container_skitter {overflow:hidden;position:relative;}
+.box_skitter .box_clone {position:absolute;top:0;left:0;width:100px;overflow:hidden;display:none;z-index:20;}
+.box_skitter .box_clone img {position:absolute;top:0;left:0;z-index:20;}
+

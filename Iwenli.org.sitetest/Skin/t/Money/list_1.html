@@ -1,0 +1,651 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/html5/rem.js"></script>
+
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Public.css" />
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Money.css" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/jquery/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="//cdn.txooo.com/public/aui.artTemplate/artTemplate.js"></script>
+    <script src="/Skin/t/Js/Public.js"></script>
+    <script src="/Skin/t/Js/Template.js"></script>
+
+    <script src="/Skin/t/Js/mobiscroll/mobiscroll.custom-2.17.0.min.js"></script>
+    <link href="/Skin/t/Js/mobiscroll/mobiscroll.custom-2.17.0.min.css" rel="stylesheet" />
+    <title>收支明细</title>
+    <script type="text/javascript">
+        window.txservice.init();
+        $(function () {
+            // 选项卡
+            $('.js_list_nav .js_nav_menu').click(function () {
+                $(this).addClass('current').siblings('.js_nav_menu').removeClass('current');
+                $('.js_list_con_box .js_list_con').eq($(this).index()).addClass('current').siblings('.js_list_con').removeClass('current');
+            })
+        })
+
+
+    </script>
+</head>
+<body>
+    <header class="P_Header">
+        <div class="P_goBack" onclick="if (window.txservice.success()) { window.txservice.call('goback'); } else {history.go(-1); }"><i>&#xe602;</i></div>
+        <div class="P_title">明细</div>
+        <div class="P_Header_info"></div>
+    </header>
+    <script type="text/html" id="MoneyTemp">
+            {{each list as l}}
+        <div class="list">
+            <div class="tit ov_h">
+                <div class="left">订单号：<span>{{l.OrderNum}}</span></div>
+                <div class="right c_red"><span>{{l.Bonus}}</span><span>{{l.Brokerage}}</span></div>
+            </div>
+            <div class="name c_000">{{l.NickName}}<em class="grade c_yellow">{{l.user_level}}</em></div>
+            <div class="introduce">{{l.ProductName}}</div>
+            <div class="time ov_h">
+                <span class="date left">{{l.WasteTime}}</span><!--<span class="validity right">创业金有效期至 <em class="c_orange">{{l.bonus_end_time}}</em></span>-->
+            </div>
+        </div>
+            
+            {{/each}}
+    </script>
+
+    <script type="text/html" id="BrokerageTemp">
+            {{each list as l}}
+            {{if l.WasteJson == null}}
+        <div class="list">
+            <div class="tit ov_h">
+                <div class="name c_666">{{l.WasteInfo}}</div>
+                <div class="right c_666"><span>{{l.Brokerage}}</span></div>
+            </div>
+            <!--<div class="name c_666">{{l.WasteInfo}}</div>-->
+            <div class="time ov_h"><span class="date">{{l.WasteTime | dateFormat:'yyyy年MM月dd日 hh:mm'}}</span></div>
+        </div>
+            
+            {{/if}}
+            {{if l.WasteJson != null}}
+        <div class="list">
+            <div class="tit ov_h">
+                <div class="left">订单号：<span>{{l.OrderNum}}</span></div>
+                <div class="right c_red"><span>{{l.Brokerage}}</span><!--<span>{{l.give_brokerage}}</span>--></div>
+            </div>
+            <div class="name c_000">{{l.NickName}}<em class="grade c_yellow">{{l.user_level}}</em></div>
+            <div class="introduce">{{l.ProductName}}</div>
+            <div class="time ov_h">
+                <span class="date left">{{l.WasteTime}}</span><!--<span class="validity right">创业金有效期至 <em class="c_orange">{{l.bonus_end_time}}</em></span>-->
+            </div>
+        </div>
+            
+            {{/if}}
+            {{/each}}
+    </script>
+
+    <script type="text/html" id="BonusTemp">
+            {{each list as l}}
+            {{if l.WasteJson == null}}
+        <div class="list">
+            <div class="tit ov_h">
+                <!--<div class="left c_orange">{{l.NickName}}</div>-->
+                <div class="right c_666"><span>{{l.Bonus}}</span></div>
+            </div>
+            <div class="name c_666">{{l.WasteInfo}}</div>
+            <div class="time ov_h"><span class="date">{{l.WasteTime | dateFormat:'yyyy年MM月dd日 hh:mm'}}</span></div>
+        </div>
+            
+            {{/if}}
+            {{if l.WasteJson != null}}
+        <div class="list">
+            <div class="tit ov_h">
+                <div class="left">订单号：<span>{{l.OrderNum}}</span></div>
+                <div class="right c_red"><span>{{l.Bonus}}</span><!--<span>{{l.give_brokerage}}</span>--></div>
+            </div>
+            <div class="name c_000">{{l.NickName}}<em class="grade c_yellow">{{l.user_level}}</em></div>
+            <div class="introduce">{{l.ProductName}}</div>
+            <div class="time ov_h">
+                <span class="date left">{{l.WasteTime}}</span><span class="validity right">创业金有效期至 <em class="c_orange">{{l.Validity}}</em></span>
+            </div>
+        </div>
+            
+            {{/if}}
+            {{/each}}
+    </script>
+
+    <script type="text/html" id="PointTemp">
+            {{each list as l}}
+        {{if l.OrderId == 0}}
+            <div class="list">
+                <div class="tit ov_h">
+                    <!--<div class="left c_orange">{{l.NickName}}</div>-->
+                    <div class="right c_red">{{l.WasteMoney}}</div>
+                </div>
+                <div class="name c_666">{{l.WasteInfo}}</div>
+                <div class="time ov_h"><span class="date">{{l.WasteTime | dateFormat:'yyyy年MM月dd日 hh:mm'}}</span></div>
+            </div>
+          {{/if}}  
+        {{if l.OrderId >0}}
+        <div class="list">
+            <div class="tit ov_h">
+                <div class="left">订单号：<span>{{l.OrderNum}}</span></div>
+                <div class="right c_red">{{l.WasteMoney}}</div>
+            </div>
+            <!--<div class="name c_000">{{l.NickName}}<em class="grade c_yellow">{{l.user_level}}</em></div>-->
+            <div class="introduce">{{l.ProductName}}</div>
+            <div class="time ov_h">
+                <span class="date left">{{l.WasteTime}}</span><!--<span class="validity right">创业金有效期至 <em class="c_orange">{{l.bonus_end_time}}</em></span>-->
+            </div>
+        </div>
+        {{/if}}
+            {{/each}}
+    </script>
+
+    <section class="P_Top">
+        <div class="head_portrait"><img class="img_b" src="" /></div>
+        <div class="user_name"><span id="spUserName"></span></div>
+        <div class="have_make">已赚到<em class="money"><span id="spTotalMoney"></span></em>元</div>
+        <a class="champion"><i class="left">&#xe612;</i><span class="champion_name spFirstName"></span><span class="champion_money spFirstMoney"></span>元</a>
+    </section>
+    
+
+    <section class="money_time">
+        <div class="time_section">
+            <span class="sp_sjd"><input id="startTime" name="startTime" type="text" class="time_select" placeholder="选择开始时间"/></span>
+            <em class="br_">-</em>
+            <span class="sp_sjd"><input id="endTime" name="endTime" type="text" class="time_select" placeholder="选择结束时间"/></span>
+        </div>
+        <a class="positive_button" href="javascript:;" onclick="SelDate()"><i>&#xe67d;</i></a>
+    </section>
+
+    <section class="list_pages">
+        <div class="List_nav dis_box js_list_nav">
+            <div class="List_nav_menu box_flex_1 js_nav_menu" id="js_nav_menu1" data-type="1">
+                <div class="top">
+                    <div>当前收入</div>
+                    <div class="money"><em><span id="spCanMoney"></span></em>元</div>
+                </div>
+                <!--<div class="ranking">排名<span id="spUserMoneyRank"></span>位</div>-->
+            </div>
+            <div class="List_nav_menu box_flex_1 js_nav_menu" id="js_nav_menu2" data-type="2">
+                <div class="top">
+                    <div>当前资产</div>
+                    <div class="money"><em><span id="spTotalBrokerage"></span></em>元</div>
+                </div>
+                <!--<div class="ranking">排名<span id="spUserBrokerageRank"></span>位</div>-->
+            </div>
+            <div class="List_nav_menu box_flex_1 js_nav_menu" id="js_nav_menu3" data-type="3">
+                <div class="top">
+                    <div>当前创业金</div>
+                    <div class="money"><em><span id="spTotalBonus"></span></em>元</div>
+                </div>
+                <!--<div class="ranking">排名<span id="spUserBonusRank"></span>位</div>-->
+            </div>
+            <div class="List_nav_menu box_flex_1 js_nav_menu" id="js_nav_menu4" data-type="4">
+                <div class="top">
+                    <div>当前V币</div>
+                    <div class="money"><em><span id="spTotalPoint"></span></em>个</div>
+                </div>
+                <!--<div class="ranking">排名<span id="spUserPointRank"></span>位</div>-->
+            </div>
+        </div>
+
+
+
+        <div class="ov_h js_list_con_box">
+            <div class="List_con js_list_con" id="js_list_con1">
+                <div class="shouru">
+                    <ul class="List_con_nav">
+                        <li class="active">当前收入</li>
+                    </ul>
+                    <div class="money_type c_orange"><span>佣金(元)</span><span>创业金(元)</span></div>
+                </div>
+                <div  class="List_con_details" style="display:block;">
+                    <div id="type1">
+                    </div>
+                </div>
+                <div id="dvNoMore1">
+
+                </div>
+            </div>
+
+
+
+            <div class="List_con js_list_con" id="js_list_con2">
+                <ul class="List_con_nav">
+                    <li class="active"><a href="javascript:void(0);" onclick="SelectData(1, 0, this)">当前资产</a></li>
+                    <li><a href="javascript:void(0);" onclick="SelectData(1, 1, this)">收入</a></li>
+                    <li><a href="javascript:void(0);" onclick="SelectData(1, 2, this)">支出</a></li>
+                    <li><a href="javascript:void(0);" onclick="SelectData(1, 3, this)">预收</a></li>
+                </ul>
+                <div class="List_con_details active">
+                    <div id="type2">
+                    </div>
+                </div>
+                <div id="dvNoMore2">
+
+                </div>
+            </div>
+
+
+
+            <div class="List_con js_list_con" id="js_list_con3">
+                <ul class="List_con_nav">
+                    <li class="active"><a href="javascript:void(0);" onclick="SelectData(2, 0, this)">当前创业金</a></li>
+                    <li><a href="javascript:void(0);" onclick="SelectData(2, 1, this)">收入</a></li>
+                    <li><a href="javascript:void(0);" onclick="SelectData(2, 2, this)">支出</a></li>
+                    <li><a href="javascript:void(0);" onclick="SelectData(2, 3, this)">预收</a></li>
+                </ul>
+                <div class="List_con_details active" >
+                    <div id="type3">
+                    </div>
+                </div>
+                <div id="dvNoMore3">
+
+                </div>
+            </div>
+
+
+
+            <div class="List_con js_list_con" id="js_list_con4">
+                <ul class="List_con_nav">
+                    <li class="active"><a href="javascript:void(0);" onclick="SelectData(3, 0, this)">当前V币</a></li>
+                    <li><a href="javascript:void(0);" onclick="SelectData(3, 1, this)">收入</a></li>
+                    <li><a href="javascript:void(0);" onclick="SelectData(3, 2, this)">支出</a></li>
+                </ul>
+                <div class="List_con_details active" >
+                    <div id="type4">
+                    </div>
+                </div>
+                <div id="dvNoMore4">
+
+                </div>
+            </div>
+
+
+        </div>
+    </section>
+
+
+
+    <!--<section class="fixed_btn">
+        <div class="btn exchange"><a href="/Money/bonus.html">兑换创业金</a></div>
+        <div class="btn extract"><a href="/Money/cash.html">申请提现</a></div>
+    </section>-->
+    <script>
+        function ToFloat(a) {
+            var money = parseFloat(a);
+            if (money >= 10000) {
+                return parseFloat((money / 10000)).toFixed(1) + '万';
+            } else {
+                return (parseFloat(a));
+            }
+        }
+
+        $(".time_select").mobiscroll().date({
+            theme: "android-ics light",
+            lang: "zh",
+            cancelText: '取消',
+            dateFormat: 'yy-mm-dd', //返回结果格式化为年月日格式
+            // wheels:[], 设置此属性可以只显示年月，此处演示，就用下面的onBeforeShow方法,另外也可以用treelist去实现
+            onBeforeShow: function (inst) { inst.settings.wheels[0].length > 3 ? inst.settings.wheels[0].pop() : null; }, //length>2显示则只显示年月
+            headerText: function (valueText) { //自定义弹出框头部格式
+                array = valueText.split('-');
+                return array[0] + "年" + array[1] + "月" + array[2] + "日";
+            }
+        });
+
+        
+        var startTime = "";
+        var endTime = "";
+        //按时间查询
+        function SelDate() {
+            //查询
+            var start_Time = $("#startTime").val();
+            var end_Time = $("#endTime").val();
+            if (start_Time != "" && end_Time != "") {
+                if (start_Time > end_Time) {
+                    dialog({
+                        title: "提示",
+                        content: "结束时间不能早于起始时间！",
+                        okValue: '确定',
+                        ok: function () {
+                        },
+                    }).showModal();
+                    return false;
+                } else {
+                    startTime = start_Time;
+                    endTime = end_Time + " 23:59";//延后一天
+                }
+                $("#type1").empty(); $("#type2").empty(); $("#type3").empty(); $("#type4").empty();
+                LoadPersonalData(startTime, endTime);
+                LoadEstList(startTime, endTime);
+                LoadBrokerageList(0, startTime, endTime);
+                LoadBonusList(0, startTime, endTime);
+                LoadPointList(0, startTime, endTime);
+            }
+        }
+
+
+        $.get("/Txooo/SalesV2/Member/Ajax/AttentionAjax.ajax/GetRankNo1Infos", function (data) {
+            var obj = eval('(' + data + ')');
+            if (obj.success != "false") {
+                $('.spFirstName').text(obj.msg.split(',')[0]).parent().attr("href", "/Rank/TotalRank.html?type=1&UserId=" + obj.msg.split(',')[2]).click(function () {
+                    window.txservice.call('totalrank', { type: 1, userid: obj.msg.split(',')[2] });
+                });
+                $('.spFirstMoney').text(ToFloat(obj.msg.split(',')[1]));
+            }
+        });
+
+        function LoadPersonalData(sTime, eTime) {
+            $.get("/Txooo/SalesV2/Member/Ajax/AttentionAjax.ajax/GetMyEstateInfosV2", { startTime: sTime, endTime: eTime }, function (data) {
+                var obj = eval('(' + data + ')');
+                var obj1 = eval(obj.list1)[0];
+                obj1.head_pic = obj1.head_pic == "" ? "/Skin/t/Img/no_pic.png" : obj1.head_pic;
+                $('.img_b').attr('src', obj1.head_pic);
+                $('#spUserName').text(obj1.nick_name);
+                $('#spTotalMoney').text(ToFloat(obj1.total_assets));
+                $('#spUserMoneyRank').text(obj1.total_assets_rank);
+                $('#spUserBrokerageRank').text(obj1.total_brokerage_rank);
+                $('#spUserBonusRank').text(obj1.total_bonus_rank);
+                $('#spUserPointRank').text(obj1.total_points_rank);
+                //-----------------------------
+                var obj2 = eval(obj.list2)[0];
+                $('#spCanMoney').text(ToFloat(obj2.total_assets));
+                $('#spTotalBrokerage').text(ToFloat(obj2.total_brokerage));
+                $('#spTotalPoint').text(ToFloat(obj2.total_points));
+                $('#spTotalBonus').text(ToFloat(obj2.total_bonus));
+            });
+        }
+        
+
+        //设置选中状态，r为收入、佣金、创业金、V币类型
+        var r = getUrlParam("r");
+        $('#js_nav_menu' + parseInt(r)).addClass('current');
+        $('#js_list_con' + parseInt(r)).addClass('current');
+
+        //Load List
+        var pageIndex = 0;
+        var pageSize = 10;
+        LoadPersonalData();
+        LoadEstList();
+        LoadBrokerageList(0);
+        LoadBonusList(0);
+        LoadPointList(0);
+
+        function LoadEstList(sTime, eTime) {
+            $.post("/Txooo/SalesV2/Member/Ajax/AttentionAjax.ajax/GetEstateList", { pageIndex: pageIndex, pageSize: pageSize, period: 0, startTime: sTime, endTime: eTime }, function (data) {
+                var obj = eval("(" + data + ")");
+                if (obj.count > 0) {
+                    var list = eval(obj.list);
+                    if (list.length == 0) {
+
+                    } else {
+                        var newList = [];
+                        for (var i = 0; i < list.length; i++) {
+                            var json = {};
+                            json["WasteTime"] = formatTime(list[i].WasteTime, true);
+                            json["OrderNum"] = list[i].OrderId;
+                            json["Bonus"] = (parseFloat(list[i].Bonus) * parseInt(list[i].ProductCount)).toFixed(1);
+                            json["Brokerage"] = (parseFloat(list[i].Brokerage) * parseInt(list[i].ProductCount)).toFixed(1);
+                            json["NickName"] = list[i].NickName;
+                            json["WasteInfo"] = list[i].WasteInfo;
+                            json["ProductName"] = list[i].ProductName;
+                            json["Validity"] = formatTime(list[i].Validity, false);
+                            json["WasteJson"] = list[i].WasteJson;
+                            
+                            
+                            if (list[i].AccountType == 1) {
+                                if(list[i].WasteType == 1){
+                                    json["Brokerage"] = '已返利+' + list[i].Brokerage;
+                                    json["Bonus"] = '已返利+' + list[i].Bonus;
+                                } else {
+                                    json["Brokerage"] = '+' + list[i].Brokerage;
+                                    json["Bonus"] = '+' + list[i].Bonus;
+                                }
+                            }
+                            
+                            json["user_level"] = eval(list[i].WasteJson)[0].user_level;
+                            newList.push(json);
+                        }
+                        list = newList;
+                        var datalist = { list: list }; 
+                        $("#type1").append(template("MoneyTemp", datalist));
+                        $('.c_red').each(function (i, v) {
+                            if ($(v).children('span').first().text()[0] == "-") {
+                                $(v).removeClass('c_red');
+                            }
+                        });
+                        $('.c_666').each(function (i, v) {
+                            if ($(v).children('span').first().text()[0] == "+") {
+                                $(v).addClass('c_red').removeClass('c_666');
+                            }
+                        });
+                    }
+                } else {
+                    $("#type1").empty();
+                    $("#type1").append('<span class="no_data">没有记录</span>');
+                }
+            });
+        }
+
+        function LoadBrokerageList(type, sTime, eTime) {
+            $.post("/Txooo/SalesV2/Member/Ajax/AttentionAjax.ajax/GetBrokerageList", { pageIndex: pageIndex, pageSize: pageSize, period: 0, type: type, startTime: sTime, endTime: eTime }, function (data) {
+                var obj = eval('(' + data + ')');
+                if (obj.count > 0) {
+                    var list = eval(obj.list);
+                    if (list.length == 0) {
+
+                    } else {
+                        var newList = [];
+                        for (var i = 0; i < list.length; i++) {
+                            var json = {};
+                            if (list[i].WasteJson != null) {
+                                json["WasteTime"] = formatTime(list[i].WasteTime, true);
+                                json["OrderNum"] = list[i].OrderId;
+                                json["Bonus"] = (parseFloat(list[i].Bonus) * parseInt(list[i].ProductCount)).toFixed(1);
+                                json["Brokerage"] = (parseFloat(list[i].Brokerage) * parseInt(list[i].ProductCount)).toFixed(1);
+                                json["NickName"] = list[i].NickName;
+                                json["WasteInfo"] = list[i].WasteInfo;
+                                json["ProductName"] = list[i].ProductName;
+                                json["Validity"] = formatTime(list[i].Validity, false);
+                                json["WasteJson"] = list[i].WasteJson;
+                                if (list[i].WasteType == 11) {
+                                    json["Brokerage"] = '预计返利+' + list[i].Brokerage;
+                                }
+                                if (list[i].WasteType == 1) {
+                                    json["Brokerage"] = '已返利+' + list[i].Brokerage;
+                                }
+                                if (list[i].WasteType == 5 || list[i].WasteType == 15 || list[i].WasteType == 14) {
+                                    json["Brokerage"] = '+' + list[i].Brokerage;
+                                }
+                                if (list[i].WasteType == 4 || list[i].WasteType == 12) {
+                                    json["Brokerage"] = '-' + list[i].Brokerage;
+                                }
+                                if (list[i].WasteType == 9 || list[i].WasteType == 13) {
+                                    json["Brokerage"] = '-' + list[i].WasteMoney;
+                                }
+                                if (list[i].WasteType == 10) {//充值
+                                    json["Brokerage"] = '+' + list[i].WasteMoney;
+                                }
+                                json["user_level"] = eval(list[i].WasteJson)[0].user_level;
+                                newList.push(json);
+                            } else {
+                                if (list[i].WasteType == 11) {
+                                    list[i].Brokerage = '预计返利+' + list[i].Brokerage;
+                                }
+                                if (list[i].WasteType == 1) {
+                                    list[i].Brokerage = '已返利+' + list[i].Brokerage;
+                                }
+                                if (list[i].WasteType == 5 || list[i].WasteType == 15 || list[i].WasteType == 14) {
+                                    list[i].Brokerage = '+' + list[i].Brokerage;
+                                }
+                                if (list[i].WasteType == 4 || list[i].WasteType == 12) {
+                                    list[i].Brokerage = '-' + list[i].Brokerage;
+                                }
+                                if (list[i].WasteType == 9 || list[i].WasteType == 13) {
+                                    list[i].Brokerage = '-' + list[i].WasteMoney;
+                                }
+                                if (list[i].WasteType == 10) {//充值
+                                    list[i].Brokerage = '+' + list[i].WasteMoney;
+                                }
+                                newList.push(list[i]);
+                            }
+                        }
+                        list = newList;
+                        var datalist = { list: list };
+                        $("#type2").append(template("BrokerageTemp", datalist));
+                        $('.c_red').each(function (i, v) {
+                            if ($(v).children('span').first().text()[0] == "-") {
+                                $(v).removeClass('c_red');
+                            }
+                        });
+                        $('.c_666').each(function (i, v) {
+                            if ($(v).children('span').first().text()[0] == "+") {
+                                $(v).addClass('c_red').removeClass('c_666');
+                            }
+                        });
+                    }
+                } else {
+                    $("#type2").empty();
+                    $("#type2").append('<span class="no_data">暂无数据</span>');
+                }
+            });
+        }
+
+        function LoadBonusList(type, sTime, eTime) {
+            $.post("/Txooo/SalesV2/Member/Ajax/AttentionAjax.ajax/GetBonusList", { pageIndex: pageIndex, pageSize: pageSize, period: 0, type: type, startTime: sTime, endTime: eTime }, function (data) {
+                var obj = eval('(' + data + ')');
+                if (obj.count > 0) {
+                    var list = eval(obj.list);
+                    if (list.length == 0) {
+
+                    } else {
+                        var newList = [];
+                        for (var i = 0; i < list.length; i++) {
+                            var json = {};
+                            if (list[i].WasteJson != null) {
+                                json["WasteTime"] = formatTime(list[i].WasteTime, true);
+                                json["OrderNum"] = list[i].OrderId;
+                                json["Bonus"] = (parseFloat(list[i].Bonus) * parseInt(list[i].ProductCount)).toFixed(1);
+                                json["Brokerage"] = (parseFloat(list[i].Brokerage) * parseInt(list[i].ProductCount)).toFixed(1);
+                                json["NickName"] = list[i].NickName;
+                                json["WasteInfo"] = list[i].WasteInfo;
+                                json["ProductName"] = list[i].ProductName;
+                                json["Validity"] = formatTime(list[i].Validity, false);
+                                json["WasteJson"] = list[i].WasteJson;
+                                if (list[i].WasteType == 11) {
+                                    json["Bonus"] = '预计返利+' + list[i].Bonus;
+                                }
+                                if (list[i].WasteType == 1) {
+                                    json["Bonus"] = '已返利+' + list[i].Bonus;
+                                }
+                                if (list[i].WasteType == 5 || list[i].WasteType == 6 || list[i].WasteType == 12) {
+                                    json["Bonus"] = '-' + list[i].Bonus;
+                                }
+                                if (list[i].WasteType == 13) {
+                                    json["Bonus"] = '-' + list[i].WasteMoney;
+                                }
+                                if (list[i].WasteType == 10) {
+                                    json["Bonus"] = '+' + list[i].WasteMoney;
+                                }
+                                json["user_level"] = eval(list[i].WasteJson)[0].user_level;
+                                newList.push(json);
+                            } else {
+                                if (list[i].WasteType == 1 || list[i].WasteType == 11) {
+                                    list[i].Bonus = '+' + list[i].Bonus;
+                                }
+                                if (list[i].WasteType == 5 || list[i].WasteType == 6 || list[i].WasteType == 12 || list[i].WasteType == 13) {
+                                    list[i].Bonus = '-' + list[i].WasteMoney;
+                                }
+                                if (list[i].WasteType == 13) {
+                                    list[i].Bonus = '-' + list[i].WasteMoney;
+                                }
+                                if (list[i].WasteType == 10) {
+                                    list[i].Bonus = '+' + list[i].WasteMoney;
+                                }
+                                newList.push(list[i]);
+                            }
+                        }
+                        list = newList;
+                        var datalist = { list: list };
+                        $("#type3").append(template("BonusTemp", datalist));
+                        $('.c_red').each(function (i, v) {
+                            if ($(v).children('span').first().text()[0] == "-") {
+                                $(v).removeClass('c_red');
+                            }
+                        });
+                    }
+                } else {
+                    $("#type3").empty();
+                    $("#type3").append('<span class="no_data">暂无数据</span>');
+                }
+            });
+        }
+
+        function LoadPointList(type, sTime, eTime) {
+            $.post("/Txooo/SalesV2/Member/Ajax/AttentionAjax.ajax/GetPointList", { pageIndex: pageIndex, pageSize: pageSize, period: 0, type: type, startTime: sTime, endTime: eTime }, function (data) {
+                var obj = eval('(' + data + ')');
+                if (obj.count > 0) {
+                    var list = eval(obj.list);
+                    if (list.length == 0) {
+
+                    } else {
+                        for (var i = 0; i < list.length; i++) {
+                            if (list[i].WasteType == 2 || list[i].WasteType == 7 || list[i].WasteType == 8 || list[i].WasteType == 16) {
+                                list[i].WasteMoney = '+' + list[i].WasteMoney;
+                            }
+                            if (list[i].WasteType == 3 || list[i].WasteType == 5 || list[i].WasteType == 12) {
+                                list[i].WasteMoney = '-' + list[i].WasteMoney;
+                            }
+                            if (list[i].WasteType == 11) {
+                                list[i].WasteMoney = '预计奖励+' + list[i].WasteMoney;
+                            }
+                            if (list[i].WasteType == 1) {
+                                list[i].WasteMoney = '已奖励+' + list[i].WasteMoney;
+                            }
+                        }
+                        var datalist = { list: list };
+                        $("#type4").append(template("PointTemp", datalist));
+                        $('.c_red').each(function (i, v) {
+                            if ($(v).children('span').first().text()[0] == "-") {
+                                $(v).removeClass('c_red');
+                            }
+                        });
+                    }
+                } else {
+                    $("#type4").empty();
+                    $("#type4").append('<span class="no_data">暂无数据</span>');
+                }
+            });
+        }
+
+        //加载更多
+        var scrollTrue = true;
+        window.onscroll = function () {
+            if (getScrollTop() + getClientHeight() == getScrollHeight()) {
+                if (scrollTrue) {
+                    scrollTrue = false;
+                    pageIndex++;
+                    LoadEstList(startTime, endTime);
+                    LoadBrokerageList(0, startTime, endTime);
+                    LoadBonusList(0, startTime, endTime);
+                    LoadPointList(0, startTime, endTime);
+                    scrollTrue = true;
+                }
+            }
+        }
+
+        function SelectData(whichOne, type, me) {
+            pageIndex = 0;
+            pageSize = 5;
+            switch (whichOne) {
+                case 1: $('#type2').empty(); LoadBrokerageList(type, startTime, endTime); break;
+                case 2: $('#type3').empty(); LoadBonusList(type, startTime, endTime); break;
+                case 3: $('#type4').empty(); LoadPointList(type, startTime, endTime); break;
+            }
+            $(me).parent('li').addClass('active').siblings('li').removeClass('active');
+        }
+
+        
+    </script>
+ <!--WL_TMP{tmp=/Skin/t/Pub/T_Public.html}--> </body>
+</html>

@@ -27,7 +27,7 @@ namespace Iwenli.Org.Passport.BLL
             //UserLogHelper.WriteUserLog("sales_log_passport", userId.ToString(), "web登入创业赚钱", 1, "TxoooAgent");
             Iwenli.Web.Security.SecurityHelper.SetAuthCookie(string.Format("{0}|{1}|{2}|{3}", userName, 10163, 0, 1), true);
             
-            return ToolHelper.Json(true, "登陆成功");
+            return JsonHelper.Json(true, "登陆成功");
         }
     }
 }

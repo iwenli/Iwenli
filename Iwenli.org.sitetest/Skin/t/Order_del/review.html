@@ -1,0 +1,131 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/jquery/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="//cdn.txooo.com/public/html5/rem.js"></script>
+    <script src="/Skin/t/Js/Public.js"></script>
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Public.css" />
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Order.css" />
+    <title>评价订单</title>
+    <script type="text/javascript">
+        $(function () {
+            $(".P_title").text("评价订单");
+            $(".P_Header_info").text(" ");
+        })
+
+        $(function () {
+            $(".review_level dl:eq(0) dd span").each(function (i,o) {
+                $(o).bind("click", function () {
+                    $(o).addClass("current");
+                    $(".review_level dl:eq(0) dd span:lt(" + i + ")").addClass("current");
+                    $(".review_level dl:eq(0) dd span:gt(" + i + ")").removeClass("current");
+                    $("#review_form input[name=pro_review]").val(i + 1);
+                })
+            })
+            $(".review_level dl:eq(1) dd span").each(function (i, o) {
+                $(o).bind("click", function () {
+                    $(o).addClass("current");
+                    $(".review_level dl:eq(1) dd span:lt(" + i + ")").addClass("current");
+                    $(".review_level dl:eq(1) dd span:gt(" + i + ")").removeClass("current");
+                    $("#review_form input[name=express_review]").val(i + 1);
+                })
+            })
+        })
+    </script>
+</head>
+<body>
+    <!-- 头部信息begin -->
+    <!--WL_TMP{tmp=/Skin/t/Pub/T_Head_info.html}-->
+    <!-- 头部信息end -->
+    <div class="O_main Review_page">
+        <!--商品信息-->
+        <div id="proInfo" class="review_tit"></div>
+
+        <div class="review_form">
+            <form method="post" id="review_form" >
+                <input type="hidden" name="orderId" value="" />
+                <h4>评价</h4>
+                <div class="review_level">
+                    <dl>
+                        <dt>商品质量：</dt>
+                        <dd>
+                            <span><i>&#xe608;</i></span>
+                            <span><i>&#xe608;</i></span>
+                            <span><i>&#xe608;</i></span>
+                            <span><i>&#xe608;</i></span>
+                            <span><i>&#xe608;</i></span>
+                        </dd>
+                        <input type="hidden" name="pro_review" value="0" />
+                    </dl>
+                    <dl>
+                        <dt>配送快递：</dt>
+                        <dd>
+                            <span><i>&#xe608;</i></span>
+                            <span><i>&#xe608;</i></span>
+                            <span><i>&#xe608;</i></span>
+                            <span><i>&#xe608;</i></span>
+                            <span><i>&#xe608;</i></span>
+                        </dd>
+                        <input type="hidden" name="express_review" value="0" />
+                    </dl>
+                </div>
+                <h4>评论</h4>
+                <div class="textarea">
+                    <textarea class="rev_content" name="review_content" placeholder="您的建议很重要，来写点什么吧~"></textarea>
+                </div>
+                <div class="submit_btn">
+                    <a href="JavaScript:void(0);" onclick="SubmitReview()">提交评价</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        $("#review_form input[name=orderId]").val(getUrlParam("orderid"));
+
+        //根据订单id加载订单信息
+        $.get("/Txooo/SalesV2/Shop/Ajax/ShopAjax.ajax/GetOrderById?orderid=" + getUrlParam("orderid"), function (data) {
+            if (data != null) {
+                var info = eval("(" + data + ")");
+                var imgs = info.ProductImgs.split(",");
+                var html = "<div>";
+                html += "<div class='pic'><img src='"+imgs[0]+"' /></div>";
+                html += "<div class='pic_r'><div class='pic_r_t'><span class='left'>" + info.ProductName + "</span>";
+                html += "<span class='right'><em class='price'>" + info.ProductPrice + "元</em>";
+                html += "<em class='count gray_ccc'>×" + info.ProductCount + "</em></span></div>";
+                html += "<div class='pic_r_b'>合计：<span class='orange'>" + info.TotalMoney + "元</span><span> (含运费 " + info.Postage + "元)</span></div>";
+                html += "</div>";
+                $("#proInfo").html(html);
+            }
+        })
+
+
+
+        //提价订单
+        function SubmitReview() {
+            if ($("#review_form input[name=pro_review]").val() == 0) {
+                dialogAlart("您还没对商品作出评价！");
+                return;
+            }
+            if ($("#review_form input[name=express_review]").val() == 0) {
+                dialogAlart("您还没对配送服务作出评价！");
+                return;
+            }
+            if ($.trim($("#review_form .rev_content").val()).length > 200) {
+                dialogAlart("您输入的评论过长！");
+                return;
+            }
+            $.post("/Txooo/SalesV2/Shop/Ajax/ShopAjax.ajax/ReviewProduct", $("#review_form").serialize(), function (data) {
+                var obj = eval(data);
+                if (obj.success == "true") {
+                    window.location.href = "orderList.html";
+                } else {
+                    dialogAlart("操作失败，请稍后再试！");
+                }
+            })
+        }
+    </script>
+ <!--WL_TMP{tmp=/Skin/t/Pub/T_Public.html}--> </body>
+</html>

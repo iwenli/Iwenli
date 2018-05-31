@@ -1,0 +1,119 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/html5/rem.js"></script>
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Public.css" />
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Member.css" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/jquery/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="//cdn.txooo.com/public/aui.artTemplate/artTemplate.js"></script>
+    <script src="/Skin/t/Js/Public.js"></script>
+    <title>我的银行卡</title>
+    <script type="text/javascript">
+        $(function () {
+            GetSalesBankList();
+        })
+        //银行卡列表
+        function GetSalesBankList()
+        {
+            $.post("/Txooo/SalesV2/Member/Ajax/MemberAjax.ajax/GetSalesBank", function (data) {
+                var obj = eval("(" + data + ")");
+                if (obj.length > 0) {
+                    var $list = { list: obj };
+                    $(".bank_list").html(template("backlist", $list));
+                    $("#isMain_1").addClass("current");
+                } else {
+                    $(".no_address").show();
+                }
+            })
+            //截取银行卡
+            template.helper("IsCard", function (a) {
+                return "**** **** *** "+a.substr(a.length-4);
+            });
+            template.helper("IsCardName", function (a) {
+                return "*"+a.substr(1);
+            });
+            template.helper("IsMain", function (a) {
+                return a==1?"默认提现银行卡":"设为默认提现银行卡";
+            });
+        }
+
+        //设为默认卡
+        function EditBankIsMain(backId)
+        {
+            $.get("/Txooo/SalesV2/Member/Ajax/MemberAjax.ajax/EditBankIsMain?bank_id="+backId+"", function (data) {
+                var obj = eval(data);
+                if (obj.success == "true") {
+                    GetSalesBankList();
+                }else{
+                    dialogAlart(obj.msg);
+                }
+            })
+        
+        }
+
+        //删除银行卡
+        function  DelBank(me,backid)
+        {
+            //if (confirm("确定删除吗？")) {
+                
+            //}
+            dialogComfirm("确定删除吗？",function () {
+                $.get("/Txooo/SalesV2/Member/Ajax/MemberAjax.ajax/DelteBank?bank_id="+backid+"", function (data) {
+                    var obj = eval(data);
+                    if (obj.success == "true") {
+                        window.location.reload();
+                    }else{
+                        dialogAlart(obj.msg);
+                    }
+                })
+            })
+        }
+        window.txservice.init();
+    </script>
+</head>
+<body style="background:#f0f0f0;">
+    <script type="text/html" id="backlist">
+        {{each list as o}}
+        <ul>
+            <li>
+                <span class="pic"><img src="{{o.Logo}}" /></span>
+                <span class="cord_name">{{o.CardType}}</span>
+                <span class="cord_number">{{IsCard(o.CardNum)}}</span>
+            </li>
+            <li class="name">持卡人姓名：<span>{{IsCardName(o.CardName)}}</span></li>
+            <!--<li class="phone">银行预留手机号：<span></span></li>-->
+            <li class="inter">
+                <span class="label " onclick="EditBankIsMain({{o.BankId}})" id="isMain_{{o.IsMain}}">{{IsMain(o.IsMain)}}</span>
+                <span class="del" onclick="DelBank(this,{{o.BankId}})"><i>&#xe61f;</i></span>
+                <span class="edit"><a href="/member/BankPayPwd.html?r_id={{o.BankId}}"><i>&#xe620;</i></a></span>
+            </li>
+        </ul>
+        {{/each}}
+    </script>
+
+    <!-- 头部信息begin -->
+    <header class="P_Header" id="header1">
+        <a onclick="if (window.txservice.success()) { window.txservice.call('goback'); } else { history.go(-1); }" class="P_goBack"><i>&#xe602;</i></a>
+        <div class="P_title">银行卡管理</div>
+        <div class="P_Header_info">
+            <a href="/member/BankPayPwd.html">添加</a>
+        </div>
+    </header>
+    <!-- 头部信息end -->
+    <section class="P_Pages">
+        <!--没有添加地址-->
+        <div class="no_address" style="display:none">
+            <i>&#xe637;</i>
+            <p>您还没有绑定银行卡</p>
+        </div>
+
+        <!--地址列表-->
+        <div class="bank_list">
+          
+        </div>
+    </section>
+
+ <!--WL_TMP{tmp=/Skin/t/Pub/T_Public.html}--> </body>
+</html>

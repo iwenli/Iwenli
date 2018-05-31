@@ -1,0 +1,469 @@
+﻿<!-- index.html 页面模板 -->
+<!-- 赚钱排行榜 -->
+<script type="text/html" id="t-rank">
+    <div class="swiper-wrapper j-rank" id="rank-wrap">
+        {{each list}}
+        <div class="swiper-slide">
+            <span>{{$value.NickName}}</span>
+            <span>已赚到{{$value.TotalAssets | toFloat}}元</span>
+            <span>排名第{{$value.Rank}}位</span>
+        </div>
+        {{/each}}
+    </div>
+</script>
+<!-- 自定义模块 -->
+<script type="text/html" id="t-module-detail">
+    <div>
+        {{each list}}
+        {{if $value.LinkClass == 1}}
+        <a class="j-goDetail" href="#" data-id="{{$value.LinkIndex}}">
+            {{else}}
+            <a class="{{if $value.LinkClass == 3}}external{{/if}}" href="{{$value.src}}" data-no-cache="true">
+                {{/if}}
+                <span class="name" {{if $value.LinkNameColor != ''}} style="color:{{$value.LinkNameColor}}" {{/if}}>{{$value.LinkName}}</span>
+                <span class="explain" {{if $value.LinkExplainColor != ''}} style="color:{{$value.LinkExplainColor}}" {{/if}}>{{$value.LinkExplain}}</span>
+                {{$value.ShowImg | templageImgs}}
+            </a>
+            {{/each}}
+    </div>
+</script>
+<!--模板5-前4条专用 同时需要给tempalte-content元素添加module-5-->
+<script type="text/html" id="t-module-detail-2">
+    <div>
+        {{each list}}
+        {{if $value.LinkClass == 1}}
+        <a class="j-goDetail" href="#" data-id="{{$value.LinkIndex}}">
+            {{else}}
+            <a class="{{if $value.LinkClass == 3}}external{{/if}}" href="{{$value.src}}" data-no-cache="true">
+                {{/if}}
+                <div class="row no-border">
+                    <div class="col-50">
+                        <span class="name" {{if $value.LinkNameColor != ''}} style="color:{{$value.LinkNameColor}}" {{/if}}>{{$value.LinkName}}</span>
+                        <span class="explain" {{if $value.LinkExplainColor != ''}} style="color:{{$value.LinkExplainColor}}" {{/if}}>{{$value.LinkExplain}}</span>
+                    </div>
+                    <div class="col-50">
+                        {{$value.ShowImg | templageImgs}}
+                    </div>
+                </div>
+            </a>
+            {{/each}}
+    </div>
+</script>
+<!--轮播模板专用内容-->
+<script type="text/html" id="t-module-detail-3">
+    {{each list}}
+    {{if $value.LinkClass == 1}}
+    <a class="swiper-slide template-swiper-img j-goDetail" data-id="{{$value.LinkIndex}}"
+       href="#" data-no-cache="true" style="background-image:url({{$value.ShowImg}})">
+    </a>
+    {{else}}
+    <a class="swiper-slide template-swiper-img {{if $value.LinkClass == 3}}external{{/if}}"
+       href="{{$value.src}}" data-no-cache="true" style="background-image:url({{$value.ShowImg}})">
+    </a>
+    {{/if}}
+    {{/each}}
+</script>
+<script type="text/html" id="t-module-main">
+    <!--tempalte-title添加bg-->
+    {{each list}}
+    <div class="module-tempalte">
+        {{if $value.ContentNameImg!=''}}
+        <div class="tempalte-title bg">
+            <img src="{{ $value.ContentNameImg}}" />
+        </div>
+        {{else}}
+        <div class="tempalte-title">
+            <span class="vline left"></span>
+            <span class="text">{{$value.ContentName}}</span>
+            <span class="vline right"></span>
+        </div>
+        {{/if}}
+        <div class="tempalte-content">
+        </div>
+    </div>
+    {{/each}}
+</script>
+<script type="text/html" id="t-module-10035">
+    {{each list}}
+    <div class="row d_row">
+        <div class="j-detail col-50"></div>
+        <div class="j-detail col-50 no_border_right"></div>
+    </div>
+    <div class="row d_row no-border_bottom">
+        <div class="j-detail col-25"></div>
+        <div class="j-detail col-25"></div>
+        <div class="j-detail col-25"></div>
+        <div class="j-detail col-25 no_border_right"></div>
+    </div>
+    {{/each}}
+</script>
+<script type="text/html" id="t-module-10036">
+    {{each list}}
+    <div class="row d_row">
+        <div class="j-detail col-50"></div>
+        <div class="j-detail col-25"></div>
+        <div class="j-detail col-25 no_border_right"></div>
+    </div>
+    <div class="row d_row no-border_bottom">
+        <div class="j-detail col-50"></div>
+        <div class="j-detail col-25"></div>
+        <div class="j-detail col-25 no_border_right"></div>
+    </div>
+    {{/each}}
+</script>
+<script type="text/html" id="t-module-10037">
+    {{each list}}
+    <div class="row d_row">
+        <div class="j-detail col-50"></div>
+        <div class="j-detail col-25"></div>
+        <div class="j-detail col-25 no_border_right"></div>
+    </div>
+    <div class="row d_row no-border_bottom">
+        <div class="j-detail col-25"></div>
+        <div class="j-detail col-25"></div>
+        <div class="j-detail col-50 no_border_right"></div>
+    </div>
+    {{/each}}
+</script>
+<script type="text/html" id="t-module-10038">
+    {{each list}}
+    <div class="row d_row">
+        <div class="j-detail col-50"></div>
+        <div class="j-detail col-50 no_border_right"></div>
+    </div>
+    <div class="row d_row">
+        <div class="j-detail col-50"></div>
+        <div class="j-detail col-50 no_border_right"></div>
+    </div>
+    <div class="row d_row no-border_bottom">
+        <div class="j-detail col-25"></div>
+        <div class="j-detail col-25"></div>
+        <div class="j-detail col-25"></div>
+        <div class="j-detail col-25 no_border_right"></div>
+    </div>
+    {{/each}}
+</script>
+<script type="text/html" id="t-module-10039">
+    {{each list}}
+    <div class="row d_row">
+        <div class="j-detail col-50"></div>
+        <div class="j-detail col-50 no_border_right"></div>
+    </div>
+    <div class="row d_row">
+        <div class="j-detail col-50"></div>
+        <div class="j-detail col-50 no_border_right"></div>
+    </div>
+    <div class="row d_row no-border_bottom">
+        <div class="j-detail col-25"></div>
+        <div class="j-detail col-25"></div>
+        <div class="j-detail col-25"></div>
+        <div class="j-detail col-25 no_border_right"></div>
+    </div>
+    {{/each}}
+</script>
+<script type="text/html" id="t-module-10040">
+    {{each list}}
+    <div class="swiper-container template-swiper-container-{{$value.ContentId}}">
+        <div class="swiper-wrapper j-detail">
+        </div>
+    </div>
+    {{/each}}
+</script>
+<script type="text/html" id="t-module-10041">
+    {{each list}}
+    <div class="swiper-container template-swiper-container-{{$value.ContentId}}">
+        <div class="swiper-wrapper j-detail">
+        </div>
+    </div>
+    {{/each}}
+</script>
+<script type="text/html" id="t-module-10043">
+    {{each list}}
+    <div class="swiper-container template-swiper-container-{{$value.ContentId}}">
+        <div class="swiper-wrapper j-detail">
+        </div>
+    </div>
+    {{/each}}
+</script>
+<script type="text/html" id="t-module-10044">
+    {{each list}}
+    <div class="swiper-container template-swiper-container-{{$value.ContentId}}">
+        <div class="swiper-wrapper j-detail">
+        </div>
+    </div>
+    {{/each}}
+</script>
+<!-- 猜你喜欢商品 -->
+<script type="text/html" id="t-products">
+    {{each list}}
+    {{if $value.TemplateId=='3'}}
+    <li data-id="{{$value.ClassId}}">
+        <a href="/index/market.html?q={{$value.ClassName}}&cids={{$value.ClassId}}" data-no-cache="true">
+            <div class="row pos-rel">
+                <div class="col-33">
+                    <img class="pro-img lazy" alt="{{$value.ClassName}}" src="{{$value.ImgUrl}}" style="opacity: 1;border: solid 1px #ececec;">
+                </div>
+                <div class="col-66" style="display:table">
+                    <div class="button button-fill class-button">查看全部{{$value.ClassName}}</div>
+                </div>
+            </div>
+        </a>
+    </li>
+    {{else}}
+    <li data-lat="{{$value.Lat}}" data-lng="{{$value.Lng}}" data-id="{{$value.Id}}">
+        <a class="j-goDetail" href="#" data-id="{{$value.Id}}">
+            {{if $value.TemplateId=='1'}}
+            <span class="p-name">{{$value.ProductName}}</span>
+            <div class="row t_row">
+                {{$value.ProductImgs | productImages}}
+            </div>
+            <span class="row">
+                <span class="col-50 pull-left"><em>&yen;</em>{{$value.Price | priceToFixed}}</span>
+                {{ $value.Distance | productDistance}}
+            </span>
+            {{else}}
+            <div class="row pos-rel">
+                <div class="col-33">
+                    <img class="pro-img lazy" data-original="{{$value.ProductImgs | productImgs}}" alt="{{$value.ProductName}}" src="{{$value.ProductImgs | productImgs}}" />
+                </div>
+                <div class="col-66">
+                    <span class="p-name d-ellipsis">{{$value.ProductName}}</span>
+                    <span class="row d-positive" style="width:66%">
+                        <span class="col-50 pull-left"><em>&yen;</em>{{$value.Price | priceToFixed}}</span>
+                        {{ $value.Distance | productDistance}}
+                    </span>
+                </div>
+            </div>
+            {{/if}}
+        </a>
+    </li>
+    {{/if}}
+    {{/each}}
+</script>
+
+<!--主页用户自定义广告-轮播-->
+<script type="text/html" id="t-index-adinfo-swiper">
+    <div class="swiper-container adinfo-swiper-container">
+        <div class="swiper-wrapper adinfo-swiper-wrapper">
+            {{each list}}
+            <a class="j-goDetail swiper-slide index_swiper_img" href="#" data-id="{{$value.product_id}}" style="background-image:url({{$value.product_img}})">
+                <span class="money"><em>￥</em>{{$value.price | priceToFixed}}</span>
+            </a>
+            {{/each}}
+        </div>
+        <div class="swiper-pagination"></div>
+    </div>
+</script>
+<!--主页用户自定义广告-->
+<script type="text/html" id="t-index-adinfo-other">
+    <div class="adinfo-other">
+        {{each list}}
+        <a class="j-goDetail" href="#" data-id="{{$value.product_id}}">
+            <!--<a href="/shop.html?id={{$value.product_id}}&source=shop" data-no-cache="true">-->
+            <img src="{{$value.product_img}}" alt="商户广告位" />
+            <span class="money"><em>￥</em>{{$value.price | priceToFixed}}</span>
+        </a>
+        {{/each}}
+    </div>
+</script>
+<!-- 搜索历史标签 -->
+<script type="text/html" id="t-keytag">
+    {{each list}}
+    <a href="#" target="_blank">{{$value}}</a>
+    {{/each}}
+</script>
+<!-- 未搜索到商品 -->
+<script type="text/html" id="t-searchNoProducts">
+    <span class="icon-font"><i>&#xea1f;</i></span>
+    <p>抱歉，没有找到商品!</p>
+    <p><a href="/index.html" class="external button button-big">去首页溜溜</a></p>
+    <div class="noproduct-content">
+        <span class="recom"></span>
+        <div class="products-con">
+            <ul>
+                {{each list}}
+                <li>
+                    <div class="list-item">
+                        {{if $value.IsActivity == true}}
+                        <div class="hot_goods"><img src="/Skin/t/Img/Index/activityicon.png"></div>
+                        {{/if}}
+
+                        <a href="/index/class.html?key={{$value.ClassId}}&name={{$value.ClassName}}#page-class-product"
+                           class="btn-similar">找相似</a>
+                        <a class="j-goDetail" href="#" data-id="{{$value.Id}}">
+                            <img class="lazy" data-original="{{$value.ProductImgs | productImgs}}"
+                                 alt="{{$value.ProductName}}" />
+                            <p class="prodect-name">
+                                {{if $value.IsActivity == true}}
+                                <em class="rebate_activity_ico"></em>
+                                {{/if}}
+                                {{$value.ProductName}}
+                            </p>
+                        </a>
+                        <span class="row row_bottom">
+                            <span class="tag tag-point">购买可获得V币 <em>{{$value.Point}}</em>个</span>
+                            {{if $value.Ispostage == true}}
+                            <span class="tag tag-postage">包邮</span>
+                            {{/if}}
+                        </span>
+                        <span class="row row_bottom" style="">
+                            <span class="pull-left"><em>¥</em>{{$value.Price | priceToFixed}}</span>
+                            <span class="pull-right sales-count">销量 <em>{{$value.SalesCount}}</em></span>
+                        </span>
+                    </div>
+                </li>
+                {{/each}}
+                <div class="j-clear" style="clear: both;"></div>
+            </ul>
+        </div>
+    </div>
+</script>
+<!-- 搜索结果商品 -->
+<script type="text/html" id="t-searchResult">
+    {{each list}}
+    <li data-lat="{{$value.Lat}}" data-lng="{{$value.Lng}}">
+        <div class="list-item">
+            <a class="j-goDetail" href="#" data-id="{{$value.Id}}">
+                <img class="lazy" data-original="{{$value.ProductImgs | productImgs}}" alt="{{$value.ProductName}}" />
+                <p class="prodect-name">{{$value.ProductName}}</p>
+            </a>
+            <span class="row row_bottom" style="margin-left:0; overflow:hidden">
+                <span class="pull-left"><em>¥</em>{{$value.Price | priceToFixed}}</span>
+                <a href="/index/class.html?key={{$value.ClassId}}&name={{$value.ClassName}}#page-class-product" class="pull-right button button-round">看相似</a>
+            </span>
+        </div>
+    </li>
+    {{/each}}
+</script>
+<!-- class.html 页面模板 -->
+<!-- 父级分类菜单 -->
+<script type="text/html" id="t-classParent">
+    {{each list}}
+    <li data-id="{{$value.ClassId}}">{{$value.ClassName}}</li>
+    {{/each}}
+</script>
+<!-- 子级分类容器 -->
+<script type="text/html" id="t-classParent-Container">
+    {{each list}}
+    <li class="tab-ul-li">
+        <ul class="tab-pro-ul  j-container-{{$value.ClassId}}" data-parentId="{{$value.ClassId}}"></ul>
+    </li>
+    {{/each}}
+</script>
+<!-- 子级菜单 -->
+<script type="text/html" id="t-classChild">
+    {{each list}}
+    <li>
+        <a data-key="{{$value.ClassName}}" data-id="{{$value.ClassId}}" href="#">
+            <div class="tab-img">
+                <img data-original="{{$value.ImgUrl}}" class="lazy" />
+            </div>
+            <p class="tab-desc">{{$value.ClassName}}</p>
+        </a>
+    </li>
+    {{/each}}
+</script>
+
+<!-- mch.html 页面模板 -->
+<!-- 未搜索到商品 -->
+<script type="text/html" id="t-searchNoMchs">
+    <span class="icon-font"><i>&#xea2f;</i></span>
+    <p>抱歉，没有找到店铺!</p>
+    <p><a href="/index.html" class="external button button-big">去首页溜溜</a></p>
+</script>
+<!-- 店铺展示模板 -->
+<script type="text/html" id="t-mchResultProduct">
+    {{each Products}}
+    <li class="shop-item-ctn">
+        {{if $value.IsActivity == true}}
+        <div class="hot_goods"><img src="/Skin/t/Img/Index/activityicon.png"></div>
+        {{/if}}
+        <a class="j-goDetail shop-item-link" href="#" data-id="{{$value.Id}}">
+            <img class="li_img  lazy" alt="{{$value.ProductName}}" data-original="{{$value.ProductImgs | productImgs}}" />
+            <div class="shop-item-price">
+                <em>￥</em>{{$value.Price | priceToFixed}}
+            </div>
+        </a>
+    </li>
+    {{/each}}
+</script>
+<script type="text/html" id="t-mchResult">
+    {{each list}}
+    <li class="list-item">
+        <div class="list_item clearfix shop-info-header">
+            <div class="shop-logo-img-wrapper">
+                <img class="shop-logo-img" alt="{{$value.ComName}} logo" src="{{$value.MchLogo | productImgs}}" />
+            </div>
+            <div class="shop-title">
+                <label>{{$value.ComName}}</label>
+            </div>
+            <div class="shop-sales-info">
+                <span>销量<span class="num">{{$value.ProductSalesTotalCount}}</span></span>
+                <span class="prodect-count">共 <span class="num">{{$value.ProductTotalCount}}</span> 件宝贝</span>
+            </div>
+            <span data-id="{{$value.Id}}" class="button button-fill j-gostore">进店逛逛</span>
+        </div>
+        <ul class="shop-item-list-wrapper clearfix">
+            <!--引入子模板-->
+            {{include 't-mchResultProduct' $value}}
+        </ul>
+    </li>
+    {{/each}}
+</script>
+<!-- market.html 页面模板 -->
+<!-- 商品展示模板 -->
+<script type="text/html" id="t-marketProduct">
+    {{each list}}
+    <li>
+        <div class="list-item">
+            <a class="j-goDetail" href="#" data-id="{{$value.Id}}">
+                <img class="products-pic lazy" data-original="{{$value.ProductImgs | productImgs}}" alt="{{$value.ProductName}}" />
+                <p class="prodect-name">{{$value.ProductName}}</p>
+            </a>
+            <div class="row_bottom">
+                <span class="pull-left"><em>¥</em>{{$value.Price | priceToFixed}}</span>
+                {{if $value.ProductIspostage == true}}<span class="postage">包邮</span>{{/if}}
+            </div>
+        </div>
+    </li>
+    {{/each}}
+</script>
+<!--新版主页顶通-轮播-->
+<script type="text/html" id="t-index-slider">
+    <div class="swiper-container">
+        <div class="slider-bg"></div>
+        <div class="swiper-wrapper">
+            {{each list}}
+            {{if $value.LinkClass == 1}}
+            <a class="swiper-slide index_swiper_img j-goDetail" data-id="{{$value.LinkIndex}}"
+               href="#" data-no-cache="true" style="background-image:url({{$value.ShowImg}})">
+            </a>
+            {{else}}
+            <a class="swiper-slide index_swiper_img {{if $value.LinkClass == 3}}external{{/if}}"
+               href="{{$value.src}}" data-no-cache="true" style="background-image:url({{$value.ShowImg}})">
+            </a>
+            {{/if}}
+            {{/each}}
+        </div>
+        <div class="swiper-pagination"></div>
+    </div>
+</script>
+
+<!--新版首页活动商品推荐 -->
+<script type="text/html" id="t-index-newProductList">
+    {{each list}}
+    <li data-lat="{{$value.Lat}}" data-lng="{{$value.Lng}}">
+        <div class="list-item">
+            <div class="hot_goods"><img src="/Skin/t/Img/Index/activityicon.png" /></div>
+            <a class="j-goDetail" href="#" data-id="{{$value.Id}}">
+                <img class="lazy" data-original="{{$value.ProductImgs | productImgs}}" alt="{{$value.ProductName}}" />
+                <p class="prodect-name"><em class="rebate_activity_ico"></em>{{$value.ProductName}}</p>
+            </a>
+            <span class="row row_bottom" style="margin-left:0; overflow:hidden">
+                <span class="pull-left"><em>¥</em>{{$value.Price | priceToFixed}}</span>
+                <span class="pull-left" style="color:#ff7800;font-size:0.75rem;">购买可获得V币 <em>{{$value.Point}}</em>个</span>
+            </span>
+        </div>
+    </li>
+    {{/each}}
+</script>

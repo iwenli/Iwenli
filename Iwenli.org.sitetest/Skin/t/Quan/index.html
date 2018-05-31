@@ -1,0 +1,236 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/html5/rem.js"></script>
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Public.css" />
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Quan.css" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/jquery/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="//cdn.txooo.com/public/aui.artTemplate/artTemplate.js"></script>
+    <script src="/Skin/t/Js/Public.js?v=03343a"></script>
+    <script src="/Skin/t/Js/Template.js"></script>
+    <title>团队圈</title>
+</head>
+<body>
+    <!--WL_TMP{tmp=/Skin/t/Pub/T_Public.html}-->
+    <!-- 头部信息begin -->
+    <header class="P_Header">
+        <div class="P_goBack" onclick="window.location.href = '/Member/team.html'"><i>&#xe602;</i></div>
+        <div class="P_title">团队圈</div>
+        <div class="P_Header_info"><a href="addPost.html"><i style="font-size:1.75rem;">&#xe620;</i></a></div>
+    </header>
+    <!-- 头部信息end -->
+    <section class="P_main">
+        <!--WL_TMP{tmp=/Skin/t/Pub/Quan_Head.html}-->
+        <!--帖子展示-->
+        <section id="posts_list" class="share_list"></section>
+
+    </section>
+
+    <div id="comment_form">
+        <div class="comment_box">
+            <form action="" method="post">
+                <input type="hidden" name="posts_id" value="" />
+                <input type="hidden" name="review_uid" value="0" />
+                <input type="text" id="com_content" name="comment_content" placeholder="说一句话" />
+                <input type="button" name="send" class="com_btn" value="回复" onclick="SendComment()" />
+                <!--<input type="button" name="cancel" class="com_btn" value="取消" />-->
+            </form>
+        </div>
+    </div>
+    <!---->
+
+    <script type="text/html" id="postsListTemp">
+        {{each info as i}}
+        <dl class="list_dl">
+            <dt>
+                <img src="{{i.HeadPic}},1,80,80,3" onclick="window.location.href = '{{i.HeadLinkUrl}}'" />
+            </dt>
+            <dd class="p_name">
+                <span class="name" onclick="window.location.href = '{{i.HeadLinkUrl}}'">{{i.NickName}}</span>
+                <span class="question" data-state="{{i.CheckState}}" data-msg="{{i.CheckRemark}}">{{if i.CheckState==2}}审核不通过<i style="color:#ff6a00;margin-left:0.25rem;">&#xe638;</i>{{/if}}{{if i.CheckState==3}}等待审核{{/if}}</span>
+            </dd>
+            <dd class="p_show">
+                {{include 'contentTemp' i}}
+            </dd>
+            <dd class="all_text">全文</dd>
+            <!--<div class="assessBox" style="position:fixed; width:100%; height:100%; z-index:90;">-->
+            <dd class="assess">
+                <ul>
+                    <li class="time posts_add_time">{{i.AddTime | dateFormatNow:'yyyy-MM-dd'}}</li>
+                    {{if i.UserId=='{$UserId}'}}
+                    <li class="time"><a href="javascript:void(0);" onclick="deletePost('{{i.PostsId}}')" class="info_del">删除</a></li>
+                    {{/if}}
+                    <li class="mesg"><a href="javascript:void(0)"><i>&#xe647;</i></a></li>
+                    <li class="huachu" data-flag="0">
+                        <a href="javascript:void(0);" class="like_a" onclick="AddLike('{{i.PostsId}}',this)"><i class="like_False">&#xe644;</i> <span>{{i.LikeMsg}}</span><!--<span>{{i.GoodCount}}</span>--></a>
+                        <a href="javascript:void(0)" onclick="addComment(this,'{{i.PostsId}}',0)"><i>&#xe642;</i> 评论<!--<span class="review_count_{{i.PostsId}}">{{i.ReviewCount}}</span>--></a>
+                        <!--<a href="javascript:void(0);" class="fen"><i>&#xe641;</i>  分享</a>-->
+                    <li />
+                </ul>
+            </dd>
+            <!--</div>-->
+            <dd class="reply com_text_{{i.PostGood.length}}_{{i.PostComment.length}}">
+                <em></em>
+                <div class="comment_like good_{{i.PostsId}}">
+                    {{include 'postGoodTemp' i}}
+                </div>
+                <div class="reply_con posts_{{i.PostsId}}" style="">
+                    {{include 'commentTemp' i}}
+                </div>
+                <div class="all_reply all_comment_{{i.PostsId}}">查看所有评论</div>
+            </dd>
+
+        </dl>
+
+        {{/each}}
+
+    </script>
+
+    <!--WL_TMP{tmp=/Skin/t/Quan/temp/quan_content_index.html}-->
+    <!--WL_TMP{tmp=/Skin/t/Quan/temp/quan_good.html}-->
+    <!--WL_TMP{tmp=/Skin/t/Quan/temp/quan_comment.html}-->
+
+    <script>
+        var pageIndex = 0, pageSize = 5;
+        var isAuth = "{$IsAuth}";
+        LoadPostInfo();
+        function LoadPostInfo() {
+            $.post("/Txooo/SalesV2/Quan/Ajax/PostAjax.Ajax/GetPostInfo", { pageIndex: pageIndex, pageSize: pageSize }, function (data) {
+                var obj = eval("(" + data + ")");
+                if (obj.count > 0) {
+                    var list = eval(obj.list);
+                    if (list.length > 0) {
+                        scrollTrue = true;
+                        for (var i = 0; i < list.length; i++) {
+                            list[i].LikeMsg = "赞";
+                            $.each(list[i].PostGood, function (a, b) {
+                                if (b.UserId == '{$UserId}') {
+                                    list[i].LikeMsg = "取消";
+                                }
+                            })
+                            if (list[i].UserId == '{$UserId}') {
+                                list[i].HeadLinkUrl = '/Quan/myPost.html?uId=' + list[i].UserId;
+                            } else {
+                                list[i].HeadLinkUrl = '/Quan/othersPost.html?uId=' + list[i].UserId;
+                            }
+                        }
+                        $("#posts_list").append(template("postsListTemp", { info: list }));
+                    }
+
+                    //$(".list_dl .mesg").click(function () {
+
+                    //    //$(document).click(function () {
+                    //    //    $(".huachu").stop().show().animate({ "width": "0" }, 300)
+                    //    //})
+                    //})
+
+
+                } else {
+                    $("#posts_list").html("<div class='tiezi_0'>没有帖子，快去<a href='addPost.html'>发表</a>一个吧！");
+                }
+                $('.p_name .question').click(function () {
+                    console.log($(this).data('state'));
+                    switch ($(this).data('state')) {
+                        case 2:
+                            dialogAlart($(this).data('msg'),null,'审核不通过原因');
+                            break;
+                    }
+                });
+                $('#posts_list dl').each(function (i, o) {
+                    //if ($.trim($(o).find('.reply_con').html()) == '') {
+                    //    $(o).find('.reply_con').parent().hide();
+                    //}
+                    var oLength = $(o).find('.reply_con').height();
+                    if (oLength > 100) {
+                        $(o).find('.reply_con').addClass('noshow');
+                        $(o).find('.all_reply').show();
+                    }
+                    var oheight = parseInt($(o).find('.p_info').css("height"));
+                    var l_Height = parseInt($(o).find('.p_info').css("line-height"));
+                    var lin_Height = l_Height;
+                    if (oheight > lin_Height * 6) {
+                        $(o).find('.all_text').show();
+                    }
+                });
+            })
+        }
+        var scrollTrue = true;
+        window.onscroll = function () {
+            if (getScrollTop() + getClientHeight() == getScrollHeight()) {
+                if (scrollTrue) {
+                    scrollTrue = false;
+                    pageIndex++;
+                    LoadPostInfo();
+                }
+            }
+        }
+        function deletePost(postId) {
+            dialogComfirm("确定删除吗？", function () {
+                $.get("/Txooo/SalesV2/Quan/Ajax/PostAjax.Ajax/DeletePost?post_id=" + postId, function (data) {
+                    var obj = eval(data);
+                    if (obj.success == "true") {
+                        window.location.reload();
+                    } else {
+                        dialogAlart("操作失败，请稍后再试！");
+                    }
+                })
+            })
+            //if (confirm("确定删除吗？")) {
+
+            //}
+        }
+        $(function () {            
+
+            $(document).delegate('.all_reply', 'click', function () {
+                if ($(this).siblings('.reply_con').hasClass('noshow')) {
+                    $(this).siblings('.reply_con').removeClass('noshow');
+                    $(this).html('收起查看评论');
+                } else {
+                    $(this).siblings('.reply_con').addClass('noshow');
+                    $(this).html('查看所有评论');
+                }
+            });
+            $(document).delegate('.all_text', 'click', function () {
+                if ($(this).siblings('.p_show').hasClass('noshow')) {
+                    $(this).siblings('.p_show').removeClass('noshow');
+                    $(this).html('全文');
+
+                } else {
+                    $(this).siblings('.p_show').addClass('noshow');
+                    $(this).html('收起');
+                }
+            });
+        });
+
+        $(".list_dl .mesg").live("click", function () {
+            //dialogAlart($(this).parents(".list_dl").siblings().find(".huachu[data-flag=1]").length);
+            $(this).parents(".list_dl").siblings().find(".huachu[data-flag=1]").stop().animate({ "width": "0" }, 300);//滑进
+            $(this).parents(".list_dl").siblings().find(".huachu[data-flag=1]").find("a").stop().animate({ "width": "0" }, 300);
+            $(this).parents(".list_dl").siblings().find(".huachu[data-flag=1]").attr("data-flag", "0");
+
+            if ($(this).siblings(".huachu").attr("data-flag") == 0) {
+                $(this).siblings(".huachu").stop().animate({ "width": "8rem" }, 300);//滑出
+                $(this).siblings(".huachu").find("a").stop().animate({ "width": "3.90625rem" }, 300);
+                $(this).siblings(".huachu").attr("data-flag", "1");
+            } else {
+                $(this).siblings(".huachu").stop().animate({ "width": "0" }, 300);//滑进
+                $(this).siblings(".huachu").find("a").stop().animate({ "width": "0" }, 300);//滑进
+                $(this).siblings(".huachu").attr("data-flag", "0");
+            }
+        })
+
+
+        $("body").click(function (e) {
+            var target = $(e.target);
+            if (target.closest(".mesg").length == 0) {
+                $(".huachu").stop().animate({ "width": "0" }, 300);//滑进
+                $(".huachu").find("a").stop().animate({ "width": "0" }, 300);//滑进
+                $(".huachu").attr("data-flag", "0");
+            }
+        })
+    </script>
+    <script src="/Skin/t/Js/QuanPost.js"></script>
+</body>
+</html>

@@ -1,0 +1,113 @@
+﻿<ul class="list">
+    <li class="li1"><a href="javascript:GetMyCode()" class="share_btn"><img src="/Skin/t/Img/Share/ernum_1.png" />我的邀请码</a></li>
+    <li class="li2"><a href="/share/web/p1.html"><img src="/Skin/t/Img/Share/ernum_2.png" />我的推广网页</a></li>
+    <li class="li3"><a href="/share/pic/p1.html"><img src="/Skin/t/Img/Share/ernum_3.png" />我的邀请图片</a></li>
+</ul>
+<script>
+    $(function () {
+        GetMyCode();
+        $('.share_index').bind("click", function (e) {
+            var target = $(e.target);
+            if (target.closest("#code_list").length == 0) {
+                $(".share_index").hide();
+            }
+        });
+        $('.set_no').click(function () {
+            $('.share_index1').hide();
+        })
+        $('.share_btn').click(function () {
+            $(".share_index").show();
+        })
+    });
+    //获取用户的推广邀请码
+    function GetMyCode() {
+        $.get('/Txooo/SalesV2/Member/Ajax/UserAjax.ajax/GetUserShareCodeList', function (data) {
+            var obj = eval(data);
+            if (obj.length > 1) {
+                var data = { list: obj };
+                $('#code_list').html(template('code_temp', data));
+            } else {
+                $('#code_list').html(template('set_code_temp', obj[0]));
+            }
+        });
+    };
+    //打开设置邀请码窗口
+    function OpenSetShareCode() {
+        $(".share_index").hide();
+        $('.share_index1').show();
+    };
+    //提交设置
+    function SetShareCode() {
+        var Regx = /^[A-Za-z0-9]*$/;
+        var share_code = $('#share_code').val().replace(/ /g, '');
+        if (Number(share_code)) {
+            dialogAlart('不能输入纯数字');
+            return;
+        }
+        if (share_code.length < 6 || share_code.length > 20) {
+            dialogAlart('请输入最少6个最多20个字符');
+            return;
+        }
+        if (Regx.test(share_code) == false) {
+            dialogAlart('仅支持英文数字');
+            return;
+        }
+        $.get('/Txooo/SalesV2/Member/Ajax/UserAjax.ajax/SetShareCode', { share_code: share_code }, function (data) {
+            var obj = eval(data);
+            if (obj.success == "true") {
+                //设置成功
+                $('.share_index1').hide();
+            } else {
+                dialogAlart(obj.msg);
+            }
+        });
+    };
+</script>
+<!--弹框-->
+<section class="share_index">
+    <div class="code_share">
+        <div class="code_box_top"></div>
+        <div id="code_list" class="code_box"></div>
+    </div>
+</section>
+
+<script type="text/html" id="code_temp">
+    {{each list as c}}
+    <ul class="code_ul">
+        {{if c.code_type==1}}
+        <li class="li1">{{c.share_code}}</li>
+        <li class="li2">复制邀请码发送给朋友</li>
+        {{else}}
+        <li class="li1">{{c.share_code}}</li>
+        <li class="li2">复制我的个性邀请码发送给朋友</li>
+        {{/if}}
+    </ul>
+    {{/each}}
+</script>
+<script type="text/html" id="set_code_temp">
+    <ul class="code_ul">
+        <li class="li1">{{share_code}}</li>
+        <li class="li2">复制邀请码发送给朋友</li>
+    </ul>
+    <div class="bottom_btn">
+        <em>系统邀请码不好记？</em>
+        <a href="javascript:OpenSetShareCode()">设置个性化邀请码</a>
+    </div>
+</script>
+<section class="share_index1">
+    <div class="code_share">
+        <div class="code_box_top"></div>
+        <div id="setShareCode">
+            <ul>
+                <li>请输入个性化邀请码</li>
+                <li class="li1"><input type="text" id="share_code" name="name" maxlength="20" value="" /></li>
+                <li class="li2">支持英文数字，不能纯数字，最少6个最多20个字符</li>
+            </ul>
+            <div class="bottom_btn">
+                <a href="javascript:void(0);" class="set_no">取消</a><a href="javascript:SetShareCode()" class="set_ok">确认</a>
+            </div>
+        </div>
+    </div>
+    
+</section>
+

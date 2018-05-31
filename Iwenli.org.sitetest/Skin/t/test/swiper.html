@@ -1,0 +1,28 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>My App</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+    <script type='text/javascript' src='//g.alicdn.com/sj/lib/zepto/zepto.min.js' charset='utf-8'></script>
+    <script type="text/javascript" src="//cdn.txooo.com/public/jquery.swiper/swiper.jquery.min.js"></script>
+    
+</head>
+<body>
+   <div class="swiper-container">
+  <div class="swiper-wrapper">
+    <div class="swiper-slide">slider1</div>
+    <div class="swiper-slide">slider2</div>
+    <div class="swiper-slide">slider3</div>
+  </div>
+</div>
+<script> 
+    $(function () {
+
+        var mySwiper = new Swiper('.swiper-container', {
+            autoplay: 1000,//可选选项，自动滑动
+            direction: 'vertical' //垂直轮播
+        })
+    });
+</script>
+</body>
+</html>

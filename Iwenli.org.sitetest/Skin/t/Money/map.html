@@ -1,0 +1,167 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/html5/rem.js"></script>
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Public.css" />
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Money.css" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/jquery/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="//cdn.txooo.com/public/aui.artTemplate/artTemplate.js"></script>
+    <script src="/Skin/t/Js/Public.js"></script>
+    <script src="/Skin/t/Js/highcharts.js"></script>
+    <script src="/Skin/t/Js/Template.js"></script>
+    <title>资产曲线图</title>
+</head>
+<body style="background:#f0f0f0;">
+    <!-- 头部信息begin -->
+    <header class="P_Header" id="header1">
+        <div class="P_goBack" onclick="javascript:history.go(-1)"><i>&#xe602;</i></div>
+        <div class="P_title_select left"><select id="selectYear"></select><select id="selectMonth"></select></div>
+    </header>
+    <!-- 头部信息end -->
+    <div>
+
+
+        <!--<select id="type">
+            <option value="0">个人</option>
+            <option value="1">团队</option>
+        </select>-->
+
+    </div>
+    <section class="map_top">
+        <input type="hidden" value="0" name="总览" id="type2" />
+        <ul>
+            <li class="current" name="0">总览</li>
+            <li name="1">佣金</li>
+            <li name="2">创业金</li>
+            <li name="3">V币</li>
+        </ul>
+    </section>
+    <!--<select id="type2">
+        <option value="0">总览</option>
+        <option value="1">佣金</option>
+        <option value="2">创业金</option>
+        <option value="3">V币</option>
+    </select>-->
+
+    <section class="map_canvas">
+        <div id="container" style="height:15rem" class="mar_t_20"></div>
+    </section>
+
+    <section class="details">
+        <span id="spMonth"></span>
+        <span id="spIncome"></span>
+        <span id="spExpend"></span>
+    </section>
+    <section class="detailsList_tit"><span>消耗</span></section>
+    <section class="detailsList"></section>
+
+    <script type="text/html" id="listTemp">
+        
+        <ul>
+            <li>支出日期</li>
+            <li>类型</li>
+            <li>金额</li>
+        </ul>
+        <ul>
+            {{each list as l}}
+            <li>{{l.waste_time | dateFormat:'yyyy/MM/dd'}}</li>
+            <li>{{l.waste_info}}</li>
+            <li>{{l.pay_account_monty | toFloat}}元</li>
+            {{/each}}
+        </ul>
+    </script>
+
+    <script>
+        template.helper('toFloat', function (data, format) {
+            return parseFloat(data);
+        })
+        //年份下拉选择
+        function GetYear(element) {
+            var _nowdate = new Date();
+            var _nowyear = _nowdate.getFullYear();
+            for (var i = 0; i < 5; i++) {
+                element.append("<option value=" + _nowyear + ">" + _nowyear + "年</option>");
+                _nowyear--;
+            }
+        }
+
+        //月下拉
+        function GetMonth(element) {
+            var _nowdate = new Date();
+            var _nowMonth = _nowdate.getMonth() + 1;
+            for (var i = 1; i <= 12; i++) {
+                element.append("<option value=" + i + ">" + i + "月</option>");
+            }
+            element.val(_nowMonth);
+        }
+
+        GetYear($('#selectYear'));
+        GetMonth($('#selectMonth'));
+        DrawGraph();
+
+        //画图
+        function DrawGraph() {
+            var year_month = $("#selectYear").val() + "/" + $("#selectMonth").val();
+            //var type = $('#type').val();
+            var type2 = $('#type2').val();
+            var name = "总览";
+            switch (type2) {
+                case "1": name = "佣金"; break;
+                case "2": name = "创业金"; break;
+                case "3": name = "V币"; break;
+            }
+            $.post("/Txooo/SalesV2/Member/Ajax/AttentionAjax.ajax/GetGraphData?date=" + year_month + "&type2=" + type2, function (data) {
+                var obj = eval("(" + data + ")");
+                var categories = eval(obj.categories);
+                var dt = eval(obj.data);
+                $('#container').highcharts({
+                    credits: {
+                        enabled: false // 禁用版权信息
+                    },
+                    title: {
+                        text: $("#selectYear").val() + "年" + $("#type").text() + "曲线图",
+                        x: -20 //center
+                    },
+                    xAxis: {
+                        categories: categories
+                    },
+                    yAxis: {
+                        title: {
+                            text: ""
+                        },
+                        allowDecimals: false //是否允许刻度有小数
+                    },
+                    series: [{
+                        name: name,
+                        data: dt
+                    }]
+                });
+            });
+            $('#spMonth').text($("#selectMonth").val() + '月');
+            //加载当月数据
+            $.post("/Txooo/SalesV2/Member/Ajax/AttentionAjax.ajax/GetIncomeAndExpendInfos?date=" + year_month + "&type2=" + type2, function (data) {
+                var obj = eval('(' + data + ')');
+                $('#spIncome').text(name + '收入' + obj.income + '元');
+                $('#spExpend').text(name + '支出' + obj.expend + '元');
+                var list = { list: eval('(' + obj.list + ')') };
+                $('.detailsList').empty();
+                $('.detailsList').append(template("listTemp", list));
+            });
+            //列表
+
+        }
+
+        $('#selectMonth').change(function () {
+            DrawGraph();
+        });
+        $('.map_top li').click(function () {
+            $(this).addClass('current').siblings().removeClass('current')
+            var oVal = $(this).attr('name');
+            $("#type2").val(oVal);
+            DrawGraph();
+        });
+    </script>
+ <!--WL_TMP{tmp=/Skin/t/Pub/T_Public.html}--> </body>
+</html>

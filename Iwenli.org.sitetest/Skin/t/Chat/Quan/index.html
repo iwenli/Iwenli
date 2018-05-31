@@ -1,0 +1,333 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/jquery/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="//cdn.txooo.com/public/aui.artTemplate/artTemplate.js"></script>
+    <script src="/Skin/t/Js/Public.js"></script>
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Public.css" />
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Chat.css?v=2" />
+    <link rel="stylesheet" href="//cdn.txooo.com/public/jquery.validate/Css/Validate.css" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/jquery.validate/jquery.validate.js"></script>
+    <script type="text/javascript" src="//cdn.txooo.com/public/jquery.validate/validate-ex.js"></script>
+    <script src="/Skin/t/Js/Template.js"></script>
+    <title>群聊</title>
+    <style type="text/css">
+        /*.Chat_con { position: fixed; width: 100%; top: 2.75rem; bottom: 3.25rem; left: 0; overflow-y: auto; box-sizing: border-box; z-index:90;}
+        .talk_input_box{ z-index:99;}
+        .talk_box_bg { position: fixed; width: 100%; height: 100%; top: 0; bottom: 0; left: 0; right: 0; z-index: 80; }*/
+    </style>
+</head>
+<body>
+    <script type="text/html" id="listTemp">
+        {{each list as l}}
+        {{if l.is_mine == 1}}
+        <div class="time" data-time="{{l.add_time}}"><span>{{l.add_time | FormateDate}}</span></div>
+        <dl class="myself talk_zhy">
+            <dt class="pic"><a href="/Money/Index.html"><img src="{{l.head_pic | headPic}}" /></a></dt>
+            <dd class="name"><span>{{l.nick_name}}</span></dd>
+            <dd class="talk" data-id="{{l.chat_id}}">{{l.msg_content}}</dd>
+        </dl>
+        {{/if}}
+        {{if l.is_mine == 0}}
+        <div class="time" data-time="{{l.add_time}}"><span>{{l.add_time | FormateDate}}</span></div>
+        <dl class="others talk_zhy">
+            <dt class="pic"><a class="external" href="/homepage/index.html?uid={{l.user_id}}"><img src="{{l.head_pic | headPic}}" /></a></dt>
+            <dd class="name"><span>{{l.nick_name}}</span></dd>
+            <dd class="talk" data-id="{{l.chat_id}}">{{l.msg_content}}</dd>
+        </dl>
+        {{/if}}
+        {{/each}}
+    </script>
+    <script type="text/html" id="myTemp">
+        {{each list as l}}
+        <div class="time" data-time="{{l.add_time}}"><span>{{l.add_time | FormateNewDate}}</span></div>
+        <dl class="myself">
+            <dt class="pic"><a href="/Money/Index.html"><img src="{{l.head_pic | headPic}}" /></a></dt>
+            <dd class="name"><span>{{l.nick_name}}</span></dd>
+            <dd class="talk" data-id="{{l.chat_id}}">{{l.msg_content}}</dd>
+        </dl>
+        {{/each}}
+    </script>
+    <!-- 头部信息begin -->
+    <header class="P_Header">
+        <div class="P_goBack" onclick="window.location.href = 'javascript:history.go(-1)'"><i>&#xe602;</i></div>
+        <div class="P_title">群聊</div>
+        <div class="P_Header_info"><a href="javascript:void(0);" onclick="SetGroup()">设置</a></div>
+
+    </header>
+    <!-- 头部信息end -->
+    <!--<div style="position:relative">-->
+        <div class="Chat_con">
+
+        </div>
+    <!--</div>-->
+
+    
+
+    <div class="talk_box_bg">
+        <!--<div style="position:relative">-->
+            <div class="talk_input_box">
+                <div class="talk_input">
+                    <form id="postForm">
+                        <input type="text" name="msg" id="msg" class="{required:true,messages:{required:'消息不能为空'}}" />
+                        <input type="hidden" name="groupId" id="groupId" />
+                    </form>
+                </div>
+                <a href="javascript:void(0)" onclick="AddTalk()">发送</a>
+                <input type="hidden" name="lastIdHid" id="lastIdHid" value="0" />
+            </div>
+        <!--</div>-->
+        
+    </div>
+    <!--WL_TMP{tmp=/Skin/t/Pub/T_Public.html}-->
+
+    <div style="display:none" id="new_msg">
+        <div class="self_msg"></div>
+    </div>
+    <script>
+        var groupId = getUrlParam('gd');
+        var title = decodeURIComponent(getUrlParam('gn'));
+        $('.P_title').text(title);
+        $('#groupId').val(groupId);
+
+        $("#postForm").validate({
+            onfocusout: function (element) { $(element).valid(); }
+        });
+
+        //发送消息
+        function AddTalk() {
+            if ($('#postForm').valid()) {
+                $.post("/Txooo/SalesV2/Chat/Ajax/ChatAjax.ajax/AddTalk", $('#postForm').serialize(), function (data) {
+                    var obj = eval(data);
+                    if (obj.success == "false") {
+                        dialogAlart(obj.msg);
+                    } else {
+                        $('#lastIdHid').val(obj.msg);
+                        GetUserInfo(setChatInfo);
+                        $("#msg").focus();
+                        var offset = $($('.talk_zhy')[$('.talk_zhy').length - 1]).offset();
+                        var talk_zhy_hei = $($('.talk_zhy')[$('.talk_zhy').length - 1]).outerHeight(true);
+                        var yPops = parseInt(offset.top + talk_zhy_hei);
+                        var xPops = offset.left;
+                        window.scrollTo(xPops, yPops);
+                        //GetMsgList();
+                        //$('.Chat_con').append($('#msg').html())
+                        //$('#msg').val('');
+                        //$("#msg").focus();
+                    }
+                });
+            }
+        }
+        var pageIndex = 0;
+        var pageSize = 10;
+
+        //load list
+        function GetMsgList() {
+            $.get("/Txooo/SalesV2/Chat/Ajax/ChatAjax.ajax/GetMsgList", { pageIndex: pageIndex, pageSize: pageSize, gId: groupId }, function (data) {
+                if (data != "") {
+                    if (pageIndex == 0) {
+                        $(".Chat_con").empty();
+                    }
+                    var obj = eval("(" + data + ")");
+                    if (obj.count > 0) {
+                        var list = eval(obj.list);
+                        if (list.length > 0) {
+                            var datalist = { list: list };
+                            if (pageIndex == 0) {
+                                $(".Chat_con").append(template("listTemp", datalist));
+                                $('#lastIdHid').val($($('.talk')[$('.talk').length - 1]).attr('data-id'));
+                                var offset = $($('.talk_zhy')[$('.talk_zhy').length - 1]).offset();
+                                var talk_zhy_hei = $($('.talk_zhy')[$('.talk_zhy').length - 1]).outerHeight(true);
+                                var yPops = parseInt(offset.top + talk_zhy_hei);
+                                //dialogAlart(yPops);
+                                var xPops = offset.left;
+                                window.scrollTo(xPops, yPops);
+                            } else {
+                                $(".Chat_con>:first").before(template("listTemp", datalist));
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        GetMsgList();
+
+        //滚动到最下方
+        function SetScrollTo() {
+            var offset = $(".Chat_con dl:last-child").offset();
+            var yPops = offset.top + 60;  //得到当前元素高的位置
+            var xPops = offset.left;  //得到当前元素左侧的位置
+            window.scrollTo(xPops, yPops);
+        }
+
+        function setChatInfo(userInfo) {
+            var listArrary = [];
+            userInfo.set_user_id = '{$UserId}';
+            userInfo.msg_content = $("#msg").val();
+            listArrary.push(userInfo);
+            var html = template("myTemp", { list: listArrary });
+            $('#new_msg .self_msg').html(html);
+            $('.Chat_con').append($('#new_msg').html());
+            SetScrollTo();
+            $("#msg").val("");
+        }
+
+        //加载更多
+        var scrollTrue = true;
+        window.onscroll = function () {
+            if ($(document).scrollTop() == 0) {
+                if (scrollTrue) {
+                    scrollTrue = false;
+                    pageIndex++;
+                    GetMsgList();
+                    scrollTrue = true;
+                }
+            }
+        }
+
+        window.setInterval(IsNewMsg, 3000);
+
+        //检测有无新消息
+        function IsNewMsg() {
+            $.get("/Txooo/SalesV2/Chat/Ajax/ChatAjax.ajax/IsNewMsg?cId=" + $('#lastIdHid').val() + "&groupId=" + groupId, function (data) {
+                var obj = eval(data);
+                if (obj.success == "true") {//有新消息或新打开页面
+                    $('#lastIdHid').val(obj.msg);
+                    GetMsgList();
+                }
+            })
+        }
+
+        function SetGroup() {
+            window.location.href = 'setting.html?gd=' + groupId + '&gn=' + title;
+        }
+
+        document.onkeydown = function (event) {
+            var e = event || window.event || arguments.callee.caller.arguments[0];
+            if (e && e.keyCode == 13) {
+                AddTalk();
+                return false;
+            }
+        };
+
+        $('.talk_input_box').bind("click", function (e) {
+            var target = $(e.target);
+            if (target.closest(".talk_input").length == 0) {
+                $("#msg").blur();
+            }
+        });
+
+
+
+        //var conHei = $(".Chat_con").outerHeight(true);
+        //$(".Chat_con").css({ "height": conHei });
+
+        //$('#msg').focus(function () {
+        //    var _this = $(".talk_input_box");
+
+        //    //无键盘时输入框到浏览器窗口顶部距离1
+        //    var noInputViewHeight = $(window).height() - $(_this).height();
+
+        //    //网页正文内容高度2
+        //    var contentHeight = $(document).height() - $(_this).height();
+        //    //dialogAlart(contentHeight)
+
+        //    //控制正文内容高度大于一屏，保证输入框固定底部
+        //    contentHeight = contentHeight > noInputViewHeight ? contentHeight : noInputViewHeight;
+
+        //    //因为弹出输入法需要时间，需延时处理
+        //    setTimeout(function () {
+
+        //        //弹出输入法时滚动条的起始滚动距离3
+        //        var startScrollY = $(window).scrollTop();
+        //        //dialogAlart(startScrollY);
+
+        //        //弹出输入法时输入框到窗口顶部的距离，即到软键盘顶部的起始距离4
+        //        var inputTopHeight = $(_this).offset().top - startScrollY;
+
+        //        //弹出输入法时输入框预期位置，即紧贴软键盘时的位置。因输入框此时处于居中状态，所以其到窗口顶部距离即为需往下移动的距离。
+        //        var inputTopPos = $(_this).offset().top + inputTopHeight;
+
+        //        //控制div不超出正文范围
+        //        inputTopPos = inputTopPos > contentHeight ? contentHeight : inputTopPos;
+
+        //        //设置输入框位置使其紧贴输入框
+        //        $(".talk_input_box").css({ 'position': 'absolute', 'top': inputTopPos,"bottom":"auto"});
+
+        //        //给窗口对象绑定滚动事件，保证页面滚动时div能吸附软键盘
+        //        $(window).bind('scroll', function () {
+
+        //            //表示此时有软键盘存在，输入框浮在页面上了
+        //            if (inputTopHeight != noInputViewHeight) {
+
+        //                //页面滑动后，输入框需跟随移动的距离
+        //                var offset = $(this).scrollTop() - startScrollY;
+
+        //                //输入框移动后位置
+        //                afterScrollTopPos = inputTopPos + offset;
+        //                //dialogAlart(afterScrollTopPos);
+
+        //                //设置输入框位置使其紧贴输入框
+        //                $(".talk_input_box").css({ 'position': 'absolute', 'top': afterScrollTopPos, "bottom": "auto" });
+        //                //$(".P_Header").css({ "position": "absolute", "top": startScrollY });
+        //            }
+        //        });
+        //    }, 100);
+        //}).blur(function () {//输入框失焦后还原初始状态
+        //    //$(".div-input").removeAttr('style');
+        //    $(window).unbind('scroll');
+        //});
+        
+        $(function () {
+            function fnAutoH() {
+                //console.log(window.scrollY);
+                $(".talk_input_box").css({ "position": "absolute", "top": window.innerHeight + window.scrollY - $(".talk_input_box").outerHeight()})
+                $(".P_Header").css({ "position": "absolute", "top": window.scrollY })
+            }
+            fnAutoH();
+            $(window).scroll(fnAutoH);
+        })
+
+
+        //时间格式化
+        template.helper('FormateDate', function (date, format) {
+            var oldDate = date;
+            /**/date = new Date(date);
+            
+            var diffDays = (new Date() - date) / 3600 / 1000 / 24;
+            if (diffDays < 1) {
+                diffDays = diffDays * 24;
+                if (diffDays < 1) {
+                    diffDays = diffDays * 60;
+                    if (diffDays < 1) {
+                        return '刚刚';
+                    }
+                    return parseInt(diffDays) + '分钟前';
+                }
+                return parseInt(diffDays) + '小时前';
+            } else if (diffDays < 7) {
+                return parseInt(diffDays) + '天前';
+            } else if (diffDays > 7) {
+                return oldDate;
+            }
+            oldDate = new Date(oldDate);
+            var h = oldDate.getHours();
+            var m = oldDate.getMinutes();
+            var s = oldDate.getSeconds();
+            return h + ":" + m + ":" + s; 
+        });
+
+        template.helper('FormateNewDate', function (date, format) {
+            date = new Date();
+            var h = date.getHours() < 10 ? '0' + date.getHours() : date.getHours();
+            var m = date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes();
+            var s = date.getSeconds() < 10 ? '0' + date.getSeconds() : date.getSeconds();
+            return h + ":" + m + ":" + s; 
+        });
+    </script>
+</body>
+</html>
+  

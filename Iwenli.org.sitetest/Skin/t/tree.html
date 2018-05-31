@@ -1,0 +1,138 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>用户组织</title>
+    <link href="//mch.93390.cn/Skin/mch/Css/Public.css" rel="stylesheet" type="text/css" />
+    <link href="//mch.93390.cn/Skin/mch/Css/tree.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/jquery/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="//mch.93390.cn/Skin/mch/Js/public.js"></script>
+    <script type="text/javascript" src="//cdn.txooo.com/public/aui.artTemplate/artTemplate.js"></script>
+    <script type="text/javascript" src="//mch.93390.cn/Skin/mch/Js/jquery.nicescroll.js"></script>
+    <script type="text/javascript">
+        //用户点击树右侧展示
+        function getData(user_id, level, a) {
+            //隐藏和显示切换
+            if ($(a).siblings('ul').html()) {
+                $(a).siblings('ul').html('');
+                $('#right').html($('#seach_name').html());
+            } else {
+                getUserInfo(user_id);
+                getAjaxData(user_id, level, a);
+            }
+        };
+        //异步请求下线数据
+        function getAjaxData(userid, level, a) {
+            level++;
+            $.get("/Txooo/salesv2/Ajax/UploadImg.ajax/GetUserTreeJson?user_id=" + userid, function (data) {
+                var obj = eval(data);
+                var html = template('tree_temp', { level: level, list: obj });
+                $(a).find('span').text('-直系：' + obj.length);
+                $(a).siblings('ul').html(html);
+            });
+        }
+        template.helper('typeName', function (a) {
+            return a == "1" ? "普通用户" : a == "3" ? "招商类" : a == "4" ? "门店类" : a == "5" ? "产品类" : "测试用户";
+        })
+        //回车搜索
+        function keySearch() {
+            if (event.keyCode == 13)   //回车键的键值为13
+            {
+                //$('.t_main .t_left .left_list ul').html('');
+                var user_id = $('#user_id').val();
+                if (Number(user_id)) {
+                    getUserInfo(user_id);
+                    getAjaxData(user_id, 0, $('.first_a')[0]);
+                }
+            }
+        };
+        //获取一个用户的信息
+        function getUserInfo(user_id) {
+            if (parseInt(user_id) > 0) {
+                $.get("/Txooo/salesv2/Ajax/UploadImg.ajax/GetUserInfoJson?user_id=" + user_id, function (data) {
+                    if (data) {
+                        var obj = eval("(" + data + ")");
+                        $('#right').html(template('info_temp', obj));
+                    }
+                });
+            }
+        };
+        //搜索用户信息
+        function seachName() {
+            $.get("/Txooo/salesv2/Ajax/UploadImg.ajax/GetUserNameJson?user_name=" + $('#user_name').val(), function (data) {
+                if (data) {
+                    var obj = eval("(" + data + ")");
+                    $('#right').html(template('info_temp', obj));
+                } else {
+                    alert("输入的手机号有误或没有找到您的手机号");
+                }
+            });
+        };
+        //推送
+        function sendPush(uid) {
+            if (confirm("确定要推送本人和TA的一级下线么？")) {
+                $.get("/Txooo/salesv2/Ajax/UploadImg.ajax/SendPush?user_id=" + uid, function (data) {
+                    var obj = eval(data);
+                    alert(obj.msg);
+                });
+            }
+        }
+    </script>
+
+</head>
+<body onkeydown="keySearch();">
+
+    <div class="t_main">
+        <div class="t_left">
+            <div style="color:#ffd800;font-size:15px;">用户ID: <input type="text" id="user_id" name="name" value="" /></div>
+            <ul class="left_list">
+                <li>
+                    <a class="first_a" title="查看所有用户" href="javascript:void(0);" onclick="getData(0,0,this)">展开用户组织<span></span></a>
+                    <ul></ul>
+                </li>
+            </ul>
+        </div>
+        <div id="right" class="p_right"></div>
+    </div>
+    <script type="text/html" id="tree_temp">
+        {{each list as v i}}
+        <li>
+            <a href="javascript:void(0);" onclick="getData('{{v.UserId}}','{{level}}',this)" title="{{v.NickName}}">
+                {{level}}级{{typeName(v.UserType)}}-{{v.UserId}}-{{v.NickName}}<span></span>
+            </a>
+            <ul></ul>
+        </li>
+        {{/each}}
+    </script>
+    <script type="text/html" id="info_temp">
+        <ul>
+            <li class="pic"><img src="{{HeadPic}}" /></li>
+            <li class="code">用户id：{{UserId}}</li>
+            <li class="name">用户名：{{UserName}}</li>
+            <li class="nickname">用户昵称：{{NickName}}</li>
+            <li class="AddTime">注册时间：{{AddTime}}</li>
+            <li class="RecommendUser">上级id：{{RecommendUser}}</li>
+            <li class="SelfShareCode">团队人数：{{SelfShareCode}}</li>
+            <li class="RecommendShareCode">下级总人数：{{RecommendShareCode}}</li>
+            <li><a href="javascript:sendPush({{UserId}})">推送</a></li>
+        </ul>
+    </script>
+    <script type="text/html" id="seach_name">
+        <ul>
+            <li><input type="text" name="name" id="user_name" placeholder="输入手机号" value="" /></li>
+            <li><input type="button" onclick="seachName()" name="name" value="查询" /></li>
+        </ul>
+    </script>
+    <script>
+        $('.t_left').niceScroll({
+            cursorcolor: "#272a30",//#CC0071 光标颜色
+            cursoropacitymax: 1, //改变不透明度非常光标处于活动状态（scrollabar“可见”状态），范围从1到0
+            touchbehavior: false, //使光标拖动滚动像在台式电脑触摸设备
+            cursorwidth: "5px", //像素光标的宽度
+            cursorborder: "0", // 	游标边框css定义
+            cursorborderradius: "5px",//以像素为光标边界半径
+            autohidemode: true //是否隐藏滚动条
+        });
+    </script>
+</body>
+</html>

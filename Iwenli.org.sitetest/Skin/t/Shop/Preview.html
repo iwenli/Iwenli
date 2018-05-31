@@ -1,0 +1,600 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/html5/rem.js"></script>
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Public.css" />
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Shop.css?v=2" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/jquery/jquery-1.7.2.min.js"></script>
+
+    <link rel="stylesheet" href="//cdn.txooo.com/public/jquery.swiper/swiper.min.css" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/jquery.swiper/swiper.jquery.min.js"></script>
+    <script type="text/javascript" src="//cdn.txooo.com/public/aui.artTemplate/artTemplate.js"></script>
+    <script src="/Skin/t/Js/Public.js"></script>
+    <script src="/Skin/t/Js/Template.js"></script>
+    <title>商品预览页</title>
+    <style>
+        /*.discount_0 {
+            display:none;
+        }*/
+        .more_btn {
+            line-height: 2.5rem;
+            height: 2.5rem;
+        }
+
+        .download {
+            top: 2.5rem;
+        }
+
+        .B_title li {
+            float: left;
+            width: 3rem;
+            text-align: center;
+            height: 2.3rem;
+            margin: 0 0.5rem;
+        }
+
+            .B_title li.current {
+                border-bottom: 0.2rem solid #ff8201;
+                color: #ff8201;
+                font-weight: bold;
+            }
+
+        .B_title {
+            width: 12rem;
+            margin: 0 auto;
+        }
+    </style>
+    <script>
+        var proPropertyInfo;
+        var isAuth = '{$IsAuth}';
+        var isCollect = "{$IsCollect}";
+        var proInfo = {}; 
+        var proPropertyId = 0;//选择的商品属性
+        var proId = 0;
+        $(function () {
+            proPropertyInfo = eval($('#propropertyinfo').html());
+            $('.pro_service').click(function () {
+                $("#cuServic").show()
+            })
+            $('.close_cus').click(function () {
+                $("#cuServic").hide()
+            })
+            proId = getUrlParam("id");
+            //商品详细信息
+            $.get("/Txooo/SalesV2/Shop/Ajax/ShopOpenAjax.ajax/GetProductPreviewInfoById?id=" + proId, function (data) {
+                if (data != "") {
+                    proInfo = eval("(" + data + ")");
+                    proPropertyId = proInfo.MapId;
+                    var proHtml = template("infoTemp", { info: proInfo });
+
+                    $("#infoPro").append(proHtml);
+                    $("#proBottom").html(template("proBottomTemp", { info: proInfo }));
+                    $("#proDetails").html(proInfo.ProductDetails);
+                    $("#storeInfo .mchComName").html(proInfo.MchComName);
+
+                    loadMchPro();//加载商铺其他商品
+                    //配送方式
+                    if (proInfo.IsVirtual == 0) {//虚拟商品 不需要运费
+                        $("#infoPro .freight").show();
+                        if (proInfo.ProductIspostage) {
+                            $("#infoPro .postage").html("卖家包邮");
+                            //var postage = eval(proInfo.ProductPostage);
+                            //for (var i = 0; i < postage.length; i++) {
+                            //    $("#infoPro .postage").append("<input type='radio' value='" + postage[i].id + "' name='postage' />" + postage[i].express);
+                            //}
+                            //$("#infoPro .postage input:eq(0)").attr("checked", true);
+
+                        } else {
+                            $("#infoPro .postage").html("买家承担");
+                            $('.postage_show').show();
+                        }
+                    }
+                    //点击立即购买按钮
+                    $("#goBuy").click(function () {
+                        selectProperty();
+                    })
+                    //加载轮播图
+                    var imgs = proInfo.ProductImgs.split(",");
+                    for (var i = 0; i < imgs.length; i++) {
+                        $("#infoPro .swiper-wrapper").append('<div class="swiper-slide" style="background:#f0f0f0 url(' + imgs[i] + ') no-repeat center; background-size:100% auto; "></div>');
+                    }
+                    var swiper = new Swiper('.swiper-container', {
+                        pagination: '.swiper-pagination',
+                        paginationClickable: true,
+                        autoplay: 3000,
+                        loop: true
+                    });
+                    //收藏商品
+                } else {
+                    //window.location.href = "/shop/noPro.html";
+                    //var d = dialog({
+                    //    content: "该商品不存在，去看看其他商品！",
+                    //    width: document.body.clientWidth * 70 / 100,
+                    //    okValue: '好的',
+                    //    ok: function () { window.location.href = "/index.html";}
+                    //}).showModal();
+                }
+            })
+        });
+        //获取门店其他商品
+        function loadMchPro() {
+            $.get('/Txooo/SalesV2/Shop/Ajax/ShopOpenAjax.ajax/GetMchStoreProductList2', { pageIndex: 0, pageSize: 3, mch_id: proInfo.MchId, product_id: proInfo.ProductId }, function (data) {
+                var obj = eval(data);
+                if (obj.length > 0) {
+                    $("#storeInfo .mchProList").html(template("store_temp", { info: obj }));
+                }
+            })
+        }
+
+        //选择商品规格
+        function selectProperty() {
+            getPropertyInfoByMapId();
+            $("#property").html(template("propertyTemp", { info: proInfo }));
+            $("#property #pro_count").val(proCount);
+            $("#property #count_show").html(proCount);
+            loadProProperty();
+            setTotalMoney();
+            $("#property").show();
+
+            $(".gui_box").animate({ right: '0' }, 500);
+            $(".gui_btn").animate({ right: '0' }, 500);
+            $(".heji").animate({ right: '0' }, 500);
+            $('body').css('overflow', 'hidden')
+            if ($('#radio_id_' + proPropertyId).length == 0) {
+                //当默认规格库存不足时，加载第一个；
+                clickPropertyRadio($('.radio_ture:eq(0)')[0]);
+            }
+            $('#property').on("click", function (e) {
+                var target = $(e.target);
+                if (target.closest(".gui_box").length == 0) {
+                    $(".gui_box").animate({ right: '-80%' }, 500, function () {
+                        $("#property").hide();
+                    })
+                    $(".gui_btn").animate({ right: '-80%' }, 500, function () {
+                        $("#property").hide();
+                    })
+                    $(".heji").animate({ right: '-80%' }, 500, function () {
+                        $("#property").hide();
+                    })
+                    $('body').css('overflow', 'auto')
+                }
+            });
+            if (proInfo.IsVirtual == 0) {//虚拟商品 不需要运费
+                $("#infoPro .freight").show();
+                if (proInfo.ProductIspostage) {
+                    $("#infoPro .postage").html("卖家包邮");
+                } else {
+                    $("#infoPro .postage").html("买家承担");
+                    $('.postage_show').show();
+                    if (postageJson.append == "0") $('.postage_show .postage_append_div').hide();
+                    if (postageJson.limit == "0") $('.postage_show .postage_limit_div').hide();
+
+                    $('.postage_show .postage_postage').text(postageJson.postage);
+                    $('.postage_show .postage_append').text(postageJson.append);
+                    $('.postage_show .postage_limit').text(postageJson.limit);
+                }
+            }
+        }
+
+        //设置总价格和总V币
+        function setTotalMoney() {
+            var postage_money = 0;
+            if (proInfo.ProductIspostage == false) {
+                postageJson = $.parseJSON(proInfo.ProductPostage);
+                postage_money = parseInt(postageJson.postage);
+                if (postageJson.append != "0")
+                    postage_money = postage_money + (parseInt($('#pro_count').val()) - 1) * parseInt(postageJson.append);
+                if (postageJson.limit != "0" && parseInt($('#pro_count').val()) >= parseInt(postageJson.limit))
+                    postage_money = 0;
+
+                //postage_money = parseInt($('#pro_count').val()) < parseInt(postageJson.limit) ? parseInt(postageJson.postage) + (parseInt($('#pro_count').val()) - 1) * parseInt(postageJson.append) : 0;
+            }
+            $('.postage_type_show .postage_money').text('￥' + postage_money);
+            var t_Price = proCount * parseFloat(proInfo.ProductPrice);
+            $("#property #total_money").html(parseFloat((t_Price).toFixed(2)) + postage_money);
+            $("#property .rebete_point").html(proCount * parseInt(proInfo.ProductPoint));
+            //var t_pbr=proCount * parseFloat(getProBrokerage());
+            //var t_pbo=proCount * parseFloat(getProBonus());
+            //$("#property #pbr").html(parseFloat((t_pbr).toFixed(2)));
+            //$("#property #pbo").html(parseFloat((t_pbo).toFixed(2)));
+        }
+
+        //加载不同规格的商品信息
+        function loadProProperty() {
+            if (proPropertyInfo.length > 0) {
+                var propertyRadio = "";
+                for (var i in proPropertyInfo) {
+                    if (proPropertyId == proPropertyInfo[i].map_id) {
+                        propertyRadio += '<span class="label_radio"><em class="radio radio_ture current"><input type="radio" checked="true" name="property" id="pro_' + proPropertyInfo[i].map_id + '" value="' + proPropertyInfo[i].map_id + '" /><label for="pro_' + proPropertyInfo[i].map_id + '">' + proPropertyInfo[i].json_info + '</label></em></span>';
+                    } else {
+                        propertyRadio += '<span class="label_radio"><em class="radio radio_ture"><input type="radio" name="property" id="pro_' + proPropertyInfo[i].map_id + '" value="' + proPropertyInfo[i].map_id + '" /><label for="pro_' + proPropertyInfo[i].map_id + '">' + proPropertyInfo[i].json_info + '</label></em></span>';
+                    }
+
+                }
+                $("#property .propertyCls").html(propertyRadio);
+            }
+        }
+
+        var proCount = 1;
+        //数量-
+        function sub() {
+            if (proCount == 1) {
+                return;
+            }
+            proCount--;
+            $("#property #pro_count").val(proCount);
+            $("#property #count_show").html(proCount);
+            setTotalMoney();
+        }
+
+        //数量+
+        function add() {
+            if (proCount >= proInfo.ProductCount) {
+                return;
+            }
+            proCount++;
+            $("#property #pro_count").val(proCount);
+            $("#property #count_show").html(proCount);
+            setTotalMoney();
+        }
+
+        //根据map_id不同获取规格数据
+        function getPropertyInfoByMapId() {
+            if (proPropertyId != 0) {
+                for (var i in proPropertyInfo) {
+                    if (proPropertyInfo[i].map_id == proPropertyId) {
+                        proInfo.ProductPrice = parseFloat(proPropertyInfo[i].price);
+                        proInfo.Img = proPropertyInfo[i].img;
+                        proInfo.ProductCount = proPropertyInfo[i].remain_inventory;
+                        proInfo.ProductPoint = proPropertyInfo[i].rebate_point;
+                        proInfo.JsonInfo = proPropertyInfo[i].json_info;
+                        break;
+                    }
+                }
+            }
+        }
+
+        //点击规格展示规格
+        function clickPropertyRadio(a) {
+            $(a).addClass('current').find('input[type=radio]').attr('checked', true);
+            $(a).parent().siblings().find('.radio').removeClass('current').find('input[type=radio]').attr('checked', false);
+            proPropertyId = $(a).find("input[name=property]").val();
+            getPropertyInfoByMapId();
+            $("#property .proPrice").html(proInfo.ProductPrice);
+            $("#property .kuCun").html(proInfo.ProductCount);
+            $("#property .pro_img").attr("src", proInfo.Img);
+            $("#infoPro .propertyLi").html(proInfo.JsonInfo);
+            $("#property #property_show").html(proInfo.JsonInfo);
+
+            if (proCount > proInfo.ProductCount) {
+                proCount = proInfo.ProductCount;
+                $("#property #pro_count").val(proCount);
+                $("#property #count_show").html(proCount);
+            } else if (proCount == 0 && proInfo.ProductCount > 0) {
+                proCount = 1;
+                $("#property #pro_count").val(proCount);
+                $("#property #count_show").html(proCount);
+            }
+            setTotalMoney();
+        }
+        //获取推广语
+        function GetShareContent() {
+            $.get("/Txooo/SalesV2/Shop/Ajax/ShopAjax.ajax/GetShareContent?sId=" + $("#shareId").val() + "&proid=" + proId, function (data) {
+                if (data != "") {
+                    var obj = eval("(" + data + ")");
+                    $(".mycomment .info").html(obj.ShareContent);
+                    $("#shareId").val(obj.ShareId);
+                }
+            })
+        }
+
+        function EditShare() {
+            $("#share_form textarea[name=share_content]").val("");
+            $(".edit_share").css("display", "block");
+        }
+        function CancelShare() {
+            $("#share_form textarea[name=share_content]").val("");
+            $(".edit_share").css("display", "none");
+        }
+        $(function () {
+            window.onscroll = function () {
+                if ($(window).scrollTop() < $('#proDetails').offset().top - $('.P_Header').height()) {
+                    $('.pro_ware').addClass('current').siblings().removeClass('current');
+                //} else if ($(window).scrollTop() > $('#cuServic').offset().top - $('.P_Header').height()) {
+                //    $('.pro_service').addClass('current').siblings().removeClass('current');
+                } else {
+                    $('.pro_info').addClass('current').siblings().removeClass('current');
+                }
+            }
+            //输入数量
+            $("#property #pro_count").on("blur", function () {
+                var reg = /^\d+$/;
+                var inputCount = $("#property #pro_count").val();
+
+                if ($.trim(inputCount) == "" || !reg.test(inputCount) || inputCount <= 0) {
+                    $("#property #pro_count").val(proCount);
+                    return;
+                } else if (parseInt(inputCount) > proInfo.ProductCount) {
+                    $("#property #pro_count").val(proCount);
+                    return;
+                }
+                proCount = inputCount;
+                $("#property #count_show").html(proCount);
+                setTotalMoney();
+            })
+            //点击商品规格
+            $("#property .radio_ture").live("click", function () {
+                $(this).addClass('current').find('input[type=radio]').attr('checked', true);
+                $(this).parent().siblings().find('.radio').removeClass('current').find('input[type=radio]').attr('checked', false);
+                proPropertyId = $(this).find("input[name=property]").val();
+                getPropertyInfoByMapId();
+                $("#property .proPrice").html(proInfo.ProductPrice);
+                $("#property .kuCun").html(proInfo.ProductCount);
+                $("#property .pro_img").attr("src", proInfo.Img);
+                $("#infoPro .propertyLi").html(proInfo.JsonInfo);
+                $("#property #property_show").html(proInfo.JsonInfo);
+
+                if (proCount > proInfo.ProductCount) {
+                    proCount = proInfo.ProductCount;
+                    $("#property #pro_count").val(proCount);
+                    $("#property #count_show").html(proCount);
+                } else if (proCount == 0 && proInfo.ProductCount > 0) {
+                    proCount = 1;
+                    $("#property #pro_count").val(proCount);
+                    $("#property #count_show").html(proCount);
+                }
+                setTotalMoney();
+            });
+        })
+
+        function towScroll(a) {
+            $(a).addClass('current').siblings().removeClass('current');
+            var id = $(a).attr('data-div');
+            $("html,body").animate({ scrollTop: ($('#' + id).offset().top - $('.P_Header').height() + 3) }, 0);
+        }
+        function oneScroll() {
+            $('.pro_ware').addClass('current').siblings().removeClass('current');
+            $(window).scrollTop(1);
+        }
+    </script>
+</head>
+<body style="background:#f0f0f0; height:100%;">
+    <header class="P_Header">        
+        <div class="B_title">
+            <ul>
+                <li class="pro_ware current" data-div="proDetails" onclick="oneScroll()">商品</li>
+                <li class="pro_info" data-div="proDetails" onclick="towScroll(this)">详情</li>
+                <li class="pro_service" data-div="cuServic">售后</li>
+            </ul>
+        </div>
+    </header>
+    <!--商品信息-->
+    <div class="details_one header_content" style="overflow:hidden;">
+        <section id="infoPro">
+            <section class="top_banner">
+                <div class="banner swiper-container">
+                    <div class="swiper-wrapper">
+
+                    </div>
+                    <div class="banner_indicate">
+                        <div class="swiper-pagination"></div>
+                    </div>
+                </div>
+            </section>
+        </section>
+        <section class="Comment">
+
+            <div class="comment_top">
+                <p><span>宝贝评价(好评率<em class="rate">0%</em>)</span><i>&#xe603;</i></p>
+            </div>
+
+        </section>
+        <div id="storeInfo" class="storeInfo may_like">
+            <div class="storeInfo_box_left">
+                <p class="store_name"><span class="mchComName"></span></p>
+                <p class="store_zg"><span><i>&#xe625;</i>资格认证</span><span><i>&#xe625;</i>7天退换</span></p>
+                <a href="JavaScript:void(0);" class="btn">进店逛逛</a>
+            </div>
+            <div class="mchProList">
+
+            </div>
+        </div>
+    </div>
+    <!--商品详情 ↓-->
+    <div class="details_two two_Top header_content">
+        <script>
+            if (navigator.userAgent.toLowerCase().indexOf("txooo.app") > -1) {
+                $(".more_btn").hide();
+            }
+
+        </script>
+        <div id="proDetails"></div>
+        <div class="loading_box"><div><p><img src="/Skin/t/Img/loading.gif" />请耐心等待</p></div></div>
+    </div>
+    <!--售后-->
+    <div id="cuServic" class="cus_service header_content" style="display:none">
+        <div class="cus_service_title">
+            售后说明
+            <em class="close_cus">×</em>
+        </div>
+        <dl class="bor_bottom">
+            <dt><i>&#xe665;</i></dt>
+            <dd>
+                <h2>予以退换货的类型</h2>
+                <p>
+                    1. 收到的商品属于国家法律所规定的功能性故
+                    障或商品质量问题，经由生产厂家指定或特约
+                    售后服务中心检测确认，并出具检测报告或经
+                    售后客服确认属于商品质量问题。
+                </p>
+                <p>2. 由于物流原因造成的损坏、缺件等情况。</p>
+                <p>3. 收到商品与会员下单购买的商品不符合。</p>
+                <p>
+                    4. 个人原因导致的退换货（如：不想要了），
+                    在商品包装无拆开无破损的情况下。
+                </p>
+                <p>
+                    5. 个人原因导致的退换货，包装已拆开但无使
+                    用，与客服进行详细沟通后的退换货。
+                </p>
+                <h2>退货流程</h2>
+                <p>
+                    打开订单详情页，点击“申请退货”，然后等待后台审核成功，按照提示进行操作，将需要退货的商品连同完整包装寄回提示上的指定地址后即可。
+                </p>
+                <h2>换货流程</h2>
+                <p>
+                    先按照退货流程，将需要换的商品先退货，然
+                    后再在商城重新下单购买即可。
+                </p>
+            </dd>
+        </dl>
+        <dl class="refund_false">
+            <dt>
+                <svg class="icon" aria-hidden="true">
+                    <use xlink:href="#icon-tuihuo"></use>
+                </svg>
+            </dt>
+            <dd>
+                <p>
+                    不可退换货商品，一经支付视为购买。
+                </p>
+            </dd>
+        </dl>
+        <dl class="bor_top">
+            <dt><i>&#xe666;</i></dt>
+            <dd>
+                <h2>客服电话</h2>
+                <p>
+                    400-600-1008
+                </p>
+            </dd>
+        </dl>
+    </div>
+    <section id="proBottom"></section>
+    <br />
+    <br />
+    <script type="text/html" id="propropertyinfo">
+        {$ProPropertyList}
+    </script>
+    <!--规格属性的选择-->
+    <div id="property" style="display:none"></div>
+    <!--购买按钮悬浮-->
+    <section class="operation">
+        <ul>
+            <li class="li_1" id="mch_chat"><a href="javascript:void(0);"><i>&#xe646;</i>私聊</a></li>
+            <li class="li_1"><a href="javascript:void(0);" class="pro_collect"><i>&#xe608;</i>收藏</a></li>
+            <li class="li_1"><a href="javascript:void(0);"><i>&#xe619;</i>店铺</a></li>
+            <li class="current"><a href="javascript:void(0);" id="goBuy">预览规格</a></li>
+        </ul>
+    </section>
+    <!--置顶按钮-->
+    <section class="footprint-Top" style=" height: 2rem;">
+        <a href="javascript:oneScroll()"><i>&#xe657;</i></a>
+    </section>
+    
+
+    <script type="text/html" id="proBottomTemp">
+        <ul>
+            <li>您目前浏览的为：{{info.ProductName}}</li>
+            <li>
+                <em>售价：￥{{info.ProductPrice}}</em>
+                <span>购买得{{info.ProductPoint}}V币</span>
+            </li>
+        </ul>
+    </script>
+    <script type="text/html" id="infoTemp">
+        <ul class="shop_info">
+            <li class="tit">{{info.ProductName}}<a href="javascript:void(0);" class="pro_collect toShare"><i>&#xe608;</i>收藏</a></li>
+            <li class="vip_price">
+                <em id="vip_money">￥{{info.ProductPrice}}</em>
+                <span class="money">购买得{{info.ProductPoint}}V币</span>
+                {{if info.Refund==0}}
+                <span style="color:#808080;font-size:0.75rem;">不可退换货商品</span>
+                {{/if}}
+            </li>
+            <li class="freight" style="display:none;"><div class="left">邮费：<span class="postage"></span></div><div class="right">发货地：<span>{{info.RegionName}}</span></div></li>
+            <li class="show_pro_bottom clear" onclick="selectProperty()">产品规格：<div class="right">已选<span class="propertyLi">{{info.JsonInfo}}</span><i style="display:inline;">&#xe603;</i></div></li>
+        </ul>
+    </script>
+    
+    <script type="text/html" id="store_temp">
+        {{each info as i}}
+        <ul class="like_list" onclick="window.location.href = 'details.html?id={{i.product_id}}'">
+            <li class="pic"><img src="{{i.product_imgs | getProductImgs}}" /></li>
+            <li class="name">{{i.product_name}}</li>
+            <li class="price">{{i.price}}元</li>
+        </ul>
+        {{/each}}
+    </script>
+
+    <script type="text/html" id="reviewTemp">
+        {{each info as i}}
+        <div class="comment_list">
+            <div class="top"><i class="xing proReivew_{{i.ProductReview}}"></i><span class="right">{{i.NickName}}&nbsp;&nbsp;&nbsp;&nbsp;<em>{{i.AddTime | dateFormat:'yyyy年MM月dd日 hh:mm'}}</em></span></div>
+            <div class="info">
+                {{i.ReviewContent}}
+            </div>
+        </div>
+        {{/each}}
+    </script>
+
+    <script type="text/html" id="propertyTemp">
+        <ul class="gui_box">
+
+            <li class="pic"><img class="pro_img" src="{{info.Img}}" /></li>
+            <li class="money">
+                ￥<span class="proPrice">{{info.ProductPrice}}</span>
+            </li>
+            <li>×<span id="count_show">1</span></li>
+            <li class="last_bor">已选：<span id="property_show">{{info.JsonInfo}}</span></li>
+            <li class="xuan">
+                <span class="xuan_name">规格：</span>
+                <div class="propertyCls">
+
+                </div>
+            </li>
+            <li class="number">
+                <span>数量：</span>
+                <div class="num_box">
+                    <a class="num_down" onclick="sub()">-</a>
+                    <input type="text" name="count" value="1" id="pro_count" />
+                    <a onclick="add()" class="num_up">+</a>
+                </div>
+                <div class="sheng"><span>库存：</span><span class="kuCun">{{info.ProductCount}}</span></div>
+            </li>
+            <li class="dc_mode postage_type_show">
+                <div>配送方式：<p>快递<span class="postage_money">￥0</span></p></div>
+            </li>
+            <li class="dc_explain postage_show" style="display: none;">
+                <div class="dc_box"><strong>配送说明：</strong>该商品单笔订单配送费<span class="postage_postage">0</span>元；<div class="postage_append_div">每增加一件，加配送费<span class="postage_append">0</span>元；</div><div class="postage_limit_div">一次性购买<span class="postage_limit">0</span>件及<span class="postage_limit">0</span>件以上商品，商家包邮。</div></div>
+            </li>
+
+        </ul>
+        <div class="heji">
+            <p class="xiaoji left">合计：<span id="total_money">{{info.ProductPrice}}</span>元</p>
+            <p class="right">获<span class="rebete_point">{{info.ProductPoint}}</span>个V币</p>
+        </div>
+        <div class="gui_btn"><a href="JavaScript:void(0);">商品预览</a></div>
+    </script>
+    <script type="text/html" id="proTemp">
+        <h2 class="tit">猜你喜欢</h2>
+        {{each list as info}}
+        <ul onclick="window.location.href='/shop.html?id={{info.ProductId}}'">
+            <li class="pic"><img src=" {{info.Img}}" /></li>
+            <li class="info">{{info.ProductName}}</li>
+            <li class="money">￥{{info.ProductPrice}}</li>
+        </ul>
+        {{/each}}
+    </script>
+
+    <script>
+
+
+    </script>
+
+    <!--WL_TMP{tmp=/Skin/t/Pub/T_Public.html}-->
+</body>
+
+</html>

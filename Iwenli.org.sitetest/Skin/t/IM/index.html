@@ -1,0 +1,708 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>网页环信聊天</title>
+    <meta charset="utf-8" />
+    <link href="/Skin/t/Css/IMStyle.css?v=1.2" rel="stylesheet" />
+    <script src="/Skin/t/Js/WebIM/webim.config.js"></script>
+    <script src="/Skin/t/Js/WebIM/strophe-1.2.8.js"></script>
+    <script src="/Skin/t/Js/WebIM/websdk-1.4.11.js"></script>
+    <script type="text/javascript" src="//cdn.txooo.com/public/jquery/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="//cdn.txooo.com/public/aui.artTemplate/artTemplate.js"></script>
+
+    <script>
+        //格式化时间
+        function dateFormat(dateTime, format) {
+            if (dateTime) {
+                var date = new Date(dateTime);
+                var map = {
+                    "M": date.getMonth() + 1, //月份
+                    "d": date.getDate(), //日
+                    "h": date.getHours(), //小时
+                    "m": date.getMinutes(), //分
+                    "s": date.getSeconds(), //秒
+                    "q": Math.floor((date.getMonth() + 3) / 3), //季度
+                    "S": date.getMilliseconds() //毫秒
+                };
+                format = format.replace(/([yMdhmsqS])+/g, function (all, t) {
+                    var v = map[t];
+                    if (v !== undefined) {
+                        if (all.length > 1) {
+                            v = '0' + v;
+                            v = v.substr(v.length - 2);
+                        }
+                        return v;
+                    }
+                    else if (t === 'y') {
+                        return (date.getFullYear() + '').substr(4 - all.length);
+                    }
+                    return all;
+                });
+                return format;
+            }
+        }
+        var conn, tagIsVisible = true;
+        var login_user = { userId: '{$UserId}', headImage: '{$UserHeadPic}', nickName: '{$UserNickName}' };
+        var cacheName = 'WebEaseImCache_{$UserId}';
+
+        $(function () {
+            initEventForNotice();
+            initChatState();
+            WebIM.config.appkey = '1155171228115817#maike93390';
+            conn = new WebIM.connection({
+                https: WebIM.config.https,
+                url: WebIM.config.xmppURL,
+                isAutoLogin: WebIM.config.isAutoLogin,
+                isMultiLoginSessions: WebIM.config.isMultiLoginSessions
+            });
+            var options = {
+                apiUrl: WebIM.config.apiURL,
+                user: login_user.userId,
+                pwd: login_user.userId,
+                appKey: WebIM.config.appkey,
+                success: function (message) {
+                    $('#login_user').html(template('login_temp', login_user));
+                }
+            };
+            conn.open(options);
+            conn.listen({
+                onTextMessage: function (message) {
+                    message.type = "TEXT";
+                    addFromMsgList(message);
+                },
+                onEmojiMessage: function (message) {
+                    message.type = "EMOJI";
+                    addFromMsgList(message);
+                },
+                onPictureMessage: function (message) {//收到图片消息
+                    message.type = "IMAGE";
+                    addFromMsgList(message);
+                },
+                onAudioMessage: function (message) {
+                    message.type = "VOICE";
+                    addFromMsgList(message);
+                },
+                onOnline: function () { alert('本机网络连接成功'); },              //本机网络连接成功
+                onOffline: function () { alert('本机网络掉线'); },                 //本机网络掉线
+                onError: function (message) {//失败回调
+                    alert('已退出登录，可以关闭页面了');
+                    $('#login_user').html('已退出，登录请刷新页面');
+                },
+            });
+
+            //切换聊天对象
+            $(document).on('click', '#msg_user_list .user', function () {
+                $(this).addClass('selected').removeClass('new_msg').siblings().removeClass('selected');
+                $(this).find('.count').text(0);
+                $('.webim-chatwindow-title span').text($(this).find('.webim-contact-username').text());
+                $('#msg_content_list .user_' + $(this).data('id')).addClass('selected').siblings().removeClass('selected');
+                updateScroll();
+            });
+            //图片大图显示
+            $(document).on('click', '#msg_content_list .pic_img', function () {
+                $('.img_preview').show();
+                $('.img_preview img').attr('src', $(this).attr('src'));
+            });
+            $(document).on('click', '.img_preview', function () {
+                $('.img_preview').hide();
+            });
+            $(document).on('click', '.webim-kuang-icon', function () {
+                if ($('#fast_msg_data').attr('style') == 'display: block;') {
+                    $('#fast_msg_data').hide(300)
+                } else {
+                    $('#fast_msg_data').show(300)
+                }
+            })
+            $(document).on('click', '#fast_msg_data li', function () {
+                var fastMsg = $(this).attr('data-content')
+                $('#msg_text').val(fastMsg)
+                $('#fast_msg_data').hide(300)
+            })
+
+        });
+        function createNewChatBtn() {
+            var uid = prompt('新的用户id：');
+            if (uid == '{$UserId}' || uid == '') {
+                return;
+            }
+            createNewChat(uid);
+        }
+        //创建新的聊天
+        function createNewChat(uid) {
+            if (!uid) {
+                return;
+            }
+            $.getJSON('/Txooo/SalesV2/Chat/Ajax/ChatAjax.ajax/GetUser', { uid: uid }, function (data) {
+                var message = {
+                    "type": "TEXT", "from": data.UserId, "to": "{$UserId}", "data": "添加成功", "ext": { "headImage": data.HeadPic, "nickName": data.NickName, "userId": data.UserId }
+                    , "error": false, "errorText": "", "errorCode": "", "date_time": "10:07 33"
+                };
+                addFromMsgList(message);
+            });
+        }
+
+        //接收消息到列表
+        function addFromMsgList(message) {
+            if (message.ext.headImage.trim() == '') {
+                message.ext.headImage = '/skin/salesv2/img/no_pic.png';
+            }
+            showNotice(message);
+            message.date_time = dateFormat(new Date(), 'hh:mm ss');
+            generateChatContent(message);
+            changeShowState();
+            //新消息数量
+            var _count = $('#msg_user_list .user_' + message.from).addClass('new_msg').find('.count');
+            _count.text(parseInt(_count.text()) + 1);
+            if ($('#msg_user_list .user_' + message.from).hasClass('selected')) {
+                _count.text(0);
+                $('#msg_user_list .user_' + message.from).addClass('new_msg').removeClass('new_msg');
+            }
+            //存储记录
+            var param = { to: message.to, from: message.from, type: message.type, content: message.data, data: JSON.stringify(message) };
+            recordMsg(param);
+        };
+
+        //发送消息
+        function sendMsg() {
+            var _current = $('#msg_user_list .selected');
+            if (_current.length == 0) {
+                alert('请选择聊天对象');
+                return false;
+            }
+            if (_current.data('id') == login_user.userId) {
+                alert('不能给自己发送信息');
+                return false;
+            }
+            if ($('#msg_text').val().length == 0) {
+                alert('消息不能为空');
+                return false;
+            }
+            // 单聊发送文本消息
+            var id = conn.getUniqueId();                 // 生成本地消息id
+            var msg = new WebIM.message('txt', id);      // 创建文本消息
+            var _msgObj = {
+                date_time: dateFormat(new Date(), 'hh:mm ss'),
+                msg: $('#msg_text').val(),                  // 消息内容
+                to: _current.data('id'),                          // 接收消息对象（用户id）
+                ext: login_user,
+                roomType: false,
+                success: function (id, serverMsgId) {
+                    //追加新消息
+                    if (_current.data('id') != login_user.userId) {
+                        $('#msg_content_list .user_' + _current.data('id')).append(template('msg_content_to_temp', _msgObj));
+                    }
+                    //存储记录
+                    var easeData = {
+                        id: serverMsgId, from: login_user.userId
+                        , to: this.to, msg: this.msg
+                        , date_time: dateFormat(new Date(), 'hh:mm ss'), type: 'TEXT'
+                        , ext: this.ext
+                    }
+                        , param = {
+                            to: easeData.to, from: easeData.from, type: easeData.type
+                            , content: easeData.data, data: JSON.stringify(easeData)
+                        };
+                    recordMsg(param);
+                    $('#msg_text').val('');
+                    updateScroll();
+                },
+                fail: function () {
+                    alert('消息发送失败');
+                }
+            }
+            msg.set(_msgObj);
+            msg.body.chatType = 'singleChat';
+            conn.send(msg.body);
+        };
+        //回车键发送
+        function keySend() {
+            if (event.keyCode == 13) {
+                sendMsg();
+            }
+        }
+
+        //退出
+        function loginOut() {
+            conn.close();
+        };
+        function closeImg() {
+            $('.img_preview').hide();
+        };
+
+        //滚动条保持在最底部
+        function updateScroll() {
+            $('#msg_content_list').scrollTop($('#msg_content_list')[0].scrollHeight);
+        }
+
+        template.helper('productImgs', function (data) {
+            var array = data.split(',');
+            return $.trim(array).length > 0 ? array[0] : '/Skin/t/Img/nologo.png';
+        });
+
+        //消息提示相关初始化
+        function initEventForNotice() {
+            //请求Notification权限
+            Notification.requestPermission();
+            //窗体激活事件绑定
+            var hidden, state, visibilityChange;
+            if (typeof document.hidden !== "undefined") {
+                hidden = "hidden";
+                visibilityChange = "visibilitychange";
+                state = "visibilityState";
+            } else if (typeof document.mozHidden !== "undefined") {
+                hidden = "mozHidden";
+                visibilityChange = "mozvisibilitychange";
+                state = "mozVisibilityState";
+            } else if (typeof document.msHidden !== "undefined") {
+                hidden = "msHidden";
+                visibilityChange = "msvisibilitychange";
+                state = "msVisibilityState";
+            } else if (typeof document.webkitHidden !== "undefined") {
+                hidden = "webkitHidden";
+                visibilityChange = "webkitvisibilitychange";
+                state = "webkitVisibilityState";
+            }
+            // 添加监听器，在title里显示状态变化
+            document.addEventListener(visibilityChange, function () {
+                tagIsVisible = document[state] == 'visible';
+            }, false);
+        }
+
+        //显示桌面通知
+        function showNotice(msg, showTime) {
+            //如果当前标签页隐藏 或者 焦点不在输入框上  则提示
+            if ($('#msg_text').is(':focus') || tagIsVisible) {
+                return;
+            }
+            var contentFormat = '收到一条{0}消息，点击查看详情...  [用户:' + msg.ext.nickName + ']';
+            switch (msg.type) {
+                case 'TEXT':
+                    contentFormat = msg.data + '   [用户:' + msg.ext.nickName + ']';
+                    break;
+                case 'EMOJI':
+                    contentFormat = contentFormat.replace(/\{0\}/, '表情');
+                    break;
+                case 'IMAGE':
+                    contentFormat = contentFormat.replace(/\{0\}/, '图片');
+                    break;
+                case 'VOICE':
+                    contentFormat = contentFormat.replace(/\{0\}/, '语音');
+                    break;
+            }
+            if (!showTime) {
+                showTime = 5000000;
+            }
+            if (Notification.permission !== 'granted')
+                Notification.requestPermission();
+            if (msg.ext.MchComName == undefined) {
+                msg.ext.MchComName == '未识别';
+            }
+            var notification = new Notification('店铺：' + msg.ext.MchComName, {
+                tag: '买客',
+                icon: msg.ext.headImage + ',1,80,80,3',
+                body: contentFormat,
+                sound: '声音地址',
+                silent: true
+            });
+            setTimeout(function () { notification.close() }, showTime);
+            notification.onclick = function (x) { window.focus(); };
+        }
+        window.onbeforeunload = function (event) { return confirm('买客-确定离开此页面吗？'); }
+
+        //初始化聊天窗口
+        function initChatState() {
+            //头像
+            getUserList(function (data) {
+                GenerateChatWindow(data);
+                for (var i = 0; i < data.length; i++) {
+                    //内容
+                    var param = { userId: data[i].UserId, pageIndex: 1, pageSize: 10000 };
+                    getMessages(param, function (msgs) {
+                        for (var j = 0; j < msgs.length; j++) {
+                            var msg = msgs[j];
+                            if (typeof msg == 'string') {
+                                msg = JSON.parse(msg);
+                            }
+                            if (msg.from == login_user.userId) {
+                                //我发出的
+                                $('#msg_content_list .user_' + msg.to).append(template('msg_content_to_temp', msg));
+                            } else {
+                                //我收到的
+                                generateChatContent(msg);
+                            }
+                        }
+                        changeShowState();
+                    });
+                }
+            });
+        }
+
+        //创建用户聊天列表和内容窗体
+        function GenerateChatWindow(users) {
+            $('#msg_user_list').prepend(template('msg_user_temp', { list: users }));
+            $('#msg_content_list').prepend(template('msg_content_temp', { list: users }));
+        }
+
+        //生成聊天内容
+        function generateChatContent(message) {
+            var tempName = 'msg_content_from_temp';
+            switch (message.type) {
+                case 'EMOJI':
+                    tempName = 'msg_emo_from_temp';
+                    break;
+                case 'IMAGE':
+                    tempName = 'msg_img_from_temp';
+                    break;
+                case 'VOICE':
+                    tempName = 'msg_yuyin_from_temp';
+                    break;
+            }
+            //创建新用户聊天窗口
+            if ($('#msg_user_list .user_' + message.from).length == 0) {
+                GenerateChatWindow([{ UserId: message.ext.userId, NickName: message.ext.nickName, HeadPic: message.ext.headImage }]);
+            }
+            //追加新消息
+            $('#msg_content_list .user_' + message.from).append(template(tempName, message));
+        }
+
+        //重置显示状态 默认显示第一页 滚动条到最下面
+        function changeShowState() {
+            //默认展示第一条消息
+            var userid = 0;
+            if ($('#msg_user_list .selected').length == 0) {
+                var $userList = $('#msg_user_list .user');
+                if ($userList.length > 0) {
+                    userid = $userList.eq(0).data('id');
+                }
+            }
+            else {
+                userid = $('#msg_user_list .selected').data('id');
+            }
+            $('#msg_user_list .user_' + userid).addClass('selected').siblings().removeClass('selected');
+            $('#msg_content_list .user_' + userid).addClass('selected').siblings().removeClass('selected');
+            $('.webim-chatwindow-title span').text($('#msg_user_list .user_' + userid).find('.webim-contact-username').text());
+            $('#msg_content_list').scrollTop($('#msg_content_list .user_' + userid).height());
+        }
+
+        //获取一周内聊天用户的集合
+        function getUserList(fun) {
+            //本地缓存
+            var storage = window.localStorage.getItem(cacheName);
+            storage = storage ? JSON.parse(storage) : {};
+            if (JSON.stringify(storage) != '{}') {
+                var data = [];
+                for (item in storage) {
+                    data.push(storage[item].info);
+                }
+                if (fun) fun(data);
+            }
+            else {
+                $.getJSON('/Txooo/SalesV2/Chat/Ajax/ChatAjax.ajax/GetUserList', function (data) {
+                    if (fun) fun(data);
+                    //缓存到本地
+                    var storage = {};
+                    for (var i = 0; i < data.length; i++) {
+                        var chatData = data[i];
+                        if (typeof chatData == 'string') {
+                            chatData = JSON.parse(chatData);
+                        }
+                        var cacheItemName = 'U' + chatData.UserId;
+                        storage[cacheItemName] = {
+                            info: chatData
+                            , msgs: []  //聊天集合
+                            , ts: 0  //最后一条信息时间戳
+                        };
+                    }
+                    window.localStorage.setItem(cacheName, JSON.stringify(storage));
+                });
+            }
+        };
+
+        //获取聊天内容
+        function getMessages(param, fun) {
+            //本地缓存
+            var storage = window.localStorage.getItem(cacheName);
+            storage = storage ? JSON.parse(storage) : {};
+            if (storage['U' + param.userId] != undefined) {
+                if (fun) fun(storage['U' + param.userId].msgs);
+            }
+            else {
+                $.getJSON('/Txooo/SalesV2/Chat/Ajax/ChatAjax.ajax/GetMessages', param, function (data) {
+                    if (fun) fun(data);
+                    //缓存到本地
+                    var storage = window.localStorage.getItem(cacheName);
+                    storage = storage ? JSON.parse(storage) : {};
+                    var chatData = data[0];
+                    if (typeof chatData == 'string') {
+                        chatData = JSON.parse(chatData);
+                    }
+                    var cacheItemName = 'U' + chatData.from;
+                    if (chatData.from == login_user.userId) {
+                        cacheItemName = 'U' + chatData.to;
+                    }
+                    storage[cacheItemName].msgs = data;
+                    window.localStorage.setItem(cacheName, JSON.stringify(storage));
+                });
+            }
+        };
+
+        //存储聊天日志
+        function recordMsg(param, fun) {
+            if (fun == undefined) { fun = function (data) { console.log(data.msg); } }
+
+            //远程存储
+            $.post('/Txooo/SalesV2/Chat/Ajax/ChatAjax.ajax/RecordMsg', param, function (data) {
+                if (fun) fun(eval(data));
+            });
+
+            //本地缓存
+            var storage = window.localStorage.getItem(cacheName),
+                cacheItemName = 'U' + param.from;
+            storage = storage ? JSON.parse(storage) : {};
+            if (param.from == login_user.userId) {
+                cacheItemName = 'U' + param.to;
+            }
+            var chatData = JSON.parse(param.data);
+            if (storage[cacheItemName] == undefined) {
+                storage[cacheItemName] = {
+                    info: {//用户基本信息
+                        UserId: chatData.ext.userId
+                        , NickName: chatData.ext.nickName
+                        , HeadPic: chatData.ext.headImage
+                    }
+                    , msgs: []  //聊天集合
+                    , ts: 0  //最后一条信息时间戳
+                };
+            }
+
+            storage[cacheItemName].ts = new Date() * 1;
+            storage[cacheItemName].msgs.push(chatData);
+
+            window.localStorage.setItem(cacheName, JSON.stringify(storage));
+        };
+    </script>
+</head>
+<body>
+    <section class="w100">
+        <div class="webim">
+            <div class="page webim-chat">
+                <div id="login_user" class="webim-leftbar"></div>
+
+                <div id="msg_user_list" class="webim-contact-wrapper">
+                    <!--<div class="user_{$UserId} user webim-contact-item" data-id="{$UserId}">
+                        <div class="webim-avatar-icon">
+                            <img class="w100" src="{$UserHeadPic}">
+                        </div>
+                        <div class="webim-contact-info">
+                            <span class="webim-contact-username">{$UserId}</span>
+                        </div>
+                        <i class="webim-msg-prompt count" data-count="0">0</i>
+                    </div>-->
+                </div>
+
+                <div class="webim-chatwindow">
+                    <div class="webim-chatwindow-title">
+                        <span>未选择</span>
+                    </div>
+                    <div id="msg_content_list" class="webim-chatwindow-msg">
+                        <!--<div class="user_{$UserId} content"></div>-->
+                    </div>
+                    <div class="webim-send-wrapper">
+                        <div class="webim-chatwindow-options">
+                            <span class="webim-emoji-icon font small">J</span>
+                            <span class="webim-picture-icon font small">K</span>
+                            <span class="webim-audio-icon font small">R</span>
+                            <span class="webim-file-icon font small">S</span>
+                            <span class="webim-file-icon font small">T</span>
+                            <span class="webim-kuang-icon font small">N</span>
+                            <!--快捷回复数据-->
+                            <div id="fast_msg_data">
+                                <!--Tx_Common{db=TxoooAgent;tb=sales_helper_info;where=class_id=20;top=50;order=v_order desc;tmp=/IM/temp/fast_msg.html;}-->
+                            </div>
+                        </div>
+                        <ul class="hide"></ul>
+                        <textarea id="msg_text" onkeydown="keySend();"></textarea>
+                        <button class="webim-button bg-color webim-send-btn base-bgcolor disabled" onclick="sendMsg()">发送</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer class="copyright">
+            <span>&copy;</span>
+            <span>2017</span>
+            <span>买客</span>
+        </footer>
+    </section>
+
+
+    <div class="img_preview webim-img-expand"><input type="button" onclick="closeImg()" value="关闭" /><img src="" /></div>
+
+    <!--消息内容模板d-->
+    <script type="text/html" id="msg_user_temp">
+        {{each list}}
+        <div class="user_{{$value.UserId}} user webim-contact-item" data-id="{{$value.UserId}}">
+            <div class="webim-avatar-icon">
+                <img class="w100" src="{{$value.HeadPic}}"><!--,1,120,120,3-->
+            </div>
+            <div class="webim-contact-info">
+                <span class="webim-contact-username">{{$value.NickName}}</span>
+            </div>
+            <i class="webim-msg-prompt count" data-count="0">0</i>
+        </div>
+        {{/each}}
+    </script>
+
+    <!--消息容器-->
+    <script type="text/html" id="msg_content_temp">
+        {{each list}}
+        <div class="user_{{$value.UserId}} content">
+        </div>
+        {{/each}}
+    </script>
+
+    <!--发送消息-->
+    <script type="text/html" id="msg_content_to_temp">
+        <div class="webim-msg-container rel">
+            <div class="to rel right" data-id="{{from}}">
+                <div class="webim-avatar-icon right">
+                    <img class="w100" src="{{ext.headImage}}">
+                </div>
+                <p class="right">
+                    <span>{{from}}</span>
+                    <span>{{date_time}}</span>
+                </p>
+                <div class="clearfix">
+                    <div class="webim-msg-value">
+                        <span class="webim-msg-icon font">I</span>
+                        <pre>{{msg}}</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </script>
+
+    <!--接收消息-->
+    <script type="text/html" id="msg_content_from_temp">
+        <div class=" webim-msg-container rel">
+            <div class="from rel left" data-id="{{from}}">
+                <div class="webim-avatar-icon left">
+                    <img class="w100" src="{{ext.headImage}}">
+                </div>
+                <p class="left">
+                    <span>{{from}}</span>
+                    <span>{{date_time}}</span>
+                </p>
+                {{if ext.isDiyCell}}
+                <div class="clearfix">
+                    <div class="webim-msg-value">
+                        <span class="webim-msg-icon font">H</span>
+                        <div class="webim-msg-link">
+                            <a href="/shop.html?id={{ext.ProductId}}" target="_blank">
+                                <img src="{{ext.ProductImgs | productImgs}}" />{{ext.ProductName}}
+                            </a>【商品详情】
+                        </div>
+                    </div>
+                </div>
+
+
+                {{else}}
+                <div class="clearfix">
+                    <div class="webim-msg-value">
+                        <span class="webim-msg-icon font">H</span>
+                        <pre>{{data}}</pre>
+                    </div>
+                </div>
+                {{/if}}
+            </div>
+        </div>
+    </script>
+    <!--接收表情图片-->
+    <script type="text/html" id="msg_emo_from_temp">
+        <div class=" webim-msg-container rel">
+            <div class="to rel left" data-id="{{from}}">
+                <div class="webim-avatar-icon left small">
+                    <img class="w100" src="{{ext.headImage}}">
+                </div>
+                <p class="left">
+                    <span>{{from}}</span>
+                    <span>{{date_time}}</span>
+                </p>
+                <div class="clearfix">
+                    <div class="webim-msg-value">
+                        <span class="webim-msg-icon font">H</span>
+                        <p>
+                            {{each data as c}}
+                            <img class="emoji" src="{{c.data}}" />
+                            {{/each}}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </script>
+    <!--接收图片-->
+    <script type="text/html" id="msg_img_from_temp">
+        <div class=" webim-msg-container rel">
+            <div class="to rel left" data-id="{{from}}">
+                <div class="webim-avatar-icon left small">
+                    <img class="w100" src="{{ext.headImage}}">
+                </div>
+                <p class="left">
+                    <span>{{from}}</span>
+                    <span>{{date_time}}</span>
+                </p>
+                <div class="clearfix">
+                    <div class="webim-msg-value">
+                        <span class="webim-msg-icon font">H</span>
+                        <div><img class="pic_img webim-msg-img" src="{{url}}" /></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </script>
+    <!--接收语音-->
+    <script type="text/html" id="msg_yuyin_from_temp">
+        <div class=" webim-msg-container rel">
+            <div class="to rel left" data-id="{{from}}">
+                <div class="webim-avatar-icon left small">
+                    <img class="w100" src="{{ext.headImage}}">
+                </div>
+                <p class="left">
+                    <span>{{from}}</span>
+                    <span>{{date_time}}</span>
+                </p>
+                <div class="clearfix">
+                    <div class="webim-msg-value">
+                        <span class="webim-msg-icon font">H</span>
+                        <pre>{{filename}}（语音文件不支持）</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </script>
+
+    <!--登录用户信息模板d-->
+    <script type="text/html" id="login_temp">
+        <div class="webim-avatar-icon webim-profile-avatar small">
+            <img class="w100" src="{{headImage}}" title="{{nickName}}">
+        </div>
+        <div class="username">
+            <div>{{userId}}</div>
+            <div>{{nickName}}</div>
+        </div>
+        <div id="friends" class="rel top50">
+            <i title="好友" class="webim-leftbar-icon font small selected">E</i>
+            <i class="webim-msg-prompt webim-msg-icon-prompt" data-count="0" style="display: none;"></i>
+        </div>
+        <div class="rel top50">
+            <i class="webim-operations-icon font xsmaller" onclick="createNewChatBtn()" title="添加新的聊天">L</i>
+        </div>
+        <div>
+            <i class="webim-operations-icon font xsmaller" onclick="loginOut()" title="退出">n</i>
+        </div>
+    </script>
+
+</body>
+</html>

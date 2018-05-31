@@ -1,0 +1,64 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>资讯评论</title>
+    <!--WL_TMP{tmp=/Skin/t/Pub/app_publiccss.html}-->
+    <link href="/Skin/t/Css/sui/index.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="page-group">
+        <div id="page-bbs-mchnews" class="page">
+            <header class="bar bar-nav bar_ff8201">
+                <a class="icon icon-left pull-left back" href="/shop_2/mchnews.html?newsid={$U_QUERY_NEWSID}"></a>
+                <h1 class="title">全部评论</h1>
+            </header>
+            <div class="bar bar-header-secondary download">
+                <p><i>×</i>买客&nbsp;&nbsp; 一个能赚钱的电商APP<a class="download_android download_app">去下载</a></p>
+            </div>
+            <nav class="bar bar-tab">
+                <input type="text" class="download_app" readonly="readonly" placeholder="我要写评论" />
+            </nav>
+            <div class="content">
+                <input id="news_id" type="hidden" value="{$U_QUERY_NEWSID}" />
+                <div class="user_bbs news_bbs" style="margin:0;"><div class="new_bbs_tit">我参与的</div><div class="list"></div></div>
+                <div class="all_bbs news_bbs" style="margin:0;">
+                    <div class="new_bbs_tit">全部评论</div><div class="list infinite-scroll"></div>
+                    <!-- 加载提示符 -->
+                    <div class="infinite-scroll-preloader">
+                        <div class="preloader">
+                        </div>
+                    </div>
+                    <div class="content-block more_container">--------没有更多评论了--------</div>
+                </div>
+            </div>
+            <!--评论-->
+            <script type="text/html" id="bbs_temp">
+                {{each list as value}}
+                <dl>
+                    <dt class="other_user" data-uid="{{value.UserId}}"><img src="{{value.UserHeadPic}}" /></dt>
+                    <dd class="list_name"><a class="other_user external" data-uid="{{value.UserId}}" href="/homepage/index.html?uid={{value.UserId}}">{{value.UserNikeName}}<em>{{value.AddTime | dateFormat:'yyyy-MM-dd hh:mm','diy'}}</em></a><span class="right is_like_click is_like_{{value.IsLike | bbsClickLike:value.BbsId}}" data-like="{{value.IsLike | bbsClickLike:value.BbsId}}" data-bbsid="{{value.BbsId}}"><i class="nocolor">&#xe9d5;</i><i class="color">&#xe9d4;</i><span>{{value.LikeCount}}</span></span></dd>
+                    <dd class="list_content"><a class="bbs_detailsadd" data-bbsid="{{value.BbsId}}" data-nickname="{{value.UserNikeName}}" data-reviewid="0" href="/bbs/mchNewsDetails.html?bbsid={{value.BbsId}}">{{value.ContentText | replaceBrContent}}</a></dd>
+                    <dd class="list_reply">
+                        <ul>
+                            {{each value.ReviewList as v}}
+                            <li>
+                                <a class="other_user external" data-uid="{{v.UserId}}" href="/homepage/index.html?uid={{v.UserId}}">{{v.UserNikeName}}</a>
+                                {{if v.ReviewBbsId>0}}<em>回复</em><a class="external" href="/homepage/index.html?uid={{v.ReviewUserId}}">{{v.ReviewNikeName}}</a>{{/if}}：
+                                <a href="/bbs/mchNewsDetails.html?bbsid={{value.BbsId}}" class="info bbs_detailsadd" data-bbsid="{{value.BbsId}}" data-nickname="{{v.UserNikeName}}" data-reviewid="{{v.BbsId}}">{{v.ContentText | replaceBrContent}}</a>
+                            </li>
+                            {{/each}}
+                            {{if value.ReviewList.length==3}}
+                            <li class="more"><a href="/bbs/mchNewsDetails.html?bbsid={{value.BbsId}}" class="bbs_details" data-bbsid="{{value.BbsId}}">查看全部回复 ></a></li>{{/if}}
+                        </ul>
+                    </dd>
+                </dl>
+                {{/each}}
+            </script>
+        </div>
+    </div>
+
+    <!--WL_TMP{tmp=/Skin/t/Pub/app_publicjs.html}-->
+    <script src="/Skin/t/Js/sui/index.js?v=1"></script>
+</body>
+</html>

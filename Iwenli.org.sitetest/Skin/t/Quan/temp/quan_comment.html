@@ -1,0 +1,21 @@
+﻿<script id="commentTemp" type="text/html">
+    {{each PostComment as info}}
+    <!--<dd id="comment_list" class="reply" style="">-->
+    <!--<div class="reply_con" style="">-->
+    <div class="post_comment">
+        <div class="reply_name" onclick="addComment(null,'{{PostsId}}', '{{info.UserId}}', '{{info.NickName}}')">
+            <a class="c_nick_name" href="javascript:void(0);">{{info.NickName}}</a>
+            {{if info.ReviewUserId!=0}}
+            <span class="review">
+                回复
+                <a href="javascript:void(0);">{{info.ReplyNickName}}</a>
+            </span>
+            {{/if}}
+            ：
+        </div>
+        <div class="reply_info" onclick="addComment(null,'{{PostsId}}', '{{info.UserId}}', '{{info.NickName}}')">{{info.CommentInfo}}</div>
+    </div>
+    <!--</div>-->
+    <!--</dd>-->
+    {{/each}}
+</script>

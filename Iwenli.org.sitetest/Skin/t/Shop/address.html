@@ -1,0 +1,77 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/html5/rem.js"></script>
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Public.css" />
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Shop.css" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/jquery/jquery-1.7.2.min.js"></script>
+    <script src="/Skin/t/Js/Public.js"></script>
+    <title>选择地址</title>
+</head>
+<body style="background:#f0f0f0;">
+    <header class="P_Header">
+        <div class="P_goBack" onclick="history.go(-1);"><i>&#xe602;</i></div>
+        <div class="P_title">选择地址</div>
+        <a class="P_Header_info" href="/member/address.html">管理</a>
+    </header>
+    <div id="selectAddr">
+
+    </div>
+    <!--<div class="bottom_btn">
+        <a href="/member/addressModify.html?url_flag=url_flag" class="positive_button">+ 新增收货地址</a>
+    </div>-->
+    
+    <script>
+        var addressId = 0;
+
+        if (cookie("Cookie_SalesProInfo") == null) {
+            dialogAlart("该页面已过期！");
+            window.location.href = "/index.html";
+        }
+
+        var cookieVal = decodeURIComponent(cookie("Cookie_SalesProInfo"));
+
+        cookieVal = cookieVal.split("|");
+        addressId = cookieVal[3];
+
+        $.get("/Txooo/SalesV2/Member/Ajax/MemberAjax.ajax/GetSalesAddress", function (data) {
+            var addrObj = eval(data);
+            if (addrObj.length > 0) {
+                $("#selectAddr").html("");
+                $.each(addrObj, function (i, v) {
+                    var addrListHtml = "<ul class='addrList'>";
+                    var radioAddr = "<li class='radio_box'><input type='radio' value='" + v.AddressId + "' name='addrId' /></li>";
+                    if (addressId == v.AddressId) {
+                        radioAddr = "<li class='radio_box current'><input type='radio' value='" + v.AddressId + "' name='addrId' checked='checked' /></li>";
+                    }
+                    addrListHtml += radioAddr;
+                    addrListHtml += "<li class='name'>" + v.TakeName + "</li>";
+                    addrListHtml += "<li class='name'>" + v.Phone + "</li>";
+                    addrListHtml += "<li class='address'>" + v.Area + v.Address + "</li>";
+                    //addrListHtml += "<li class='name' onclick='window.location.href=\"/member/addressModify.html?url_flag=1&r_id=" + v.AddressId + "\"'>编辑</li>";
+                    addrListHtml += "</ul>";
+                    $("#selectAddr").append(addrListHtml);
+                })
+            }
+            //$("#selectAddr").append('<a href="/Member/address.html">管理地址</a>');
+        })
+
+        //点击地址选择
+        $("#selectAddr").delegate(".addrList", "click", function () {
+            var radObj = $(this).find("input[name=addrId]").val();
+            window.location.href = "order.html?id=" + cookieVal[0] + "&count=" + cookieVal[1] + "&postageVal=" + cookieVal[2] + "&addressid=" + radObj + "&proProperty="+cookieVal[4];
+        })
+
+        function goBack() {
+            var robj = $("#selectAddr .addrList input[name=addrId]:checked");
+            var aId = 0;
+            if (robj.length > 0) {
+                aId = robj.val();
+            }
+            window.location.href = "order.html?id=" + cookieVal[0] + "&count=" + cookieVal[1] + "&postageVal=" + cookieVal[2] + "&addressid=" + aId + "&proProperty="+cookieVal[4];
+        }
+    </script>
+ <!--WL_TMP{tmp=/Skin/t/Pub/T_Public.html}--> </body>
+</html>

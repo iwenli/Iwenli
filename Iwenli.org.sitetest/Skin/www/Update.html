@@ -1,0 +1,87 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>【下载APP|买客app下载】- 更新日志</title>
+    <meta name="keywords" content="买客，下载app,app下载,下载买客app" />
+    <meta name="description" content="一部手机、一个微信，买客app躺着都赚钱！下载买客app，开始赚钱了。" />
+    <link href="/skin/www/Css/Public.css" rel="stylesheet" type="text/css" />
+    <link href="/skin/www/Css/Index.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/jquery/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="//cdn.txooo.com/public/aui.artTemplate/artTemplate.js"></script>
+</head>
+<body>
+    <!-- 头部begin -->
+    <!--WL_TMP{tmp=/skin/www/Pub/T_Header_nav.html}-->
+    <!-- 头部end -->
+    <div class="update">
+        <div class="container">
+            <h2>更新日志</h2>
+            <ul class="version_list"></ul>
+            <div class="more load_more" onclick="LoadMore()">加载更多</div>
+            <div class="more no_more" style="display:none">已加载全部</div>
+        </div>
+    </div>
+    <!-- 底部begin -->
+    <!--WL_TMP{tmp=/skin/www/Pub/T_Footer_nav.html}-->
+    <!-- 底部end -->
+
+    <script type="text/html" id="list_temp">
+        {{each list as l}}
+        <li>
+            <div class="title">
+                <span class="date">{{l.year}}-{{l.month | addlength}}-{{l.day | addlength}}</span>
+                <span class="version">{{l.version_number}}</span>
+            </div>
+            <div class="content">
+                <p>
+                    {{l.version_content | appBrChange}}
+                </p>
+            </div>
+        </li>
+        {{/each}}
+    </script>
+    <script>
+        var pageIndex = 0;
+        var pageSize = 8;
+
+        GetVersionList();
+
+        //加载列表
+        function GetVersionList() {
+            var url = 'http://www.93390.cn/Txooo/SalesV2/Member/Ajax/HelperAjax.ajax/GetVersionList?pageIndex=' + pageIndex + '&pageSize=' + pageSize;
+
+            jsonp(url, {}, function (obj) {
+                if (obj.length == 0 || obj.length < pageSize) {
+                    $('.load_more').hide();
+                    $('.no_more').show();
+                }
+                if (obj.length > 0) {
+                    var data = { list: obj };
+                    $('.version_list').append(template('list_temp', data));
+                }
+            });
+        }
+        template.helper('addlength', function (data) {
+            if (data.length == 1) {
+                return '0' + data;
+            }
+            return data;
+        });
+        template.helper('appBrChange', function (data) {
+            return data.replace(/\n/g, '<br/>');
+        });
+        function LoadMore() {
+            pageIndex++;
+            GetVersionList();
+        }
+
+        function jsonp(url, params, fun) {
+            params.call = encodeURIComponent(url);
+            $.getJSON("/Iwenli/Org/Ajax/OpenRequest.ajax/jsonp",
+                params, fun);
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,97 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/html5/rem.js"></script>
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Public.css" />
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Buy.css" />
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Buy_success.css" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/jquery/jquery-1.7.2.min.js"></script>
+
+    <link rel="stylesheet" href="//cdn.txooo.com/public/jquery.swiper/swiper.min.css" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/jquery.swiper/swiper.jquery.min.js"></script>
+    <script type="text/javascript" src="//cdn.txooo.com/public/aui.artTemplate/artTemplate.js"></script>
+    <script src="/Skin/t/Js/Public.js"></script>
+    <script type="text/javascript" src="//res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+    <script type="text/javascript" src="//cdn.txooo.com/WeiXin/WeiXinShare.js"></script>
+    <title>购买成功</title>
+    <script>
+        GetOtherPro();
+        //查看大家都买了
+        function GetOtherPro() {
+            $.get("/Txooo/SalesV2/Shop/Ajax/ShopOpenAjax.ajax/GetSaleCountPro?top=3", function (data) {
+                if (data != '') {
+                    var obj = eval(data);
+
+                    $.each(obj, function (i, v) {
+                        var imgs = v.ProductImgs.split(",");
+                        v.ProImg = imgs[0];
+                    })
+                    var otherHtml = template("otherProTemp", { info: obj });
+                    $("#otherPro").append(otherHtml);
+                } else {
+                    $(".may_like").hide();
+                    //$(".more_btn").hide();
+                }
+
+
+            })
+        }
+        $(function () {
+            $(".fenxiang").click(function () { $(".fenxiang").css("display", "none"); })
+        })
+    </script>
+    <script>
+        var a = window.location.origin;
+        var proId = getUrlParam("proId");
+        var p = getUrlParam("p");
+        if (navigator.userAgent.toLowerCase().indexOf("micromessenger") > -1) {
+            wxShare.title = '{$Thirdtitle}';
+            wxShare.desc = '{$Thirdcontent_info}';
+            wxShare.link = a+"/shop/QrCodePay.html?id=" + proId + "&p=" + p;
+            wxShare.imgUrl = '{$Thirdimg_url}';
+            wxShare.accountType = 'sales';
+            wxShare.init();
+        }
+    </script>
+</head>
+<body>
+    <header class="P_Header">
+        <div class="P_title">买客</div>
+    </header>
+     <div class="fenxiang">
+         <img src="/Skin/t/Img/Order/u184.png"/>
+         <p>分享给好友吧</p>
+         <p>他们就通过你这个链接下单</p>
+         <p>你就赚钱了</p>
+     </div>
+   <div class="ewm">
+        <img class="ewm_an" src="/Skin/t/Img/Order/ewm.jpg"/>
+        <img src="/Skin/t/Img/Order/buy.jpg"/>
+    </div>
+     <div class="footer">
+        <span>想要详细了解更多的赚钱方法?</span>
+        <p>还可以<a href="{$ConfigOfficialWebUrl}/">下载APP</a>进行查看与管理~</p>
+        <a href="{$ConfigOfficialWebUrl}/"><img class="xiazai"src="/Skin/t/Img/Order/xiazai.png"/></a>
+        <img class="zhuan" src="/Skin/t/Img/Order/zhuan.png"  />
+    </div>
+    <!--大家都买了 ↓-->
+    <section class="may_like">
+        <div class="title" style="background:none;">您可能还需要</div>
+        <div id="otherPro"></div>
+    </section>
+    <script type="text/javascript" src="//cdn.txooo.com/txuser/txuser.min.js"></script>
+</body>
+</html>
+
+<script type="text/html" id="otherProTemp">
+    {{each info as i}}
+    <ul class="like_list" onclick="window.location.href = 'details.html?id={{i.ProductId}}'">
+        <li class="pic"><img src="{{i.ProImg}}" /></li>
+        <li class="name">{{i.ProductName}}</li>
+        <li class="com">(已有{{i.ProductReviewCount}}人评价)</li>
+        <li class="price">{{i.ProductPrice}}元</li>
+    </ul>
+    {{/each}}
+</script>

@@ -1,0 +1,48 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>商品详情</title>
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="https://g.alicdn.com/msui/sm/0.6.2/css/sm.min.css" />
+    <link rel="stylesheet" href="css/sm-extend.min.css" />
+    <link rel="stylesheet" href="css/swiper.min.css" />
+    <link type="text/css" rel="stylesheet" href="css/publicv3.css" />
+    <link href="css/index.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="page-group" id="top">
+        <div id="page-shop-details-info" class="page">
+            <div class="content infinite-scroll">
+                <div class="product_details img_text_details"></div>
+                <div class="footer_height"></div>
+                
+            </div>
+            <script type="text/html" id="product_details_info_temp">
+                <!--Tx_Common{db=TxoooAgent;tb=sales_product_index;top=1;field=product_details,product_details_type;where=is_del=0 AND product_id={$U_QUERY_ID};order=product_id desc;output=json;}-->
+            </script>
+        </div>
+    </div>
+    <script type="text/javascript" src="js/zepto.min.js"></script>
+    <script type="text/javascript" src="js/zepto.fx.min.js"></script>
+    <script type="text/javascript" src="js/sm.min.js"></script>
+    <script type="text/javascript" src="js/swiper.jquery.min.js"></script>
+    <script type="text/javascript" src="js/sm-photo-browser.min.js"></script>
+    <script src="js/zepto.lazyload.js"></script>
+    <script type="text/javascript" src="js/artTemplate.js"></script>
+    <script src="js/txapp.js"></script>
+    <script src="js/publicv3.js"></script>
+    <div class="tx_app_config">
+        <input type="hidden" class="appid" value="asdf" />
+        <input type="hidden" class="timestamp" value="123" />
+        <input type="hidden" class="signature" value="456" />
+    </div>
+    <input type="hidden" id="user_is_auth" value="false" />
+    <input type="hidden" id="sys_service_time" value="06/30/2017 14:01:03" />
+    <input type="hidden" id="config_login_page_url" value="https://111.u.93390.cn/login.html?ReturnUrl=" />
+    <script src="js/index.js"></script>
+</body>
+</html>

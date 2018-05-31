@@ -1,0 +1,103 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>模拟post请求</title>
+    <meta charset="utf-8" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/jquery/jquery-1.7.2.min.js"></script>
+    <script>
+        var p_name = 1;
+        //添加参数
+        function addParams() {
+            var html = $('#post_temp tbody');//params_hidden
+            html.find('.params_name').attr('name', 'p_name_' + p_name);
+            html.find('.params_value').attr('name', 'p_value_' + p_name);
+            html.find('.params_hidden').attr('name', 'p_hidden_' + p_name);
+            p_name++;
+            $('#post_form tbody').append(html.html());
+        };
+        //删除参数
+        function delThisTr(a) {
+            $(a).parent().parent().remove();
+        };
+        //提交请求
+        function subForm() {
+            var _url = $('#post_url').val();
+            if (!_url) {
+                alert('请填写请求路径');
+                return;
+            }
+            $.each($('#post_form tbody tr'), function (i, o) {
+                var n_val = $(o).find('.params_name').val();
+                var v_val = $(o).find('.params_value').val();
+                if (n_val != '' && v_val != '') {
+                    $(o).find('.params_hidden').attr('name', n_val).val(v_val);
+                }
+            });
+
+            $.post(_url, $('#post_form').serialize(), function (data) {
+                $('#show_res').html(data);
+                alert(data);
+            });
+        };
+        //批量添加
+        function addRawParams() {
+            var raw_params = $('#raw_params').val().split('&');
+            for (var i = 0; i < raw_params.length; i++) {
+                addParams();
+                var last = $('#post_form tr').last();
+                var rr = raw_params[i].split('=');
+                last.find('.params_name').val(rr[0]);
+                last.find('.params_value').val(rr[1]);
+            }
+        };
+    </script>
+    <style>
+        table tr {
+            height: 50px;
+        }
+
+        table input {
+            width: 300px;
+            height: 30px;
+        }
+    </style>
+</head>
+<body>
+    <form id="post_form">
+        <p>
+            <input type="text" id="post_url" style="width:50%;height:30px;" value="" placeholder="输入请求路径，当前项目本地" />
+            <input type="button" onclick="subForm()" style="width:10%;height:35px;" value="POST提交请求" />
+            <input type="button" style="width:10%;height:35px;" value="添加参数" onclick="addParams()" />
+
+        </p>
+        <p>
+            <input type="text" id="raw_params" style="width:50%;height:30px;" placeholder="请输入如：a=123&b=456&c=147" value="" />
+            <input type="button" style="width:10%;height:35px;" value="RAW批量添加" onclick="addRawParams()" />
+        </p>
+        <table style="border-collapse: collapse; width: 100%;text-align: center; " border="1">
+            <thead>
+                <tr>
+                    <td>参数名称</td>
+                    <td>参数值</td>
+                    <td>操作</td>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+        <p id="show_res"></p>
+    </form>
+    <table id="post_temp" style="display:none">
+        <tbody>
+            <tr>
+                <td><input class="params_name" placeholder="请输入参数名称" type="text" name="name" value="" /></td>
+                <td><input class="params_value" placeholder="请输入参数值" type="text" name="name" value="" /></td>
+                <td>
+                    <input class="params_hidden" type="hidden" name="name" value="" />
+                    <a href="javascript:void(0);" onclick="delThisTr(this)">删除</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

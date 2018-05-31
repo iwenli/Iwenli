@@ -1,0 +1,53 @@
+﻿.page-warp { height: 800px; background-image: url(../Img/bg.png); background-repeat: no-repeat; background-position: center center }
+.page-warp.page1 { height: 740px; background-image: url(../Img/bg1.png); }
+.page-warp.page3 { background-image: url(../Img/bg2.png); }
+.page-warp.page5 { height: 650px; background-image: url(../Img/bg3.png); }
+
+.page-warp.page1 .phone { margin-left: 50px; margin-right: 100px; float: left; overflow: hidden; }
+.page-warp.page1 .phone img { height: 680px; float: left; margin-top: 60px; position: relative; }
+.page-warp.page1 .iframe { position: absolute; width: 330px; height: 585px; margin-left: 25px; margin-top: 155px; }
+.page-warp.page1 canvas { position: absolute; }
+.page-warp.page1 .text { float: left; overflow: hidden; }
+.page-warp.page1 .text img { float: left; margin-top: 130px; margin-left: 20px; }
+.page-warp.page1 .as { float: left; overflow: hidden; }
+.page-warp.page1 .as img { float: left; margin-top: 25px; }
+.page-warp.page1 .and { float: left; overflow: hidden; }
+.page-warp.page1 .and img { float: left; margin-left: 50px; margin-top: 25px; }
+.page-warp.page1 .ewm { float: left; overflow: hidden; }
+.page-warp.page1 .ewm img { float: left; margin-top: 100px; margin-left: 120px; }
+
+.page-warp.page2 .p1 { width: 300px; float: left; margin-left: 80px; margin-top: 280px; }
+.page-warp.page2 .p2 { width: 500px; float: right; margin-top: 113px; margin-right: 100px; }
+
+.page-warp.page3 .p1 { width: 500px; float: left; margin-top: 113px; margin-left: 80px; }
+.page-warp.page3 .p2 { width: 300px; float: right; margin-right: 80px; margin-top: 280px; }
+
+.page-warp.page4 .p1 { width: 400px; float: left; margin-left: 80px; margin-top: 280px; }
+.page-warp.page4 .p2 { width: 450px; float: right; margin-top: 213px; margin-right: 100px; }
+
+.page-warp.page5 .p1 { width: 80px; margin-top: 140px; }
+.page-warp.page5 .p2 { width: 160px; margin: 10px auto; }
+.page-warp.page5 .download { padding-top: 50px; }
+.page-warp.page5 .download img { width: 160px; }
+.page-warp.page5 .download a img { margin-left: 30px; width: 180px; }
+.page-warp.page5 .download .btn_1 { position: absolute; }
+
+
+/*更新*/
+.update { width: 100%; height: auto; padding: 50px 0; background: #f6fcf9; border-bottom: 1px solid #e4e2e2; }
+.update .container { padding: 10px 100px; }
+.update h2, .update .version_list { text-align: left; }
+.update h2 { font-size: 20px; }
+.update .version_list { margin-top: 10px; }
+.update ul li { padding-top: 20px; padding-bottom: 30px; border-top: 1px dashed #aaa; }
+.update ul li:last-child { border-bottom: 1px dashed #aaa; }
+.update ul li .title { font-size: 16px; }
+.update ul li .version { margin-left: 20px; color: #31c624; }
+.update ul li .content { margin-top: 10px; color: #999; line-height: 1.3rem; }
+.more { width: 100%; height: auto; color: #ababab; padding: 5px; text-align: center; font-size: 18px; background: #fff; border: 1px solid #e4e2e2; margin-top: 50px; cursor: pointer; }
+
+.about .page-warp { background-repeat: no-repeat; background-position: center center }
+.about .page-warp.page1 { height: 400px; background-image: url(../Img/about1.jpg); }
+.about .page-warp.page2 { height: 620px; background-image: url(../Img/about2.jpg); }
+.about .page-warp.page3 { height: 640px; background-image: url(../Img/about3.png); }
+.about .page-warp.page4 { height: 1000px; background-image: url(../Img/about4.png); }

@@ -1,0 +1,238 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/html5/rem.js"></script>
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Public.css" />
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Member.css" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/jquery/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="//cdn.txooo.com/public/aui.artTemplate/artTemplate.js"></script>
+    <script src="/Skin/t/Js/Public.js"></script>
+    <script src="/Skin/t/Js/Template.js"></script>
+    <title>关注</title>
+</head>
+<body style="background:#f0f0f0;">
+    <!-- 头部信息begin -->
+    <header class="P_Header" id="header1">
+        <div class="P_goBack" onclick="if (window.txservice.success()) { window.txservice.call('goback'); } else { history.go(-1); }"><i>&#xe602;</i></div>
+        <div class="P_title">关注</div>
+    </header>
+    <section class="me_list">
+        <ul class="list_2">
+            <li onclick="ChangeType(1,this)"><p><em id="spAttendMe">0</em>人</p>我关注的</li>
+            <li onclick="ChangeType(2,this)"><p><em id="spAttendMine">0</em>人</p>关注我的</li>
+        </ul>
+    </section>
+    <script type="text/html" id="listTemp">
+        <ul>
+            {{each list as l}}
+            <li onclick="goOtherUser('{{l.HisId}}')">
+                <span class="pic"><img src="{{l.HeadPic | headPic}}" /></span>
+                <span class="name">{{l.NickName}}</span>
+                <span class="time">关注日期：{{l.AddTime | dateFormat:'yyyy/MM/dd'}}</span>
+            </li>
+            {{/each}}
+        </ul>
+    </script>
+    <script type="text/html" id="listTemp2">
+        <ul>
+            {{each list as l}}
+            <li onclick="goOtherUser('{{l.UserId}}')">
+                <span class="pic"><img src="{{l.HeadPic | headPic}}" /></span>
+                <span class="name">{{l.NickName}}</span>
+                <span class="time">关注日期：{{l.AddTime | dateFormat:'yyyy/MM/dd'}}</span>
+            </li>
+            {{/each}}
+        </ul>
+    </script>
+    <script type="text/html" id="recentTemp">
+        <ul>
+            {{each list as l}}
+            <li onclick="goOtherUser('{{l.HisId}}')">
+                <span class="pic"><img src="{{l.HeadPic | headPic}}" /></span>
+                <span class="name">{{l.NickName}}</span>
+                <span class="time">关注日期：{{l.AddTime}}</span>
+            </li>
+            {{/each}}
+        </ul>
+    </script>
+    <script type="text/html" id="recentTemp2">
+        <ul>
+            {{each list as l}}
+            <li onclick="goOtherUser('{{l.UserId}}')">
+                <span class="pic"><img src="{{l.HeadPic | headPic}}" /></span>
+                <span class="name">{{l.NickName}}</span>
+                <span class="time">关注日期：{{l.AddTime}}</span>
+            </li>
+            {{/each}}
+        </ul>
+    </script>
+    <section class="attend_list">
+        <div class="title">最新关注</div>
+        <div id="myAttend">
+            <div id="dvAttendRecently">
+
+            </div>
+            <div class="title_a">A-Z</div>
+            <div id="dvAZ">
+
+            </div>
+            <div id="dvNoMore1">
+
+            </div>
+        </div>
+        <div id="attendMe">
+            <div id="dvRecentAttendMe">
+
+            </div>
+            <div class="title_a">A-Z</div>
+            <div id="dvAttendMe">
+
+            </div>
+            <div id="dvNoMore2">
+
+            </div>
+        </div>
+        
+    </section>
+    
+    
+   
+    <script>
+
+        window.txservice.init();
+        function goOtherUser(uid) {
+            if (window.txservice.success()) {
+                window.txservice.call('otheruser', { userid: uid });
+            }
+            else {
+                window.location.href = '/homepage/index.html?uid=' + uid;
+            }
+        }
+        var type = getUrlParam('type');
+        if (type == "1") {
+            $('.me_list .list_2 li').eq(0).addClass('current')
+            $('#attendMe').hide();
+        } else {
+            $('.me_list .list_2 li').eq(1).addClass('current')
+            $('#myAttend').hide();
+        }
+
+        //load peoples
+        $.get("/Txooo/SalesV2/Member/Ajax/AttentionAjax.ajax/AttendsPeoples", function (data) {
+            if (data != "false") {
+                var mine = data.split(',')[0];
+                var me = data.split(',')[1];
+                $('#spAttendMine').text(me);
+                $('#spAttendMe').text(mine); 
+            }
+        });
+        var pageIndex = 0;
+        var pageSize = 10;
+
+        LoadRecent();
+        LoadList();
+        LoadRecentAttendme();
+        LoadList2();
+        
+        function LoadList() {
+            $.get("/Txooo/SalesV2/Member/Ajax/AttentionAjax.ajax/GetAttendListV2", { pageIndex: pageIndex, pageSize: pageSize }, function (data) {
+                var list = eval('(' + data + ')');
+                if (list.length > 0) {
+                    var datalist = { list: list }
+                    var html = template("listTemp", datalist);
+                    $('#dvAZ').append(html);
+                } else {
+                    if (list.length == 0 && pageIndex == 0) {
+                        $('#dvAttendRecently').hide();
+                        $('#myAttend .title_a').hide();
+                        $('#dvAZ').append('<span class="no_list"><b></b>您还没有关注的人哦</span>');
+                    } else {
+                        $("#dvNoMore1").empty();
+                        $("#dvNoMore1").append("<div class='more_btn'></div>");
+                    }
+                }
+            });
+        }
+
+        function LoadRecent() {
+            $.post("/Txooo/SalesV2/Member/Ajax/AttentionAjax.ajax/GetMyRecentAttend", function (data) {
+                var obj = eval('(' + data + ')');
+                if (obj.success != "false") {
+                    $('#dvAttendRecently').append(template('recentTemp', { list: obj }));
+                } else {
+                    $('#dvAttendRecently').append('<span class="no_list"><b></b>您还没有关注的人哦</span>');
+                }
+            });
+        }
+
+        function LoadList2() {
+            $.post("/Txooo/SalesV2/Member/Ajax/AttentionAjax.ajax/GetAttendMeList", { pageIndex: pageIndex, pageSize: pageSize }, function (data) {
+                if (data != "false") {
+                    var obj = eval('(' + data + ')');
+                    if (obj.count > 0) {
+                        var list = eval(obj.list);
+                        if (list.length == 0) {
+                            $("#dvNoMore2").empty();
+                            $("#dvNoMore2").append("<div class='more_btn'></div>");
+                        } else {
+                            var datalist = { list: list }
+                            var html = template("listTemp2", datalist);
+                            $('#dvAttendMe').append(html);
+                        }
+                    } else {
+                        $('#dvRecentAttendMe').hide();
+                        $('#attendMe .title_a').hide();
+                        $('#dvAttendMe').append('<span class="no_list"><b></b>还没有人关注您哦</span>');
+                           $('#dvAttendMe .no_list:gt(0)').remove();
+                    }
+                }
+            });
+        }
+
+        function LoadRecentAttendme() {
+            $.post("/Txooo/SalesV2/Member/Ajax/AttentionAjax.ajax/GetRecentAttendMe", function (data) {
+                var obj = eval('(' + data + ')');
+                if (obj.success != "false") {
+                    $('#dvRecentAttendMe').append(template('recentTemp2', { list: obj }));
+                } else {
+                    $('#dvRecentAttendMe').append('<span class="no_list"><b></b>还没有人关注您哦</span>');
+                }
+            });
+        }
+
+        //加载更多
+        var scrollTrue = true;
+        window.onscroll = function () {
+            if (getScrollTop() + getClientHeight() == getScrollHeight()) {
+                if (scrollTrue) {
+                    scrollTrue = false;
+                    pageIndex++;
+                    LoadList();
+                    LoadList2();
+                    scrollTrue = true;
+                }
+            }
+        }
+        $('.P_Footer .me').addClass('current');
+
+        function ChangeType(type, me) {
+            $(me).addClass('current').siblings().removeClass('current');
+            if (type == 1) {
+                $('#myAttend').show();
+                $('#attendMe').hide();
+            }
+            if (type == 2) {
+                $('#attendMe').show();
+                $('#myAttend').hide();
+            }
+        }
+
+        $(function () {
+            $('#dvAttendMe .no_list:gt(0)').remove();
+        })
+    </script>
+    
+ <!--WL_TMP{tmp=/Skin/t/Pub/T_Public.html}--> </body>
+</html>

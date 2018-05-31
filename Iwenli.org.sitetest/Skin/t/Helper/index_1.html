@@ -1,0 +1,82 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/html5/rem.js"></script>
+    <script type="text/javascript" src="//cdn.txooo.com/public/jquery/jquery-1.7.2.min.js"></script>
+    <script src="/Skin/t/Js/Public.js"></script>
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Public.css" />
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Member.css" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/aui.artTemplate/artTemplate.js"></script>
+    <title>帮助中心</title>
+</head>
+<body style="background:#f0f0f0; padding-bottom:0.5rem;">
+    <!-- 头部信息begin -->
+    <header class="P_Header">
+        <div class="P_goBack" onclick="window.location.href = '/member/setting.html'"><i>&#xe602;</i></div>
+        <div class="P_title">帮助中心</div>
+    </header>
+    <!-- 头部信息end -->
+    <script type="text/html" id="treeTemp">
+        {{each list as l}}
+        <div class="firstLevel">
+            <p class="level1"><img src="{{l.icon_url}}" /><span>{{l.class_name}}</span></p>
+            <div class="secondLevel" data-classid="{{l.class_id}}">
+
+            </div>
+        </div>
+        {{/each}}
+    </script>
+    <script type="text/html" id="level2Temp">
+        {{each list as l}}
+        <p class="level2" onclick="ShowDetails(this)"><span>{{l.helper_name}}</span><i>&#xe601;</i></p>
+        <div class="help_content help_content_new" data-hid="{{l.helper_id}}" style="display:none"></div>
+        {{/each}}
+    </script>
+    <section class="content"></section>
+    <section class="feedback">
+        <p onclick="window.location.href='/Helper/feedback.html'"><span>意见反馈</span></p>
+    </section>
+
+    <script>
+        //加载分类
+        $.get("/Txooo/SalesV2/Member/Ajax/HelperAjax.ajax/GetLevel1", function (data) {
+            var obj = eval('(' + data + ')');
+            var data = { list: eval(obj.classList) };
+            $('.content').append(template("treeTemp", data));
+            $('.secondLevel').each(function (i, o) {
+                //加载二级目录
+                $.get("/Txooo/SalesV2/Member/Ajax/HelperAjax.ajax/GetLevel2?cid=" + $(o).attr('data-classid'), function (data1) {
+                    var da = eval('(' + data1 + ')');
+                    $(o).append(template("level2Temp", { list: eval(da.list) }));
+                    //详情
+                    $('.help_content').each(function (index, item) {
+                        $.get("/Txooo/SalesV2/Member/Ajax/HelperAjax.ajax/GetHelperList?helperId=" + $(item).attr('data-hid'), function (info) {
+                            var eval_info = eval(info);
+                            $(item).html(eval_info[0].helper_content);
+                        });
+                    });
+                })
+            });
+        })
+
+        //详情展示隐藏
+        function ShowDetails(me) {
+            if ($(me).next().css('display') == "none") {
+                $(me).next().css('display', 'block').siblings(".help_content").css('display', 'none');
+                $(me).find("i").html("&#xe600;");
+            } else {
+                $(me).next().css('display', 'none');
+                $(me).find("i").html("&#xe601;")
+            }
+            $('.help_content').each(function () {
+                if ($(this).css('display') == "none") {
+                    $(this).prev().find("i").html("&#xe601;");
+                }
+            })
+        }
+    </script>
+    <!--WL_TMP{tmp=/Skin/t/Pub/T_Public.html}-->
+</body>
+</html>

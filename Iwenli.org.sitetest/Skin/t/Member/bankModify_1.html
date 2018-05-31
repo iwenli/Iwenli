@@ -1,0 +1,94 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/html5/rem.js"></script>
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Public.css" />
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Member.css" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/jquery/jquery-1.7.2.min.js"></script>
+    <link rel="stylesheet" href="//cdn.txooo.com/public/jquery.validate/Css/Validate.css" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/jquery.validate/jquery.validate.js"></script>
+    <script type="text/javascript" src="//cdn.txooo.com/public/jquery.validate/validate-ex.js"></script>
+    <script src="/Skin/t/Js/Public.js"></script>
+    <title>添加银行卡</title>
+    <script type="text/javascript">
+        var _url = "";
+        $(function () {
+            //var regex = /^(998801|998802|622525|622526|435744|435745|483536|528020|526855|622156|622155|356869|531659|622157|627066|627067|627068|627069)d{10}$/;
+            _url = getUrlParam("ReturnUrl");
+            var aid = getUrlParam("r_id");
+            if (aid != "") {
+                $.get("/Txooo/SalesV2/Member/Ajax/MemberAjax.ajax/GetOneBackInfo?r_id=" + aid, function (data) {
+                    if (data != "[]") {
+                        var obj = eval("(" + data + ")");
+                        $("input[name=bank_id]").val(obj.BankId);
+                        $("input[name=card_name]").val(obj.CardName);
+                        $("input[name=card_num]").val(obj.CardNum);
+                        $("input[name=card_type]").val(obj.CardType);
+                    }
+                })
+            }
+            $("#EditForm").validate({
+                onfocusout: function (element) { $(element).valid(); }
+            });
+        })
+        function BtnBankModify() {
+            if ($("#EditForm").valid()) {
+                $.post("/Txooo/SalesV2/Member/Ajax/MemberAjax.ajax/EditSalesBank",
+                      $("#EditForm").serialize(), function (data) {
+                          var obj = eval(data);
+                          if (obj.success == "true") {
+                              if (_url != "") {
+                                  window.location.href = unescape(_url);  //从兑现那来的
+                              } else {
+                                  window.location.href = "/Member/bank.html";
+                              }
+                             
+                          } else {
+                              dialogAlart(obj.msg);
+                          }
+                      });
+            }
+        };
+
+    </script>
+</head>
+<body style="background:#f0f0f0;">
+    <!-- 头部信息begin -->
+    <header class="P_Header" id="header1">
+        <div class="P_goBack" onclick="javascript:history.go(-1)"><i>&#xe602;</i></div>
+        <div class="P_title">银行卡管理</div>
+        <!--<div class="P_Header_info" onclick="BtnBankModify()">保存</div>-->
+    </header>
+    <!-- 头部信息end -->
+    <section class="P_Pages">
+       
+            <div class="modify_bank">
+                <form id="EditForm" onsubmit="return false" method="post">
+                    <input type="hidden" value="0" name="bank_id" />
+                    <p>持卡人姓名</p>
+                    <dl class="bank_number">
+                        <dt><input class="input_text {required:true}" value="" type="text" name="card_name" /></dt>
+                    </dl>
+                    <em>为保证资金安全，请绑定您本人的银行卡</em>
+                    <p>银行名称</p>
+                    <dl class="bank_type">
+                        <dt><input class="input_text {required:true}" value="" type="text" name="card_type" /></dt>
+                    </dl>
+                    <p>请输入银行卡号</p>
+                    <dl class="bank_code">
+                        <dt><input class="input_text {required:true,number:true,rangelength:[16,19],messages:{number:'请输入正确的银行卡号',rangelength:'您输入的银行卡号有误'}}" value="" type="text" name="card_num" /></dt>
+                    </dl>
+                </form>
+                    
+        </div>
+        <div class="bottom_btn">
+            <input type="button" onclick="BtnBankModify()" name="name" value="保存" class="positive_button" />
+        </div>
+
+
+   </section>
+
+ <!--WL_TMP{tmp=/Skin/t/Pub/T_Public.html}--> </body>
+</html>

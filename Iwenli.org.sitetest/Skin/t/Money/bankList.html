@@ -1,0 +1,110 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/html5/rem.js"></script>
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Public.css" />
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Money.css" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/jquery/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="//cdn.txooo.com/public/aui.artTemplate/artTemplate.js"></script>
+    <script src="/Skin/t/Js/Public.js"></script>
+    <title>选择银行卡</title>
+    <script type="text/javascript">
+        $(function () {
+            GetSalesBankList();
+            //选择银行卡事件
+            $(".bank_list dl").live("click", function () {
+                $(this).siblings("dl").find(".input_box").removeClass("current");
+                $(this).find(".input_box").addClass("current");
+                window.location.href = "/money/cash.html?bankId=" + $(this).find("input[name=bakcid]").val();
+            })
+        })
+        //银行卡列表
+        function GetSalesBankList() {
+            $.post("/Txooo/SalesV2/Member/Ajax/MemberAjax.ajax/GetSalesBank", function (data) {
+                var obj = eval("(" + data + ")");
+                if (obj.length > 0) {
+                    var $list = { list: obj };
+                    $(".bank_list").html(template("backlist", $list));
+                    $("#isMain_1").find(".input_box").addClass("current");
+
+                    //单选按钮事件
+                    var oInputBox = $(".bank_list dl dt .input_box");
+                    var oInput = $(".bank_list dl dt .input_box input");
+                    //oInput.each(function (i, o) {
+                    //    if ($(o).attr("checked") == "checked") {
+                    //        $(o).parent(".input_box").addClass("current");
+                    //        $(o).parent(".input_box").siblings().removeClass("current");
+                    //    }
+                    //})
+
+                    oInputBox.each(function (i, o) {
+                        $(o).bind("click", function () {
+                            oInputBox.removeClass("current").find("i").html("");
+                            $(o).addClass("current").find("input").attr("checked", "checked");
+                            $(".bank_list dl dt .input_box.current").append("<i>&#xe609;</i>")
+                        })
+                    })
+
+                    var oInputCur = $(".bank_list dl dt .input_box.current");
+                    oInputCur.append("<i>&#xe609;</i>");
+
+                } else {
+                    $(".no_address").show();
+                }
+            })
+            //截取银行卡
+            template.helper("IsCard", function (a) {
+                return "**** **** ***" + a.substr(a.length - 4);
+            });
+            template.helper("IsCardName", function (a) {
+                return "*" + a.substr(1, 2);
+            });
+         
+        }
+        function btnBrand(){
+            window.location.href = " /member/BankPayPwd.html?ReturnUrl=" + encodeURIComponent("/money/bankList.html");
+        }
+           
+    </script>
+</head>
+<body style="background: #F0F0F0;">
+    <script type="text/html" id="backlist">
+        {{each list as o}}
+        <dl>
+            <dt class="radio_box" id="isMain_{{o.IsMain}}">
+                <span class="input_box"><input type="radio" checked="checked" name="bakcid" value="{{o.BankId}}"></span>
+            </dt>
+            <dd>
+                <div class="bank_logo"><span class="pic"><img src="{{o.Logo}}" /></span></div>
+                <div class="bank_info">
+                    <span class="cord_name">{{o.CardType}}</span>
+                    <em>{{IsCard(o.CardNum)}}</em>
+                </div>
+            </dd>
+        </dl>
+        {{/each}}
+    </script>
+        <script>
+
+        </script>
+    <!-- 头部信息begin -->
+    <header class="P_Header">
+        <div class="P_goBack" onclick="javascript:history.go(-1)"><i>&#xe602;</i></div>
+        <div class="P_title">选择银行卡</div>
+        <div class="P_Header_info"><a href="javascript:btnBrand()" >添加</a></div>
+    </header>
+
+    <!-- 头部信息end -->
+    <section class="P_Pages">
+        <div class="bank_list"></div>
+
+        <!--没有添加地址-->
+        <div class="no_address" style="display:none">
+            <p class="no_card">您还没有绑定银行卡</p>
+        </div>
+
+    </section>
+ <!--WL_TMP{tmp=/Skin/t/Pub/T_Public.html}--> </body>
+</html>

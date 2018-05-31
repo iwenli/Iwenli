@@ -1,0 +1,68 @@
+﻿/*html,body{ height:100%;}
+body{margin:0;outline:none; }
+div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,form,legend,input,button,textarea,p{margin:0;padding:0;outline:none;}
+input,textarea{ background:none; border:none;}
+
+article,section,header,nav,aside,hgroup,figure,figcaption,footer,dialog{margin:0;padding:0;}
+*{box-sizing:border-box; -moz-box-sizing:border-box;  -webkit-box-sizing:border-box;}
+.black{ color:#666;}
+.gray{ color:#666;}
+.gray_ccc{ color:#ccc;}*/
+
+/*我的团队*/
+body { color: #fff; padding-top: 0; background: #efefef; }
+body .c_yellow { color: #fed801; }
+
+.T_head_box { width: 100%; overflow: hidden }
+.T_head { padding: 1rem 0.5rem; background: #09D317; overflow: hidden; position: relative; }
+.T_head .head_pic { float: left; width: 2.75rem; height: 2.75rem; border-radius: 100%; }
+.T_head .head_pic img { display: block; width: 100%; height: 100%; border-radius: 50%; background: #ccc; }
+.T_head .pic_r { padding: 0 0 0 0.75rem; float: left; width: 14.625rem; overflow: hidden; }
+.T_head .pic_r p { height: 1.5rem; line-height: 1.5rem; overflow: hidden; }
+.T_head .pic_r b.tit { font-size: 0.9875rem; font-weight: normal; }
+.T_head .friend_icon { position: absolute; right: -0.5rem; top: 1.2rem; height: 1.5625rem; line-height: 1.5625rem; border: 1px solid #fccc80; border-right: none; padding: 0 0.9375rem 0 0.5rem; border-bottom-left-radius: 50px; border-top-left-radius: 50px; background: #fd6001; }
+.T_head .friend_icon.friend_icon_2 { top: 3.1rem; }
+.T_head .friend_icon em { float: left; width: 1.25rem; height: 100%; text-align: center; }
+.T_head .friend_icon em i { color: #fff; font-size: 1.2rem; }
+.T_nav { width: 100%; background: #34a735; text-align: center; line-height: 1.03125rem; overflow: hidden; display: box; display: -moz-box; display: -webkit-box; overflow: hidden; height: 3.86875rem; }
+.T_nav li { border-right: 0.0625rem solid #09D317; box-flex: 1; -webkit-box-flex: 1; -moz-box-flex: 1; padding-top: 0.625rem; height: 100%; }
+.T_nav li:nth-last-of-type(1) { border-right: none; }
+.T_nav li span { display: block; line-height: 1.03125rem; }
+.T_nav li em { display: block; color: #fed801; line-height: 1.03125rem; height: 1.03125rem; overflow: hidden; }
+.T_con { /*background:#fff;*/ }
+.T_con .div_fff { width: 100%; height: 0.5rem; background: #fff; }
+.T_con .T_con_nav_box { width: 100%; }
+.T_con .T_con_nav_box.current_top { position: fixed; top: 0; }
+.T_con .T_con_nav { width: 100%; text-align: center; }
+.T_con .T_con_nav li { padding: 0.4rem 0; border-bottom: 0.064rem solid #e1e1e1; background-color: #fff; }
+.T_con .T_con_nav li.current { border-bottom: 0.064rem solid #09D317; }
+.T_con .T_con_nav li.current div span { color: #09D317; }
+.T_con .T_con_nav li.current div em { color: #09D317; }
+.T_con .T_con_nav li.no_border div { }
+.T_con .T_con_nav li div { }
+.T_con .T_con_nav li div span { display: block; color: #666; height: 1.03125rem; line-height: 1.03125rem; color: #909090; }
+.T_con .T_con_nav li div em { display: block; color: #666; overflow: hidden; height: 1.03125rem; line-height: 1.03125rem; }
+.T_con .T_con_list_box { /*padding-top:5rem;*/ }
+.T_con .T_con_list_box .T_con_description { margin-left: 0.5rem; margin-top: 0.25rem; margin-bottom: 0.25rem; color: #333; }
+.T_con .T_con_list_box dl { background: #fff; }
+.T_con .T_con_list_box dl dt { height: 1.73375rem; line-height: 1.09375rem; padding: 0.64rem 0.64rem 0; color: #666; border-bottom: 0.0625rem solid #c2c2c2; font-size: 1.1rem; }
+.T_con .T_con_list_box dl dd { width: 100%; padding: 0.625rem; overflow: hidden; padding-right: 0; }
+.T_con .T_con_list_box dl dd .pic { width: 3.125rem; margin-right: 0.64rem; }
+.T_con .T_con_list_box dl dd .pic img { margin: 0 0 0 0.75rem; display: block; width: 2.03125rem; height: 2.03125rem; border-radius: 100%; background: pink; }
+.T_con .T_con_list_box dl dd .name_level { border-bottom: 0.0625rem solid #efefef; padding-bottom: 0.625rem; width: 15rem; }
+.T_con .T_con_list_box dl dd .name_level .name { color: #242424; font-size: 1rem; }
+.T_con .T_con_list_box dl dd .name_level .level { color: #b4b4b4; font-size: 0.75rem; width: 5.75rem; }
+.Index { width: 2.71875rem; height: auto; position: fixed; right: 0; top: 14rem; bottom: 3.4rem; text-align: center; font-size: 1.1rem; overflow-y: auto; }
+.Index ul li { height: 1.5rem; line-height: 1.5rem; color: #9b9b9b; }
+.more { display: block; text-align: center; height: 1.25rem; line-height: 1.25rem; }
+
+.no_list { color: #666; text-align: center; margin-top: 2rem; display: block; line-height: 1.5rem; font-size: 0.625rem; color: #9b9b9b; font-size: 0.75rem; }
+.no_list a { color: #09D317; text-decoration: underline; }
+
+.navXQT { background: #fff; /*border-bottom:0.625rem solid #efefef;*/ padding: 0.9375rem 0 0.46875rem; width: 100%; }
+.navXQT li { text-align: center; }
+.navXQT li a { display: block; width: 100%; height: 100%; }
+.navXQT li span { display: block; width: 2.5625rem; height: 1.96875rem; margin: 0 auto; background-repeat: no-repeat; background-size: 100% 100%; background-position: center top; background-image: url("/Skin/t/Img/Member/navXQT_1.png"); }
+.navXQT li:nth-of-type(2) span { background-image: url("/Skin/t/Img/Member/navXQT_2.png"); }
+.navXQT li:nth-of-type(3) span { background-image: url("/Skin/t/Img/Member/navXQT_3.png"); }
+.navXQT li em { display: block; height: 1.40625rem; line-height: 1.40625rem; color: #242424; }

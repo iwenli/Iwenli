@@ -1,0 +1,148 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/html5/rem.js"></script>
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Public.css" />
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Rank.css" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/jquery/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="//cdn.txooo.com/public/aui.artTemplate/artTemplate.js"></script>
+    <script src="/Skin/t/Js/Public.js"></script>
+    <script src="/Skin/t/Js/Template.js"></script>
+    <title>我的近一月排行榜</title>
+</head>
+<body style="background: #f0f0f0;">
+    <script type="text/html" id="MoneyListTemp">
+        {{each list as l}}
+        <div class="rank_list_li li_{{l.month_assets_rank}}" data-id="{{l.user_id}}">
+            <div class="pic">
+                <em></em><img src="{{l.head_pic | headPic}}" /><span><strong>{{l.month_assets_rank}}</strong><b></b></span>
+            </div>
+            <div class="info">
+                <div class="name"><span class="no_color">近一月赚到{{l.month_assets | toFloat}}元</span><span class="myname" id="scrTo{{l.user_id}}" style="float: left; " data-uid="{{l.user_id}}">{{l.nick_name}}</span></div>
+                <ul>
+                    <li><span>近一月佣金</span><span>{{l.month_brokerage | toFloat}}元</span></li>
+                    <li><span>近一月创业金</span><span>{{l.month_bonus | toFloat}}元</span></li>
+                    <li><span>近一月V币</span><span>{{l.month_points | toFloat}}个</span></li>
+                </ul>
+            </div>
+            <div class="right_i"><a href="/homepage/index.html?uid={{l.user_id}}"><i>&#xe603;</i></a></div>
+        </div>
+        {{/each}}
+    </script>
+
+    <script type="text/html" id="BonusListTemp">
+        {{each list as l}}
+        <div class="rank_list_li li_{{l.month_bonus_rank}}" data-id="{{l.user_id}}">
+            <div class="pic">
+                <em></em><img src="{{l.head_pic | headPic}}" /><span><strong>{{l.month_bonus_rank}}</strong><b></b></span>
+            </div>
+            <div class="info">
+                <div class="name"><span class="no_color">近一月创业金{{l.month_bonus | toFloat}}元</span><span class="myname" id="scrTo{{l.user_id}}" style="float: left; " data-uid="{{l.user_id}}">{{l.NickName}}</span></div>
+                <ul>
+                    <li><span>近一月赚到</span><span>{{l.month_assets | toFloat}}元</span></li>
+                    <li><span>近一月佣金</span><span>{{l.month_brokerage | toFloat}}元</span></li>
+                    <li><span>近一月V币</span><span>{{l.month_points | toFloat}}个</span></li>
+                </ul>
+            </div>
+            <div class="right_i"><a href="/homepage/index.html?uid={{l.user_id}}"><i>&#xe603;</i></a></div>
+        </div>
+        {{/each}}
+    </script>
+
+    <script type="text/html" id="BrokerageListTemp">
+        {{each list as l}}
+        <div class="rank_list_li li_{{l.month_brokerage_rank}}" data-id="{{l.user_id}}">
+            <div class="pic">
+                <em></em><img src="{{l.head_pic | headPic}}" /><span><strong>{{l.month_brokerage_rank}}</strong><b></b></span>
+            </div>
+            <div class="info">
+                <div class="name"><span class="no_color">近一月佣金{{l.month_brokerage | toFloat}}元</span><span class="myname" id="scrTo{{l.user_id}}" style="float: left; " data-uid="{{l.user_id}}">{{l.nick_name}}</span></div>
+                <ul>
+                    <li><span>近一月赚到</span><span>{{l.month_assets | toFloat}}元</span></li>
+                    <li><span>近一月创业金</span><span>{{l.month_bonus | toFloat}}元</span></li>
+                    <li><span>近一月V币</span><span>{{l.month_points | toFloat}}个</span></li>
+                </ul>
+            </div>
+            <div class="right_i"><a href="/homepage/index.html?uid={{l.user_id}}"><i>&#xe603;</i></a></div>
+        </div>
+        {{/each}}
+    </script>
+
+    <script type="text/html" id="PointListTemp">
+        {{each list as l}}
+        <div class="rank_list_li li_{{l.month_points_rank}}" data-id="{{l.user_id}}">
+            <div class="pic">
+                <em></em><img src="{{l.head_pic | headPic}}" /><span><strong>{{l.month_points_rank}}</strong><b></b></span>
+            </div>
+            <div class="info">
+                <div class="name"><span class="no_color">近一月V币{{l.month_points | toFloat}}个</span><span class="myname" id="scrTo{{l.user_id}}" style="float: left; " data-uid="{{l.user_id}}">{{l.nick_name}}</span></div>
+                <ul>
+                    <li><span>近一月赚到</span><span>{{l.month_assets | toFloat}}元</span></li>
+                    <li><span>近一月佣金</span><span>{{l.month_brokerage | toFloat}}元</span></li>
+                    <li><span>近一月创业金</span><span>{{l.month_bonus | toFloat}}元</span></li>
+                </ul>
+            </div>
+            <div class="right_i"><a href="/homepage/index.html?uid={{l.user_id}}"><i>&#xe603;</i></a></div>
+        </div>
+        {{/each}}
+    </script>
+    <!-- 头部信息begin -->
+    <!--WL_TMP{tmp=/Skin/t/Pub/Rank_Head.html}-->
+    <!-- 头部信息end -->
+    <section class="Ranking_list"></section>
+    <script>
+        var userId = getUrlParam('UserId');
+        var type = getUrlParam('type');
+        var rankClass = '';
+        var title = '';
+        var tempList = '';
+        if (type == 1) {//买客
+            title = '近一月赚钱排行榜';
+            rankClass = "month_assets_rank";
+            tempList = "MoneyListTemp";
+        }
+        if (type == 2) {//创业金
+            title = '近一月创业金排行榜';
+            rankClass = "month_bonus_rank";
+            tempList = "BonusListTemp";
+        }
+        if (type == 3) {//佣金
+            title = '近一月佣金排行榜';
+            rankClass = "month_brokerage_rank";
+            tempList = "BrokerageListTemp";
+        }
+        if (type == 4) {//V币
+            title = '近一月V币排行榜';
+            rankClass = "month_points_rank";
+            tempList = "PointListTemp";
+        }
+        $('.P_title').text(title);
+        $("title").html(title);
+
+
+
+
+        $.get("/Txooo/SalesV2/Rank/Ajax/RankAjax.ajax/Get20ListBeforeAndAfterMine?rankClass=" + rankClass, function (data) {
+            var obj = eval(data);
+            if (obj.success != "false") {
+                var list = { list: obj };
+                $(".Ranking_list").html(template(tempList, list));
+                var myNameObjs = $('.myname');
+                for (var i = 0; i < myNameObjs.length; i++) {
+                    if ($(myNameObjs[i]).attr('data-uid') == userId) {
+                        $(myNameObjs[i]).parents('.rank_list_li').addClass('My_rank_list_li')
+                        $(myNameObjs[i]).text('我');
+                        $(myNameObjs[i]).parent('div').parent('div').siblings('div[class=right_i]').children('a').attr('href', "/Money/Index.html");
+                    }
+                }
+                var offset = $('#scrTo' + userId).offset();
+                var yPops = offset.top - 400;
+                var xPops = offset.left;
+                window.scrollTo(xPops, yPops);
+            }
+        });
+    </script>
+ <!--WL_TMP{tmp=/Skin/t/Pub/T_Public.html}--> </body>
+</html>

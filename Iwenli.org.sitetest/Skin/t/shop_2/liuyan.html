@@ -1,0 +1,86 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>咨询留言</title>
+    <!--WL_TMP{tmp=/Skin/t/Pub/app_publiccss.html}-->
+    <link href="/Skin/t/Css/sui/index.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="page-group">
+        <div id="page-shop-liuyan" class="page">
+            <header class="bar bar-nav bar_ff8201">
+                <a class="icon icon-left pull-left back"></a>
+                <h1 class="title">咨询留言</h1>
+            </header>
+            <div class="content">
+                <div class="list-block" style="margin:0;">
+                    <form id="liuyan_form">
+                        <input type="hidden" class="mch_id" name="mch_id" value="{$U_QUERY_MCHID}" />
+                        <ul>
+                            <li>
+                                <div class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-title label">姓名</div>
+                                        <div class="item-input">
+                                            <input type="text" name="ly_name" data-msg="姓名" placeholder="你的真实姓名">
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <div class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-title label">手机号码</div>
+                                        <div class="item-input">
+                                            <input type="email" name="ly_phone" data-msg="手机号码" placeholder="你的手机号码">
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="align-top">
+                                <div class="item-content">
+                                    <div class="item-inner">
+                                        <div class="item-title label">留言</div>
+                                        <div class="item-input">
+                                            <textarea name="ly_content" data-msg="留言" placeholder="请填写您要咨询了解的信息，留言信息提交后，请保持手机畅通，我们会尽快与您取得联系。"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </form>
+                </div>
+                <div class="content-block">
+                    <a class="button button-big button-sales submit_liuyan">提交留言</a>
+                </div>
+            </div>
+        </div>
+        <div id="page-shop-liuyansuccess" class="page" style="background:#fff;">
+            <header class="bar bar-nav bar_ff8201">
+                <a class="icon icon-left pull-left back"></a>
+                <h1 class="title">留言成功</h1>
+            </header>
+            <div class="content">
+                <input type="hidden" class="mch_id" name="mch_id" value="{$U_QUERY_MCHID}" />
+                <div class="list-block ly_block">
+                    <h2><i>&#xe625;</i>恭喜你，留言成功！</h2>
+                    <p>请保持手机畅通，确保企业与您取得联系！</p>
+                    <p>若想了解更多买客好项目，请下载并注册【买客】手机APP</p>
+                    <p>为成就您的梦想，我们一直在努力</p>
+                    <div class="content-block">
+                        <div class="row">
+                            <div class="col-25">&nbsp;</div>
+                            <div class="col-50"><a class="back button button-big button-sales gobackstore">返回品牌展示</a></div>
+                            <div class="col-25">&nbsp;</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--WL_TMP{tmp=/Skin/t/Pub/app_publicjs.html}-->
+    <script src="/Skin/t/Js/sui/index.js?v=1"></script>
+</body>
+</html>

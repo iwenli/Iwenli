@@ -1,0 +1,422 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/html5/rem.js"></script>
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Public.css" />
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Buy.css" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/jquery/jquery-1.7.2.min.js"></script>
+    <script src="/Skin/t/Js/Public.js?v=022501"></script>
+    <script type="text/javascript" src="//cdn.txooo.com/public/aui.artTemplate/artTemplate.js"></script>
+    <script src="/Skin/t/Js/Public.js"></script>
+    <title>二维码订单</title>
+    <style>
+        .ismain_0 {
+            display: none;
+        }
+    </style>
+    <script type="text/javascript">
+        $(function(){
+            $(".submit_btn").click(function(){
+                $(".shade_box").hide();
+                HandOrder();
+
+            })
+            $(".close").click(function(){
+                $(".shade_box").hide();
+            })
+        })
+    </script>
+    <script>
+        window.txservice.init();
+        $(function(){
+            var info= $("#userinfovalue").val();
+            if (info==1) {
+                $("#PhoneAndcode").css('display', 'block');
+            }
+        });
+        //获取效验码
+        function GetCode(me){
+            if($.trim($('#mobile').val())=="")
+            {
+                dialogAlart("手机号不能为空");return;
+            }
+            var $self = $(me); $self.attr('disabled', true);
+            $.get('/Txooo/SalesV2/Passport/Ajax/SalesAjax.ajax/SendMobile', { "mobile": $("#mobile").val() }, function (data) {
+                if (data) {
+                    var obj = eval(data);
+                    dialogAlart(obj.msg);
+                    btnInterval($self);
+                }
+            });
+        }
+        //验证手机号验证码
+        function mobileCode(){  
+            var mobile=$("#mobile").val();
+            var mobilecode=$("#mobilecode").val();
+            if (mobile=="" ||mobilecode=="") {
+                return;
+            }
+            var a="";
+            $.ajax({
+                type: "post", async:false,
+                url: "/Txooo/SalesV2/Passport/Ajax/SalesAjax.ajax/CheckMobileCode?mobilecode=" + $("#mobilecode").val(),
+                success: function (data) {  a=data; }})
+            return a;
+        }
+        //下单
+
+        function HandOrder(){
+            //dialogAlart(obj.msg);
+            var proId = getUrlParam("id");//商品id
+            var postageVal =0// getUrlParam("postageVal");//邮费标识
+            var proCount =$("#pro_count").val();//购买数量
+            var proPropertyId = getUrlParam("P");
+            var addressId = 0;//0getUrlParam("addressid");
+            $.post("/Txooo/SalesV2/Shop/Ajax/ShopAjax.ajax/HandOrder", { proId: proId, proCount: proCount, addressId: addressId, postageVal: postageVal,propertyId:proPropertyId }, function (data) {
+                var result = eval(data);
+                if (result.success == "true") {
+                    // dialogAlart(result.msg);
+                    //if(userAgent.indexOf("txooo.app") > -1)
+                    if (window.txservice.success())
+                    {
+                        //window.plus.txservice.topay([result.msg]);
+                        window.txservice.call('toPay',{orderId:result.msg}); 
+                    }
+                    else
+                    {
+                        window.location.href="//pay.93390.cn/wx/SalesOrderPay.html?OR=ORCode&order="+result.msg+"&proId="+proId+"&proPropertyId="+proPropertyId;
+                    }
+                } else {
+                    dialogAlart("提交订单失败，请稍后再试！");
+                }
+            })
+        }
+        //新用户绑定
+        function NewUserBind() {
+            var ds={mobilecode:$("#mobilecode").val(), Password:'00000000',sharecode:$("#sharecode").val(), source:'2', source_channel:'3'};
+            $.ajax({
+                type: "post",
+                url: "/Txooo/SalesV2/Passport/Ajax/SalesAjax.ajax/BindV2", data: ds,
+                success: function (data) {
+                    var obj=eval(data);
+                    if (obj.success!="true") {
+                        dialogAlart(obj.msg);
+                    }
+                    else {
+                        if(proInfo.Refund==0){//不支持退货功能 提示
+                            $(".shade_box").show();
+                        }else{
+                            HandOrder();
+                        }
+                    }
+                }})
+        }
+        //立即购买
+        function handOrder() {
+            if ($("#userinfovalue").val()==0) {
+                if(proInfo.Refund==0){//不支持退货功能 提示
+                    $(".shade_box").show();
+                }else{
+                    $("#GouMai").attr("disabled","disabled");
+                    HandOrder();
+                }
+            }
+            else {
+                var bl=  mobileCode();
+                if (bl!="true") { dialogAlart("验证失败"); }
+                else {
+                    $("#GouMai").attr("disabled","disabled");
+                    NewUserBind();
+                }
+            }
+        }
+    </script>
+
+</head>
+<body>
+    <!--模板-->
+    <script id="infoTemp" type="text/html">
+        <ul class="{{info.RecomClass}}">
+            <li class="pic"><img src="{{info.ProImg}}" /></li>
+            <li class="name">{{info.ProductName}} <!--<span class="count">X{{info.Count}}</span>--></li>
+            <li class="price"><em id="proPrice"></em>元/件</li>
+            <!--<li class="more"><i>&#xe603;</i></li>-->
+        </ul>
+    </script>
+    <script type="text/html" id="postageTemp">
+        {{each list as info}}
+        <div class="radio_box">
+            <input type="radio" name="postage" value="{{info.id}}" id="radio_{{info.id}}" />
+            <label for="radio_{{info.id}}">{{info.express}}</label>
+        </div>
+        {{/each}}
+    </script>
+
+    <header class="P_Header">
+        <!--<div class="P_goBack" onclick="javascript: window.location.href = '/shop.html?id=' + getUrlParam('id')"><i>&#xe602;</i></div>-->
+        <div class="P_title">买客</div>
+    </header>
+    <section class="order_box">
+        <!--收货地址-->
+        <section id="address" class="order_address" style="display:none;"></section>
+
+        <!--地址选择-->
+        <div id="selectAddr"></div>
+
+        <!--商品信息-->
+        <div id="infoPro" class="order_info"></div>
+        <!--商品规格信息-->
+        <div id="proPropertyInfo"></div>
+        <div class="order_gui">
+            <ul>
+                <li class="number">
+                    <div class="num_box">
+                        <a onclick="add()" class="num_up">+</a>
+                        <input type="text" name="count" value="1" id="pro_count" />
+                        <a class="num_down" onclick="sub()">-</a>
+                    </div>
+                    <span>购买数量：</span>
+                </li>
+                <li class="money">总计金额：<span class="proMoney c_orange">0.0元</span></li>
+                <div class="clear"></div>
+            </ul>
+        </div>
+        <!--<div class="userPhone"></div>-->
+        <!--支付方式-->
+        <ul class="buy_head">
+            <li>支付方式</li>
+            <img src="/Skin/t/Img/Order/wei.jpg" />
+            <li class="wz" style="color:#a5a5a5">微信支付</li>
+            <div class="clear"></div>
+        </ul>
+        <!--验证码-->
+        <div id="PhoneAndcode" style="display:none">
+            <ul>
+                <li>请填写接收扶持劵的手机号码</li>
+                <input type="hidden" id="sharecode" value="{$DomainShareCode}" />
+                <input type="hidden" id="userinfovalue" value="{$UserInfoValue}" />
+                <input id="mobile" type="text"/>
+                <input id="code" type="button" value="获取验证码" onclick="GetCode(this)" />
+                <li>请输入正确的验证码</li>
+                <input id="mobilecode" type="text" />
+            </ul>
+        </div>
+    
+
+
+        <!--配送方式-->
+        <div id="express" class="order_express" style="display:none;">
+            <h2>配送方式：</h2>
+            <div class="postage"></div>
+        </div>
+        <!--金额显示-->
+        <!--<div id="money" class="order_money">-->
+        <!--<div>商品金额<span class="proMoney">0.0元</span></div>-->
+        <!--<div>运费<span class="postageMoney">0.0元</span></div>-->
+        <!--</div>-->
+        <!--实付-->
+        <div class="totalMoney_bottom"></div>
+        <div id="totalMoney" class="order_totalmoney">
+            <a id="GouMai" href="JavaScript:void(0);" onclick="handOrder()">立即购买</a>
+        </div>
+
+        <div class="shade_box" style="display:none;">
+            <div class="shade"></div>
+            <div class="tc_con tuihuo">
+                <div class="close"><i>&#xe649;</i></div>
+                <div class="word">
+                    <img src="/Skin/t/Img/Order/tuihuo.png" />
+                    <p>不可退换货</p>
+                    <div class="promote">
+                        您购买的商品属于不可退换货类别！
+                    </div>
+                    <a href="javascript:void(0)" class="submit_btn">好的，确认提交</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+
+        var proId = getUrlParam("id");//商品id
+        var postageVal = getUrlParam("postageVal");//邮费标识
+        var proCount = 1;//getUrlParam("count");//购买数量
+
+        var addressId = getUrlParam("addressid");
+        if (addressId == "") {
+            addressId = 0;
+        }
+
+        //获取默认地址
+        function getDefaultAddr() {
+            $.get("/Txooo/SalesV2/Shop/Ajax/ShopAjax.ajax/GetAddress?addressId=" + addressId, function (data) {
+                $("#address").show();
+                if (data != "") {
+                    var addr = eval("(" + data + ")");
+                    var addrHtml = "<ul>";
+                    addrHtml += "<li class='name'><i>&#xe629;</i>" + addr.TakeName + "</li>";
+                    addrHtml += "<li class='name'><i>&#xe628;</i>" + addr.Phone + "</li>";
+                    addrHtml += "<li class='address'><em class='ismain_" + Number(addr.IsMain) + "'>默认</em>" + addr.Area + addr.Address + "</li><li class='more'><i>&#xe603;</i></li>";
+                    addrHtml += "</ul>";
+                    $("#address").html(addrHtml);
+                    addressId = addr.AddressId;
+                } else {
+                    $("#address").html("<div class='no_address'><i>&#xe645;</i><p>您还没有添加收货地址</p></div>");
+                }
+            })
+        }
+
+
+
+        var proInfo = {};//商品信息
+
+        var totalMoney = 0.0;//商品总价格
+        var totalPostage = 0.0;//总邮费
+        var proPropertyId = getUrlParam("proProperty");
+
+        var proPropertyInfo = eval({$ProPropertyInfo})[0];
+
+        $("#proPrice").html(proPropertyInfo.price);
+        $("#pro_count").val(proCount);
+        $("#selProperty").html(proPropertyInfo.json_info);
+
+        //商品详细信息
+        $.get("/Txooo/SalesV2/Shop/Ajax/ShopOpenAjax.ajax/GetProductInfoById?id=" + proId, function (data) {
+            if (data != '') {
+                proInfo = eval("(" + data + ")");
+                //var imgs = proInfo.ProductImgs.split(",");
+                proInfo.ProImg = proPropertyInfo.img;
+                proInfo.Count = proCount;
+
+                //$("#propertyName").html(proInfo.PropertyName);
+                $("#infoPro").html(template("infoTemp", { info: proInfo }));
+
+                $("#proPrice").html(proPropertyInfo.price);
+
+                if(proInfo.IsVirtual==0){
+                    $("#express").show();
+                    if (proInfo.ProductIspostage) {
+                        var postageInfo = eval(proInfo.ProductPostage);
+                        $("#express .postage").html(template("postageTemp", { list: postageInfo }));
+                        $("#express .postage input[name=postage][value=" + postageVal + "]").attr("checked", true).parent().addClass('chosen');
+
+                    } else {
+                        $("#express .postage").html("免运费<span style='float:right;' class='c_orange'>0 元</span>");
+                    }
+                    getDefaultAddr();
+                    $(".userPhone").hide();
+                }
+            } else {
+                dialogAlart("该商品不存在，去看看其他商品！");
+                window.location.href = "/index.html";
+                return;
+            }
+            setMoney(postageVal);
+        })
+
+        //设置金额
+        function setMoney(postageValue) {
+
+            totalMoney = parseFloat((proCount * proPropertyInfo.price).toFixed(2));
+            $(".proMoney").html(totalMoney + ' 元');
+
+            if (proInfo.ProductIspostage && proInfo.IsVirtual==0) {//虚拟商品 不需要邮费
+                var jsonPostage = eval(proInfo.ProductPostage);
+                $.each(jsonPostage, function (i, v) {
+                    if (v.id == postageValue) {
+                        totalPostage = parseFloat(v.price) + parseFloat((v.addone * proCount).toFixed(2));
+                    }
+                })
+            }
+            $(".postageMoney").html( totalPostage + ' 元 ');
+            $("#totalMoney .total_money").html((totalMoney + totalPostage) + ' 元 ');
+        }
+
+        //数量-
+        function sub() {
+            if (proCount == 1) {
+                return;
+            }
+            proCount--;
+            $("#pro_count").val(proCount);
+
+            setMoney(postageVal);
+        }
+
+        //数量+
+        function add() {
+            if (proCount >= proPropertyInfo.remain_inventory) {
+                return;
+            }
+            proCount++;
+            $("#pro_count").val(proCount);
+
+            setMoney(postageVal);
+        }
+
+        //输入数量
+        $("#pro_count").live("blur", function () {
+            var reg = /^\d+$/;
+            var inputCount = $("#pro_count").val();
+            if ($.trim(inputCount) == "" || !reg.test(inputCount) || inputCount <= 0) {
+                $("#pro_count").val(proCount);
+                return;
+            } else if (parseInt(inputCount) > proPropertyInfo.remain_inventory) {
+                $("#pro_count").val(proCount);
+                return;
+            }
+            proCount = inputCount;
+
+            setMoney(postageVal);
+        })
+
+        var userAgent =window.navigator.userAgent.toLowerCase();
+        function postOrder() {
+            $.post("/Txooo/SalesV2/Shop/Ajax/ShopAjax.ajax/HandOrder", { proId: proId, proCount: proCount, addressId: addressId, postageVal: postageVal,propertyId:proPropertyId }, function (data) {
+                var result = eval(data);
+                if (result.success == "true") {
+                    if (window.txservice.success())
+                    {
+                        //window.plus.txservice.topay([result.msg]);
+                        window.txservice.call('toPay',{orderId:result.msg}); 
+                    }
+                    else
+                    {
+                        window.location.href = "pay.html?orderid=" + result.msg;
+                    }
+                } else {
+                    dialogAlart("提交订单失败，请稍后再试！");
+                }
+            })
+        }
+        //选择其他收货地址
+        $("#address").click(function () {
+            var cookieVal = proId + "|" + proCount + "|" + postageVal + "|" + addressId+"|"+proPropertyId;
+            cookie("Cookie_SalesProInfo", encodeURIComponent(cookieVal), { path: "/" });
+
+            if (addressId == 0) {
+                window.location.href = "/member/addressModify.html?url_flag=1";
+            } else { window.location.href = "address.html"; }
+        })
+
+        GetUserInfo(setTemplate);
+        //要执行的函数
+        function setTemplate(userInfo) {
+            //if(proInfo.IsVirtual==1){//虚拟商品 需要显示当前用户手机号
+            $(".userPhone").html("手机号码："+userInfo.show_phone);
+            //}
+        }
+
+        //给单选框加单击事件 //更换配送方式
+        $(document).delegate(".radio_box", "click", function () {
+            $(this).addClass('chosen').find('input[type=radio]').attr('checked', true);
+            $(this).siblings().removeClass('chosen').find('input[type=radio]').attr('checked', false);
+            postageVal = $(this).find('input[type=radio]').val();
+            setMoney(postageVal);
+        });
+    </script>
+    <!--WL_TMP{tmp=/Skin/t/Pub/T_Public.html}-->
+</body>
+</html>

@@ -1,0 +1,135 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <!--WL_TMP{tmp=/Skin/t/Pub/app_publiccss.html}-->
+    <link href="/Skin/t/Css/sui/index.css?v=4.1" rel="stylesheet" />
+</head>
+<body>
+    <div class="page-group">
+        <!--首页模块分类商品展示新版页面-->
+        <div id="page-market-index" class="page">
+            <header class="bar bar-nav search-title">
+                <div class="row">
+                    <a class="icon icon-left pull-left back"></a>
+                    <h1 class="title j-title"></h1>
+                    <a href="#" title="更多" class="more"><i>&#xe69b;</i></a>
+                </div>
+                <div class="buttons-tab">
+                    <a href="#" data-type="0" class="button all btn-active select">综合</a>
+                    <a href="#" data-type="1" class="button btn-active">销量</a>
+                    <a href="#" data-type="2" class="button btn-active">牛币</a>
+                    <a href="#" class="button j-btn-filter">筛选<i style="display: inline;">&#xe686;</i></a>
+                </div>
+                <div class="list-block btn-select">
+                    <ul>
+                        <li>
+                            <a href="#" class="item-content">
+                                <div data-type="-1" class="item-inner btn-active select">
+                                    <div class="item-title">综合</div>
+                                    <span class="icon icon-check"></span>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="item-content">
+                                <div data-type="-2" class="item-inner btn-active">
+                                    <div class="item-title">上新</div>
+                                    <span class="icon icon-check"></span>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="item-content">
+                                <div data-type="-3" class="item-inner btn-active">
+                                    <div class="item-title">价格升序</div>
+                                    <span class="icon icon-check"></span>
+                                </div>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="item-content">
+                                <div data-type="-4" class="item-inner btn-active">
+                                    <div class="item-title">价格降序</div>
+                                    <span class="icon icon-check"></span>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </header>
+            <div class="content infinite-scroll infinite-scroll-bottom">
+                <div class="mark"></div>
+                <div class="j-search-con">
+                    <div class="tabs">
+                        <div id="s-content1" class="tab active">
+                            <div class="tempalte-content module-tempalte products-con">
+                            </div>
+                            <!-- 加载提示符 -->
+                            <div class="infinite-scroll-preloader">
+                                <div class="preloader">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-warp">
+                <div class="panel-mark"></div>
+                <div class="panel panel-right panel-reveal">
+                    <ul>
+                        <li>
+                            <div class="item">
+                                <p>价格区间(元)</p>
+                                <div class="item-warp price">
+                                    <div class="input-warp">
+                                        <input type="text" class="j-val-min" placeholder="最低价" onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
+                                               onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'0')}else{this.value=this.value.replace(/\D/g,'')}">
+                                    </div>
+                                    <span class="spacing">-</span>
+                                    <div class="input-warp">
+                                        <input type="text" class="j-val-max" placeholder="最高价" onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
+                                               onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'0')}else{this.value=this.value.replace(/\D/g,'')}">
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <!--<li>
+                            <div class="class">
+                                <span>分类</span>
+                                <span class="icon icon-right"></span>
+                                <span data-id="0" class="input j-val-class"></span>
+                            </div>
+                        </li>-->
+                        <li>
+                            <div class="item">
+                                <p>关键词</p>
+                                <div class="item-warp search">
+                                    <div class="input-warp">
+                                        <input type="text" class="j-val-key" placeholder="搜索关键词">
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                    <nav class="bar bar-tab">
+                        <a class="tab-item j-btn-reset" href="#">
+                            <span class="tab-label">重置</span>
+                        </a>
+                        <a class="tab-item active  j-btn-ok" href="#">
+                            <span class="tab-label">确定</span>
+                        </a>
+                    </nav>
+                </div>
+            </div>
+        </div>
+        <!--WL_TMP{tmp=/Skin/t/index/temp/more.html}-->
+        <!--WL_TMP{tmp=/Skin/t/index/temp/index_template.html}-->
+        <!--WL_TMP{tmp=/Skin/t/index/temp/new_product_template.html}-->
+    </div>
+    <!--WL_TMP{tmp=/Skin/t/Pub/app_publicjs.html}-->
+    <script src="/Skin/t/Js/sui/index.js?v=4"></script>
+
+</body>
+</html>

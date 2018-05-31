@@ -1,0 +1,75 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>活动收益</title>
+    <!--WL_TMP{tmp=/Skin/t/Pub/app_publiccss.html}-->
+    <link rel="stylesheet" href="//g.alicdn.com/msui/sm/0.6.2/css/sm-extend.min.css">
+    <link href="/Skin/t/Css/sui/index2.css?v=1" rel="stylesheet" />
+</head>
+<body>
+    <div class="page-group">
+        <!--奖励收益-->
+        <div id="page-activity-summary" class="page">
+            <header class="bar bar-nav bar_tran bar_09D317">
+                <a class="icon icon-left pull-left back"></a>
+                <h1 class="title">活动收益</h1>
+            </header>
+            <div class="content infinite-scroll">
+                <div class="m-main">
+                    <div class="main_one">
+                        <div class="e_money_box">
+                            奖励累计获得：
+                            <span class="e_money_total">0.00</span><span>元</span>
+                        </div>
+                        <p>含预计奖励资金<span class="e_money_preparatory">0.00</span>元，待团队成员确认收货7天后预计奖励自动转入到账户资产</p>
+                        <a class="btn_buy_again dis-n" href="../shop.html?id={$U_QUERY_ID}">若想继续参加此活动，请再次购买本商品GO→</a>
+                    </div>
+                    <div class="main_two">
+                        <div>
+                            我推荐购买的团队成员(<span class="j_userCount">0人</span>)
+                        </div>
+                        <ul class="j_userList"></ul>
+                        <div class="btn_all_user dis-n">
+                            查看全部团队成员
+                        </div>
+                    </div>
+                    <div class="main_three">
+                        <div>
+                            我的活动奖励记录
+                        </div>
+                        <ul class="j_msgList"></ul>
+                    </div>
+                </div>
+                <!-- 加载提示符 -->
+                <div class="infinite-scroll-preloader">
+                    <div class="preloader">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--用户头像列表-->
+        <script type="text/html" id="t_user_list">
+            {{each list}}
+            <li data-id="{{$value.Id}}">
+                <img class="user" src="{{$value.HeadPic | headPic}}" alt="{{$value.NickName}}" />
+                <span>{{$value.NickName}}</span>
+            </li>
+            {{/each}}
+        </script>
+        <!--日志列表-->
+        <script type="text/html" id="t_msg_list">
+            {{each list}}
+            <li data-id="{{$value.MsgId}}">
+                <a href="#">
+                    <div>{{$value.AddTime | dateFormat:'yyyy-MM-dd hh:mm'}}</div>
+                    <p class="msg">{{$value.MsgContent}}</p>
+                </a>
+            </li>
+            {{/each}}
+        </script>
+    </div> 
+    <!--WL_TMP{tmp=/Skin/t/Pub/app_publicjs.html}-->
+    <script src="/Skin/t/Js/sui/index2.js?v=1"></script>
+</body>
+</html>

@@ -1,0 +1,21 @@
+﻿<ul class="outletList_tb con_td" onclick="OpenDetails({$store_id})">
+    <li class="out_name">{$store_name}</li>
+    <li>{$area1_name}{$area2_name}</li>
+    <li>{$phone}</li>
+    <li class="out_x" style="display:none">{$bmapX}</li>
+    <li class="out_y" style="display:none">{$bmapY}</li>
+</ul>
+<div style="display:none" id="d_{$store_id}" data-json='{$link_json}' class="jsonDetails">
+    <ul class="store_list">
+        <li><h1>网点名称：</h1>{$store_name}</li>
+        <li><h1>所在地区：</h1>{$area1_name}{$area2_name}</li>
+        <li><h1>网点经理：</h1><span id="storeLinkman"></span></li>
+        <li><h1>联系电话：</h1><span id="storeLintel"></span></li>
+        <li><h1>查询电话：</h1>{$phone}</li>
+        <li><h1>公司地址：</h1>{$address}</li>
+        <li><h1>配送范围：</h1>{$summary}</li>
+    </ul>
+    <div class="store_list_img">
+        <img src="{$f_img}" alt="网点宣传图" />
+    </div>
+</div>

@@ -1,0 +1,86 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <!--WL_TMP{tmp=/Skin/t/Pub/app_publiccss.html}-->
+    <link href="/Skin/t/Css/sui/index.css?v=4.1" rel="stylesheet" />
+</head>
+<body>
+    <div class="page-group">
+        <!--首页模块分类商品展示新版页面-->
+        <div id="page-market-index" class="page">
+            <header class="bar bar-nav bar_09D317" style="padding-right:0;">
+                <div class="row">
+                    <a class="icon icon-left pull-left back"></a>
+                    <h1 class="title j-title"></h1>
+                </div>
+                <div class="buttons-tab">
+                    <a href="#m-content1" data-type="1" class="tab-link button active">综合排序</a>
+                    <a href="#m-content2" data-type="2" class="tab-link button">销量优先</a>
+                    <a href="#m-content3" data-type="3" class="tab-link button">新品优先</a>
+                    <a data-type="4" class="tab-link1 button price desc">价格<em></em></a>
+                </div>
+            </header>
+            <div class="content appContent">
+                <div class="tabs">
+                    <div id="m-content1" data-pageIndex="1" class="tab infinite-scroll active">
+                        <div class="module-tempalte">
+                            <div class="products-con"><ul></ul></div>
+                            <!-- 加载提示符 -->
+                            <div class="infinite-scroll-preloader">
+                                <div class="preloader">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="m-content2" data-pageIndex="1" class="tab infinite-scroll">
+                        <div class="module-tempalte">
+                            <div class="products-con"><ul></ul></div>
+                            <!-- 加载提示符 -->
+                            <div class="infinite-scroll-preloader">
+                                <div class="preloader">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="m-content3" data-pageIndex="1" class="tab infinite-scroll">
+                        <div class="module-tempalte">
+                            <div class="products-con"><ul></ul></div>
+                            <!-- 加载提示符 -->
+                            <div class="infinite-scroll-preloader">
+                                <div class="preloader">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="m-content4" data-pageIndex="1" class="tab infinite-scroll">
+                        <div class="module-tempalte">
+                            <div class="products-con"><ul></ul></div>
+                            <!-- 加载提示符 -->
+                            <div class="infinite-scroll-preloader">
+                                <div class="preloader">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="m-content5" data-pageIndex="1" class="tab infinite-scroll">
+                        <div class="module-tempalte">
+                            <div class="products-con"><ul></ul></div>
+                            <!-- 加载提示符 -->
+                            <div class="infinite-scroll-preloader">
+                                <div class="preloader">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--WL_TMP{tmp=/Skin/t/index/temp/index_template.html}-->
+    </div>
+    <!--WL_TMP{tmp=/Skin/t/Pub/app_publicjs.html}-->
+    <script src="/Skin/t/Js/sui/index.js?v=4"></script>
+
+</body>
+</html>

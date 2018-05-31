@@ -1,0 +1,115 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>店铺</title>
+    <!--WL_TMP{tmp=/Skin/t/Pub/app_publiccss.html}-->
+    <link rel="stylesheet" href="//g.alicdn.com/msui/sm/0.6.2/css/sm-extend.min.css">
+    <link href="/Skin/t/Css/sui/index2.css?v=1" rel="stylesheet" />
+</head>
+<body>
+    <div class="page-group appPage">
+        <!--所有店铺-->
+        <div id="page-shop-index" class="page">
+            <header class="bar bar-nav bar_09D317">
+                <div class="row">
+                    <a class="icon icon-left pull-left back"></a>
+                    <h1 class="title">店铺</h1>
+                    <a class="icon icon-search pull-right j-search"></a>
+                </div>
+                <div class="buttons-tab">
+                    <a href="#s-content1" data-type="1" class="tab-link button active">综合排序</a>
+                    <a href="#s-content2" data-type="2" class="tab-link button">销量最高</a>
+                    <a href="#s-content3" data-type="3" class="tab-link button">人气最高</a>
+                    <!--<a href="/index/class.html?type=2" class="tab-link-class external">分类</a>-->
+                </div>
+            </header>
+            <div class="content appContent infinite-scroll infinite-scroll-bottom">
+                <div class="tabs">
+                    <div id="s-content1" class="tab active">
+                        <div class="module-tempalte">
+                        </div>
+                    </div>
+                    <div id="s-content2" class="tab">
+                        <div class="module-tempalte">
+                        </div>
+                    </div>
+                    <div id="s-content3" class="tab">
+                        <div class="module-tempalte">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--店铺搜索-->
+        <div id="page-shop-search" class="page">
+            <header class="bar bar-nav search-title" style="padding-right:0;">
+                <a class="icon icon-left pull-left back" style="width:8%;box-sizing:border-box;"></a>
+                <div class="searchbar" style="width:92%;box-sizing:border-box;">
+                    <a class="searchbar-cancel j-search">搜索</a>
+                    <div class="search-input">
+                        <form id="mch-search-form" action="" onsubmit="return false;">
+                            <label class="icon icon-search" for="search" style="color: #524d4d;"></label>
+                            <input type="search" id="mch-search-input" class="j-sk" onkeyup="value = value.replace(/[#,*]/g, '');"
+                                   placeholder='输入关键字...' autocomplete='off' style="padding-left: 1.5rem;" />
+                        </form>
+                    </div>
+                </div>
+            </header>
+            <div class="content appContent search_fff " style="background:#fff;">
+                <div class="module-tempalte">
+                    <div class="tempalte-title">
+                        <div style="margin-bottom:0.5rem;">
+                            <span class="pull-left" style="color:#aaa;font-size:0.75rem;">搜索历史</span>
+                            <span class="icon icon-remove pull-right j-removeAll" style="color:#aaa;font-size:0.75rem;"></span>
+                            <div style="clear:both"></div>
+                        </div>
+                        <div class="keyTag-container j-keytag-con">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--店铺搜索结果-->
+        <div id="page-shop-result" class="page">
+            <header class="bar bar-nav search-title">
+                <a class="icon icon-left pull-left back" style="margin-left:0.5rem"></a>
+                <div class="searchbar row" style="margin:0;">
+                    <div class="search-input col-90">
+                        <input type="search" class="j-sk" readonly="readonly" />
+                    </div>
+                    <a href="#" title="消息" class="msg col-10  j-app-active"><i>&#xe676;</i></a>
+                </div>
+                <div class="buttons-tab">
+                    <a href="#s-r-content1" data-type="1" class="tab-link button active">综合排序</a>
+                    <a href="#s-r-content2" data-type="2" class="tab-link button">销量最高</a>
+                    <a href="#s-r-content3" data-type="3" class="tab-link button">人气最高</a>
+                    <a href="class.html?type=2" class="tab-link-class external">分类</a>
+                </div>
+            </header>
+            <div class="content appContent infinite-scroll infinite-scroll-bottom">
+                <div class="j-search-con">
+                    <div class="tabs">
+                        <div id="s-r-content1" class="tab active">
+                            <div class="module-tempalte">
+
+                            </div>
+                        </div>
+                        <div id="s-r-content2" class="tab">
+                            <div class="module-tempalte">
+                            </div>
+                        </div>
+                        <div id="s-r-content3" class="tab">
+                            <div class="module-tempalte">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--WL_TMP{tmp=/Skin/t/index/temp/index_template.html}-->
+    </div> 
+    <!--WL_TMP{tmp=/Skin/t/Pub/app_publicjs.html}-->
+    <script src="/Skin/t/Js/sui/index2.js?v=1"></script>
+</body>
+</html>

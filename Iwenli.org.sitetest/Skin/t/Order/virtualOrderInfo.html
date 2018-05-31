@@ -1,0 +1,175 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/html5/rem.js"></script>
+    <script type="text/javascript" src="//cdn.txooo.com/public/jquery/jquery-1.7.2.min.js"></script>
+    <script src="/Skin/t/Js/Public.js"></script>
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Public.css" />
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Order.css" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/aui.artTemplate/artTemplate.js"></script>
+    <script src="/Skin/t/Js/Template.js"></script>
+    <title>已完成订单</title>
+    <script type="text/javascript">
+        $(function () {
+            $(".P_title").text("订单详情");
+            $(".P_Header_info").text(" ");
+            $(".P_Header .P_goBack").attr("href", "/order/orderlist.html");
+            //$(".P_Header_info .P_goBack").click(function () {
+            //    window.location.href = '/order/orderlist.html';
+            //})
+        })
+    </script>
+    <style>
+        .payTpye_0 {
+            display: none;
+        }
+
+        .payTpye_1 {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <!-- 头部信息begin -->
+    <!--WL_TMP{tmp=/Skin/t/Pub/T_Head_info.html}-->
+    <!-- 头部信息end -->
+
+    <div class="O_main det_page"  style="margin-bottom:3.125rem;">
+        <div id="oInfo">
+
+        </div>
+        
+        <div class="goods virOrderGoods">
+           
+            <div id="orderCode">
+
+            </div>
+            <div id="operation" class="operation virOperation">
+
+            </div>
+        </div>
+    </div>
+
+    <script type="text/html" id="orderInfo">
+        <div class="det_nav" onclick="window.location.href='/shop.html?id={{info.ProductId}}'">
+            <div class="pic"><img src="{{info.ProImg}}" /></div>
+            <div class="word">
+                <h4>{{info.ProductName}}</h4>
+                <em>{{info.Price}}元</em>
+            </div>
+
+        </div>
+        <div class="det_info">
+            <p>规格：{{info.JsonInfo}}</p>
+            <p>订单号：{{info.OrderId}}</p>
+            <p>购买日期：{{info.AddTime | dateFormat:'yyyy年MM月dd日'}}</p>
+            <p>购买数量：{{info.ProductCount}}</p>
+            <p class="payTpye_{{info.PayState}}">支付方式：{{info.PayTypeShow}}</p>
+            <div class="total_price"> 合计：<b class="orange">{{info.TotalMoney}}元</b>（含运费 {{info.Postage}}元）</div>
+        </div>
+    </script>
+    
+   
+    
+    <script type="text/html" id="OrderCodeTemp">
+        <div class="OrderCodeTit">
+            <span>已使用：{{list.UsedCount}}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+            <span>未使用：{{list.UnUsedCount}}</span>
+        </div>
+        {{each list.CodeList as l }}
+        <ul>
+            {{if l.IsUsed}}
+            <li class="ov_h used"><span class="left"><s>验证码：{{l.VerifyCode}}</s></span>
+                <span class="right">使用时间：{{l.UseTime | dateFormat:'yyyy-MM-dd hh:mm'}}</span></li>
+            {{/if}}
+            {{if !l.IsUsed}}
+            <li class="ov_h noUse"><span class="left">验证码：{{l.VerifyCode}}</span>
+                <span class="right">未使用</span>
+            </li>
+            {{/if}}
+        </ul>
+        {{/each}}
+    </script>
+    <script>
+
+        var oid = getUrlParam("orderId");
+        //var addressId = getUrlParam("addressId");
+        //加载订单信息
+        $.get("/Txooo/SalesV2/Shop/Ajax/ShopAjax.ajax/GetOrderById?orderid=" + oid, function (data) {
+            if (data != "") {
+                var js = eval("(" + data + ")");
+                var imgs = js.ProductImgs.split(",");
+                js.ProImg = imgs[0];
+                var html = template("orderInfo", { info: js });//订单信息
+                $("#oInfo").html(html);
+                              
+                $("#orderCode").html(template("OrderCodeTemp", { list: js }));
+                var opHtml = "";
+                switch (js.OrderState) {
+                    case 0:
+                        opHtml = "<a href='JavaScript:void(0);' onclick='SetOrderState(" + js.OrderId + "," + js.OrderState + ",6)'>取消订单</a>";
+                        //opHtml += navigator.userAgent.toLowerCase().indexOf("txooo.app") > -1 ? "<a href='javascript:;' onclick='window.plus.txservice.topay([" + js.OrderId + "]);' class='bg_orange'>去支付</a>" : "<a href='/shop/pay.html?orderid=" + js.OrderId + "' class='bg_orange'>去支付</a>";
+                        opHtml += "<a href='/shop/pay.html?orderid=" + js.OrderId + "' class='bg_orange'>去支付</a>";
+                        break;
+                    //case 1:
+                    //case 8:
+                    case 2:
+                        opHtml = "<a href='JavaScript:void(0);' onclick='SetOrderState(" + js.OrderId + "," + js.OrderState + ",6)'>取消订单</a>";
+                        break;
+                    case 3:
+                        if (js.Refund == 1 && js.RefundState == 0) {
+                            opHtml = "<a href='applyRefund.html?orderid=" + js.OrderId + "'>申请退货</a>";
+                        }
+                        opHtml += "<a href='javascript:void(0);' onclick='SetOrderState(" + js.OrderId + "," + js.OrderState + ",4)' class='bg_orange'>确认收货</a>";
+                        break;
+                    case 4:
+                        if (js.IsReview == 0) {
+                            opHtml = "<a href='review.html?orderid=" + js.OrderId + "' class='bg_orange'>去评价</a>";
+                        }
+                        //if (js.Refund==1&&js.RefundState==0) {//该商品支持退货功能，并且还未申请退货
+                        //    opHtml += "<a href='applyRefund.html?orderid=" + js.OrderId + "' class='bg_orange'>申请退货</a>";
+                        //}
+                        break;
+                    default:
+                        break;
+                }
+                $("#operation").html(opHtml);
+                if (opHtml == "") {
+                    $("#operation").hide();
+                }
+            }
+        })
+       
+
+        //设置订单状态
+        function SetOrderState(orderid, orderState, state) {
+            var msg = "";
+            if (state == 6) {
+                msg = "确认取消该订单吗？";
+            }
+            if (state == 4) {
+                msg = "确认收货吗？";
+            }
+            dialogComfirm(msg, function () {
+                $.get("/Txooo/SalesV2/Shop/Ajax/ShopAjax.ajax/SetOrderState?orderid=" + orderid + "&state=" + state + "&orderState=" + orderState+"&cancel=1", function (data) {
+                    var obj = eval(data);
+                    if (obj.success == "true") {
+
+                    } else {
+                        dialogAlart("操作失败，稍后再试！");
+                    }
+                    window.location.reload();
+                })
+            })
+            //if (confirm(msg)) {
+                
+            //}
+        }
+    </script>
+    <!--WL_TMP{tmp=/Skin/t/Pub/T_Public.html}-->
+</body>
+</html>
+
+

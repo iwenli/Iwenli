@@ -1,0 +1,57 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>提现说明</title>
+    <!--WL_TMP{tmp=/Skin/t/Pub/app_publiccss.html}-->
+    <!--<link rel="stylesheet" href="//g.alicdn.com/msui/sm/0.6.2/css/sm-extend.min.css">-->
+    <link href="/Skin/t/Css/sui/index.css?v=1.1" rel="stylesheet" />
+    <style>
+        li { padding-top: 0.25rem; }
+        tr { border-bottom: 1px solid #aaa; font-size: 0.65rem; }
+    </style>
+</head>
+<body>
+    <div class="page-group">
+        <div id="page-trans-rule" class="page">
+            <div class="content" style="background:#fff;padding:0.5rem;">
+                <h3>提现须知及注意事项：</h3>
+                <ul>
+                    <LI>1.平台申请提现最低金额{$min_money}元.</LI>
+                    <LI>2.平台每日最多成功提现{$max_count}次.</LI>
+                    <LI>3.各渠道单日单次提现金额上限如下：</LI>
+                    <table style="text-align:center; width: 100%;">
+                        <tr style="background-color: #aaa;font-size:0.7rem;">
+                            <td>渠道</td>
+                            <td>单日提现上限(元)</td>
+                            <td>单笔提现上限(元)</td>
+                        </tr>
+                        <tr>
+                            <td>银行卡</td>
+                            <td>{$bank_day_max}</td>
+                            <td>{$bank_single_max}</td>
+                        </tr>
+                        <tr>
+                            <td>支付宝</td>
+                            <td>{$ali_day_max}</td>
+                            <td>{$ali_single_max}</td>
+                        </tr>
+                        <tr>
+                            <td>微信</td>
+                            <td>{$wx_day_max}</td>
+                            <td>{$wx_single_max}</td>
+                        </tr>
+                    </table>
+                    <LI>4.必须是实名用户才能申请提现.</LI>
+                    <LI>5.绑定银行卡、微信或支付宝时，绑定账户必须是与本平台实名认证的身份信息一致，才能提现成功.</LI>
+                    <LI>6.微信提现申请提交后，会即时把提现金额转账到您提现绑定的微信零钱账户.</LI>
+                    <LI>7.支付宝提现申请提交后，会即时把提现金额转到您提现绑定的支付宝余额账户.</LI>
+                    <LI>8.银行卡提现需等待1到3个工日打到您提现银行账户.</LI>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!--WL_TMP{tmp=/Skin/t/Pub/app_publicjs.html}-->
+    <script src="/Skin/t/Js/sui/index.js?v=1.1"></script>
+</body>
+</html>

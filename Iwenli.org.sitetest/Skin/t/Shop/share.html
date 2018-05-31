@@ -1,0 +1,69 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/html5/rem.js"></script>
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Public.css" />
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Shop.css" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/jquery/jquery-1.7.2.min.js"></script>
+    <title>推广产品</title>
+    <script>
+        function shopShare(i) {
+            $('#shop_share_img img').attr('src', '//passport.93390.cn/Txooo/SalesV2/Ajax/WebGraphics.ajax/MakeProductImg' + i + '?uid={$UserId}&sid={$ShareId}&pid={$ProId}');
+            $('.shop_share').show();
+            $('.loading_box').show().delay(5000).hide(0);
+        }
+        function shopShareoff() {
+            $('.shop_share').hide();
+        }
+    </script>
+</head>
+<body>
+    <header class="P_Header">
+        <div class="P_goBack" onclick="history.go(-1)"><i>&#xe602;</i></div>
+        <div class="P_title">商品推广</div>
+    </header>
+    <section class="share_box">
+        <div class="share_li">
+            <img src="/Skin/t/Img/Share/share_02.jpg" alt="">
+            <div class="info" onclick="window.location.href = '/shop.html?id={$ProId}'">
+                <img src="{$ProImg}" />
+                <p>
+                    {$ProName}
+                </p>
+            </div>
+        </div>
+        <div class="share_li">
+            <img src="/Skin/t/Img/Share/share_03.jpg" alt="">
+            <div class="choice_list">
+                <p>点击下面的“生成”按钮即可生成该商品的推广图片，把图片发送到朋友圈，对方长按图片识别二维码就可打开商品页面，通过页面注册的会员会自动成为你的团队成员</p>
+                <ul>
+                    <li><a href="javascript:void(0)" onclick="shopShare(1)"><img src="/Skin/t/Img/Share/way_1.jpg" /><span>生成</span></a></li>
+                    <li><a href="javascript:void(0)" onclick="shopShare(2)"><img src="/Skin/t/Img/Share/way_2.jpg" /><span>生成</span></a></li>
+                    <li><a href="javascript:void(0)" onclick="shopShare(3)"><img src="/Skin/t/Img/Share/way_3.jpg" /><span>生成</span></a></li>
+                </ul>
+                <p>多在朋友圈晒推广图，可以交到更多的朋友哟！</p>
+            </div>
+        </div>
+        <div class="share_li"><img src="/Skin/t/Img/Share/share_04.jpg" alt=""></div>
+        <div class="share_li"><img src="/Skin/t/Img/Share/share_05.jpg" alt=""></div>
+        <div class="share_li"><img src="/Skin/t/Img/Share/share_06.jpg" alt=""></div>
+        <div class="share_li"><img src="/Skin/t/Img/Share/share_07.jpg" alt=""></div>
+        <div class="share_li"><img src="/Skin/t/Img/Share/share_08.jpg" alt=""></div>
+        <div class="share_li"><img src="/Skin/t/Img/Share/share_09.jpg" alt=""></div>
+        <div class="share_li"><img src="/Skin/t/Img/Share/share_10.jpg" alt=""></div>
+        <div class="share_li"><img src="/Skin/t/Img/Share/share_11.jpg" alt=""></div>
+        <div class="share_li"><img src="/Skin/t/Img/Share/share_12.jpg" alt=""></div>
+    </section>
+    <section class="shop_share">
+        <em onclick="shopShareoff()"></em>
+        <div id="shop_share_img">
+            <img src="" />
+        </div>
+        <div class="loading_box"><p><img src="/Skin/t/Img/loading.gif" />正在生成图片请稍后...</p></div>
+    </section>
+
+    <!--WL_TMP{tmp=/Skin/t/Pub/T_Public.html}-->
+</body>
+</html>

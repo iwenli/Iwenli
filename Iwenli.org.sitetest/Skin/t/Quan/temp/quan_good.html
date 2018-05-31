@@ -1,0 +1,8 @@
+﻿<script id="postGoodTemp" type="text/html">
+    {{each PostGood as value i}}
+    {{if i==0}}
+    <i>&#xe644;</i>{{/if}}
+    {{if i!=0}},{{/if}}
+    {{value.NickName}}
+    {{/each}}
+</script>

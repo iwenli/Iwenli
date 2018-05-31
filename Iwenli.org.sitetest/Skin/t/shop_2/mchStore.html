@@ -1,0 +1,211 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>店铺展示</title>
+    <!--WL_TMP{tmp=/Skin/t/Pub/app_publiccss.html}-->
+    <link href="/Skin/t/Css/sui/index2.css" rel="stylesheet" />
+</head>
+<body>
+
+    <div class="page-group">
+        <div id="page-shop-mchstore" class="page">
+            <header class="bar bar-nav bar_ff8201">
+                <a class="icon icon-left pull-left click_back" href="/index.html"></a>
+                <h1 class="title">店铺展示</h1>
+            </header>
+            <!--返回顶部-->
+            <section class="back-Top">
+                <a class="print_top"><i>&#xe657;</i></a>
+            </section>
+            <nav class="bar bar-tab bar_ff8201 liuyan_bar"><a href="/shop_2/liuyan.html?mchid={$U_QUERY_MCHID}" class="title_center">已有<span id="browse_count">0</span>人对此品牌感兴趣，若想了解更多，你戳我啊</a></nav>
+            <div class="content appContent">
+                <input type="hidden" id="mch_id" value="{$U_QUERY_MCHID}" />
+                <input type="hidden" id="is_auth" value="{$IsAuth}" />
+                <div class="store_content_info"></div>
+                <!--轮播-->
+                <div class="swiper-container mchad_lunbo details_lunbo" data-space-between='10'>
+                    <div class="swiper-wrapper"></div>
+                    <div class="swiper-pagination"></div>
+                </div>
+                <!--导航-->
+                <div class="buttons-tab menu_name_list" data-offset="44">
+                    <div class="swiper-wrapper">
+                        <a href="#tab0" id="tab-link0" class="tab-link button active swiper-slide">店铺商品</a>
+                    </div>
+                </div>
+                <div class="tabs menu_content_list">
+                    <div id="tab0" class="tab active" style="overflow:hidden;">
+                        <div class="buttons-tab product_class_name_list">
+                            <div class="swiper-wrapper">
+                                <a href="#tab0-0" data-pclass="0" class="tab-link active button swiper-slide">全部(<span class="product_count"></span>)</a>
+                            </div>
+                        </div>
+                        <div class="tabs product_class_content_list">
+                            <div class='tab active products-con infinite-scroll' id='tab0-0'>
+                                <ul class="list" style="overflow:hidden;"></ul>
+                                <!-- 加载提示符 -->
+                                <div class="infinite-scroll-preloader">
+                                    <div class="preloader">
+                                    </div>
+                                </div>
+                                <div class="content-block more_container">--------没有更多商品了--------</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--数据模板-----------开始-->
+            <!--广告轮播-->
+            <script type="text/html" id="store_lunbo_temp">
+                {{each list as value}}
+                <a class="swiper-slide carry" href="/shop.html?id={{value.ProductId}}" data-no-cache="true" style="background-image:url({{value.ProductImg}})"><span>￥{{value.Price}}</span></a>
+                {{/each}}
+            </script>
+            <!--店铺头部-->
+            <script type="text/html" id="content_temp">
+                <div class="list-block list_block2 media-list">
+                    <ul>
+                        <li class="item-content">
+                            <div class="item-media">
+                                <img src="{{MchLogo}}" width="80">
+                            </div>
+                            <div class="item-inner mch_top_box">
+                                <div class="item-subtitle">{{ComName}}</div>
+                                <div class="item-title">
+                                    <span class="zizhi">资质认证</span>
+                                    <span class="icon_zi"></span>
+                                </div>
+                                <div class="item-title-row">
+                                    <div class="item-title"><span class="co_y"><span class="collect_count">{{CollectCount}}</span>人</span>收藏</div>
+                                    <div class="item-after is_collect_div is_collect_{{IsCollect}}" data-collect="{{IsCollect}}"><i>&#xe644;</i>收藏TA</div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </script>
+            <!--自定义模板-->
+            <script type="text/html" id="menu_name_temp">
+                {{each list as value i}}
+                <a href="#tab{{value.MenuId}}" id="tab-link{{value.MenuId}}" class="tab-link button swiper-slide extra_menu_name">{{value.MenuName}}</a>
+                {{/each}}
+            </script>
+            <!--自定义模板内容-->
+            <script type="text/html" id="menu_content_temp">
+                {{each list as value i}}
+                <div id="tab{{value.MenuId}}" class="tab">
+                    {{#value.MenuContent}}
+                    {{if value.MenuId==-100}}
+                    <div class="list" style="overflow:hidden;"></div>
+                    <div class="infinite-scroll-preloader">
+                        <div class="preloader">
+                        </div>
+                    </div>
+                    <div class="content-block more_container">--------没有更多资讯了--------</div>
+                    {{/if}}
+                </div>
+                {{/each}}
+            </script>
+            <!--商品自定义分类-->
+            <script type="text/html" id="product_class_name_temp">
+                {{each list as value}}
+                <a href="#tab0-{{value.class_id}}" data-pclass="{{value.class_id}}" class="tab-link button swiper-slide extra_class_name">{{value.class_name}}</a>
+                {{/each}}
+            </script>
+            <!--商品列表容器-->
+            <script type="text/html" id="product_class_content_temp">
+                {{each list as value}}
+                <div class='tab infinite-scroll  products-con extra_class_content' id='tab0-{{value.class_id}}'>
+                    <ul class="list" style="overflow:hidden;"></ul>
+                    <!-- 加载提示符 -->
+                    <div class="infinite-scroll-preloader">
+                        <div class="preloader">
+                        </div>
+                    </div>
+                    <div class="content-block more_container">--------没有更多商品了--------</div>
+                </div>
+                {{/each}}
+            </script>
+            <!--商品列表-->
+            <script type="text/html" id="store_product_list_temp">
+                {{each list}}
+                <li>
+                    <div class="list-item">
+                        {{if $value.activity_count == 1}}
+                        <div class="hot_goods"><img src="/Skin/t/Img/Index/activityicon.png"></div>
+                        {{/if}} 
+                        <a class="j-goDetail" href="#" data-id="{{$value.product_id}}">
+                            <img class="lazy" data-original="{{$value.product_imgs | productImgs}}"
+                                 alt="{{$value.product_name}}" />
+                            <p class="prodect-name">
+                                {{if $value.activity_count == 1}}
+                                <em class="rebate_activity_ico"></em>
+                                {{/if}}
+                                {{$value.product_name}}
+                            </p>
+                        </a>
+                        <span class="row row_bottom">
+                            <span class="tag tag-point"><em>{{$value.rebate_point}}</em>V币</span>
+                            {{if ProductOnlyShow==2 && $value.is_virtual!=1 }}
+                            <span class="tag tag-rebate">仅展示</span>
+                            {{/if}}
+                            {{if $value.product_ispostage == true}}
+                            <span class="tag tag-postage">包邮</span>
+                            {{/if}}
+                        </span>
+                        <span class="row row_bottom" style="">
+                            <span class="pull-left"><em>¥</em>{{$value.price | priceToFixed}}</span>
+                            <!--<span class="pull-right sales-count">销量 <em>{{$value.SalesCount}}</em></span>-->
+                        </span>
+                    </div>
+                </li>
+
+                <!--<li>
+                    {{if $value.activity_count == 1}}
+                    <div class="hot_goods"><img src="/Skin/t/Img/Index/activityicon.png"></div>
+                    {{/if}}
+                    <div class="list-item">
+                        {{if ProductOnlyShow==2 && $value.is_virtual!=1 }}<div class="isShow">仅展示</div>{{/if}}
+                        <a href="/shop.html?id={{$value.product_id}}&source=shop" data-no-cache="true">
+                            <img class="products-pic lazy" data-original="{{$value.product_imgs | productImgs}}" alt="{{$value.product_name}}" />
+                            <p class="prodect-name">
+                                {{if $value.activity_count == 1}}
+                                <em class="rebate_activity_ico"></em>
+                                {{/if}}
+                                {{$value.product_name}}
+                            </p>
+                        </a>
+                        <div class="row_bottom">
+                            <span class="pull-left"><em>¥</em>{{$value.price | priceToFixed}}</span>
+                            {{if $value.product_ispostage == true}}<span class="postage">包邮</span>{{/if}}
+                        </div>
+                    </div>
+                </li>-->
+                {{/each}}
+            </script>
+
+            <!--商品分类数据-->
+            <script type="text/html" id="product_class_content_data">
+                <!--Tx_Common{db=TxoooAgent;tb=Fn_V5_Sales_MFC_MchProductClass();top=20;where=[mch_id]={$U_QUERY_MCHID};order=sort desc;output=json;}-->
+            </script>
+            <!--店铺资讯模板-->
+            <script type="text/html" id="store_news_temp">
+                {{each list as value}}
+                <a href="/shop_2/mchnews.html?newsid={{value.NewsId}}&showheader={{showheader}}">
+                    <dl class="mchConsult">
+                        <dt>{{value.NewsTitle}}</dt>
+                        <dd class="time"><span><i>&#xe9c9; </i>{{value.CheckTime | dateFormat:'yyyy-MM-dd'}}&nbsp;&nbsp;&nbsp;&nbsp;</span><span><i>&#xe9ca; </i>{{value.BrowseCount}}</span></dd>
+                        <dd class="pic"><img src="{{value.NewsCover}},1,150,150,3" /></dd>
+                    </dl>
+                </a>
+                {{/each}}
+            </script>
+            <!--WL_TMP{tmp=/Skin/t/index/temp/new_product_template.html}-->
+            <!--数据模板-----------开始-->
+        </div>
+    </div>
+    <!--WL_TMP{tmp=/Skin/t/Pub/app_publicjs.html}-->
+    <script src="/Skin/t/Js/sui/index2.js?v=1"></script>
+</body>
+</html>

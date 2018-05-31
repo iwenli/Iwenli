@@ -1,0 +1,262 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/html5/rem.js"></script>
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Public.css" />
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Share.css" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/jquery/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="//cdn.txooo.com/public/aui.artTemplate/artTemplate.js"></script>
+    <script src="/Skin/t/Js/Public.js"></script>
+    <title>我的推广记录</title>
+    <script>
+
+        opensource.wx.bind(function () {
+            $('.share_btn1').click(function () {
+                $(".share_index1").show();
+            })
+        });
+
+        opensource.app.bind(function () {
+            $('.share_btn1').click(function () {
+                //dialogAlart("app");
+            })
+        });
+
+        opensource.browser.bind(function () {
+            $('.share_btn1').click(function () {
+                //dialogAlart("browser");
+            })
+        });
+        window.bindMobildIframe = function (obj) {
+            window.location.reload();
+        };
+        $(function () {
+            $('.bind_method_login').click(function () {
+                $(this).hide();
+            });
+            if ('{$UserSecurityPhone}' == '') {
+                openBindByThridShareCode(function (type) {
+                    $(".bind_method_login").show().find('.bind_show iframe').attr('src', '/member_2/bind/iframe.html#page-member-bind-iframe-' + type);
+                });
+                return;
+            }
+            GetUserShareNum();
+            GetUserShareList();
+            $('.share_index').bind("click", function (e) {
+                var target = $(e.target);
+                if (target.closest(".code_box").length == 0) {
+                    $(".share_index").hide();
+                }
+            });
+            $('.share_btn').click(function () {
+                $(".share_index").show();
+                GetRecommentContent();
+            })
+
+            $(".share_index1").click(function () {
+                $(this).hide();
+            })
+
+            $('#copy_input').click(function () {
+                try {
+                    clipboardData.setData("text", $('#copt_text').text());
+                } catch (e) {
+                    dialogAlart('您的浏览器暂不支持该复制功能，请长按文字复制');
+                }
+            });
+            if (txservice.success()) {
+                txservice.initCallback = function () {
+                    txservice.call('sharemyqr');
+                }
+            } else {
+                shopShare();
+            }
+        });
+
+        //获取随机推广文字
+        function GetRecommentContent() {
+            $.get('/Txooo/SalesV2/Member/Ajax/UserAjax.ajax/GetRecommentContent', function (data) {
+                var obj = eval(data);
+                $('#copt_text').html(obj[0].content_info.replace('##', ' {$DomainShareCode}.u.93390.cn/?i={$DomainShareCode} '));
+            });
+        }
+
+        //获取推广统计数据
+        function GetUserShareNum() {
+            $.get('/Txooo/SalesV2/Member/Ajax/UserAjax.ajax/GetUserShareNum', function (data) {
+                var obj = eval(data);
+                $('#data_list').html(template('num_temp', obj[0]));
+            });
+        };
+        //获取下线列表
+        function GetUserShareList() {
+            $.get('/Txooo/SalesV2/Member/Ajax/UserAjax.ajax/GetUserShareList', function (data) {
+                var obj = eval(data);
+                var data = { list: obj };
+                $('#share_list').html(template('share_list_temp', data));
+            });
+        };
+        //二维码推广
+        function shopShare() {
+            if (txservice.success()) {
+                txservice.call('sharemyqr');
+                return;
+            }
+            if ('{$UserSecurityPhone}' == '') {
+                return;
+            }
+            $('#shop_share_img img').attr('src', window.location.origin + '/Txooo/SalesV2/Ajax/WebGraphics.ajax/MakeQrImg?uid={$UserId}');
+            $('.shop_share').show();
+            $('.loading_box').show().delay(5000).hide(0);
+        }
+        function shopShareoff() {
+            $('.shop_share').hide();
+        }
+    </script>
+</head>
+<body style="background: #f0f0f0">
+    <header class="P_Header">
+        <a class="P_goBack" onclick="if (window.txservice.success()) { window.txservice.call('goback'); } else { location.href = '/Member/index.html' }"><i>&#xe602;</i></a>
+        <div class="P_title">我的推广</div>
+        <div class="P_Header_info"><a href="javascript:;" onclick="shopShare()"><i style="font-size: 1.25rem;">&#xe61e;</i></a></div>
+    </header>
+    <!--<section class="share_top">
+        <ul class="list">
+            <li class="li1"><a href="javascript:void(0)" class="share_btn"><img src="/Skin/t/Img/Share/ernum_1.png" />文字邀请</a></li>
+            <li class="li2"><a href="/share/web/p1.html?shareuid={$UserId}" class="share_btn1"><img src="/Skin/t/Img/Share/ernum_2.png" />网页邀请</a></li>
+            <li class="li3"><a href="/share/pic/p1.html"><img src="/Skin/t/Img/Share/ernum_3.png" />二维码邀请</a></li>
+        </ul>
+    </section>-->
+
+    <div class="bind_method_login" style="display:none;">
+        <div class="bind_show">
+            <iframe src="" style="width:100%;height:100%;"></iframe>
+        </div>
+    </div>
+    <section id="data_list" class="share_content"></section>
+    <section class="share_bottom">
+        <h2>推广记录</h2>
+        <ul>
+            <li>注册日期</li>
+            <li>来源</li>
+            <li>用户</li>
+            <li>渠道</li>
+        </ul>
+        <div id="share_list">
+
+        </div>
+    </section>
+    <section class="shop_share">
+        <em onclick="shopShareoff()"></em>
+        <div id="shop_share_img">
+            <img src="" />
+        </div>
+        <div class="loading_box"><p><img src="/Skin/t/Img/loading.gif" />正在生成图片请稍后...</p></div>
+    </section>
+    <!--<section class="share_index">
+        <div class="code_share">
+            <div class="code_box_top"></div>
+            <div class="code_box">
+                <ul class="code_ul">
+                    <li class="li2"><span>我的邀请话语</span><a href="javascript:GetRecommentContent()">换一句</a></li>
+                    <li class="li1"><span id="copt_text"> {$DomainShareCode}.u.93390.cn/?i={$DomainShareCode}</span></li>
+                </ul>
+                <div class="bottom_btn">
+                    <em>长按上面输入框中的内容复制下来，把他发送给朋友</em>
+                    <a href="javascript:void(0);" id="copy_input">复制推广</a>
+                </div>
+            </div>
+        </div>
+    </section>-->
+    <!--<section class="share_index1">
+        <div class="web_share">
+            <img src="/Skin/t/Img/Share/webshare.png" />
+        </div>
+    </section>-->
+
+    <script id="num_temp" type="text/html">
+        <dl>
+            <dt>近一个月推广数据</dt>
+            <dd>
+                <ul class="list_tot dis_box">
+                    <li class="box_flex_1"><span class="top">通过个人推广加入</span><span class="number">{{source_u_month}}人</span></li>
+                    <li class="box_flex_1"><span class="top">通过产品推广加入</span><span class="number">{{source_p_month}}人</span></li>
+                </ul>
+                <ul class="dis_box">
+                    <li class="box_flex_1"><i style="color: #85d16d">&#xe62e;</i><span class="number">{{channel_wx_month}}人</span><span class="bottom">微信注册</span></li>
+                    <li class="box_flex_1"><i style="color: #6fa8df">&#xe630;</i><span class="number">{{channel_qq_month}}人</span><span class="bottom">QQ注册</span></li>
+                    <li class="box_flex_1"><i style="color: #f26868">&#xe631;</i><span class="number">{{channel_wb_month}}人</span><span class="bottom">微博注册</span></li>
+                </ul>
+                <ul class="bottom_list">
+                    <li><i style="color: #f4a04a">&#xe632;</i><span class="number">{{channel_app_month}}人</span><span class="bottom">APP注册</span></li>
+                    <li><i style="color: #84d5f3">&#xe633;</i><span class="number">{{channel_wap_month}}人</span><span class="bottom">浏览器注册</span></li>
+                </ul>
+            </dd>
+        </dl>
+        <dl>
+            <dt>累计推广总数据</dt>
+            <dd>
+                <ul class="list_tot dis_box">
+                    <li class="box_flex_1"><span class="top">通过个人推广加入</span><span class="number">{{source_u}}人</span></li>
+                    <li class="box_flex_1"><span class="top">通过产品推广加入</span><span class="number">{{source_p}}人</span></li>
+                </ul>
+                <ul class="dis_box">
+                    <li class="box_flex_1"><i style="color: #85d16d">&#xe62e;</i><span class="number">{{channel_wx}}人</span><span class="bottom">微信注册</span></li>
+                    <li class="box_flex_1"><i style="color: #6fa8df">&#xe630;</i><span class="number">{{channel_qq}}人</span><span class="bottom">QQ注册</span></li>
+                    <li class="box_flex_1"><i style="color: #f26868">&#xe631;</i><span class="number">{{channel_wb}}人</span><span class="bottom">微博注册</span></li>
+                </ul>
+                <ul class="bottom_list">
+                    <li><i style="color: #f4a04a">&#xe632;</i><span class="number">{{channel_app}}人</span><span class="bottom">APP注册</span></li>
+                    <li><i style="color: #84d5f3">&#xe633;</i><span class="number">{{channel_wap}}人</span><span class="bottom">浏览器注册</span></li>
+                </ul>
+            </dd>
+        </dl>
+    </script>
+    <script type="text/html" id="share_list_temp">
+        {{each list as c}}
+        <ul class="list_con">
+            <li>{{formatTime(c.add_time)}}</li>
+            <li>{{sourceCode(c.source)}}</li>
+            <li>{{c.nick_name}}</li>
+            <li class="list_ico to_{{c.source_channel}}"><i>{{channel(c.source_channel)}}</i></li>
+        </ul>
+        {{/each}}
+    </script>
+    <script>
+        template.helper('formatTime', function (a) {
+            var myDate = new Date(a);
+            var year = myDate.getFullYear();
+            var month = ("0" + (myDate.getMonth() + 1)).slice(-2);
+            var day = ("0" + myDate.getDate()).slice(-2);
+            return year + "-" + month + "-" + day;
+        });
+        template.helper("sourceCode", function (a) {
+            if (a == "1") {
+                return "个人推广";
+            }
+            if (a == "2") {
+                return "产品推广";
+            }
+            return "地址推广";
+        });
+        template.helper("channel", function (a) {
+            if (a == "0") {
+                return "&#xe633;";
+            }
+            if (a == "1") {
+                return "&#xe62e;";
+            }
+            if (a == "2") {
+                return "&#xe630;";
+            }
+            if (a == "3") {
+                return "&#xe631;";
+            }
+            return "&#xe632;";
+        });
+    </script>
+    <!--WL_TMP{tmp=/Skin/t/Pub/T_Public.html}-->
+</body>
+</html>

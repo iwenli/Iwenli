@@ -1,0 +1,101 @@
+﻿<!-- 新版商品展示1 搜索结果页[包含找相似] -->
+<script type="text/html" id="t-productShow1">
+    {{each Products}}
+    <li>
+        <div class="list-item">
+            {{if $value.IsActivity == true}}
+            <div class="hot_goods"><img src="/Skin/t/Img/Index/activityicon.png"></div>
+            {{/if}}
+            <a href="/index/class.html?key={{$value.ClassId}}&name={{$value.ClassName}}#page-class-product"
+               class="btn-similar">找相似</a>
+            <a class="j-goDetail" href="#" data-id="{{$value.Id}}">
+                <img class="lazy" data-original="{{$value.ProductImgs | productImgs}}"
+                     alt="{{$value.ProductName}}" />
+                <p class="prodect-name">
+                    {{if $value.IsActivity == true}}
+                    <em class="rebate_activity_ico"></em>
+                    {{/if}}
+                    {{$value.ProductName}}
+                </p>
+            </a>
+            <span class="row row_bottom">
+                <span class="tag tag-point"><em>{{$value.Point}}</em>V币</span>
+                {{if $value.IsActivity == true}}
+                <span class="tag tag-rebate">佣金最高<em>{{$value.RebateRadio | percentage}}</em></span>
+                {{/if}}
+                {{if $value.Ispostage == true}}
+                <span class="tag tag-postage">包邮</span>
+                {{/if}}
+            </span>
+            <span class="row row_bottom" style="">
+                <span class="pull-left"><em>¥</em>{{$value.Price | priceToFixed}}</span>
+                <span class="pull-right sales-count">销量 <em>{{$value.SalesCount}}</em></span>
+            </span>
+        </div>
+    </li>
+    {{/each}}
+</script>
+
+<!-- 新版商品展示2 搜索结果页[不包含找相似] -->
+<script type="text/html" id="t-productShow2">
+    {{each Products}}
+    <li>
+        <div class="list-item">
+            {{if $value.IsActivity == true}}
+            <div class="hot_goods"><img src="/Skin/t/Img/Index/activityicon.png"></div>
+            {{/if}}
+            <a class="j-goDetail" href="#" data-id="{{$value.Id}}">
+                <img class="lazy" data-original="{{$value.ProductImgs | productImgs}}"
+                     alt="{{$value.ProductName}}" />
+                <p class="prodect-name">
+                    {{if $value.IsActivity == true}}
+                    <em class="rebate_activity_ico"></em>
+                    {{/if}}
+                    {{$value.ProductName}}
+                </p>
+            </a>
+            <span class="row row_bottom">
+                <span class="tag tag-point"><em>{{$value.Point}}</em>V币</span>
+                {{if $value.IsActivity == true}}
+                <span class="tag tag-rebate">佣金最高<em>{{$value.RebateRadio | percentage}}</em></span>
+                {{/if}}
+                {{if $value.Ispostage == true}}
+                <span class="tag tag-postage">包邮</span>
+                {{/if}}
+            </span>
+            <span class="row row_bottom" style="">
+                <span class="pull-left"><em>¥</em>{{$value.Price | priceToFixed}}</span>
+                <span class="pull-right sales-count">销量 <em>{{$value.SalesCount}}</em></span>
+            </span>
+        </div>
+    </li>
+    {{/each}}
+</script>
+<!-- 新版商品展示3 横排3主图展示 -->
+<script type="text/html" id="t-productShow3">
+    {{each Products}}
+    <a class="j-goDetail product-item" href="#" data-id="{{$value.Id}}">
+        <div class="hot_goods"><img src="/Skin/t/Img/Index/activityicon.png"></div>
+        <div class="t_row">
+           {{$value.ProductImgs | productImages}}
+        </div>
+        <p class="prodect-name">
+            {{if $value.IsActivity == true}}
+            <em class="rebate_activity_ico"></em>
+            {{/if}}
+            {{$value.ProductName}}
+        </p>
+        <span class="row row_bottom">
+            <span class="tag tag-price"><em>¥</em>{{$value.Price | priceToFixed}}</span>
+            <span class="tag tag-point"><em>{{$value.Point}}</em>V币</span>
+            {{if $value.IsActivity == true}}
+            <span class="tag tag-rebate">佣金最高<em>{{$value.RebateRadio | percentage}}</em></span>
+            {{/if}}
+            {{if $value.Ispostage == true}}
+            <span class="tag tag-postage">包邮</span>
+            {{/if}}
+            <span class="pull-right sales-count sales-count1">销量 <em>{{$value.SalesCount}}</em></span>
+        </span>
+    </a>
+    {{/each}}
+</script>

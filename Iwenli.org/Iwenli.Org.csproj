@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Ajax\OpenRequest.cs" />
     <Compile Include="LogHelper.cs" />
     <Compile Include="Parse\CommonParser.cs" />
     <Compile Include="Parse\TagDataHelper.cs" />
@@ -51,6 +52,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SiteAjaxBase.cs" />
     <Compile Include="SiteAjaxFactory.cs" />
+    <Compile Include="SiteDefaultPage.cs" />
     <Compile Include="Utilities\PagerNavigation.cs" />
     <Compile Include="Utilities\ParseTools.cs" />
   </ItemGroup>

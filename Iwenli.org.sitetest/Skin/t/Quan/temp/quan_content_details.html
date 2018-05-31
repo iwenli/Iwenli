@@ -1,0 +1,21 @@
+﻿<script id="contentTemp" type="text/html">
+    {{if ContentType==0}}
+    <div class="p_info">
+        <a href="javascript:void(0);">{{#PostsContent | decode}}</a>
+    </div>
+    <div class="posts_imgs">
+        <a href="javascript:void(0);">
+            {{#PostsImgs | ImgsHelper}}
+        </a>
+    </div>
+    {{/if}}
+    {{if ContentType==1}}
+    <div class="p_info">
+        <a href="{{ContentHref}}" url="{{ContentHref}}" target="_blank" class="link_temp">
+            <em class="pic"><img src="{{PostsImgs}},1,80,80,3" /></em>
+            <span>{{#PostsContent | decode}}</span>
+        </a>
+    </div>
+    {{/if}}
+
+</script>

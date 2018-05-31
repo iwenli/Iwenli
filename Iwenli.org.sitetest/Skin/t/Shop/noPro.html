@@ -1,0 +1,66 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>商品详情页</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/html5/rem.js"></script>
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Public.css" />
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Shop.css" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/jquery/jquery-1.7.2.min.js"></script>
+
+    <script type="text/javascript" src="//cdn.txooo.com/public/aui.artTemplate/artTemplate.js"></script>
+    <script src="/Skin/t/Js/Public.js"></script>
+    <script src="/Skin/t/Js/Template.js"></script>
+    <style>
+        .unhavePro { background: #f5f5f5; text-align: center; padding: 5rem 0; }
+
+        .unhavePro i { font-size: 3rem; line-height: 5rem; }
+    </style>
+</head>
+<body>
+    <header class="P_Header">
+        <div class="P_goBack" onclick="if (window.txservice.success()) {
+    if (getUrlParam('source') != 'shop') {
+        window.txservice.call('goback');
+    } else {
+    history.go(-1);
+    }
+}
+    else { history.go(-1); }
+    "><i>&#xe602;</i></div>
+        <div class="P_title">产品详情</div>
+    </header>
+
+    <section class="unhavePro">
+        <i>&#xe659;</i>
+        <p>商品已过期或不存在</p>
+    </section>
+
+    <section id="proList" class="pay_success_btn"></section>
+    <script type="text/html" id="proTemp">
+        <h2 class="tit">猜你喜欢</h2>
+        {{each list as info}}
+        <ul onclick="window.location.href='/shop.html?id={{info.ProductId}}'">
+            <li class="pic"><img src="{{info.ProductImgs | ProductImgsHelper}}" /></li>
+            <li class="info">{{info.ProductName}}</li>
+            <li class="money">￥{{info.ProductPrice | toFloat}}</li>
+        </ul>
+        {{/each}}
+    </script>
+    <script>
+        $(function () {
+            window.txservice.init();
+            $.get("/Txooo/SalesV2/Shop/Ajax/ShopOpenAjax.ajax/GetRecommendProducts", function (data) {
+                var obj = eval(data);
+                $("#proList").html(template("proTemp", { list: obj }));
+            });
+            //alert(location.href);
+            if (window.txservice.success()) {
+                window.txservice.call('getcurrentpageurl', { url: location.href });
+            }
+        });
+    </script>
+</body>
+</html>

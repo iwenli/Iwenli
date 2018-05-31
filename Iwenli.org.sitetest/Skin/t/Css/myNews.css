@@ -1,0 +1,16 @@
+﻿/*我的消息首页*/
+.myNews dl{ height:auto; padding:0.64rem 0 0 0.46875rem; overflow:hidden; background:#fff;}
+.myNews dl dt{ width:2.65625rem; height:2.65625rem; float:left; background-size:100% 100%;background-image:url("/Skin/t/Img/News/dt_team.png"); background-repeat:no-repeat; background-position:left top; position:relative;}
+.myNews dl dt.dt_notice{ background-image:url("/Skin/t/Img/News/dt_notice.png");}
+.myNews dl dt.dt_task{ background-image:url("/Skin/t/Img/News/dt_task.png");}
+.myNews dl dt.dt_shop{ background-image:url("/Skin/t/Img/News/dt_shop.png");}
+.myNews dl dt.dt_money{ background-image:url("/Skin/t/Img/News/dt_money.png");}
+.myNews dl dt.dt_person{ background-image:url("/Skin/t/Img/News/dt_person.png");}
+.myNews dl dt em{ float:left; width:0.7375rem; height:0.7375rem; border:0.03125rem solid #fff; border-radius:100%; background:#ff3000; position:absolute; right:-0.15rem; top:-0.15rem; display:none;}
+.myNews dl dt.dt_0 em{ display:block;}
+.myNews dl dd{ float:right; min-height:2.2rem; width:15.9375rem; overflow:hidden; color:#8f8f8f; border-bottom:1px solid #e1e1e1; line-height:1.40625rem; padding-bottom:0.64rem; }
+.myNews dl dd p{ padding-right:0.32rem;}
+.myNews dl dd p .name{ color:#101010;}
+.myNews dl dd>div{ text-overflow:ellipsis; height:1rem; line-height:1rem; overflow:hidden; padding-right:0.32rem;}
+.myNews dl:nth-of-type(2) dt{ background-image:url("/Skin/t/Img/no_pic.png");}
+.myNews dl:nth-of-type(4) dt{ background-image:url("/Skin/t/Img/no_pic.png");}

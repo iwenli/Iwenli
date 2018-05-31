@@ -1,0 +1,92 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/html5/rem.js"></script>
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Public.css" />
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Member.css" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/jquery/jquery-1.7.2.min.js"></script>
+    <link rel="stylesheet" href="//cdn.txooo.com/public/jquery.validate/Css/Validate.css" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/jquery.validate/jquery.validate.js"></script>
+    <script type="text/javascript" src="//cdn.txooo.com/public/jquery.validate/validate-ex.js"></script>
+    <script src="/Skin/t/Js/Public.js"></script>
+    <title>修改密码</title>
+    <script type="text/javascript">
+        jQuery.validator.addMethod("isPwd", function (value, element) {
+            var regu = "^.*[A-Za-z0-9\\w_-]+.*$";
+            var re = new RegExp(regu);
+            if (re.test($("input[name=pwd]").val())) {
+                return true;
+            }
+            return false;
+        }, "6-16位字符，可使用字母、数字或符号的组合!");
+        $(function () {
+            $("#passwordform").validate({
+                onfocusout: function (element) { $(element).valid(); }
+            });
+            $("#passwordsubmit").click(function () {
+                if ($("#passwordform").valid()) {
+                    $('.loading_box').show();
+                    $.post("/Txooo/SalesV2/Member/Ajax/MemberAjax.ajax/SalesUpdatePw", $("#passwordform").serialize(), function (data) {
+                        if (data) {
+                            var obj = eval(data);
+                            if (obj.success == "true") {
+                                //window.location = "/homepage/info.html";
+                                LoginOut();
+                            }
+                            else {
+                                if (obj.msg == "1") {
+                                    $(".error[for=oldpwd]").html("原密码错误").show();
+                                } else {
+                                    dialogAlart(obj.msg);
+                                }
+                            }
+                        }
+                    });
+                }
+
+            });
+
+        })
+
+    </script>
+
+</head>
+<body style="background:#f0f0f0;">
+    <!-- 头部信息begin -->
+    <header class="P_Header" id="header1">
+        <div class="P_goBack" onclick="javascript:history.go(-1)"><i>&#xe602;</i></div>
+        <div class="P_title">修改密码</div>
+        <div class="P_Header_info" id="passwordsubmit">提交</div>
+    </header>
+    <!-- 头部信息end -->
+    <section class="P_Pages">
+        <form id="passwordform" method="post" onsubmit="return false">
+            <div class="modify_safety">
+                <p>请输入旧密码</p>
+                <dl class="safety_number">
+                    <dt class="no_eye">
+                        <input class="input_text {required:true}" name="oldpwd" type="password" />
+                        <label class="error" for="oldpwd" generated="true" style="display:none"></label>
+                    </dt>
+                    
+                </dl>
+
+                <p>请输入新密码</p>
+                <dl class="safety_password">
+                    <dt class="no_eye"><input class="input_text password {required:true,minlength:6,maxlength:16,isPwd:true}" name="pwd" type="password" id="pwd" /></dt>
+                   
+                </dl>
+                <em>最多输入16个字符，可使用字母、数字或符号的组合</em>
+                <p>请再次输入新密码</p>
+                <dl class="safety_password_two">
+                    <dt class="no_eye"><input class="input_text {required:true,minlength:6,equalTo:'#pwd',maxlength:16,messages:{equalTo:'两次输入的新密码不一致'}}" name="repwd" type="password" /></dt>
+                   
+                </dl>
+            </div>
+      </form>
+</section>
+    <div class="loading_box"><p><img src="/Skin/t/Img/loading.gif" />请耐心等待</p></div>
+ <!--WL_TMP{tmp=/Skin/t/Pub/T_Public.html}--> </body>
+</html>

@@ -1,0 +1,101 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>jBridge测试</title>
+    <!--WL_TMP{tmp=/Skin/t/Pub/app_publiccss.html}-->
+    <link href="/Skin/t/Css/sui/index2.css?v=1" rel="stylesheet" />
+</head>
+<body>
+    <div class="page-group">
+        <div id="page-index-test" class="page">
+            <header class="bar bar-nav bar_ff8201">
+                <a class="icon icon-left pull-left back"></a>
+                <h1 class="title">jBridge测试</h1>
+            </header>
+            <div class="content ">
+                <div class="pull-to-refresh-layer">
+                    <div class="preloader"></div>
+                    <div class="layer-contioner">
+                        <div class="pull-to-refresh-arrow"></div>
+                        <span>正在刷新数据中...</span>
+                        <span>最后更新：今天00:00</span>
+                    </div>
+                </div>
+                <!-- 页面内容写这里 -->
+
+                <p>
+                    <xmp id="show">
+                    </xmp>
+                </p>
+                <p>
+                    <xmp id="init">
+                    </xmp>
+                </p>
+                <p>
+                    <input type="text" id="text1" value="username" />
+                </p>
+                <p>
+                    <input type="text" id="text2" value="password" />
+                </p>
+                <p>
+                    <input type="button" id="enter" value="发消息给Native" />
+                </p>
+                <p>
+                    <input type="button" id="enter1" value="调用Native方法" />
+                </p>
+
+                <div id="test-content"></div>
+            </div>
+        </div>
+        <script>
+
+            $(function () {
+                publicPageInit('#page-index-test', function (e, id, page) {
+                    //页面脚本写这里
+                    //do something
+
+                    jBridge.ready(function () {
+
+                        $("#enter").click(function () {
+                            var str1 = document.getElementById("text1").value;
+                            var str2 = document.getElementById("text2").value;
+
+                            jBridge.send({
+                                id: 1,
+                                content: 'userName=' + str1 + '&password=' + str2,
+                                success: function (data) {
+                                    document.getElementById('show').innerHTML = "send:" + data;
+                                }
+                            });
+                        });
+
+                        jBridge.functionInJs({
+                            data: 'Javascript Says Right back aka!',
+                            success: function (data) {
+                                document.getElementById("show").innerHTML = ("data from Java: = " + data);
+                            }
+                        });
+
+                        $("#enter1").click(function () {
+
+                            jBridge.getlnglat({
+                                param: '中文测试',
+                                param3: '中文测试',
+                                param1: '中文测试',
+                                id: '00001',
+                                success: function (data) {
+                                    document.getElementById("show").innerHTML = "send get responseData from java, data = \n" + data;
+                                }
+                            });
+                        });
+                    });
+
+                });
+                //$.init();
+            });
+        </script>
+    </div>
+    <!--WL_TMP{tmp=/Skin/t/Pub/app_publicjs.html}-->
+</body>
+</html>

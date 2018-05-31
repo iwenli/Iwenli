@@ -1,0 +1,13 @@
+﻿<script type="text/html" id="S_mch">
+    {{each list as l}}
+    <!--<p>{{l.product_title}}</p>-->
+    <a href="{{l.product_href}}"><img src="{{l.product_img}}" /></a>
+    {{/each}}
+</script>
+<script>
+    $.get("/Txooo/SalesV2/Shop/Ajax/IndexShowMchAjax.ajax/GetProductInfo", { mchId: {$ShowMch} , tId:{$IndexMchTID} }, function (data) {
+        var obj = eval(data);
+        $(".show_mch").html(template("S_mch", { list: obj }));
+    });
+</script>
+<section class="show_mch show_mch_3"></section>

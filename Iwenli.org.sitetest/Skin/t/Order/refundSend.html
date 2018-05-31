@@ -1,0 +1,68 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/html5/rem.js"></script>
+    <script type="text/javascript" src="//cdn.txooo.com/public/jquery/jquery-1.7.2.min.js"></script>
+    <script src="/Skin/t/Js/Public.js"></script>
+    <title>寄回信息</title>
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Member.css" />
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Public.css" />
+    <script type="text/javascript">
+        $(function () {
+            $(".P_title").text("寄回信息");
+            $(".P_Header_info").text(" ");
+            $(".P_Header .P_goBack").attr("href", "/order/refundList.html");
+            //$(".P_Header_info .P_goBack").click(function () {
+            //    window.location.href = '/order/orderlist.html';
+            //})
+        })
+    </script>
+</head>
+<body>
+    <!-- 头部信息begin -->
+    <!--WL_TMP{tmp=/Skin/t/Pub/T_Head_info.html}-->
+    <!-- 头部信息end -->
+    <section class="P_Pages">
+        <div class="add_address">
+            <form id="formRefundInfo" method="post">
+                <dl>
+                    <dt>物流公司：</dt>
+                    <dd><input type="text" name="expressName" value="" class="input_text" /></dd>
+                </dl>
+                <dl>
+                    <dt>货运单号：</dt>
+                    <dd><input type="text" name="expressNum" value="" class="input_text" /></dd>
+                </dl>
+                <div class="bottom_btn">
+                    <a href="JavaScript:void(0);" class="positive_button" onclick="SetReundState()">确　定</a>
+                </div>
+            </form>
+            
+        </div>
+    </section>
+
+    <script>
+        function SetReundState() {
+            if ($("input[name=expressName]").val().length > 50) {
+                dialogAlart("物流公司名称输入过长！");
+                return;
+            }
+            if ($("input[name=expressNum]").val().length > 50) {
+                dialogAlart("货运单号输入过长！");
+                return;
+            }
+            $.post("/Txooo/SalesV2/Shop/Ajax/ShopAjax.ajax/SetReundState", { expressName: $("input[name=expressName]").val(), expressNum: $("input[name=expressNum]").val(), orderId: getUrlParam("orderId") }, function (data) {
+                var obj = eval(data);
+                if (obj.success == "true") {
+                    window.location.href = "refundList.html";
+                } else {
+                    dialogAlart(obj.msg);
+                }
+            })
+        }
+    </script>
+ <!--WL_TMP{tmp=/Skin/t/Pub/T_Public.html}--> </body>
+</html>

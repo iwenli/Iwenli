@@ -1,0 +1,103 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/html5/rem.js"></script>
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Public.css" />
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Quan.css" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/jquery/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="//cdn.txooo.com/public/aui.artTemplate/artTemplate.js"></script>
+    <title>查看他人动态</title>
+</head>
+<body>
+    <!-- 头部信息begin -->
+    <div class="download clear">
+        <p><i>×</i>买客&nbsp;&nbsp; 一个能赚钱的电商APP<a href="{$ConfigOfficialWebUrl}/Index_wap.html" class="download_android">去下载</a></p>
+    </div>
+    <!-- 头部信息end -->
+    <section class="P_main">
+        <!--帖子展示-->
+        <section id="posts_list" class="share_list info_share_list"></section>
+
+    </section>
+
+    <!--WL_TMP{tmp=/Skin/t/Pub/T_Public.html}-->
+
+    <script type="text/html" id="postsListTemp">
+        {{each info as i}}
+        <dl class="">
+            <dt>
+                <img src="{{i.HeadPic}}">
+            </dt>
+            <dd class="p_name">
+                <span class="name">{{i.NickName}}</span>
+            </dd>
+            <dd class="p_show noshow">
+                {{include 'contentTemp' i}}
+            </dd>
+            <dd class="assess">
+                <ul>
+                    <li class="time posts_add_time">{{i.AddTime | dateFormatNow:'yyyy-MM-dd'}}</li>
+                    {{if i.UserId=='{$UserId}'}}
+                    <li class="time"></li>
+                    {{/if}}
+                    <!--<li class="fen">
+                        <a href="/">
+                            <i>&#xe641;</i>
+                        </a>
+                    </li>
+                    <li class="is_login">
+                        <a href="javascript:void(0);" class="like_a" onclick="AddLike('{{i.PostsId}}',this)"><i class="like_False">&#xe644;</i><span>{{i.GoodCount}}</span></a>
+                        <a href="javascript:void(0)" onclick="addComment('{{i.PostsId}}',0)"><i>&#xe642;</i><span class="review_count_{{i.PostsId}}">{{i.ReviewCount}}</span></a>
+                    </li>-->
+                    <li class="huachu" data-flag="0">
+                        <a href="javascript:void(0);" class="like_a" onclick="AddLike('{{i.PostsId}}',this)"><i class="like_False">&#xe644;</i> <span>{{i.LikeMsg}}</span><!--<span>{{i.GoodCount}}</span>--></a>
+                        <a href="javascript:void(0)" onclick="addComment(this,'{{i.PostsId}}',0)"><i>&#xe642;</i> 评论<!--<span class="review_count_{{i.PostsId}}">{{i.ReviewCount}}</span>--></a>
+                        <!--<a href="javascript:void(0);" class="fen"><i>&#xe641;</i>  分享</a>-->
+                    <li />
+                </ul>
+            </dd>
+            <dd class="reply com_text_{{i.PostGood.length}}_{{i.PostComment.length}}">
+                <em></em>
+                <div class="comment_like good_{{i.PostsId}}">
+                    {{include 'postGoodTemp' i}}
+                </div>
+                <div class="reply_con posts_{{i.PostsId}}" style="">
+                    {{include 'commentTemp' i}}
+                </div>
+            </dd>
+
+        </dl>
+
+        {{/each}}
+
+    </script>
+    <!--WL_TMP{tmp=/Skin/t/Quan/temp/quan_content_details.html}-->
+    <!--WL_TMP{tmp=/Skin/t/Quan/temp/quan_good.html}-->
+    <!--WL_TMP{tmp=/Skin/t/Quan/temp/quan_comment.html}-->
+
+    <script src="/Skin/t/Js/txappOpenShare.min.js?v=1"></script>
+    <script src="/Skin/t/Js/Public.js?v=123"></script>
+    <script src="/Skin/t/Js/Template.js"></script>
+    <script>
+        var isAuth = "{$IsAuth}";
+        $.get("/Txooo/SalesV2/Quan/Ajax/PostAjax.Ajax/GetPostsInfo?post_id=" + getUrlParam("id"), function (data) {
+            var list = eval(data);
+            if (list.length > 0) {
+
+                list[0].LikeMsg = "赞";
+                $.each(list[0].PostGood, function (a, b) {
+                    if (b.UserId == '{$UserId}') {
+                        list[0].LikeMsg = "取消";
+                    }
+                })
+                $("#posts_list").html(template("postsListTemp", { info: list }));
+            } else {
+                $("#posts_list").html("没有数据！");
+            }
+        })
+    </script>
+    <script src="/Skin/t/Js/QuanPost.js"></script>
+</body>
+</html>

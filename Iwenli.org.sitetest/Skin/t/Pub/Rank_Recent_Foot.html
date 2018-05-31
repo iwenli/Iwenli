@@ -1,0 +1,92 @@
+﻿<section class="my_rank_bottom"></section>
+<div class="dvLog" style="display:none">
+    <section class="my_rank MRank" style="display:none">
+        <div class="info">
+            <div class="pic mypic"><img src="" /></div>
+            <div class="num">近一月赚到<em><span class="spUserMoneyMonth"></span></em>元<span>排名<em><span class="spUserMoneyRankMonth"></span></em>位</span></div>
+            <ul>
+                <li><span>佣金<span class="spUserBrokerageMonth"></span>元</span></li>
+                <li><span>创业金<span class="spUserBonusMonth"></span>元</span></li>
+                <li><span>V币<span class="spUserPointMonth"></span>个</span></li>
+            </ul>
+        </div>
+        <div class="right_i"><i>&#xe603;</i></div>
+    </section>
+
+    <section class="my_rank PRank" style="display:none">
+        <div class="info">
+            <div class="pic mypic"><img src="" /></div>
+            <div class="num">近一月佣金<em><span class="spUserBrokerageMonth"></span></em>元<span>排名<em><span class="spUserBrokerageRankMonth"></span></em>位</span></div>
+            <ul>
+                <li><span>已赚到<span class="spUserMoneyMonth"></span>元</span></li>
+                <li><span>创业金<span class="spUserBonusMonth"></span>元</span></li>
+                <li><span>V币<span class="spUserPointMonth"></span>个</span></li>
+            </ul>
+        </div>
+        <div class="right_i"><i>&#xe603;</i></div>
+    </section>
+
+    <section class="my_rank BRank" style="display:none">
+        <div class="info">
+            <div class="pic mypic"><img src="" /></div>
+            <div class="num">近一月创业金<em><span class="spUserBonusMonth"></span></em>元<span>排名<em><span class="spUserBonusRankMonth"></span></em>位</span></div>
+            <ul>
+                <li><span>已赚到<span class="spUserMoneyMonth"></span>元</span></li>
+                <li><span>佣金<span class="spUserBrokerageMonth"></span>元</span></li>
+                <li><span>V币<span class="spUserPointMonth"></span>个</span></li>
+            </ul>
+        </div>
+        <div class="right_i"><i>&#xe603;</i></div>
+    </section>
+    <section class="my_rank NRank" style="display:none">
+        <div class="info">
+            <div class="pic mypic"><img src="" /></div>
+            <div class="num">近一月V币<em><span class="spUserPointMonth"></span></em>个<span>排名<em><span class="spUserPointRankMonth"></span></em>位</span></div>
+            <ul>
+                <li><span>已赚到<span class="spUserMoneyMonth"></span>元</span></li>
+                <li><span>佣金<span class="spUserBrokerageMonth"></span>元</span></li>
+                <li><span>创业金<span class="spUserBonusMonth"></span>元</span></li>
+            </ul>
+        </div>
+        <div class="right_i"><i>&#xe603;</i></div>
+    </section>
+</div>
+
+<div class="dvNoLog my_rank" style="display:none" onclick="GoToLogin()">
+    <div class="noinfo">
+        <div class="nopic">
+            <p>登录注册</p>
+        </div>
+        <div class="nocon">您未登录，暂不能查看近一月排名</div>
+    </div>
+    <div class="right_i"><i>&#xe603;</i></div>
+</div>
+
+<script>
+    $.get("/Txooo/SalesV2/Rank/Ajax/RankAjax.ajax/GetMyEstateInfos", function (data) {
+        var obj1 = eval(data);
+        if (obj1.success != "false") {
+            var obj = obj1[0];
+            obj.head_pic = obj.head_pic == "" ? "/Skin/t/Img/no_pic.png" : obj.head_pic;
+            $('.mypic').children('img').attr("src", obj.head_pic + ',1,80,80,3');
+            $('.spUserMoneyMonth').text(parseFloat(obj.month_assets));
+            $('.spUserBrokerageMonth').text(parseFloat(obj.month_brokerage));
+            $('.spUserBonusMonth').text(parseFloat(obj.month_bonus));
+            $('.spUserPointMonth').text(obj.month_points);
+            $('.spUserMoneyRankMonth').text(obj.month_assets_rank);
+            $('.spUserBrokerageRankMonth').text(obj.month_brokerage_rank);
+            $('.spUserBonusRankMonth').text(obj.month_bonus_rank);
+            $('.spUserPointRankMonth').text(obj.month_points_rank);
+            $('.MRank').attr('onclick', 'window.location.href = "/Rank/MyRankMonth.html?UserId=' + obj.user_id + '&type=1"');
+            $('.PRank').attr('onclick', 'window.location.href = "/Rank/MyRankMonth.html?UserId=' + obj.user_id + '&type=3"');
+            $('.BRank').attr('onclick', 'window.location.href = "/Rank/MyRankMonth.html?UserId=' + obj.user_id + '&type=2"');
+            $('.NRank').attr('onclick', 'window.location.href = "/Rank/MyRankMonth.html?UserId=' + obj.user_id + '&type=4"');
+            $('.dvLog').show();
+        } else {
+            $('.dvNoLog').show();
+        }
+    });
+    function GoToLogin() {
+        window.location.href = "//passport.93390.cn/login.html?ReturnUrl=" + encodeURIComponent(window.location.href);
+    }
+</script>

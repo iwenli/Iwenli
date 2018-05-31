@@ -1,0 +1,105 @@
+﻿.appPage .bar { height: 3.2rem; padding-top: 1rem; }
+.appPage .bar:after { display: none; }
+.appPage .pull-to-refresh-layer { margin-top: 1rem; }
+.appPage #page-index-search .native-scroll { top: 3.2rem; }
+.appPage #page-index-result .bar { height: 5.5rem; padding-top: 1rem; }
+.appPage #page-shop-search .native-scroll { top: 3.2rem; }
+.appPage #page-shop-result .bar { height: 5.5rem; padding-top: 1rem; }
+.appPage .bar-nav ~ .content.appContent { top: 3.2rem; }
+
+.bar .icon { font-size: 0.875rem; }
+
+@font-face { font-family: 'iconfont'; src: url('/Skin/t/Img/Iconfont/iconfont.eot'); /* IE9*/ src: url('/Skin/t/Img/Iconfont/iconfont.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */ url('/Skin/t/Img/Iconfont/iconfont.woff') format('woff'), /* chrome、firefox */ url('/Skin/t/Img/Iconfont/iconfont.ttf') format('truetype'), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/ url('/Skin/t/Img/Iconfont/iconfont.svg#iconfont') format('svg'); /* iOS 4.1- */ }
+body { font-family: PingFangSC-Regular, sans-serif,"Helvetica Neue",Helvetica; }
+i { display: block; font-family: 'iconfont' !important; font-family: "iconfont"; font-style: normal; -webkit-font-smoothing: antialiased; -webkit-text-stroke-width: 0.2px; -moz-osx-font-smoothing: grayscale; }
+.list_block { margin: 0.75rem 0; }
+.list_block2 { margin: 0rem 0; }
+.buttons-tab .button.active { color: #09D317; border-color: #09D317; z-index: 100; }
+.bar_ff8201 { background: #09D317; }
+.bar_ff8201 .title { color: #fff }
+.bar_ff8201 .title_center { text-align: center; color: #fff }
+.bar_ff8201 .icon { color: #fff; }
+.bar_ff7800 { background: #09D317; }
+.bar_ff7800 .title { color: #fff }
+.bar_ff7800 .title_center { text-align: center; color: #fff }
+.bar_ff7800 .icon { color: #fff; }
+
+.bar_tran { background: rgba(0,0,0,0); }
+.bar_tran .title { color: #fff }
+.bar_tran .title_center { text-align: center; color: #fff }
+.bar_tran .icon { color: #fff; }
+.bar_tran:after { display: none; }
+.more_container { text-align: center; display: none; }
+.button-sales { border: 1px solid #09D317; color: #fff; background-color: #09D317; }
+
+/*下载客户端*/
+.download { line-height: 2rem; height: 2rem; font-size: 0.625rem; background: rgba(0,0,0,0.7); color: #fff; overflow: hidden; width: 100%; z-index: 9999; position: fixed; top: 2.2rem; }
+.download img { display: inline-block; vertical-align: middle; width: 1rem; height: 1rem; }
+.download a { position: absolute; right: 0; top: 0; height: 1.5rem; line-height: 1.5rem; padding: 0 0.5rem; margin-top: 0.25rem; color: #fff; border-radius: 0.2rem; margin-right: 0.25rem; background: #09D317; }
+.download i { display: inline-block; padding: 0 0.5rem; color: #fff; font-size: 1.25rem; vertical-align: middle; }
+.download p { margin: 0; padding: 0; }
+.bar .searchbar.noshare { background: none; }
+.bar .searchbar .searchbar-cancel.btn { color: #fff; font-size: 0.875rem; }
+
+/*公共弹框样式*/
+.modal-inner { background: #fff; border-radius: 0.25rem 0.25rem 0 0; }
+.modal-button { background: #fff; color: #666; }
+.modal-button:after { display: none; }
+.modal-button:last-child { background: #09D317; color: #fff; border-radius: 0 0 0.25rem 0 }
+.modal-button:first-child { border-radius: 0 0 0 0.25rem }
+
+/*禁止长按选中文本*/
+* { -webkit-touch-callout: none; -webkit-user-select: none; -khtml-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; }
+input { -webkit-user-select: text; }
+
+/*图片浏览公共样式*/
+.photo-browser .bar-nav, .photo-browser .bar-tab { opacity: 0.8; background-color: #000; }
+.photo-browser .bar-tab:before, .photo-browser .bar:after { display: none; }
+.photo-browser .bar-nav .photo-browser-close-link { color: #FFF; }
+.photo-browser .bar-nav .title { color: #FFF; }
+.photo-browser .bar-tab ~ .content { bottom: 0; top: 0; }
+.photo-browser .photo-browser-captions { bottom: 2.5rem; border-bottom: groove 1px #aaa; }
+.photo-browser .photo-browser-swiper-container { padding-bottom: 0 !important; }
+.photo-browser .photo-browser-caption.photo-browser-caption-active { display: -webkit-box; overflow: hidden; text-overflow: ellipsis; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+/*修复商品详情和swiper样式的冲突*/
+.swiper-container { padding-bottom: 0; }
+/*全局加载动画*/
+.loading-2 { width: 50%; margin: 0 auto !important; }
+.loading-2 img { width: 100%; margin: 0.75rem 0; }
+.loading-1 { background: #fff; padding-bottom: 1.5rem; }
+.loading-1 .k-line2 { display: inline-block; height: 0.3rem; width: 0.3rem; opacity: 0; border-radius: 50%; transform: translateX(-300px); background-color: #FF8201 }
+.loading-1 .k-line12-1 { animation: tx-loading1 4s infinite; animation-delay: .8s }
+.loading-1 .k-line12-2 { animation: tx-loading1 4s infinite; animation-delay: .7s }
+.loading-1 .k-line12-3 { animation: tx-loading1 4s infinite; animation-delay: .6s }
+.loading-1 .k-line12-4 { animation: tx-loading1 4s infinite; animation-delay: .5s }
+.loading-1 .k-line12-5 { animation: tx-loading1 4s infinite; animation-delay: .4s }
+.loading-1 .k-line12-6 { animation: tx-loading1 4s infinite; animation-delay: .3s }
+.loading-1 .k-line12-7 { animation: tx-loading1 4s infinite; animation-delay: .2s }
+.loading-1 .k-line12-8 { animation: tx-loading1 4s infinite; animation-delay: .1s }
+
+@keyframes tx-loading1 {
+    40% { transform: translateX(0); opacity: .8 }
+    100% { transform: translateX(300px); opacity: 0 }
+}
+
+/*确认订单绑定手机*/
+.binding { }
+.binding_input_text { border: 1px solid #dedede; padding: 0.5rem 0.5rem; width: 100%; border-radius: 0.25rem; height: 2.25rem; }
+.binding_input_text_half { padding: 0.5rem 0.5rem; width: 60%; height: 2.25rem; border: none; background: none; }
+.getcode { width: 37%; display: block; float: right; height: 1.75rem; line-height: 1.75rem; color: #fff; background: #09D317; border-radius: 0.25rem; text-align: center; font-size: 0.7rem; margin-top: 0.2rem; margin-right: 1.5%; }
+
+
+.bind_mobile_modal { width: 90%; left: 55%; margin-left: -50%; }
+.bind_mobile_header { position: initial; background: #fff; }
+
+.bg_gradient { background: -webkit-gradient(linear, left top, right bottom, from(#FF9900), to(#F41818)) !important; }
+.bg_gradient_buy { background: -webkit-gradient(linear, left top, right bottom, from(#FF4D00), to(#F41818)) !important; }
+.bg_gradient_cart { background: -webkit-gradient(linear, left top, right bottom, from(#FF9900), to(#FF5E00)) !important; }
+
+.button-warning.button-fill {background-color: #09D317!important; }
+
+/*默认滚动条样式修改ie9 google Firefox 等高版本浏览器有效*/
+::selection { background: #D03333; color: white; text-shadow: none; }
+::-webkit-scrollbar-track-piece { width: 1px; background-color: #f2f2f2 }
+::-webkit-scrollbar { width: 1px; height: 6px }
+::-webkit-scrollbar-thumb { height: 5px; background-color: rgba(0,0,0,.3); }

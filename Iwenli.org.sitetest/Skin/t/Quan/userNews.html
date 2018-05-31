@@ -1,0 +1,97 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>个人资讯详情</title>
+    <!--WL_TMP{tmp=/Skin/t/Pub/app_publiccss.html}-->
+    <link href="/Skin/t/Css/sui/index.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="page-group">
+        <div id="page-quan-usernews" class="page">
+            <header class="bar bar-nav bar_ff8201" style="display:none">
+                <a class="icon icon-left pull-left back" href="/index.html"></a>
+                <h1 class="title">个人资讯详情</h1>
+            </header>
+            <!--返回顶部-->
+            <section class="back-Top">
+                <a class="print_top"><i>&#xe657;</i></a>
+            </section>
+            <div class="content">
+                <input type="hidden" class="posts_id" value="{$U_QUERY_POSTSID}" />
+                <!--资讯内容-->
+                <div class="user_news_detail news_detail"></div>
+                <!--资讯评论-->
+                <div class="news_bbs">
+                    <div class="content_title">热门评论</div>
+                    <div class="list"></div>
+                    <a class="app new_bbs_more" href="/bbs/index.html?newsid={$U_QUERY_POSTSID}&typename=usernews">查看全部评论 ></a>
+                </div>
+            </div>
+            <!--资讯内容模板-->
+            <script type="text/html" id="user_news_data_temp">
+                <ul>
+                    <li class="news_title">{{PostsContent}}</li>
+                    <li class="news_source"><span>来源：买客</span>&nbsp;&nbsp;&nbsp;&nbsp;<span>作者：{{UserNickName}}</span><span class="news_time">{{CheckTime | dateFormat:'yyyy年 MM月 dd日'}}</span></li>
+                    <li class="img_text_details">{{#ContentJsonHtml}}</li>
+                    <li class="news_likes new_like_{{if OpenReward==true}}true{{/if}}{{if OpenReward==false}}false{{/if}}">
+                        {{if OpenReward==true}}
+                        <span class="btn reward_btn">
+                            <i class="nocolor">&#xe60b;</i>
+                            <span>打赏</span>
+                        </span>
+                        {{/if}}
+                        <span class="btn like_btn  is_like_click is_like_{{IsLike | userNewsClickLike:PostsId}}" data-like="{{IsLike | userNewsClickLike:PostsId}}">
+                            <i class="nocolor">&#xe9d5;</i>
+                            <span>{{LikeCount}}</span>
+                        </span>
+                        {{if IsApp == true}}
+                        <a class="news_report">举报</a>
+                        {{/if}}
+                    </li>
+                    <li class="reward_list"></li>
+                    <li class="news_state">免责声明：以上内容，版权归原作者所有，如有侵犯原创版权请告知，我们将尽快删除相关内容。</li>
+                </ul>
+            </script>
+            <!--打赏头像列表横排-->
+            <script type="text/html" id="reward_list_temp">
+                <div class="like_img">
+                    <a href="#" id="btn_reward_list" class="list">
+                        <ul>
+                            {{each list as value}}
+                            <li><img src="{{value.UserHeadPic}}" /></li>
+                            {{/each}}
+                            <li class="rewardCount">已打赏<span>{{count}}</span>人</li>
+                        </ul>
+                    </a>
+                </div>
+            </script>
+            <!--评论-->
+            <script type="text/html" id="bbs_temp">
+                {{each list as value}}
+                <dl>
+                    <dt class="other_user" data-uid="{{value.UserId}}"><img src="{{value.UserHeadPic}}" /></dt>
+                    <dd class="list_name"><a class="other_user external" data-uid="{{value.UserId}}" href="/homepage/index.html?uid={{value.UserId}}">{{value.UserNikeName}}<em>{{value.AddTime | dateFormat:'yyyy-MM-dd hh:mm','diy'}}</em></a><span class="right is_like_click is_like_{{value.IsLike | bbsClickLike:value.BbsId}}" data-like="{{value.IsLike | bbsClickLike:value.BbsId}}" data-bbsid="{{value.BbsId}}"><i class="nocolor">&#xe9d5;</i><i class="color">&#xe9d4;</i><span>{{value.LikeCount}}</span></span></dd>
+                    <dd class="list_content"><a class="bbs_detailsadd" data-bbsid="{{value.BbsId}}" data-nickname="{{value.UserNikeName}}" data-reviewid="0" href="/bbs/details.html?bbsid={{value.BbsId}}">{{value.ContentText | replaceBrContent}}</a></dd>
+                    <dd class="list_reply">
+                        <ul>
+                            {{each value.ReviewList as v}}
+                            <li>
+                                <a class="other_user external" data-uid="{{v.UserId}}" href="/homepage/index.html?uid={{v.UserId}}">{{v.UserNikeName}}</a>
+                                {{if v.ReviewBbsId>0}}<em>回复</em><a class="external" href="/homepage/index.html?uid={{v.ReviewUserId}}">{{v.ReviewNikeName}}</a>{{/if}}：
+                                <a href="/bbs/details.html?bbsid={{value.BbsId}}" class="info bbs_detailsadd" data-bbsid="{{value.BbsId}}" data-nickname="{{v.UserNikeName}}" data-reviewid="{{v.BbsId}}">{{v.ContentText | replaceBrContent}}</a>
+                            </li>
+                            {{/each}}
+                            {{if value.ReviewList.length==3}}
+                            <li class="more"><a href="/bbs/details.html?bbsid={{value.BbsId}}" class="bbs_details" data-bbsid="{{value.BbsId}}">查看全部回复 ></a></li>{{/if}}
+                        </ul>
+                    </dd>
+                </dl>
+                {{/each}}
+            </script>
+        </div>
+    </div>
+    <!--WL_TMP{tmp=/Skin/t/Pub/app_publicjs.html}-->
+    <script src="/Skin/t/Js/sui/index.js?v=1"></script>
+</body>
+</html>

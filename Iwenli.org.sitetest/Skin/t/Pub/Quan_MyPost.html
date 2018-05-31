@@ -1,0 +1,92 @@
+﻿<script type="text/html" id="myPostTemp">
+    {{each info as value i}}
+    <dl class="posts_1138">
+        <input type="hidden" class="post_addtime" name="time" value="{{value.AddTime }}" />
+
+        {{if value.TimeIsShow}}
+        <dt class="post_time">
+            <em>{{value.AddTime | dateFormat:'dd'}}</em>
+            {{value.AddTime | dateFormat:'Y'}}月
+        </dt>
+        {{/if}}
+
+        <dd class="p_show">
+            {{include 'contentTemp' value}}
+        </dd>
+    </dl>
+    {{/each}}
+</script>
+<script id="contentTemp" type="text/html">
+    {{if ContentType==0}}
+    <div class="p_info">
+        <a href="postInfo.html?id={{PostsId}}">{{#PostsContent | decode}}</a>
+    </div>
+    <div class="posts_imgs">
+        <a href="postInfo.html?id={{PostsId}}">
+            {{#PostsImgs | ImgsHelper}}
+        </a>
+    </div>
+    {{/if}}
+    {{if ContentType==1}}
+    <div class="p_info">
+        <a href="postInfo.html?id={{PostsId}}" class="link_temp">
+            <em class="pic"><img src="{{PostsImgs}},1,80,80,3" /></em>
+            <span>{{#PostsContent | decode}}</span>
+        </a>
+    </div>
+    {{/if}}
+    {{if ContentType==2}}
+    <div class="p_info">
+        <a href="{{if CheckState==1}}/quan/usernews.html?postsid={{else}}/quan/usernewspreview.html?postsid={{/if}}{{PostsId}}" class="link_temp">
+            <em class="pic"><img src="{{PostsImgs}},1,80,80,3" /></em>
+            <span>{{#PostsContent | appBrChange}}</span>
+        </a>
+    </div>
+    {{/if}}
+
+</script>
+<script>
+    var pageIndex = 0, pageSize = 5;
+    loadMyPost();
+    function loadMyPost() {
+        $.getJSON("/Txooo/SalesV2/Quan/Ajax/PostAjax.Ajax/GetPostByUserIdV2", { pageIndex: pageIndex, pageSize: pageSize, user_id: getUrlParam("uId") }, function (data) {
+            var list = data;
+            if (list.length > 0) {
+                scrollTrue = true;
+                for (var i = 0; i < list.length; i++) {
+                    list[i].AddTime = formatTime(list[i].AddTime, "yyyy-MM-dd");
+                    if (i == 0) {
+                        var lastTime = $("#posts_list dl:last-child").find(".post_addtime");
+                        if (lastTime.length > 0 && lastTime.val() == list[i].AddTime) {
+                            list[i].TimeIsShow = false;
+                        } else {
+                            list[i].TimeIsShow = true;
+                        }
+                    } else {
+                        if (list[i].AddTime == list[i - 1].AddTime) {
+                            list[i].TimeIsShow = false;
+                        } else {
+                            list[i].TimeIsShow = true;
+                        }
+                    }
+                }
+                $("#posts_list").append(template("myPostTemp", { info: list }));
+            }
+            if (data.length == 0) {
+                $("#posts_list").html("没有帖子，快去<a href='addPost.html'>发表</a>一个吧！");
+            }
+        })
+    }
+    var scrollTrue = true;
+    window.onscroll = function () {
+        if (getScrollTop() + getClientHeight() == getScrollHeight()) {
+            if (scrollTrue) {
+                scrollTrue = false;
+                pageIndex++;
+                loadMyPost();
+            }
+        }
+    }
+    //$(".index_top .pic a").attr("href", "/homepage/info.html");
+</script>
+

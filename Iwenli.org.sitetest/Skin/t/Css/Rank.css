@@ -1,0 +1,186 @@
+﻿.P_t{height:5.25rem; background:#09D317; color:#fff; padding:0 0.75rem; overflow:hidden; position:relative;}
+.head_portrait{float:left; width:2.75rem; height:2.75rem; overflow:hidden; border-radius:50%; background:#fff; }
+.user_name{height:1rem; line-height:1rem; margin-top:1.4rem; font-size:0.9875rem; margin-left:3.375rem;}
+.have_make{height:1.6875rem; line-height:1.875rem; font-size:0.75rem; margin-left:3.375rem;}
+.have_make .rank{line-height:0.875rem; color:#FCF204; margin:0;}
+.mecode{position:absolute; right:0.75rem; top:1.875rem; line-height:1.25rem; color:#edebeb; font-size:1.25rem;}
+.mecode a {color:#edebeb;}
+.rank_table{ width:100%;}
+.rank_table .list_1{overflow:hidden; color:#fff;height:3.625rem; background:#09D317;}
+.rank_table .list_1 li{padding-top:0.25rem;float:left; width:33%; text-align:center;background:rgba(255,255,255,0.1); height:3.625rem; margin-right:0.5%;}
+.rank_table .list_1 li:last-child{ margin:0;}
+.rank_table .list_1 li p{ height:1rem; line-height:1rem; font-size:0.75rem; width:100%; overflow:hidden;}
+.rank_table .list_1 li span{color:#FCF204;}
+.money_rank{ width:90%; margin:0.75rem auto 0; background:#fff;border:1px solid #ececec; border-radius:0.25rem; padding:0 2.5%; }
+.money_rank h2{ border-bottom:1px solid #ececec; margin-top:0.25rem; text-align:center; color:#09D317; height:1.875rem;line-height:1.875rem; font-size:0.875rem;}
+.money_rank h2 .tit_l{ padding-left:3.25rem; background:url(/Skin/t/Img/Rank/tit_l.png) no-repeat center; background-size:3.25rem 1.75rem;}
+.money_rank h2 .tit_r{ padding-left:3.25rem; background:url(/Skin/t/Img/Rank/tit_r.png) no-repeat center; background-size:3.25rem 1.75rem;}
+.mr_list{ overflow:hidden; width:100%; position:relative;}
+.mr_list .cross_line{position:absolute; width:80%; border-top:1px solid #ececec; left:10%; top:6.125rem;}
+.mr_list .vertical_line{position:absolute; height:10.75rem; border-left:1px solid #ececec; left:50%; top:0.75rem;}
+.mr_list .list_li{ float:left; width:50%; height:5.375rem; margin-top:0.75rem;}
+.mr_list .list_li dl{ overflow:hidden; padding-right:0.5rem;}
+.mr_list .list_li dl dt{ float:left; width:2.8125rem; height:4.65rem; position:relative; margin-right:0.25rem;}
+.mr_list .list_li dl dt img{ position:absolute; top:0; left:0; width:100%; display:block; height:2.8125rem; z-index:2; border-radius:50%;}
+.mr_list .list_li dl dt span{font-size:0.625rem; color:#fff; text-align:center; padding:0.4rem 0 0; display:block; width:2.8125rem; line-height:0.75rem; font-weight:bold; height:1.85rem; position:absolute; bottom:0; left:0; background:url(/Skin/t/Img/Rank/qian.png) no-repeat center top; background-size:2.25rem 2.25rem; z-index:1; }
+.mr_list .list_li dl dd{ line-height:1.5rem; height:1.5rem; font-size:0.625rem;}
+.mr_list .list_li dl dd.top{position:relative;}
+.mr_list .list_li dl dd.top span{float: left;font-size: 0.75rem;height: 1.5rem;line-height: 1.5rem;overflow: hidden;width: 3.0125rem;}
+.mr_list .list_li dl dd.top em{ display:block;position:absolute;right:0;top:0; background:#09D317; color:#fff; border-radius:0.125rem; margin-left:0.25rem; font-size:0.625rem; padding:0 0.125rem; height:1rem;line-height:1rem; margin-top:0.25rem;}
+.mr_list .list_li dl dd.top .no_color em{background:#a2a1a1;}
+.mr_list .list_li dl dd.link{ text-align:right; margin-right:0.5rem; font-size:0.75rem; }
+.mr_list .list_li dl dd.link a{color:#666;}
+.mr_list .list_li:nth-child(2n) dl{ padding-right:0; padding-left:0.5rem;}
+.mr_list #dvTop2 .list_li dl{ padding-right:0; padding-left:0.5rem;}
+.mr_list #dvTop4 .list_li dl{ padding-right:0; padding-left:0.5rem;}
+.one_rank{}
+.one_rank h2{ text-align:center; color:#09D317; height:2.75rem;line-height:2.75rem; font-size:0.875rem;}
+.one_rank h2 .tit_l{ padding-left:3.25rem; background:url(/Skin/t/Img/Rank/tit_l.png) no-repeat center; background-size:3.25rem 1.75rem;}
+.one_rank h2 .tit_r{ padding-left:3.25rem; background:url(/Skin/t/Img/Rank/tit_r.png) no-repeat center; background-size:3.25rem 1.75rem;}
+.List_nav{ width:95%; margin:0rem auto 0; background:#fff;border:1px solid #ececec; border-radius:0.25rem 0.25rem 0 0; text-align:center; height:2.125rem; line-height:2.125rem; overflow:hidden;}
+.List_nav_menu{float:left; width:25%; height:2.125rem; }
+.List_nav_menu:first-child{margin-left:0;}
+.List_nav_menu:last-child  .ranking{ border-right:none;}
+.List_nav_menu .ranking{height:1.125rem; line-height:1.125rem; margin-top:0.5rem; border-right:1px solid #ececec;}
+.List_nav_menu.no_border .ranking{border-right:none;}
+.List_nav_menu.current{background:#09D317;}
+.List_nav_menu.current .ranking{color:#fff; border:none;}
+
+.List_con{display:none; width:95%; margin:0 auto 0.5rem; background:#fff;border:1px solid #ececec; border-top:none; border-radius:0 0 0.25rem 0.25rem; overflow:hidden;}
+.List_con.current{display:block;}
+
+.List_con_nav{height:2rem; line-height:2rem; padding:0 0.5rem; border-bottom:1px solid #ececec;}
+.List_con_nav li{float:left; margin-right:1.25rem; position:relative;}
+.List_con_nav li.active:after{content:''; position:absolute; left:0; bottom:-1px; width:100%; height:2px; background:#FA931C;}
+.List_con .shouru{position:relative;}
+.List_con .shouru .money_type{position:absolute; right:0.5rem; bottom:0; line-height:2rem;}
+.List_con .shouru .money_type span{margin-left:0.5rem;}
+
+.List_con_rank{ padding:0 0.125rem; }
+.List_con_rank li{ height:3.375rem; line-height:3.375rem; overflow:hidden; border-bottom:1px solid #ececec; padding:0 0.5rem;}
+.List_con_rank li em{ float:left; width:2rem; height:100%;}
+.List_con_rank li i{float:right; color:#a2a1a1}
+.List_con_rank li img{float:left; width:2.875rem; height:2.875rem; border-radius:50%; margin-top:0.25rem; margin-right:0.5rem; margin-left:0.5rem;}
+.List_con_rank li .name{float:left; width:30%; height:3.375rem; line-height:3.375rem;overflow:hidden; margin-left:0.25rem;}
+.List_con_rank li .money{color:#666;}
+.List_con_rank li.li1 em{ background:url(/Skin/t/Img/Rank/rank_num_1.png) no-repeat center;background-size:2rem 3.25rem;}
+.List_con_rank li.li2 em{ background:url(/Skin/t/Img/Rank/rank_num_2.png) no-repeat center;background-size:2rem 3.25rem;}
+.List_con_rank li.li3 em{ background:url(/Skin/t/Img/Rank/rank_num_3.png) no-repeat center;background-size:2rem 3.25rem;}
+
+.List_con .bottom_more{ height:2.5rem; line-height:2.5rem; text-align:center; }
+.List_con .bottom_more a{color:#666; display:block;}
+
+.team_rank{overflow:hidden; padding:0 2.5% 0.5rem;}
+.team_rank h2{ text-align:center; color:#09D317; height:1.875rem;line-height:1.875rem; font-size:0.875rem;}
+.team_rank h2 .tit_l{ padding-left:3.25rem; background:url(/Skin/t/Img/Rank/tit_l.png) no-repeat center; background-size:3.25rem 1.75rem;}
+.team_rank h2 .tit_r{ padding-left:3.25rem; background:url(/Skin/t/Img/Rank/tit_r.png) no-repeat center; background-size:3.25rem 1.75rem;}
+.team_list{ float:left; width:48%; height:6.625rem;background:#fff;border:1px solid #ececec; border-radius:0.25rem; margin-top:1.875rem; text-align:center;}
+.team_list:nth-child(2n){float:right;}
+#t2 .team_list{float:right;}
+#t4 .team_list{float:right;}
+.team_list dt{ position:relative; height:1.5625rem; background:url(/Skin/t/Img/Rank/tit_c.png) no-repeat center top; background-size:7.75rem 1rem;}
+.team_list dt img{ position:absolute; width:2.875rem; height:2.875rem; border-radius:50%; top:-1.4375rem; left:3.125rem;}
+.team_list dd{ line-height:1.125rem;}
+.team_list .bottom_more{ height:1.75rem; line-height:1.75rem; text-align:center; }
+.team_list .bottom_more a{color:#666; display:block;}
+.team_list .num em{color:#09D317;}
+
+.Ranking_list{}
+.Ranking_list .rank_list_li{background:#fff; overflow:hidden; padding:0 0.625rem 0 0; margin-top:0.25rem; height:5.25rem;}
+.Ranking_list .rank_list_li .pic{ float:left; width:2.8125rem; height:4.8rem; position:relative; margin:0 1.25rem; text-align:center;}
+.Ranking_list .rank_list_li .pic em{display:block;}
+.Ranking_list .rank_list_li .pic img{ position:absolute; top:0.5rem; left:0; width:100%; display:block; height:2.8125rem; z-index:2; border-radius:50%;}
+.Ranking_list .rank_list_li .pic span{ width:1.85rem;  text-align:center; margin:0 0.5rem;height:2.25rem; position:absolute; bottom:0; left:0; z-index:1; }
+.Ranking_list .rank_list_li .pic strong{ background:#a7a7a7; display:block; color:#fff;line-height:1.975rem; height:1.45rem; font-weight:bold; padding:0.4rem 0 0; }
+.Ranking_list .rank_list_li .pic b{border-top:0.4rem solid #a7a7a7;width:0px; height:0px; border-left:0.925rem solid transparent;border-right:0.925rem solid transparent; position:absolute; bottom:0; left:0;}
+.Ranking_list .rank_list_li .info{float:left;width:12.75rem; padding-top:0.25rem;}
+.Ranking_list .rank_list_li .info .name{line-height:1.75rem; height:1.75rem;font-size:0.875rem;overflow:hidden;}
+.Ranking_list .rank_list_li .info .name span{float:right;color:#09D317;}
+.Ranking_list .rank_list_li .info .name span.no_color{color:#666}
+.Ranking_list .rank_list_li .info .name span.no_color span{color:#666}
+.Ranking_list .rank_list_li .info .name span.myname{color:#666; width:4.25rem; overflow:hidden; height:1.75rem; white-space:nowrap; text-overflow:ellipsis;}
+.Ranking_list .rank_list_li .info ul{ width:100%; overflow:hidden; margin-top:0.25rem;}
+.Ranking_list .rank_list_li .info ul li{float:left; width:33.3%; text-align:center; line-height:1.125rem;}
+.Ranking_list .rank_list_li .info ul li span{display:block;}
+.Ranking_list .rank_list_li.li_1 .pic em{ background:url(/Skin/t/Img/Rank/crown_1.png) no-repeat center top; background-size:auto 1rem; height:1rem; width:100%; position:absolute; top:-0.25rem; z-index:3}
+.Ranking_list .rank_list_li.li_1 .pic strong{ background:#09D317; }
+.Ranking_list .rank_list_li.li_1 .pic b{border-top:0.4rem solid #09D317;}
+.Ranking_list .rank_list_li.li_2 .pic em{ background:url(/Skin/t/Img/Rank/crown_2.png) no-repeat center top; background-size:auto 1rem; height:1rem; width:100%; position:absolute; top:-0.25rem; z-index:3}
+.Ranking_list .rank_list_li.li_2 .pic strong{ background:#ff8e29; }
+.Ranking_list .rank_list_li.li_2 .pic b{border-top:0.4rem solid #ff8e29;}
+.Ranking_list .rank_list_li.li_3 .pic em{ background:url(/Skin/t/Img/Rank/crown_3.png) no-repeat center top; background-size:auto 1rem; height:1rem; width:100%; position:absolute; top:-0.25rem; z-index:3}
+.Ranking_list .rank_list_li.li_3 .pic strong{ background:#ff9c44; }
+.Ranking_list .rank_list_li.li_3 .pic b{border-top:0.4rem solid #ff9c44;}
+
+.Ranking_list .rank_list_li.my_li_1 .pic em{ background:url(/Skin/t/Img/Rank/crown_1.png) no-repeat center top; background-size:auto 1rem; height:1rem; width:100%; position:absolute; top:-0.25rem; z-index:3}
+.Ranking_list .rank_list_li.my_li_1 .pic strong{ background:#a7a7a7; }
+.Ranking_list .rank_list_li.my_li_1 .pic b{border-top:0.4rem solid #a7a7a7;}
+.Ranking_list .rank_list_li.my_li_2 .pic em{ background:url(/Skin/t/Img/Rank/crown_2.png) no-repeat center top; background-size:auto 1rem; height:1rem; width:100%; position:absolute; top:-0.25rem; z-index:3}
+.Ranking_list .rank_list_li.my_li_2 .pic strong{ background:#a7a7a7; }
+.Ranking_list .rank_list_li.my_li_2 .pic b{border-top:0.4rem solid #a7a7a7;}
+.Ranking_list .rank_list_li.my_li_3 .pic em{ background:url(/Skin/t/Img/Rank/crown_3.png) no-repeat center top; background-size:auto 1rem; height:1rem; width:100%; position:absolute; top:-0.25rem; z-index:3}
+.Ranking_list .rank_list_li.my_li_3 .pic strong{ background:#a7a7a7; }
+.Ranking_list .rank_list_li.my_li_3 .pic b{border-top:0.4rem solid #a7a7a7;}
+
+
+.Ranking_list .rank_list_li .right_i{ float:right; line-height:5.25rem; color:#a2a1a1;}
+.Ranking_list .rank_list_li.My_rank_list_li .right_i i{color:#09D317;}
+.Ranking_list .rank_list_li.My_rank_list_li{ box-shadow:0 0 4px #09D317;}
+.Ranking_list .rank_list_li.My_rank_list_li.my_li_1 .pic em{ background:url(/Skin/t/Img/Rank/crown_1.png) no-repeat center top; background-size:auto 1rem; height:1rem; width:100%; position:absolute; top:-0.25rem; z-index:3}
+.Ranking_list .rank_list_li.My_rank_list_li.my_li_1 .pic strong{ background:#09D317; }
+.Ranking_list .rank_list_li.My_rank_list_li.my_li_1 .pic b{border-top:0.4rem solid #09D317;}
+.Ranking_list .rank_list_li.My_rank_list_li.my_li_2 .pic em{ background:url(/Skin/t/Img/Rank/crown_2.png) no-repeat center top; background-size:auto 1rem; height:1rem; width:100%; position:absolute; top:-0.25rem; z-index:3}
+.Ranking_list .rank_list_li.My_rank_list_li.my_li_2 .pic strong{ background:#09D317; }
+.Ranking_list .rank_list_li.My_rank_list_li.my_li_2 .pic b{border-top:0.4rem solid #09D317;}
+.Ranking_list .rank_list_li.My_rank_list_li.my_li_3 .pic em{ background:url(/Skin/t/Img/Rank/crown_3.png) no-repeat center top; background-size:auto 1rem; height:1rem; width:100%; position:absolute; top:-0.25rem; z-index:3}
+.Ranking_list .rank_list_li.My_rank_list_li.my_li_3 .pic strong{ background:#09D317; }
+.Ranking_list .rank_list_li.My_rank_list_li.my_li_3 .pic b{border-top:0.4rem solid #09D317;}
+.Ranking_list .rank_list_li.My_rank_list_li .info{color:#09D317;}
+.Ranking_list .rank_list_li.My_rank_list_li .info .name span.myname{color:#666;}
+.Ranking_list .rank_list_li.My_rank_list_li .info .name span.no_color{color:#09D317}
+.Ranking_list .rank_list_li.My_rank_list_li .info .name span.no_color span{color:#09D317}
+.Ranking_list .rank_list_li.My_rank_list_li .pic strong{ background:#09D317;  }
+.Ranking_list .rank_list_li.My_rank_list_li .pic b{border-top:0.4rem solid #09D317;}
+
+
+
+.my_rank_bottom{ height:4.425rem; width:100%;}
+.my_rank{position:fixed; height:4.125rem; background:#000; width:100%;left:0; bottom:0; z-index:9}
+.my_rank .info{float:left; margin:0.5rem 0 0 3.75%; width:85%;}
+.my_rank .pic{ width:2.25rem; height:2.25rem;float:left; margin-right:0.5rem;}
+.my_rank .pic img{display:block; width:100%; height:100%; border-radius:50%;}
+.my_rank .num{ line-height:2.25rem; color:#09D317; font-size:0.625rem;}
+.my_rank .num span{ margin-left:0.75rem;}
+.my_rank .num em{font-size:0.875rem; padding:0 0.125rem;}
+.my_rank .info.team_num{ margin:0.875rem 0 0 0.75rem;}
+.my_rank ul{ color:#fff; font-size:0.625rem; height:1.375rem;}
+.my_rank ul li{float:left; width:33.3%; text-align:center; line-height:1.25rem;}
+
+.my_rank .right_i{ float:right; line-height:4.125rem; color:#fff; margin-right:0.5rem;}
+
+.my_rank .noinfo{float:left; margin:1rem 0 0 6.25%; width:85%;}
+.my_rank .nopic{ background:#fff; width:2.25rem; height:2.25rem;float:left; margin-right:1rem; border-radius:50%; text-align:center;}
+.my_rank .nopic p{ font-size:0.75rem; line-height:1rem; padding-top:0.125rem; }
+.my_rank .nocon{ line-height:2.25rem; color:#fff; font-size:0.75rem;}
+
+.NoLog{ text-align:center;}
+.no_logo{ width:3rem; height:3rem; background:#fff; border-radius:50%; margin:0.5rem auto;}
+.no_logo p{font-size:0.625rem; color:#666;}
+.no_logo i{ font-size:1rem; padding-top:0.25rem;}
+
+#dvNoMore{ text-align:center; line-height:1.25rem; color:#666;}
+.dvNoLog{}
+
+.Ranking_list .rank_list_li .info.userListInfo ul li{ height:1.3rem; line-height:1.3rem;}
+.Ranking_list .rank_list_li .info.userListInfo ul li span{ float:left;}
+.Ranking_list .rank_list_li .info.userListInfo ul li span:nth-of-type(1){ margin-right:0.14rem;}
+
+.fudong{position:fixed; right:0.75rem; bottom:4.5rem; width:1.5625rem; height:1.5625rem;display:block;}
+.fudong.fd_top a{display:block;}
+.fudong a{ display:none; width:1.5625rem; height:1.5625rem;background:url(/Skin/t/Img/Rank/fudong.png) no-repeat; background-size:cover; }
+
+.fudong{position:fixed;bottom:5.75rem;right:0.75rem;width:2rem;}
+.fudong.fd_top a{display:block;width:2rem;height:2rem;border:1px solid #666; background:rgba(255,255,255,0.5);margin-bottom:0.5rem; border-radius:100%;line-height:2rem;text-align:center;color:#333}
+.fudong a i{font-size:1.5rem;}
+
+

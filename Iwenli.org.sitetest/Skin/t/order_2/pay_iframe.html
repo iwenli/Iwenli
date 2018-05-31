@@ -1,0 +1,79 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>订单支付弹框</title>
+    <!--WL_TMP{tmp=/Skin/t/Pub/app_publiccss.html}-->
+    <link href="/Skin/t/Css/sui/index.css?v=3" rel="stylesheet" />
+    <style>
+        .order_pay_content{height:100%;}
+        .order_pay_content .list-block.media-list .item_dx_list{line-height:2rem;}
+    </style>
+</head>
+<body>
+    <div class="page-group" id="top">
+        <div id="page-order-pay_iframe" class="page">
+            <header class="bar bar-nav">
+                <!--<a class="icon pull-left close_iframe"><i style="color:#000000;">&#xe679;</i></a>-->
+                <h1 class="title">确认付款</h1>
+            </header>
+            <div class="content infinite-scroll" style="position:relative;height:100%;">
+                <div class="order_pay_content">
+                    <div class="content-block more_container" style="display:block;">正在加载···</div>
+                </div>
+            </div>
+            <script type="text/html" id="order_pay_temp">
+                <div class="list-block media-list">
+                    <ul>
+                        <li class="item-content">
+                            <div class="item-inner">
+                                <div class="item-title-row item_dx_list" >
+                                    <div class="item-title" style="font-weight:bold;font-size:0.875rem;width: 100%;"><span style="float:left;width:24%;">总金额：</span>
+                                        <span style="color:red;"><i style="display:inline-block;font-weight:normal;">&#xe9e6;</i><em style="font-size: 1.25rem;font-style: normal;vertical-align: bottom;">{{pay_money}}</em></span>
+                                    </div>
+                                </div>
+                                <div class="item-subtitle item_dx_list" style="font-size:0.75rem;"><span style="float:left;width:24%;">商品金额：</span>
+                                    <span><i style="display:inline-block;font-size:0.625rem;">&#xe9e6;</i>{{total_money}}</span>
+                                </div>
+                                <div class="item-text item_dx_list" style="font-size:0.675rem;"><span style="float:left;width:24%;">运费：</span>
+                                    <span><i style="display:inline-block">&#xe9e6;</i>{{postage}}</span>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="list-block" style="width:100%;margin-top:0.75rem;">
+                    <ul>
+                        <li class="item-content item-link">
+                            <div class="item-media"><i class="icon-f7" style="font-size:1.5rem;color:#e6571e">&#xe66c;</i></div>
+                            <div class="item-inner account_pay">
+                                <div class="item-title">账户支付</div>
+                                <div class="item-after" style="color:red;"><i style="display:inline-block">&#xe9e6;</i>{{can_tocash}}</div>
+                            </div>
+                        </li>
+                        <li class="item-content item-link wx_pay">
+                            <div class="item-media"><i class="icon-f7" style="font-size:1.5rem;color:#2fbc21">&#xe66e;</i></div>
+                            <div class="item-inner">
+                                <div class="item-title">微信支付</div>
+                                <div class="item-after"></div>
+                            </div>
+                        </li>
+                        <li class="item-content item-link ali_pay">
+                            <div class="item-media"><i class="icon-f7" style="font-size:1.5rem;color:#29ade9">&#xe66d;</i></div>
+                            <div class="item-inner">
+                                <div class="item-title">支付宝支付</div>
+                                <div class="item-after"></div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </script>
+        </div>
+    </div>
+    <!--WL_TMP{tmp=/Skin/t/Pub/app_publicjs.html}-->
+    <script src="/Skin/t/Js/sui/index.js"></script>
+    <!--立即购买规格选择-->
+
+</body>
+</html>

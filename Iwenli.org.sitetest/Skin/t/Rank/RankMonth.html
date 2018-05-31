@@ -1,0 +1,214 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/html5/rem.js"></script>
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Public.css" />
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Rank.css" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/jquery/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="//cdn.txooo.com/public/aui.artTemplate/artTemplate.js"></script>
+    <script src="/Skin/t/Js/Public.js"></script>
+    <script src="/Skin/t/Js/Template.js"></script>
+    <title>近一月排行榜</title>
+</head>
+<body style="background: #f0f0f0;">
+    <script type="text/html" id="MoneyListTemp">
+        {{each list as l}}
+        <div class="rank_list_li li_{{l.month_assets_rank}}" data-uid="{{l.user_id}}">
+            <div class="pic">
+                <em></em><img src="{{l.head_pic | headPic}}" /><span><strong>{{l.month_assets_rank}}</strong><b></b></span>
+            </div>
+            <div class="info">
+                <div class="name"><span>近一月赚到{{l.month_assets | toFloat}}元</span>{{l.nick_name}}</div>
+                <ul>
+                    <li><span>近一月佣金</span><span>{{l.month_brokerage | toFloat}}元</span></li>
+                    <li><span>近一月创业金</span><span>{{l.month_bonus | toFloat}}元</span></li>
+                    <li><span>近一月V币</span><span>{{l.month_points | toFloat}}个</span></li>
+                </ul>
+            </div>
+            <div class="right_i"><i>&#xe603;</i></div>
+        </div>
+        {{/each}}
+    </script>
+
+    <script type="text/html" id="BonusListTemp">
+        {{each list as l}}
+        <div class="rank_list_li li_{{l.month_bonus_rank}}" data-uid="{{l.user_id}}">
+            <div class="pic">
+                <em></em><img src="{{l.head_pic | headPic}}" /><span><strong>{{l.month_bonus_rank}}</strong><b></b></span>
+            </div>
+            <div class="info">
+                <div class="name"><span>近一月创业金{{l.month_bonus | toFloat}}元</span>{{l.nick_name}}</div>
+                <ul>
+                    <li><span>近一月赚到</span><span>{{l.month_assets | toFloat}}元</span></li>
+                    <li><span>近一月佣金</span><span>{{l.month_brokerage | toFloat}}元</span></li>
+                    <li><span>近一月V币</span><span>{{l.month_points | toFloat}}个</span></li>
+                </ul>
+            </div>
+            <div class="right_i"><i>&#xe603;</i></div>
+        </div>
+        {{/each}}
+    </script>
+
+    <script type="text/html" id="BrokerageListTemp">
+        {{each list as l}}
+        <div class="rank_list_li li_{{l.month_brokerage_rank}}" data-uid="{{l.user_id}}">
+            <div class="pic">
+                <em></em><img src="{{l.head_pic | headPic}}" /><span><strong>{{l.month_brokerage_rank}}</strong><b></b></span>
+            </div>
+            <div class="info">
+                <div class="name"><span>近一月佣金{{l.month_brokerage | toFloat}}元</span>{{l.nick_name}}</div>
+                <ul>
+                    <li><span>近一月赚到</span><span>{{l.month_assets | toFloat}}元</span></li>
+                    <li><span>近一月创业金</span><span>{{l.month_bonus | toFloat}}元</span></li>
+                    <li><span>近一月V币</span><span>{{l.month_points | toFloat}}个</span></li>
+                </ul>
+            </div>
+            <div class="right_i"><i>&#xe603;</i></div>
+        </div>
+        {{/each}}
+    </script>
+
+    <script type="text/html" id="PointListTemp">
+        {{each list as l}}
+        <div class="rank_list_li li_{{l.month_points_rank}}" data-uid="{{l.user_id}}">
+            <div class="pic">
+                <em></em><img src="{{l.head_pic | headPic}}" /><span><strong>{{l.month_points_rank}}</strong><b></b></span>
+            </div>
+            <div class="info">
+                <div class="name"><span>近一月V币{{l.month_points | toFloat}}个</span>{{l.nick_name}}</div>
+                <ul>
+                    <li><span>近一月赚到</span><span>{{l.month_assets | toFloat}}元</span></li>
+                    <li><span>近一月佣金</span><span>{{l.month_brokerage | toFloat}}元</span></li>
+                    <li><span>近一月创业金</span><span>{{l.month_bonus | toFloat}}元</span></li>
+                </ul>
+            </div>
+            <div class="right_i"><i>&#xe603;</i></div>
+        </div>
+        {{/each}}
+    </script>
+    <!-- 头部信息begin -->
+    <!--WL_TMP{tmp=/Skin/t/Pub/Rank_Head.html}-->
+    <!-- 头部信息end -->
+
+    <section class="Ranking_list"></section>
+    <div id="dvNoMore"></div>
+    <!--WL_TMP{tmp=/Skin/t/Pub/Rank_Recent_Foot.html}-->
+
+
+    <script>
+        var type = getUrlParam('type');
+        var hisId = getUrlParam('UserId');
+        var orderMoney = '';
+        var title = '';
+        var listTemp = '';
+        var footer = '';
+        if (type == 1) {//近一月赚钱
+            orderMoney = 'month_assets_rank';
+            title = '近一月赚钱排行榜';
+            listTemp = 'MoneyListTemp';
+            footer = 'MRank';
+        }
+        if (type == 2) {//近一月创业金
+            orderMoney = 'month_bonus_rank';
+            title = '近一月创业金排行榜';
+            listTemp = 'BonusListTemp';
+            footer = 'BRank';
+        }
+        if (type == 3) {//近一月佣金
+            orderMoney = 'month_brokerage_rank';
+            title = '近一月佣金排行榜';
+            listTemp = 'BrokerageListTemp';
+            footer = 'PRank';
+        }
+        if (type == 4) {//近一月V币
+            orderMoney = 'month_points_rank';
+            title = '近一月V币排行榜';
+            listTemp = 'PointListTemp';
+            footer = 'NRank';
+        }
+        $('title').html(title);
+        $('.P_title').text(title);
+        $('.' + footer).show();
+
+        var pageIndex = 0;
+        var pageSize = 10;
+        var direction = 1;
+
+        //最后一名的位置
+        var old_offset;
+
+        LoadList();
+
+        function LoadList() {
+            $.get("/Txooo/SalesV2/Rank/Ajax/RankAjax.ajax/GetUserInfosRankListV2", { pageIndex: pageIndex, pageSize: pageSize, money: orderMoney, hisId: hisId, direction: direction }, function (data) {
+                var obj = eval('(' + data + ')');
+                if (obj.count > 0) {
+                    var list = eval(obj.list);
+                    var listNew = { list: list };
+                    var html = template(listTemp, listNew);
+                    if (direction == 1) {
+                        $(".Ranking_list").append(html);
+                        hisId = $(".rank_list_li").last().attr("data-uid");
+                    } else {
+                        $(".Ranking_list").prepend(html);
+                        hisId = $(".rank_list_li").first().attr("data-uid");
+                        if (obj.list) {//有数据则定位
+                            var old_yPops = old_offset.top + 500;
+                            var old_xPops = old_offset.left;
+                            window.scrollTo(old_xPops, old_yPops);
+                        }
+                    }
+                    old_offset = $(".rank_list_li").first().offset();
+                    if ("{$IsAuth}" == "true") {
+                        GetUserInfo(ChangeMyLink);
+                    } else {
+                        $('.rank_list_li').each(function (i, o) {
+                            $(o).attr("onclick", "window.location.href = '/homepage/index.html?uid=" + $(o).attr('data-uid') + "'");
+                        });
+                    }
+                } else {
+                    $(".Ranking_list").append('暂无数据！');
+                }
+            });
+        }
+
+        var scrollTrue = true;
+        window.onscroll = function () {
+            if (getScrollTop() + getClientHeight() == getScrollHeight()) {
+                direction = 1;
+                hisId = $(".rank_list_li").last().attr("data-uid");
+                if (scrollTrue) {
+                    scrollTrue = false;
+                    pageIndex++;
+                    LoadList();
+                    scrollTrue = true;
+                }
+            }
+
+            if ($(document).scrollTop() == 0) {
+                direction = 0;
+                hisId = $(".rank_list_li").first().attr("data-uid");
+                if (scrollTrue) {
+                    scrollTrue = false;
+                    pageIndex++;
+                    LoadList();
+                    scrollTrue = true;
+                }
+            }
+        }
+
+        function ChangeMyLink(userInfo) {
+            var linkObj = $('.rank_list_li');
+            linkObj.each(function (i, o) {
+                if ($(o).attr('data-uid') == userInfo.user_id) {
+                    $(o).attr("onclick", "window.location.href = '/Money/Index.html'");
+                } else {
+                    $(o).attr("onclick", "window.location.href = '/homepage/index.html?uid=" + $(o).attr('data-uid') + "'");
+                }
+            });
+        }
+    </script>
+ <!--WL_TMP{tmp=/Skin/t/Pub/T_Public.html}--> </body>
+</html>

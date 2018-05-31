@@ -1,0 +1,105 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>地图选择</title>
+    <style type="text/css">
+		body, html,#allmap {width: 100%;height: 100%;margin:0;font-family:"微软雅黑";}
+		#l-map{height:100%;width:100%;}
+		#r-result{border:0.125rem #ff6a00 solid;border-radius:0.5rem; width:17rem;background:rgba(255,255,255,0.5);padding:0.25rem 0.5rem;overflow:hidden;margin:0 auto;position:absolute;top:1rem;left:50%;margin-left:-9rem;z-index:99999999}
+        .search_map{height:1.5rem;line-height:1.5rem;border:none;background:rgba(255,255,255,0.5);padding:0.25rem 0.5rem; width:12rem;}
+        .map_btn{background:#ff6a00;border-radius:0.25rem;padding:0.25rem 0.5rem;color:#fff;height:1.5rem;line-height:1.5rem;float:right;}
+	</style>
+</head>
+<body>
+    <div id="r-result">
+        <input type="text" class="search_map" id="suggestId" size="20" value="" placeholder="搜索地址" />
+        <a class="map_btn" onclick="getAttr()">确定</a>
+    </div>
+    
+    
+    <div id="searchResultPanel" style="border:1px solid #C0C0C0;width:150px;height:auto; display:none;"></div>    
+    <div id="l-map"></div>
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=VZxInjocSrIOO9b616rXVxIEDzZifvFH"></script>
+
+    <script type="text/javascript">
+        //返回调用页面
+        function goBack() {
+            window.parent.parameters.member.selectArea.back();
+        };
+        // 百度地图API功能
+        function G(id) {
+            return document.getElementById(id);
+        }
+
+        var map = new BMap.Map("l-map");
+        var point = new BMap.Point(116.400244, 39.92556);
+        map.centerAndZoom('北京', 12);
+        var marker = new BMap.Marker(point);// 创建标注
+        map.addOverlay(marker);             // 将标注添加到地图中
+        marker.enableDragging();           // 不可拖拽
+        function getAttr() {
+            window.parent.parameters.member.selectMap.getLngLat(marker.getPosition());
+            //var p = marker.getPosition();       //获取marker的位置
+            //alert("marker的位置是" + p.lng + "," + p.lat);
+        }
+
+        // 添加带有定位的导航控件
+        var navigationControl = new BMap.NavigationControl({
+            // 靠左上角位置
+            anchor: BMAP_ANCHOR_TOP_LEFT,
+            // LARGE类型
+            type: BMAP_NAVIGATION_CONTROL_LARGE,
+            // 启用显示定位
+            enableGeolocation: true
+        });
+        map.addControl(navigationControl);
+        //建立一个自动完成的对象
+        var ac = new BMap.Autocomplete({
+            "input": "suggestId", "location": map
+        });
+        //鼠标放在下拉列表上的事件
+        ac.addEventListener("onhighlight", function (e) {
+            var str = "";
+            var _value = e.fromitem.value;
+            var value = "";
+            if (e.fromitem.index > -1) {
+                value = _value.province + _value.city + _value.district + _value.street + _value.business;
+            }
+            str = "FromItem<br />index = " + e.fromitem.index + "<br />value = " + value;
+
+            value = "";
+            if (e.toitem.index > -1) {
+                _value = e.toitem.value;
+                value = _value.province + _value.city + _value.district + _value.street + _value.business;
+            }
+            str += "<br />ToItem<br />index = " + e.toitem.index + "<br />value = " + value;
+            G("searchResultPanel").innerHTML = str;
+        });
+
+        //鼠标点击下拉列表后的事件
+        var myValue;
+        ac.addEventListener("onconfirm", function (e) {
+            var _value = e.item.value;
+            myValue = _value.province + _value.city + _value.district + _value.street + _value.business;
+            G("searchResultPanel").innerHTML = "onconfirm<br />index = " + e.item.index + "<br />myValue = " + myValue;
+
+            setPlace();
+        });
+
+        function setPlace() {
+            map.clearOverlays();    //清除地图上所有覆盖物
+            function myFun() {
+                var pp = local.getResults().getPoi(0).point;    //获取第一个智能搜索的结果
+                map.centerAndZoom(pp, 18);
+                map.addOverlay(new BMap.Marker(pp));    //添加标注
+            }
+            var local = new BMap.LocalSearch(map, { //智能搜索
+                onSearchComplete: myFun
+            });
+            local.search(myValue);
+        }
+    </script>
+</body>
+</html>

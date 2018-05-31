@@ -1,0 +1,80 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/html5/rem.js"></script>
+    <script type="text/javascript" src="//cdn.txooo.com/public/jquery/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="//cdn.txooo.com/public/aui.artTemplate/artTemplate.js"></script>
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Public.css" />
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Chat.css" />
+    <script src="/Skin/t/Js/Public.js?v=1608"></script>
+    <title>选择群聊</title>
+</head>
+<body  class="bg_gray">
+    <script type="text/html" id="listTemp">
+        {{each list as l}}
+        <article class="talk" data-gid="{{l.group_id}}" onclick="ToChat('{{l.group_id}}','{{l.group_name}}','{{l.group_easemob_id}}')">
+            <div class="pic">
+                <img src="{{l.group_head}}" />
+            </div>
+            <div data-admin="{{l.admin_user_id}}" class="userinfo">
+                <span class="">{{l.group_name}}</span>
+            </div>
+            <div class="dvHint messageHint" style="display:none;color:red;font-size:1rem;line-height:1rem">●</div>
+        </article>
+        {{/each}}
+    </script>
+    
+    <script>
+        function ToChat(group_id,group_name,easemob_id) {
+            if (navigator.userAgent.toLowerCase().indexOf("txooo.app") > -1) {                
+                window.plus.txservice.sendgroupmessage([easemob_id,group_name]);
+            }
+            else {
+                window.location.href = '/Chat/Quan/Index.html?gn=' + group_name + "&gd=" + group_id;
+            }
+        }
+
+        LoadList();
+
+        //load talkList
+        function LoadList() {
+            $.get("/Txooo/SalesV2/Chat/Ajax/ChatAjax.ajax/GetChatList", function (data) {
+                var obj = eval('(' + data + ')');
+                $('.talklist').append(template("listTemp", { list: obj }));
+                setTimeout(CheckNewMessage,1000);
+            });
+        }
+        
+        function CheckNewMessage() {
+            //判断有无新消息  
+            $('.talk').each(function (i, o) {
+                $.get("/Txooo/SalesV2/Chat/Ajax/ChatAjax.ajax/IsHaveNewMessage?groupId=" + $(o).attr('data-gid'), function (data) {
+                    var obj = eval(data);
+                    if (obj.success == "true") {
+                        $(o).children('div[class=dvHint]').children('span[class=messageHint]').show();
+                    }
+                })
+            });
+        }
+
+        
+        window.setInterval(CheckNewMessage, 3000);
+
+    </script>
+
+
+    <!-- 头部信息begin -->
+    <header class="P_Header">
+        <div class="P_goBack"><a href="/Member/team.html"><i>&#xe602;</i></a></div>
+        <div class="P_title">选择群聊</div>
+    </header>
+    <!-- 头部信息end -->
+
+    <section class="talklist">
+
+    </section>
+ <!--WL_TMP{tmp=/Skin/t/Pub/T_Public.html}--> 
+</body>
+</html>

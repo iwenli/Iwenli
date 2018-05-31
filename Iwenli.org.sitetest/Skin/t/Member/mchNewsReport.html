@@ -1,0 +1,37 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>资讯举报</title>
+    <!--WL_TMP{tmp=/Skin/t/Pub/app_publiccss.html}-->
+    <!--<link href="/Skin/t/Css/sui/member.css" rel="stylesheet" />-->
+</head>
+<body>
+    <div class="page-group">
+        <div id="page-member-mchnewsreport" class="page">
+            <header class="bar bar-nav">
+                <a class="icon icon-left pull-left back" href="/shop_2/mchNews.html?newsid={$U_QUERY_NEWSID}"></a>
+                <h1 class="title">举报</h1>
+            </header>
+            <div class="content">
+                <input id="news_id" type="hidden" value="{$news_id{val=}}" />
+                <div class="list-block media-list list_block">
+                    <ul>
+                        <li>
+                            <div class="item-content">
+                                <div class="item-inner">{$news_title}</div>
+                                <div class="item-media"><img src="{$news_cover}" width="70"></div>                                
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <textarea placeholder="请简要描述你的问题"></textarea>
+                <a class="submit_report">提交</a>
+            </div>
+        </div>
+    </div>
+    <!--Tx_Common{db=TxoooAgent;tb=sales_mch_news;top=1;where=is_show=1 AND parent_news_id=0 AND is_del=0 AND check_state=2 AND news_id={$U_QUERY_NEWSID};}-->
+    <!--WL_TMP{tmp=/Skin/t/Pub/app_publicjs.html}-->
+    <script src="/Skin/t/Js/sui/member.js"></script>
+</body>
+</html>

@@ -1,0 +1,199 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>店铺</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/html5/rem.js"></script>
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Public.css" />
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Shop.css" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/jquery/jquery-1.7.2.min.js"></script>
+    <link rel="stylesheet" href="//cdn.txooo.com/public/jquery.swiper/swiper.min.css" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/jquery.swiper/swiper.jquery.min.js"></script>
+    <script type="text/javascript" src="//cdn.txooo.com/public/aui.artTemplate/artTemplate.js"></script>
+    <script src="/Skin/t/Js/Public.js"></script>
+    <script src="/Skin/t/Js/Template.js"></script>
+
+    <script type="text/javascript">
+        window.txservice.init();
+        var mchId = getUrlParam('mchId');
+        var pageIndex = 0;
+        var pageSize = 20;
+        var class_id = 0;
+        var scrollTrue;
+        $(function () {
+            $.get('/Txooo/SalesV2/Shop/Ajax/ShopOpenAjax.ajax/GetMchListUserIsCollect?mch_id=' + mchId, function (data) {
+                var obj = eval(data);
+                if (obj.length > 0) {
+                    $('.P_title').text(obj[0].com_name);
+                    $('.store_content_box .store_name').text(obj[0].com_name);
+                    $('.store_content_box .product_count').text(obj[0].product_count);
+                    $('.store_content_box .mch_browse_count').text(obj[0].mch_browse_count);
+                    $('.store_content_box .attent_count').text(obj[0].attent_count);
+                    if (obj[0].is_collect == "1") {
+                        $('.store_content_box .is_collect').attr('href', 'javascript:delCollect();').text('已关注');
+                        $('.store_content_box .is_collect').addClass('coll_ok');
+                    }
+                    userMchBrowse(0);
+                }
+            });
+
+            LoadList();
+            getMchClass();
+            window.onscroll = function () {
+                if (getScrollTop() + getClientHeight() == getScrollHeight()) {
+                    if (scrollTrue) {
+                        scrollTrue = false;
+                        LoadList();
+                    }
+                }
+            }
+        });
+
+        function userMchBrowse(is_collect) {
+            if ('{$IsAuth}' == 'true') {
+                $.get('/Txooo/SalesV2/Shop/Ajax/ShopAjax.ajax/MchBrowse', { mch_id: mchId, is_collect: is_collect }, function (data) {
+                    if (is_collect==1) {
+                        var obj = eval(data);
+                        if (obj.success=='true') {
+                            $('.store_content_box .is_collect').attr('href', 'javascript:delCollect();').text('已关注');
+                            $('.store_content_box .is_collect').addClass('coll_ok');
+                            var d = dialog({
+                                content: '关注成功',
+                            }).show();
+                            setTimeout(function () {
+                                d.close().remove();
+                            }, 2000);
+                        } else {
+                            dialogAlart(obj.msg);
+                        }
+                    }
+                });
+            } else {
+                $('.store_content_box .is_collect').remove();
+            }
+        }
+
+        function delCollect() {
+            $.get('/Txooo/SalesV2/Shop/Ajax/ShopAjax.ajax/SetMchCollect', { mch_id: mchId }, function (data) {
+                var obj = eval(data);
+                if (obj.success == 'true') {
+                    $('.store_content_box .is_collect').attr('href', 'javascript:userMchBrowse(1);').text('关注');
+                    $('.store_content_box .is_collect').removeClass('coll_ok');
+                    var d = dialog({
+                        content: '已取消关注',
+                    }).show();
+                    setTimeout(function () {
+                        d.close().remove();
+                    }, 2000);
+                } else {
+                    dialogAlart(obj.msg);
+                }
+            });
+        }
+
+        function LoadList() {
+            $.get('/Txooo/SalesV2/Shop/Ajax/ShopOpenAjax.ajax/GetMchStoreProductList2', { pageIndex: pageIndex, pageSize: pageSize, mch_id: mchId, class_id: class_id }, function (data) {
+                var obj = eval(data);
+                if (obj.length > 0) {
+                    for (var i = 0; i < obj.length; i++) {
+                        obj[i].product_imgs = obj[i].product_imgs.split(',')[0];
+                    }
+                    var data = { list: obj };
+                    $('.pro_list').append(template('list_temp', data));
+                    pageIndex++;
+                    scrollTrue = true;
+                    if (obj.length < pageSize) {
+                        scrollTrue = false;
+                        $('#list_show').html('<span>没有记录了</span>');
+                    }
+                } else {
+                    if (pageIndex == 0) {
+                        $('#list_show').html('<div><p>暂无记录</p></div>')
+                    } else {
+                        $('#list_show').html('<span>没有记录了</span>');
+                    }
+                }
+            });
+        }
+        //获取商户自定义分类
+        function getMchClass() {
+            $.get('/Txooo/SalesV2/Shop/Ajax/ShopOpenAjax.ajax/GetMchProductClassList?mch_id=' + mchId, function (data) {
+                var obj = eval(data);
+                $('.product_class').append(template('class_temp', { list: obj }));
+                $('.product_class li').click(function () {
+                    $(this).addClass('current').siblings().removeClass('current')
+                })
+                var swiper = new Swiper('.store_nav', {
+                    paginationClickable: true,
+                    slidesPerView: 5
+                });
+
+            });
+        };
+        //点击分类筛选
+        function mchClassLoadList(id) {
+            pageIndex = 0;
+            class_id = id;
+            $('.pro_list').html('');
+            LoadList();
+        }
+    </script>
+</head>
+<body style="background:#f0f0f0; height:100%;">
+    <header class="P_Header">
+        <div class="P_goBack" onclick="if (window.txservice.success()) { window.txservice.call('goback'); }else { history.go(-1); }"><i>&#xe602;</i></div>
+        <div class="P_title">店铺</div>
+    </header>
+
+    <!--店铺信息-->
+    <section class="store_content_box clear">
+        <div class="content_box_left">
+            <p class="store_name">店铺</p>
+            <p class="store_zg"><span><i>&#xe625;</i>资格认证</span><span><i>&#xe625;</i>7天退换</span></p>
+            <a class="is_collect" href="javascript:userMchBrowse(1)">关注</a>
+        </div>
+        <ul class="content_box_right">
+            <li>
+                <p class="product_count num"></p>
+                <p>全部商品</p>
+            </li>
+            <li>
+                <p class="mch_browse_count num"></p>
+                <p>7天浏览量</p>
+            </li>
+            <li>
+                <p class="attent_count num"></p>
+                <p>关注数</p>
+            </li>
+
+        </ul>
+    </section>
+    <section class="store_nav">
+        <ul class="product_class swiper-wrapper">
+            <li class="swiper-slide current" onclick="mchClassLoadList(0)">全部</li>
+        </ul>
+    </section>
+    <!--商品列表-->
+    <section class="pro_list clear"></section>
+    <div id="list_show">
+    </div>
+    <!--商品模板-->
+    <script type="text/html" id="list_temp">
+        {{each list as l}}
+        <ul onclick="window.location.href = '/shop.html?id={{l.product_id}}'">
+            <li class="pic"><img src="{{l.product_imgs}}" /></li>
+            <li class="tit">{{l.product_name}}</li>
+            <li class="money"><em>￥</em>{{l.price | toFloat}}<span class="right"><i>{{l.rebate_point}}&#xe654;</i></span></li>
+        </ul>
+        {{/each}}
+    </script>
+    <!--自定义分类模板-->
+    <script type="text/html" id="class_temp">
+        {{each list as c}}
+        <li class="swiper-slide" onclick="mchClassLoadList('{{c.class_id}}')">{{c.class_name}}</li>
+        {{/each}}
+    </script>
+    <!--WL_TMP{tmp=/Skin/t/Pub/T_Public.html}-->
+</body>
+</html>

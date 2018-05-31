@@ -1,0 +1,34 @@
+﻿<script type="text/javascript" src="//res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script type="text/javascript" src="//cdn.txooo.com/WeiXin/WeiXinShare.js"></script>
+<script>
+    if (navigator.userAgent.toLowerCase().indexOf("micromessenger") > -1) {
+        wxShare.title = '{$Thirdtitle}';
+        wxShare.desc = '{$Thirdcontent_info}';
+        wxShare.link = window.location.href.replace('/shop/details.html', '/shop.html');
+        wxShare.imgUrl = '{$Thirdimg_url}';
+        wxShare.accountType = 'sales';
+        wxShare.init();
+    }
+    var _hmt = _hmt || [];
+    (function () {
+        var hm = document.createElement("script");
+        hm.src = "//hm.baidu.com/hm.js?0cfd4b17fbf55da167db2804208645ee";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+<input type="hidden" id="user_is_auth" value="{$IsAuth}" />
+<input type="hidden" id="config_login_page_url" value="{$ConfigLoginPageUrl}" />
+<input type="hidden" id="config_web_url" value="{$ConfigWebUrl}" />
+<input type="hidden" id="config_passport_url" value="{$ConfigPassportUrl}" />
+<input type="hidden" id="config_pay_web_url" value="{$ConfigPayWebUrl}" />
+<input type="hidden" id="config_official_web_url" value="{$ConfigOfficialWebUrl}" />
+<script type="text/html" class="download_div">
+    <div class="download" style="display: block;">
+        <p><i>×</i>买客&nbsp;&nbsp; 一个能赚钱的电商APP<a class="download_android download_app">去下载</a></p>
+    </div>
+</script>
+<!--<script type="text/javascript" src="//cdn.txooo.com/txuser/txuser.min.js"></script>-->
+<!--对话框-->
+<script type="text/javascript" src="//cdn.txooo.com/public/aui.artDialog/dist/dialog-plus-min.js"></script>
+<link rel="stylesheet" href="//cdn.txooo.com/public/aui.artDialog/css/ui-dialog.css" />

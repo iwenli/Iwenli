@@ -1,0 +1,148 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/html5/rem.js"></script>
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Public.css" />
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Rank.css" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/jquery/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="//cdn.txooo.com/public/aui.artTemplate/artTemplate.js"></script>
+    <script src="/Skin/t/Js/Public.js"></script>
+    <script src="/Skin/t/Js/Template.js"></script>
+    <title>我的团队排行榜</title>
+</head>
+<body style="background: #f0f0f0;">
+    <script type="text/html" id="MoneyListTemp">
+        {{each list as l}}
+        <div class="rank_list_li li_{{l.team_assets_rank}}" data-id="{{l.user_id}}">
+            <div class="pic">
+                <em></em><img src="{{l.head_pic | headPic}}" /><span><strong>{{l.team_assets_rank}}</strong><b></b></span>
+            </div>
+            <div class="info">
+                <div class="name"><span class="no_color">已赚到{{l.team_assets | toFloat}}元</span><span class="myname" id="scrTo{{l.user_id}}" style="float: left; " data-uid="{{l.user_id}}">{{l.nick_name}}团队</span></div>
+                <ul>
+                    <li><span>佣金</span><span>{{l.team_brokerage | toFloat}}元</span></li>
+                    <li><span>创业金</span><span>{{l.team_bonus | toFloat}}元</span></li>
+                    <li><span>V币</span><span>{{l.team_point | toFloat}}个</span></li>
+                </ul>
+            </div>
+            <div class="right_i"></div>
+        </div>
+        {{/each}}
+    </script>
+
+    <script type="text/html" id="MoneyMonthListTemp">
+        {{each list as l}}
+        <div class="rank_list_li li_{{l.team_month_assets_rank}}" data-id="{{l.user_id}}">
+            <div class="pic">
+                <em></em><img src="{{l.head_pic | headPic}}" /><span><strong>{{l.team_month_assets_rank}}</strong><b></b></span>
+            </div>
+            <div class="info">
+                <div class="name"><span class="no_color">近一月赚到{{l.team_assets_month | toFloat}}元</span><span class="myname" id="scrTo{{l.user_id}}" style="float: left; " data-uid="{{l.user_id}}">{{l.nick_name}}团队</span></div>
+                <ul>
+                    <li><span>佣金</span><span>{{l.team_brokerage_month | toFloat}}元</span></li>
+                    <li><span>创业金</span><span>{{l.team_bonus_month | toFloat}}元</span></li>
+                    <li><span>V币</span><span>{{l.team_point_month | toFloat}}个</span></li>
+                </ul>
+            </div>
+            <div class="right_i"></div>
+        </div>
+        {{/each}}
+    </script>
+
+    <script type="text/html" id="UsersListTemp">
+        {{each list as l}}
+        <div class="rank_list_li li_{{l.team_users_rank}}" data-i data-id="{{l.user_id}}">
+            <div class="pic">
+                <em></em><img src="{{l.head_pic | headPic}}" /><span><strong>{{l.team_users_rank}}</strong><b></b></span>
+            </div>
+            <div class="info">
+                <div class="name"><span class="no_color">人数{{l.team_users}}人</span><span class="myname" id="scrTo{{l.user_id}}" style="float: left; " data-uid="{{l.user_id}}">{{l.nick_name}}团队</span></div>
+                <ul>
+                    <li style="width:50%"><span class="left" style="width: 40%; text-align: left; ">赚到</span><span class="left" style="width: 60%; text-align: left; ">{{l.team_assets | toFloat}}元</span></li>
+                    <li style="width: 50%"><span class="left" style="width: 40%; text-align: left; ">佣金</span><span class="left" style="width: 60%; text-align: left; ">{{l.team_brokerage | toFloat}}元</span></li>
+                    <li style="width: 50%"><span class="left" style="width: 40%; text-align: left; ">创业金</span><span class="left" style="width: 60%; text-align: left; ">{{l.team_bonus | toFloat}}元</span></li>
+                    <li style="width: 50%"><span class="left" style="width: 40%; text-align: left; ">V币</span><span class="left" style="width: 60%; text-align: left; ">{{l.team_point | toFloat}}个</span></li>
+                </ul>
+            </div>
+            <div class="right_i"></div>
+        </div>
+        {{/each}}
+    </script>
+
+    <script type="text/html" id="UsersMonthListTemp">
+        {{each list as l}}
+        <div class="rank_list_li li_{{l.team_month_users_rank}}" data-id="{{l.user_id}}">
+            <div class="pic">
+                <em></em><img src="{{l.head_pic | headPic}}" /><span><strong>{{l.team_month_users_rank}}</strong><b></b></span>
+            </div>
+            <div class="info">
+                <div class="name"><span class="no_color">近一月新增人数{{l.team_newuser_month}}人</span><span class="myname" id="scrTo{{l.user_id}}" style="float: left; " data-uid="{{l.user_id}}">{{l.nick_name}}团队</span></div>
+                <ul>
+                    <li style="width: 50%"><span class="left" style="width: 40%; text-align:left">赚到</span><span class="left" style="width: 60%; text-align: left; ">{{l.team_assets | toFloat}}元</span></li>
+                    <li style="width: 50%"><span class="left" style="width: 40%; text-align: left; ">佣金</span><span class="left" style="width: 60%; text-align: left; ">{{l.team_brokerage | toFloat}}元</span></li>
+                    <li style="width: 50%"><span class="left" style="width: 40%; text-align: left; ">创业金</span><span class="left" style="width: 60%; text-align: left; ">{{l.team_bonus | toFloat}}元</span></li>
+                    <li style="width: 50%"><span class="left" style="width: 40%; text-align: left; ">V币</span><span class="left" style="width: 60%; text-align: left; ">{{l.team_point | toFloat}}个</span></li>
+                </ul>
+            </div>
+            <div class="right_i"></div>
+        </div>
+        {{/each}}
+    </script>
+    <!-- 头部信息begin -->
+    <!--WL_TMP{tmp=/Skin/t/Pub/Rank_Head2.html}-->
+    <!-- 头部信息end -->
+    <section class="Ranking_list"></section>
+    <script>
+        var userId = getUrlParam('UserId');
+        var type = getUrlParam('type');
+        var rankClass = '';
+        var title = '';
+        var tempList = '';
+        if (type == 1) {//买客
+            title = '团队买客排行榜';
+            rankClass = "team_assets_rank";
+            tempList = "MoneyListTemp";
+        }
+        if (type == 2) {//近一月赚钱
+            title = '团队近一月赚钱排行榜';
+            rankClass = "team_month_assets_rank";
+            tempList = "MoneyMonthListTemp";
+        }
+        if (type == 3) {//团队人数
+            title = '团队人数排行榜';
+            rankClass = "team_users_rank";
+            tempList = "UsersListTemp";
+        }
+        if (type == 4) {//近一月新增人数
+            title = '团队近一月新增人数排行榜';
+            rankClass = "team_month_users_rank";
+            tempList = "UsersMonthListTemp";
+        }
+        $('.R_title').text(title);
+        $("title").html(title);
+
+
+
+        $.get("/Txooo/SalesV2/Rank/Ajax/RankAjax.ajax/Get20ListBeforeAndAfterMine?rankClass=" + rankClass, function (data) {
+            var obj = eval(data);
+            if (obj.success != "false") {
+                var list = { list: obj };
+                $(".Ranking_list").html(template(tempList, list));
+            }
+            var myNameObjs = $('.myname');
+            for (var i = 0; i < myNameObjs.length; i++) {
+                if ($(myNameObjs[i]).attr('data-uid') == userId) {
+                    $(myNameObjs[i]).parents('.rank_list_li').addClass('My_rank_list_li')
+                    $(myNameObjs[i]).text('我的团队');
+                }
+            }
+            var offset = $('#scrTo' + userId).offset();
+            var yPops = offset.top - 400;
+            var xPops = offset.left;
+            window.scrollTo(xPops, yPops);
+        });
+    </script>
+ <!--WL_TMP{tmp=/Skin/t/Pub/T_Public.html}--> </body>
+</html>

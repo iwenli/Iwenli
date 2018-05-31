@@ -1,0 +1,164 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/html5/rem.js"></script>
+    <script type="text/javascript" src="//cdn.txooo.com/public/jquery/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="//cdn.txooo.com/public/aui.artTemplate/artTemplate.js"></script>
+    <script src="/Skin/t/Js/Public.js"></script>
+    <script src="/Skin/t/Js/Template.js"></script>
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Public.css" />
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Task.css" />
+    <title>任务</title>
+    <style>
+        /*弹窗*/
+        .shade {width: 100%;height: 100%;background: rgba(0,0,0,0.8);position: fixed;left: 0;top: 0;z-index: 100;}
+        .tc_con {width: 90%;position: fixed;left: 50%;margin-left: -9.4375rem;top: 50%;text-align: center;border-radius: 0.15625rem;background: #f6f6f6;color: #666;z-index: 199;}
+
+        .del_con {height: 20rem;margin-top: -10rem;}
+        .del_con .del_btn_box {width: 100%;height: 3.125rem;line-height: 3.125rem;}
+        .del_con .del_btn_box input {height: 1.125rem;line-height: 1.125rem;padding: 1rem 0;}
+        .del_con .del_btn_box .del_ok {background: #ff5c0c;color: #fff;border-left: 1px solid #e1e1e1;}
+        .alert_msg {border-bottom: 0px solid #e1e1e1;}
+        .alert-pic {background: url(/skin/SalesV2/img/Task/receive_ok.png) left top no-repeat;background-size: 100%;height: 6.718rem;margin: 2.875rem auto 0;width: 7.968rem;}
+        .alert_msg b {color: #000;height: 3rem;line-height: 3rem;font-size: 1rem;}
+        .alert_msg p {line-height: 1rem;font-size: 0.8rem;}
+        .alert_btn .alert_ok_check {background: #ff7900;color: #fff;height: 3rem;line-height: 3rem;margin: 1rem 0 0;width: 16rem;}
+
+        .P_Header_info a {color: #fff;border: #fff 1px solid;border-radius: 0.25rem;padding: 0.25rem 0.5rem;font-size:0.625rem;}
+        
+        
+    </style>
+    <script type="text/javascript">
+        var pageIndex = 0;
+        var pageSize = 5;
+        var scrollTrue;
+        $(function () {
+            GetTaskList();
+            window.onscroll = function () {
+                if (getScrollTop() + getClientHeight() == getScrollHeight()) {
+                    if (scrollTrue) {
+                        scrollTrue = false;
+                        GetTaskList();
+                    }
+                }
+            }
+
+            $('#btnOk').click(function () {
+                window.location.reload();
+            });
+        })
+    
+        function GetTaskList() {
+            $.get('/Txooo/SalesV2/MemberTask/Ajax/TaskAjax.ajax/GetTaskList',
+                { pageIndex: pageIndex, pageSize: pageSize }, function (data) {
+                    var obj = eval(data);
+                    if (pageIndex == 0 && obj.length == 0) {
+                        $(".no_data").show();
+                    }
+                    if (obj.length > 0) {
+                        var data = { list: obj };
+                        $('#taskList').append(template('list_temp', data));
+                        scrollTrue = true;
+                        if (obj.length < pageSize) { scrollTrue = false; }
+                        if (pageIndex > 0) { $('.more_btn').show(); }
+                        pageIndex++;
+                    }
+                    $('.is_overdue').each(function (index,item) {
+                        var taskType = parseInt($(item).attr('data-type'));
+                        if (taskType>0) {
+                            var isOverdue = parseInt($(item).attr('data-overdue'));
+                            if (isOverdue>0) {
+                                $(item).addClass('is_overdue_1');
+                            }
+                        }
+                    });
+                    $('.task_time').each(function (i,o) {
+                        var _type = parseInt($(o).attr('data-type'));
+                        if (_type != 0 && _type != 3) {
+                            $(o).css('display', 'block');
+                        }
+                    });
+                });
+        }
+
+        //领任务
+        function GetTaskUserMap(task_class) {
+            $.get("/Txooo/SalesV2/MemberTask/Ajax/TaskAjax.ajax/GetTackUserMap?task_class=" + task_class, function (data) {
+                var obj = eval(data);
+                if (obj.success == "true") {
+                    $('.take_success').show();
+                } else {
+                    var _errorMsg = '';
+                    switch (obj.msg) {
+                        case "0": _errorMsg = '已经领取过了，请完成后再试！'; break;
+                        case "-1": _errorMsg = '该任务不存在，不能领取！'; break;
+                        case "-2":case "-3": _errorMsg = '该任务已过期，不能领取！'; break;
+                        case "-4": _errorMsg = '该任务已经领完，不能领取！'; break;
+                        case "-5": _errorMsg = '该任务只能领取一次，不能重复领取！'; break;
+                    }
+                    dialogAlart(_errorMsg);
+                }
+            })
+        }
+    </script>
+</head>
+<body style="background: #f0f0f0; padding-bottom: 0.5rem;">
+    <!-- 头部信息begin -->
+    <header class="P_Header">
+        <div class="P_goBack" onclick="javascript:history.go(-1)"><i>&#xe602;</i></div>
+        <div class="P_title">任务列表</div>
+        <div class="P_Header_info"><a href="/Task/MyTask.html">我的任务</a></div>
+    </header>
+    <!-- 头部信息end -->
+    <script type="text/html" id="list_temp">
+        {{each list as l}}
+        <ul class="is_overdue" data-type="{{l.task_type}}" data-overdue="{{l.is_overdue}}">
+            <li class="tit"><span class="name">{{l.task_title}}</span><span class="money"><i>&#xe654;</i>{{l.prize_point}}</span></li>
+            <li class="info">{{l.task_explain}}</li>
+            <li class="succ">
+                <span>已领取</span>{{l.get_times}}次
+            </li>
+            <li class="botton_btn">
+                {{if l.task_type == 0 || l.task_type == 3}}
+                <span class="succ_ok"><input type="button" value="领取" onclick="GetTaskUserMap('{{l.task_class}}')" /></span>
+                {{/if}}
+                {{if l.task_type == 1 || l.task_type == 2}}
+                {{if l.is_overdue == 0}}
+                <span class="succ_ok"><input type="button" value="领取" onclick="GetTaskUserMap('{{l.task_class}}')" /></span>
+                {{/if}}
+                {{if l.is_overdue == 1}}
+                <span class="succ_no"><input type="button" value="已结束" /></span>
+                {{/if}}
+                {{/if}}
+            </li>
+            <li class="task_time" data-type="{{l.task_type}}" style="display:none">活动时间为：{{l.start_time | dateFormat:'yyyy年MM月dd日'}}至{{l.end_time | dateFormat:'yyyy年MM月dd日'}}</li>
+        </ul>
+        {{/each}}
+    </script>
+
+    <section>
+        <div id="taskList"></div>
+
+        <div class="more_btn" style="display:none"><span>没有记录了</span></div>
+
+        <div class="no_data" style="display:none">
+            <div class="word">暂无任务</div>
+        </div>
+    </section>
+    <!--WL_TMP{tmp=/Skin/t/Pub/T_Public.html}-->
+
+
+    <div class="take_success" style="display:none;">
+        <div class="shade"></div>
+        <div class="tc_con ok_con del_con validatebox">
+            <div class="alert-pic"></div>
+            <div class="alert_msg"><b>任务领取成功</b><p>在有效期内完成任务</br>既可赚取V币，快去完成任务吧~</p></div>
+            <div class="dis_box ok_btn_box alert_btn">
+                <div class="box_flex_1 alert_ok_check" id="btnOk">好的，我知道了</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

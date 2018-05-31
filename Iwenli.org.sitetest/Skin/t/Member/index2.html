@@ -1,0 +1,324 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/html5/rem.js"></script>
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Public.css" />
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Member.css" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/jquery/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="//cdn.txooo.com/public/aui.artTemplate/artTemplate.js"></script>
+    <script src="/Skin/t/Js/Public.js"></script>
+    <title>我的</title>
+    <script type="text/javascript">
+        opensource.app.bind(function () {
+            $("#btnSetting").live("click", function () {
+                plus.txservice.setting(["setting"]);
+            });
+        });
+        opensource.wx.bind(function () {
+            $("#btnSetting").live("click", function () {
+                window.location = "/member/setting.html";
+            });
+        });
+        opensource.browser.bind(function () {
+
+            $("#btnSetting").live("click", function () {
+                window.location = "/member/setting.html";
+            });
+        });
+
+
+        $(function () {
+            show();
+            if ("{$IsAuth}" == "true") {
+                //登录
+                GetUserInfo(ShowMember);
+            }
+            else {
+                //没登录
+                $(".MemberOrLogin").html(template("nologin"));
+            }
+            $('.P_Footer .me').addClass('current')
+
+
+            opensource.init();
+
+            //GetRecommendProducts();
+
+
+        });
+        template.helper('toFloat', function (data, format) {
+            return parseFloat(data);
+        });
+        function Entter() {
+            $.get("/Txooo/SalesV2/Member/Ajax/MemberAjax.ajax/SelectMemberIndexCountV3", function (data) {
+                var obj = eval(data)[0];
+                $("#AttendMeCount").text(obj["AttendMeCount"]);
+                $("#MeAttendCount").text(obj["MeAttendCount"]);
+                if (parseInt(obj["SysmsgCount"]) > 0) {
+                    $("#SysmsgCount").show();;
+                }
+                $("#ProductOrderCount1").text(obj["ProductOrderCount1"]);
+                $("#ProductOrderCount2").text(obj["ProductOrderCount2"]);
+                $("#ProductOrderCount3").text(obj["ProductOrderCount3"]);
+                show();
+            })
+        }
+
+        function show() {
+            $('.show').each(function () {
+                if ($(this).text() == 0) {
+                    $(this).hide()
+                } else {
+                    $(this).show()
+                }
+            })
+        }
+        function ShowMember(userInfo) {
+
+            $(".MemberOrLogin").html(template("MemberuserInfo", userInfo));
+            $('.asset_info').html(template("asset_temp", userInfo));
+            //SalesAttendMe();  //最近关注我的人
+            Entter();
+            IfUserIsMch(userInfo);
+        }
+
+        //最近关注我的人
+        //function SalesAttendMe() {
+        //    $.post("/Txooo/SalesV2/Member/Ajax/MemberAjax.ajax/SalesAttendMe", function (data) {
+        //        if (data != "[]") {
+        //            var obj = eval("(" + data + ")");
+        //            if (obj.length > 0) {
+        //                var $list = { list: obj };
+        //                $(".person").html(template("tempPerson", $list));
+        //            }
+        //        }
+        //        if ($.trim($(".person").html()) == '') {
+        //            $('.follow').hide();
+
+        //        }
+        //    })
+        //}
+        template.helper("tempimg", function (a) {
+            return a == "" ? "/Skin/t/Img/no_pic.png" : a;
+        });
+
+        //function SalesLogo() {
+        //    window.location.href = "//passport.93390.cn/login.html?ReturnUrl=" + encodeURIComponent(window.location.href);
+        //}
+        //function SalesRegister() {
+        //    window.location.href = "//93390.cn/Register.html?ReturnUrl=" + encodeURIComponent(window.location.href);
+        //}
+        //$(function () {
+        //    $('.mecode').click(function () {
+        //        $('.shear_er').show()
+        //    })
+        //    $('.shear_er').bind("click", function (e) {
+        //        var target = $(e.target);
+        //        if (target.closest(".er_code").length == 0) {
+        //            $(".shear_er").hide();
+        //        }
+        //    });
+        //});
+
+        function myOrderApp(a) {
+            if (navigator.userAgent.toLowerCase().indexOf("txooo.app") > -1) {
+                plus.txservice.myorder([a]);
+                return;
+            }
+            var _url = "/order_2/list.html?show=" + a;
+            if (a == -99) {
+                _url = "/order_2/list.html";
+                //_url = "/order/ShouHou.html";
+            }
+            window.location.href = _url;
+        }
+
+        //为你推荐
+        //function GetRecommendProducts() {
+        //    $.get('/Txooo/SalesV2/Shop/Ajax/ShopOpenAjax.ajax/GetRecommendProducts', function (data) {
+        //        var obj = eval(data);
+        //        for (var i = 0; i < obj.length; i++) {
+        //            obj[i].ProductImgs = obj[i].ProductImgs.split(',')[0];
+        //            obj[i].ProductPrice = parseFloat(obj[i].ProductPrice);
+        //        }
+        //        $('.recommend_foryou').append(template('recommend_foryou', { list: obj }));
+        //    });
+        //}
+
+        //是否是商家
+        function IfUserIsMch(userinfo) {
+            $.get('/Txooo/SalesV2/Member/Ajax/UserAjax.ajax/IfUserIsMch', function (data) {
+                var obj = eval(data);
+                if (obj.success == "true") {//是商家
+                    if (parseInt(userinfo.user_type) > 1) {
+                        $('.link a').html('<a class="cut_link" href="javascript:void(0);" onclick=ChangeLoginUser()><i>切换到个人身份</i></a>');
+                        $('#merchant').html('&#xe67b;');
+                    } else {
+                        $('.link a').html('<a class="cut_link" href="javascript:void(0);" onclick=ChangeLoginUser()><i>切换到商户身份</i></a>');
+
+                    }
+                    $('.sales_recommend').html('<a href="/store/MchApp.html"><div class="box"><i class="recommend_blue">&#xeaf8;</i>商户APP</div></a>');
+                }
+            });
+        }
+
+        //切换身份
+        function ChangeLoginUser() {
+            $.get('/Txooo/SalesV2/Passport/Ajax/SalesAjax.ajax/ChangeLoginUser', function (data) {
+                var obj = eval(data);
+                if (obj.success == "true") {
+                    window.localStorage.clear();
+                    window.location.reload();
+                }
+            });
+        }
+    </script>
+</head>
+<body style="padding: 0; background: #f0f0f0;">
+    <script type="text/html" id="tempPerson">
+        {{each list as o}}
+        <li><a class="external" href="/homepage/index.html?uid={{o.user_id}}"><img src="{{tempimg(o.head_pic)}}" /><em>{{o.nick_name}}</em></a></li>
+        {{/each}}
+
+    </script>
+
+    <!--为你推荐模板-->
+    <!--<script type="text/html" id="recommend_foryou">
+        {{each list as l}}
+        <ul onclick="window.location.href='/shop.html?id='+{{l.ProductId}}">
+            <li class="pic"><img src="{{l.ProductImgs}},1,80,80,3" /></li>
+            <li class="info">{{l.ProductName}}</li>
+            <li class="money"><em>￥</em>{{l.ProductPrice}}</li>
+        </ul>
+        {{/each}}
+    </script>-->
+
+    <!-- 登录模板 -->
+    <script id="MemberuserInfo" type="text/html">
+        <div>
+            <section class="P_Top">
+                <div class="top">
+                    <div class="right"><a href="/news/index.html" title="消息"><i>&#xe676;</i><em id="SysmsgCount" style="display:none;"></em></a></div>
+                    <div class="right"><a href="/member/setting.html" id="btnSetting" title="设置"><i>&#xe675;</i></a></div>
+                </div>
+                <div class="head_portrait"><a href="/homepage/info.html"><img class="img_b" src="{{head_pic}},1,150,150,3" id="headpic" /></a></div>
+                <div class="user_name"><a href="/homepage/info.html"><em id="nickName">{{nick_name}}</em><i id="merchant"></i></a></div>
+                <!--<div class="have_make">近一月赚钱<em id="MoneyMonthCount">{{month_assets | toFloat}}</em>元，<a href="/Rank/MyRank.html?UserId={$UserId}&type=1"><em class="rank">排名<em id="userMoneyRankMonth">{{month_assets_rank}}</em>位</em></a></div>-->
+                <!--<ul class="list_2">
+                    <li><a href="/Member/attend.html?type=2"><p>粉丝<b><em id="AttendMeCount">0</em></b></p></a></li>
+                    <li><a href="/Member/attend.html?type=1"><p>关注<b><em id="MeAttendCount">0</em></b></p></a></li>
+                </ul>-->
+                <div class="link"><a href="/homepage/info.html"><i>&#xe667;</i></a></div>
+            </section>
+        </div>
+    </script>
+    <!-- 登录模板 end -->
+    <!-- 没登录模板 -->
+    <script type="text/html" id="nologin">
+        <section class="nologin">
+            <div class="top">
+                <div class="left"><a href="/news/index.html" title="消息"><i>&#xe676;</i></a></div>
+                <div class="right"><a href="javascript:void(0);" id="btnSetting" title="设置"><i>&#xe675;</i></a></div>
+            </div>
+            <div class="bottom">
+                <a class="btn_1" href="//passport.93390.cn/login.html?sharecode={$DomainShareCode}">登录</a>
+                <a class="btn_2" href="//{$DomainShareCode}.u.93390.cn/?i={$DomainShareCode}">注册</a>
+            </div>
+        </section>
+    </script>
+    <!-- 没登录模板 end-->
+
+
+    <div id="Yes_Login" class="MemberOrLogin">
+        <div>
+            <section class="P_Top">
+                <div class="top">
+                    <div class="right"><a href="/news/index.html" title="消息"><i>&#xe676;</i><em id="SysmsgCount" style="display:none;"></em></a></div>
+                    <div class="right"><a href="/member/setting.html" id="btnSetting" title="设置"><i>&#xe675;</i></a></div>
+                </div>
+                <div class="head_portrait"><a href="/homepage/info.html"><img class="img_b" src="/Skin/t/Img/no_pic.png" id="headpic" /></a></div>
+                <div class="user_name"><a href="/homepage/info.html"><em id="nickName">老板</em><i id="merchant"></i></a></div>
+                <!--<ul class="list_2">
+                    <li><a href="/Member/attend.html?type=2"><p>粉丝<b><em id="AttendMeCount">0</em></b></p></a></li>
+                    <li><a href="/Member/attend.html?type=1"><p>关注<b><em id="MeAttendCount">0</em></b></p></a></li>
+                </ul>-->
+                <div class="link"><a href="/homepage/info.html"><i>&#xe667;</i></a></div>
+            </section>
+        </div>
+    </div>
+    <section class="My_order">
+        <a href="javascript:;" onclick="myOrderApp(-99)" style="display: block; width: 100%; " class="clear">
+            <div class="asset">我的订单</div>
+            <div class="more">查看所有订单<i>&#xe603;</i></div>
+        </a>
+        <div class="clear"></div>
+        <ul>
+            <li><a href="javascript:;" onclick="myOrderApp(0)"><em class="show" id="ProductOrderCount1">0</em><i>&#xe671;</i>待付款</a></li>
+            <li><a href="javascript:;" onclick="myOrderApp(3)"><em class="show" id="ProductOrderCount2">0</em><i>&#xe672;</i>待收货</a></li>
+            <li><a href="javascript:;" onclick="myOrderApp(40)"><em class="show" id="ProductOrderCount3">0</em><i>&#xe673;</i>待评价</a></li>
+            <li><a href="javascript:;" onclick="myOrderApp(61)"><em></em><i>&#xe674;</i>售后</a></li>
+            <!--<li><a href="javascript:;" onclick="myOrderApp(4)"><em class="show" id="ProductOrderCount3">0</em><i>&#xe674;</i>售后</a></li>-->
+        </ul>
+    </section>
+    <section class="My_asset mar_10">
+        <a href="/money/index.html">
+            <div class="asset">我的资产</div>
+            <div class="more">查看资产明细<i>&#xe603;</i></div>
+        </a>
+        <div class="asset_info"></div>
+    </section>
+    <script type="text/html" id="asset_temp">
+        <ul class="list_1">
+            <li>
+                <a href="/money/list.html?r=1" id="link2">
+                    <p><em id="TotalMoneyCount">{{total_assets | toFloat}}</em>元</p>
+                    <span>已赚到</span>
+                </a>
+            </li>
+            <li>
+                <a href="/money/list.html?r=4" id="link3">
+                    <p><em id="TotalPointCount">{{total_points | toFloat}}</em>个</p>
+                    <span>总V币</span>
+                </a>
+            </li>
+            <li>
+                <a href="/Member/team.html" id="link1">
+                    <p><em id="MyRecommendCount">{{team_users}}</em>人</p>
+                    <span>团队</span>
+                </a>
+            </li>
+        </ul>
+    </script>
+
+    <section class="My_install mar_10">
+        <ul>
+            <li class="li1"><a href="/task/MyTask.html"><div class="box"><i>&#xe648;</i>我的任务</div></a></li>
+            <li class="li0"><a href="/share/index.html"><div class="box"><i>&#xe658;</i>我的推广</div></a></li>
+            <li class="sales_recommend li2"><a href="/store/index.html"><div class="box"><i>&#xe659;</i>商家入驻</div></a></li>
+            <!--<li class="li2"><a href="/news/index.html"><em class="show" id="SysmsgCount">0</em><div class="box"><i>&#xe61b;</i>我的消息</div></a></li>-->
+            <li class="li3"><a href="/Member/ProductCollect.html"><div class="box"><i>&#xe65a;</i>我的收藏</div></a></li>
+            <li class="li4"><a href="/Member/Footprint.html"><div class="box"><i>&#xe656;</i>我的足迹</div></a></li>
+            <li class="li5"><a href="/Member/attend.html?type=1"><div class="box"><i>&#xe664;</i>关注</div></a></li>
+            <!--<li class="li4"><a href="javascript:;" id="btnSetting"><div class="box"><i>&#xe618;</i>系统设置</div></a></li>-->
+            <li class="li6"><a href="/member_2/address.html?type=manage&mchclass="><div class="box"><i>&#xe67f;</i>地址管理</div></a></li>
+            <li class="li7"><!--<a href="/member/bank.html"><div class="box"><i>&#xe67e;</i>银行卡管理</div></a>--></li>
+            <li class="li5"><a><div class="box">&nbsp;</div></a></li>
+        </ul>
+    </section>
+    <section class="My_asset mar_10">
+        <a href="/Helper/feedback.html">
+            <div class="asset">建议反馈</div>
+            <div class="more"><i>&#xe603;</i></div>
+        </a>
+    </section>
+    <section class="recommend_foryou">
+        <p class="tit"></p>
+    </section>
+    <!-- 底部begin -->
+    <!--WL_TMP{tmp=/Pub/T_Foot.html}-->
+    <!-- 底部end -->
+    <!--WL_TMP{tmp=/Skin/t/Pub/T_Public.html}-->
+</body>
+</html>

@@ -1,0 +1,191 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/html5/rem.js"></script>
+    <link href="/skin/salesv2/Css/app.min.css" rel="stylesheet" />
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Public.v2.css" />
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Member.css" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/jquery/jquery-1.7.2.min.js"></script>
+    <link rel="stylesheet" href="//cdn.txooo.com/public/jquery.validate/Css/Validate.css" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/jquery.validate/jquery.validate.js"></script>
+    <script type="text/javascript" src="//cdn.txooo.com/public/jquery.validate/validate-ex.js"></script>
+    <script src="/Skin/t/Js/Public.js"></script>
+    <script type="text/javascript" src="//cdn.txooo.com/public/aui.artTemplate/artTemplate.js"></script>
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=VZxInjocSrIOO9b616rXVxIEDzZifvFH"></script>
+    
+    <title>修改地址</title>
+    <style>
+        #allmap {width:100%;height:100%;}
+        .map_box{position:fixed;left:0;top:0;width:100%;height:100%;visibility:hidden;}
+    </style>
+    <script type="text/javascript">
+       var $returnlevel = 0;  //判断返回
+       var url_flag = getUrlParam("url_flag");
+       $(function () {
+           jQuery.validator.addMethod("isMchClass5", function (value, element) {
+               if (getUrlParam("mch_class") == '4' && value == '') {
+                   return false;
+               }
+               return true;
+           }, "请选择地理位置");
+
+           var aid = getUrlParam("r_id");
+           if (aid == "") {
+               aid = 0;
+           }
+           $.get("/Txooo/SalesV2/Member/Ajax/MemberAjax.ajax/GetOneAddressInfo?r_id=" + aid, function (data) {
+               data = eval(data)
+               if (data.length > 0) {
+                   var obj = data[0];
+                   if (obj.RegionCode == 0) {
+                       obj.Area = "";
+                   }
+                   if (obj.Lng == 0 && obj.Lat == 0) {
+                       obj.LngLat = "";
+                   } else {
+                       obj.LngLat = obj.Lng + "，" + obj.Lat;
+                   }
+                   $('#AddressId').val(obj.AddressId);
+                   $('#RegionCode').val(obj.RegionCode);
+                   $('#TakeName').val(obj.TakeName);
+                   $('#Phone').val(obj.Phone);
+                   $('#Area').val(obj.Area);
+                   $('#Address').val(obj.Address);
+                   $('#longitude').val(obj.longitude);
+                   $('#latitude').val(obj.latitude);
+                   $('#lnglat').val(obj.LngLat);
+                   $('#Zip').val(obj.Zip);
+               }
+           });
+
+           $("#EditForm").validate({
+               onfocusout: function (element) { $(element).valid(); }
+           });
+           $(".address_choice").click(function () {
+               $('#EditForm dl').eq(2).find('label').hide();
+           })
+       })
+        //选择地区
+       function userAddress(region_code, region_name) {
+           region_name = window.sessionStorage["#user_area_1"] + window.sessionStorage["#user_area_2"] + region_name;
+           $('#RegionCode').val(region_code);
+           $('#Area').val(region_name);
+       }
+       //添加编辑地址
+       function BtnAddressModify() {
+           if ($("#EditForm").valid()) {
+               $.post("/Txooo/SalesV2/Member/Ajax/MemberAjax.ajax/EditAddress",
+                     $("#EditForm").serialize(), function (data) {
+                         var obj = eval(data);
+                         if (obj.success=="true") {
+                             var cookieVal = decodeURIComponent(cookie("Cookie_SalesProInfo"));
+                             if (url_flag != "") {
+                                 cookieVal = cookieVal.split("|");
+                                 window.location.href = "/shop/order.html?id=" + cookieVal[0] + "&count=" + cookieVal[1] + "&postageVal=" + cookieVal[2] + "&addressid=" + obj.msg + "&proProperty=" + cookieVal[4];
+                             } else {
+                                 window.location.href = "/Member/address.html";
+                             }
+                             //window.location.href = "/Member/address.html";
+                         } else {
+                             dialogAlart(obj.msg);
+                         }
+                 });
+           }
+       };
+       function getBaiduMapCoord() {
+           App.back();
+           $('#longitude').val(window.sessionStorage["baidumapLng"]);
+           $('#latitude').val(window.sessionStorage["baidumapLat"]);
+           $('#lnglat').val(window.sessionStorage["baidumapLng"] + '，' + window.sessionStorage["baidumapLat"]);
+
+       }
+    </script>
+</head>
+<body style="background:#f0f0f0;">
+    <div class="app-page" data-page="home">
+        <!-- 头部信息begin -->
+        <div class="app-topbar h1010">
+            <a class="app-button left" data-back href="javascript:history.go(-1)"></a>
+            <div class="app-title">个人资料</div>
+        </div>
+        <!-- 头部信息end -->
+        <!--内容信息begin-->
+        <div class="app-content">
+            <div class="add_address">
+                <form id="EditForm" >
+                    <input type="hidden" name="address_id" id="AddressId" value="0" />
+                    <input type="hidden" name="region_code" id="RegionCode" value="" />
+                    <dl>
+                        <dt>收货人：</dt>
+                        <dd><input type="text" id="TakeName" placeholder="如：店小二" value="" class="input_text {required:true}" name="take_name" /></dd>
+                    </dl>
+                    <dl>
+                        <dt>手机号：</dt>
+                        <dd><input type="text" id="Phone" placeholder="如：13030000000" value="" class="input_text {required:true,isMobile:true}" name="phone" /></dd>
+                    </dl>
+                    <dl>
+                        <dt>所在地区：</dt>
+                        <dd class="app-button" data-target="user_area_1">
+                        <input type="text" id="Area" placeholder="请选择" value="" readonly="readonly" class="input_text {required:true}" name="area" /></dd>
+                    </dl>
+                    <dl>
+                        <dt>详细地址：</dt>
+                        <dd><input type="text" id="Address" placeholder="如：总部基地二区9号楼三层" value="" class="input_text {required:true}" name="address" /></dd>
+                    </dl>
+                    <dl class="map_dl">
+                        <dt>地理位置：</dt>
+                        <dd class="app-button" data-target="baidumap">
+                            <input id="longitude" type="hidden" name="lng" value="" />
+                            <input id="latitude" type="hidden" name="lat" value="" />
+                            <input id="lnglat" placeholder="非外卖地址可空" readonly type="text" value="" class="input_text {isMchClass5:true}" name="LagLng" />
+                        </dd>
+                    </dl>
+                    <dl>
+                        <dt>邮政编码：</dt>
+                        <dd><input type="text" id="Zip" placeholder="100000" value="" class="input_text {isZipCode:true}" name="zip" /></dd>
+                    </dl>
+                    <div class="bottom_btn">
+                        <input type="button" onclick="BtnAddressModify()" name="name" value="保存" class="positive_button" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="app-page" data-page="baidumap">
+        <div class="app-topbar  h1010">
+            <div class="app-button left" data-back></div>
+            <div class="app-title">选择地理位置</div>
+            <div class="app-button right"  onclick="getBaiduMapCoord()">确定</div>
+        </div>
+        <div class="app-content"></div>
+    </div>
+    <!--WL_TMP{tmp=/Skin/t/Member/useraddress.html}-->
+    <script src="/skin/salesv2/Js/app.min.js"></script>
+    <script type="text/javascript">
+        App.controller('user_area_1', function (page) {
+            getAreaList(1);
+        });
+        App.controller('user_area_3', function (page) {
+            $(page).find('.app-button').live('click', function () {
+                App.back('home', function () { area_count = 0; });
+                console.log();
+                userAddress($(this).data('code'), $(this).text());
+            });
+        });
+        App.controller('baidumap', function (page) {
+            setTimeout(function () {
+                $(page).find('.app-content').load('/member/temp/baidumap.html');
+            }, 500);
+        });
+        App.controller('home', function (page) { });
+        try {
+            App.restore();
+        } catch (err) {
+            App.load('home');
+        }
+    </script>
+    <!--WL_TMP{tmp=/Skin/t/Pub/T_Public.html}-->
+</body>
+</html>

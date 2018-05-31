@@ -1,0 +1,49 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>活动列表</title>
+    <!--WL_TMP{tmp=/Skin/t/Pub/app_publiccss.html}-->
+    <link rel="stylesheet" href="//g.alicdn.com/msui/sm/0.6.2/css/sm-extend.min.css">
+    <link href="/Skin/t/Css/sui/index2.css?v=4.2" rel="stylesheet" />
+</head>
+<body>
+    <div class="page-group">
+        <div id="page-activity-list" class="page">
+            <header class="bar bar-nav bar_tran bar_09D317">
+                <a class="icon icon-left pull-left back"></a>
+                <h1 class="title">奖励活动列表</h1>
+            </header>
+            <div class="content infinite-scroll">
+                <ul class="activities_list">
+                </ul>                <!-- 加载提示符 -->
+                <div class="infinite-scroll-preloader">
+                    <div class="preloader">
+                    </div>
+                </div>
+                <!--列表-->
+                <script type="text/html" id="t_activities_list">
+                    {{each list}}
+                    <li class="list-item ">
+                        <a href="/activity/rebate.html?id={{$value.Id}}">
+                            <div class="pic"><img src="{{$value.Img}}" /></div>
+                            <p class="prodect-name">{{$value.Name}}</p>
+                            {{if $value.Ispostage == true}}
+                            <span class="postage">包邮</span> {{/if}}
+                            <br />
+                            <span class="money"><em>¥</em>{{$value.Price | priceToFixed}}</span>
+                            <span class="pull-right" style="color: #666;">
+                            <i style="display: inline;"></i>{{$value.RegionName}}</span>
+                            <div class="seal {{if $value.ActivityState == 2}}seal_stop{{/if}}{{if $value.ActivityState == 4}}seal_over{{/if}}"></div>
+                        </a>
+                    </li>
+                    {{/each}}
+                </script>
+            </div>
+        </div>
+    </div>
+
+    <!--WL_TMP{tmp=/Skin/t/Pub/app_publicjs.html}-->
+    <script src="/Skin/t/Js/sui/index2.js?v=4"></script>
+</body>
+</html>

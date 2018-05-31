@@ -1,0 +1,111 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/html5/rem.js"></script>
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Public.css" />
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Member.css" />
+    <script src="//cdn.txooo.com/public/jquery/jquery-1.7.2.js"></script>
+    <script src="/Skin/t/Js/Public.js"></script>
+    <link rel="stylesheet" href="//cdn.txooo.com/public/jquery.validate/Css/Validate.css" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/jquery.validate/jquery.validate.js"></script>
+    <script type="text/javascript" src="//cdn.txooo.com/public/jquery.validate/validate-ex.js"></script>
+    <title>更改绑定</title>
+
+    <script type="text/javascript">
+        var _url = "";
+        $(function () {
+            //GetUserInfo(ShowMember);
+            _url = getUrlParam("ReturnUrl");
+            if (_url != "") {
+                $(".P_title").text("修改支付密码");
+            }
+            $("#EditForm").validate({
+                onfocusout: function (element) { $(element).valid(); }
+            });
+        })
+        function ShowMember(userInfo) {            
+            //$("#phone").val(userInfo.show_phone);
+        }
+        //获取效验码
+        function GetCode(me)
+        {
+            //debugger
+            if($.trim($('#phone').val())=="")
+            {
+                $(".error[for=phone]").html("手机号不能为空").show();
+                return;
+            }
+            var $self = $(me);
+            $self.attr('disabled', true);
+            $.get('/Txooo/SalesV2/Member/Ajax/MemberV2Ajax.ajax/SendOldMobileCode', { "mobile": $("#phone").val() }, function (data) {
+                if (data) {
+                    var obj = eval(data);
+                    if (obj.success =="true") {
+                        btnInterval($self);
+                    } else {
+                        $self.val('获取短信验证码').removeAttr('disabled');
+                        dialogAlart(obj.msg);
+                    }
+                }
+            });
+        }
+        //验证
+        function nextStep() {
+            if ($("#EditForm").valid()) {
+                $('.loading_box').show();
+                $.get("/Txooo/SalesV2/Member/Ajax/MemberV2Ajax.ajax/CheckMobileCode?mobilecode=" + $.trim($('#step1 .v_code').val()), function (date) {
+                    var stat = eval(date);
+                    if (stat.success == "true") {
+                        if (_url != "") {
+                            window.location.href = "/member/safetyPay.html?ReturnUrl=" + _url + "&r_code=" + $('#step1 .v_code').val();  //到修改支付密码页面
+                        } else {
+                            window.location.href = "/Member/phoneModify.html";//到绑定手机页面
+                        }
+
+                    } else {
+                        dialogAlart(stat.msg);
+                    }
+                });
+            }
+        };
+
+       
+    </script>
+</head>
+<body style="background:#f0f0f0;">
+    <!-- 头部信息begin -->
+    <header class="P_Header" id="header1">
+        <div class="P_goBack" onclick="javascript:history.go(-1)"><i>&#xe602;</i></div>
+        <div class="P_title">绑定手机</div>
+    </header>
+    <!-- 头部信息end -->
+    <section class="P_Pages">
+        <form id="EditForm" onsubmit="return false" method="post">
+            <div class="modify_phone" id="step1">
+                <p>当前绑定的手机号</p>
+                <dl class="phone_number">
+                    <dt>
+                        <input class="input_text {required:true}" value="" type="text" id="phone" />
+                        <label class="error" for="phone" generated="true" style="display:none"></label>
+                    </dt>
+                    <dd><input type="button" value="获取验证码" class="btn" onclick="GetCode(this)" /></dd>
+                </dl>
+                <p>请输入验证码</p>
+                <dl class="phone_code">
+                    <dt><input class="input_text v_code {required:true}" type="text" name="code" /></dt>
+                </dl>
+
+                <div class="bottom_btn">
+                    <input type="button" onclick="nextStep()" name="name" value="下一步" class="positive_button" />
+                </div>
+            </div>
+
+        </form>
+            
+
+</section>
+    <div class="loading_box"><p><img src="/Skin/t/Img/loading.gif" />请耐心等待</p></div>
+ <!--WL_TMP{tmp=/Skin/t/Pub/T_Public.html}--> </body>
+</html>

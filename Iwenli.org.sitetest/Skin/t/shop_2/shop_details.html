@@ -1,0 +1,37 @@
+﻿<script type="text/javascript" src="https://cdn.txooo.com/public/sui/0.6.2/zepto.min.js"></script>
+<script type="text/javascript" src="https://111.u.93390.cn/Skin/t/Js/txapp.js"></script>
+<script>
+(function () { var html = document.documentElement; function onWindowResize() { html.style.fontSize = html.getBoundingClientRect().width / 20 + 'px' } window.addEventListener('resize', onWindowResize); onWindowResize() })();
+    $(function () {
+        window.txapp.config({ debug: false, appId: 'asd', timestamp: '123', signature: '456'});
+        window.addTxFun = { imgPreview: function (data) { window.txapp.addToolFun('facai', data) } };
+        $('img').off('click').on('click', function () {
+            var _index = 0; var imgurls = '';
+            var $this = this;
+            $('img').each(function (i, o) {
+                imgurls = imgurls + ',' + $(o).attr('src');
+                if ($this == o) { _index = i }
+            });
+            window.txapp.ready(function () {
+                window.txapp.imgPreview({ imgurls: imgurls, imgindex: _index })
+            })
+        })
+    });</script>
+<style>
+    *{padding:0;margin:0;}
+    p {
+        line-height: 1rem;
+        color: #474747;
+        font-family: arial;
+        word-break: break-all;
+        font-size: 0.8rem;
+        padding: 0;
+        margin: 0.5rem 0;
+        text-indent: 1.5rem;
+    }
+
+    img {
+        width: 100%;
+        display: block;
+    }
+</style><p>	2017年早春新品</p><p>真丝围巾</p><p>少女心樱桃 真丝围巾 真的很特别的一款，黑色红色樱桃搭配 sweet</p><p>韩版又大牌feel ，店主默默的自留 搭配衣服 出门旅游做防晒巾都ok</p><p>尺寸：180*90</p><img src='https://img.txooo.com/2017/01/03/eb42e527359e3e8a5b274adccae6e7ed.jpg'/><img src='https://img.txooo.com/2017/01/03/6942000eccbcc3ffebb3f7223a120ddd.jpg'/><img src='https://img.txooo.com/2017/01/03/5b6068db4a1d6c5def7fb483f04a26b9.jpg'/><img src='https://img.txooo.com/2017/01/03/fa216019ca58c52cb080f2d9937ef121.jpg'/><img src='https://img.txooo.com/2017/01/03/ed7e20a3f5424955f61c67b26e1a2078.jpg'/><img src='https://img.txooo.com/2017/01/03/af2ba06f912d15464a6b4b1f264c594c.jpg'/><img src='https://img.txooo.com/2017/01/03/e299a94624941002c8e4518cfcb683c2.jpg'/><img src='https://img.txooo.com/2017/01/03/8ffd5565f814c729db840e6010649e6b.jpg'/><img src='https://img.txooo.com/2017/01/03/aad5f9819a3c700002b55e2c89ca6e52.jpg'/>

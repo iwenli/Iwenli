@@ -1,0 +1,68 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/html5/rem.js"></script>
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Public.css" />
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Shop.css" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/jquery/jquery-1.7.2.min.js"></script>
+    <script src="/Skin/t/Js/Public.js?v=20160112"></script>
+    <title>app商品推广</title>
+    <script>
+        //opensource.wx.bind(function () {
+        //    window.location.href = "/shop/share.html?sId={$ShareId}";
+        //});
+
+        //opensource.browser.bind(function () {
+        //    window.location.href = "/shop/share.html?sId={$ShareId}";
+        //});
+        window.opensource.app.bind(function () {
+            //产品名称-推广语-产品图片-地址
+            plus.txservice.share(['{$ProName}',
+                '{$ShareContent}',
+                '{$ProImg}',
+                '{$ShorUrl}',
+                '{$ProductBrokerage}',
+                '{$ProductBonus}'
+            ]);
+        });
+        $(function () {
+            opensource.init();
+        })
+        
+    </script>
+    <style type="text/css">
+        .share_btn{background:#ff8201;color:#fff;display:block;height:2.5rem;line-height:2.5rem;width:80%;margin:0.3rem auto;border-radius:0.25rem;border:none;text-align:center}
+    </style>
+</head>
+<body>
+    <header class="P_Header">
+        <div class="P_goBack" onclick="window.location.href='/index.html'"><i>&#xe602;</i></div>
+        <div class="P_title">商品产品</div>
+    </header>
+    <section class="appshare_box">
+        <div class="share_li">
+            <img src="/Skin/t/Img/appShare/appShare_02.jpg" alt="">
+            <div class="share_btn" onclick="window.opensource.init();">立 即 推 广</div>
+            <div class="info" onclick="window.location.href = '/shop.html?id={$ProId}'">
+                <img src="{$ProImg}" />
+                <p>
+                    {$ProName}
+                </p>
+            </div>
+        </div>
+        
+        <div class="share_li"><img src="/Skin/t/Img/appShare/appShare_04.jpg" alt=""></div>
+        <div class="share_li"><img src="/Skin/t/Img/appShare/appShare_05.jpg" alt=""></div>
+        <div class="share_li"><img src="/Skin/t/Img/appShare/appShare_06.jpg" alt=""></div>
+        <div class="share_li"><img src="/Skin/t/Img/appShare/appShare_07.jpg" alt=""></div>
+        <div class="share_li"><img src="/Skin/t/Img/appShare/appShare_08.jpg" alt=""></div>
+        <div class="share_li"><img src="/Skin/t/Img/appShare/appShare_09.jpg" alt=""></div>
+        <div class="share_li"><img src="/Skin/t/Img/appShare/appShare_10.jpg" alt=""></div>
+        <div class="share_li"><img src="/Skin/t/Img/appShare/appShare_11.jpg" alt=""></div>
+        <div class="share_li"><img src="/Skin/t/Img/appShare/appShare_12.jpg" alt=""></div>
+    </section>
+    
+ <!--WL_TMP{tmp=/Skin/t/Pub/T_Public.html}--> </body>
+</html>

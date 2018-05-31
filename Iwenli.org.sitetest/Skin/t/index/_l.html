@@ -1,0 +1,135 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>CSS3加载动画</title>
+    <!--WL_TMP{tmp=/Skin/t/Pub/app_publiccss.html}-->
+    <link href="/Skin/t/Css/sui/index.css?v=1" rel="stylesheet" />
+    <style type="text/css">
+        #slideDown { margin-top: 0; width: 100%; }
+        #slideDown1, #slideDown2 { width: 100%; height: 70px; background: #e9f4f7; display: none; }
+        #slideDown1 { height: 20px; }
+        #slideDown1 > p, #slideDown2 > p { margin: 20px auto; text-align: center; font-size: 14px; color: #37bbf5; }
+        .transitioning { -webkit-transition: -webkit-transform .4s; transition: transform .4s }
+        .refreshing { -webkit-transform: translate3d(0,2.2rem,0); transform: translate3d(0,2.2rem,0) }
+        .pull-to-refresh-layer { display: none; }
+    </style>
+</head>
+<body>
+    <div class="page-group">
+        <div id="page-index-test" class="page">
+            <header class="bar bar-nav bar_ff8201">
+                <a class="icon icon-left pull-left back"></a>
+                <h1 class="title">CSS3加载动画</h1>
+            </header>
+            <div class="content" id="content">
+                <!--<div id="slideDown">
+                    <div id="slideDown1">
+                        <p>松开刷新</p>
+                    </div>
+                    <div id="slideDown2">
+                        <p>正在刷新 ...</p>
+                    </div>
+                </div>-->
+                <div class="pull-to-refresh-layer">
+                    <div class="layer-contioner">
+                        <div class="preloader"></div>
+                        <span class="preloader-txt" style="display:block;">下拉刷新...</span>
+                        <span class="last_refresh_time">最后更新：今天</span>
+                    </div>
+                </div>
+                <!-- 页面内容写这里 -->
+                <div class="infinite-scroll-preloader loading-2">
+                    <img src="https://img.txooo.com/2017/08/02/84c86d01107943b0847cf58f48ebb68d.gif">
+                </div>
+                <div class="infinite-scroll-preloader loading-1">
+                    <div class="k-line2 k-line12-1"></div>
+                    <div class="k-line2 k-line12-2"></div>
+                    <div class="k-line2 k-line12-3"></div>
+                    <div class="k-line2 k-line12-4"></div>
+                    <div class="k-line2 k-line12-5"></div>
+                    <div class="k-line2 k-line12-6"></div>
+                    <div class="k-line2 k-line12-7"></div>
+                    <div class="k-line2 k-line12-8"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        //第一步：下拉过程
+        function slideDownStep1(dist) {  // dist 下滑的距离，用以拉长背景模拟拉伸效果
+            var slideDown = document.getElementById("slideDown"),
+                _content = document.getElementById("content");
+            var elStyle = _content.style;
+            $('.pull-to-refresh-layer').show();
+            elStyle.webkitTransform = elStyle.MozTransform = elStyle.transform = 'translate3d(0,' + Math.pow(-1 * dist, 0.85) + 'px,0)';
+        }
+        //第二步：下拉，然后松开，
+        function slideDownStep2() {
+            var slideDown = document.getElementById("slideDown"),
+                _content = document.getElementById("content");
+            $("#content").addClass('transitioning refreshing');
+            $('.preloader-txt').text('正在刷新...');
+            var elStyle = _content.style;
+            elStyle.webkitTransform = elStyle.MozTransform = elStyle.transform = '';
+            //刷新数据
+            //location.reload();
+        }
+        //第三步：刷新完成，回归之前状态
+        function slideDownStep3() {
+            $("#content").removeClass('transitioning refreshing');
+            $('.pull-to-refresh-layer').hide();
+        }
+
+        //下滑刷新调用
+        k_touch("content", "y");
+        //contentId表示对其进行事件绑定，way==>x表示水平方向的操作，y表示竖直方向的操作
+        function k_touch(contentId, way) {
+            var _start = 0,
+                _end = 0,
+                _content = document.getElementById(contentId);
+            _content.addEventListener("touchstart", touchStart, false);
+            _content.addEventListener("touchmove", touchMove, false);
+            _content.addEventListener("touchend", touchEnd, false);
+            function touchStart(event) {
+                //var touch = event.touches[0]; //这种获取也可以，但已不推荐使用
+                var touch = event.targetTouches[0];
+                if (way == "x") {
+                    _start = touch.pageX;
+                } else {
+                    _start = touch.pageY;
+                }
+            }
+            function touchMove(event) {
+                var touch = event.targetTouches[0];
+                if (way == "x") {
+                    _end = (_start - touch.pageX);
+                } else {
+                    _end = (_start - touch.pageY);
+                    //下滑才执行操作
+                    if (_end < 0) {
+                        if (_end > -70) {
+                            $('.preloader-txt').text('下拉刷新...');
+                        } else {
+                            $('.preloader-txt').text('松开刷新...');
+                        }
+                        slideDownStep1(_end);
+                    }
+                }
+            }
+            function touchEnd(event) {
+                if (_end < -70) {
+                    console.log("右滑或下滑" + _end);
+                    slideDownStep2();
+                    //刷新成功则
+                    //模拟刷新成功进入第三步
+                    setTimeout(function () {
+                        slideDownStep3();
+                    }, 2500);
+                }
+            }
+        }
+    </script>
+    <!--WL_TMP{tmp=/Skin/t/Pub/app_publicjs.html}-->
+</body>
+</html>

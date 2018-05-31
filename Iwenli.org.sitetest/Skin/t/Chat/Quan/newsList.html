@@ -1,0 +1,135 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <script src="//cdn.txooo.com/public/jquery/jquery-1.7.2.js"></script>
+    <script type="text/javascript" src="//cdn.txooo.com/public/html5/rem.js"></script>
+    <script src="/Skin/t/Js/Public.js"></script>
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Public.css" />
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/myNews.css" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/aui.artTemplate/artTemplate.js"></script>
+
+    <title>群聊设置</title>
+</head>
+<body>
+
+    <!-- 头部信息begin -->
+    <header class="P_Header">
+        <div class="P_goBack" onclick="window.location.href ='javascript:history.go(-1)'"><i>&#xe602;</i></div>
+        <div class="P_title">消息列表</div>
+    </header>
+    <!-- 头部信息end -->
+
+    <script type="text/html" id="listTemp">
+        {{each list as l}}
+        <dl onclick="window.location.href = '/news/details.html?r_id={{l.notice_id}}'">
+            <dt><em></em></dt>
+            <dd>
+                <p class="nameTime ov_h">
+                    <span class="name left">公告</span>
+                    <span class="right">{{l.add_time | formatTime}}</span>
+                </p>
+                <div>{{l.title}}</div>
+            </dd>
+        </dl>
+        {{/each}}
+    </script>
+    <div class="myNews">
+        <!--<dl>
+            <dt><em></em></dt>
+            <dd>
+                <p class="nameTime ov_h">
+                    <span class="name left">公告</span>
+                    <span class="right">19:00</span>
+                </p>
+                <div>买客最新版本即将与大家见面买客最新版本即将与大家见面买客最新版本即将与大家见面</div>
+            </dd>
+        </dl>-->
+        <!--<dl>
+            <dt><em></em></dt>
+            <dd>
+                <p class="nameTime ov_h">
+                    <span class="name left">张晓明</span>
+                    <span class="right">19:00</span>
+                </p>
+                <div>你买的大枣怎么样</div>
+            </dd>
+        </dl>
+        <dl>
+            <dt><em></em></dt>
+            <dd>
+                <p class="nameTime ov_h">
+                    <span class="name left">刘一凡的二级群</span>
+                    <span class="right">19:00</span>
+                </p>
+                <div>买客最新版本即将与大家见面买客最新版本即将与大家见面买客最新版本即将与大家见面</div>
+            </dd>
+        </dl>
+        <dl>
+            <dt><em></em></dt>
+            <dd>
+                <p class="nameTime ov_h">
+                    <span class="name left">小麦</span>
+                    <span class="right">19:00</span>
+                </p>
+                <div>买客最新版本即将与大家见面买客最新版本即将与大家见面买客最新版本即将与大家见面</div>
+            </dd>
+        </dl>
+        <dl>
+            <dt><em></em></dt>
+            <dd>
+                <p class="nameTime ov_h">
+                    <span class="name left">王义夫</span>
+                    <span class="right">19:00</span>
+                </p>
+                <div>买客最新版本即将与大家见面买客最新版本即将与大家见面买客最新版本即将与大家见面</div>
+            </dd>
+        </dl>-->
+
+        <div class="nomore" style="text-align:center;font-size:1rem;line-height:7rem;color:#999;display:none;"><span>已加载全部</span></div>
+
+        <div class="no_data" style="text-align:center;font-size:1rem;line-height:7rem;color:#999;display:none;">暂无消息</div>
+
+    </div>
+
+
+    <script>
+        var pageIndex = 0;
+        var pageSize = 10;
+        var scrollTrue;
+
+        SystemList();
+        window.onscroll = function () {
+            if (getScrollTop() + getClientHeight() == getScrollHeight()) {
+                if (scrollTrue) {
+                    scrollTrue = false;
+                    SystemList();
+                }
+            }
+        }
+
+        function SystemList() {
+            $.get('/Txooo/SalesV2/Chat/Ajax/NewsAjax.ajax/GetNoticeList',
+                { pageIndex: pageIndex, pageSize: pageSize }, function (data) {
+                    var obj = eval(data);
+                    if (pageIndex == 0 && obj.length == 0) {
+                        $(".no_data").show();
+                    }
+                    if (obj.length > 0) {
+                        var data = { list: obj };
+                        $('.myNews').append(template('listTemp', data));
+                        scrollTrue = true;
+                        if (obj.length < pageSize) { scrollTrue = false; }
+                        if (pageIndex > 0) { $('.nomore').show(); }
+                        pageIndex++;
+                    }
+                });
+        }
+
+        template.helper("formatTime", function (a) {
+            return formatTime(a, 'ymd');
+        });
+    </script>
+</body>
+</html>

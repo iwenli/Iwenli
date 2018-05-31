@@ -1,0 +1,43 @@
+﻿body{background:#f0f0f0;}
+
+/*聊天*/
+.Chat_con{  padding:0 0.8125rem 3.1875rem;}
+.Chat_con .time{ height:1.1875rem; line-height:1.1875rem; padding:0.625rem 0; text-align:center;}
+.Chat_con .time span{ display:inline-block; height:100%; color:#fff; background:#d3d3d3; padding:0 0.625rem; border-radius:0.15625rem;}
+.Chat_con dl{ min-height:2.8125rem; padding:0.46875rem 0; overflow:hidden;} 
+.Chat_con dl dt{ float:left; width:2.8125rem; height:2.8125rem;border-radius:100%; margin-right:0.625rem; background:pink;}
+.Chat_con dl dt img{ display:block; width:100%; height:100%; border-radius:100%;}
+.Chat_con dl .talk{ margin-top:0.3rem; background:#fff; border-radius:0.15625rem; max-width:13rem; padding:0.46875rem; line-height:1.2rem; color:#333; position:relative; float:left;word-wrap:break-word;font-size:0.9rem;}
+.Chat_con dl .talk::before{content:""; display:block; width:0; height:0; border-top:0.125rem solid transparent;border-bottom:0.125rem solid transparent;border-right:0.25rem solid #fff; position:absolute; left:-0.25rem; top:0.6875rem;}
+.Chat_con dl.myself .talk{ float:right; background:#09D317; color:#fff; }
+.Chat_con dl.myself .talk::before{border-left:0.25rem solid #09D317; border-right:0; right:-0.25rem; left:auto;}
+.Chat_con dl.myself dt{ float:right; margin-right:0; margin-left:0.625rem; }
+.talk_input_box{ position:fixed; bottom:0; left:0; width:100%; height:3.25rem;background:#484848; }
+.talk_input_box .talk_input{ float:left;  padding-left:2%; padding-top:0.46875rem; width:78%}
+.talk_input_box .talk_input input{ display:inline-block; width:94%; height:1.25rem; line-height:1.25rem; vertical-align:middle; background:#fff; padding:0.5rem 0.25rem;}
+.talk_input_box a{ position:absolute; right:0; width:20%; height:100%; line-height:3.25rem; text-align:center; font-size:1rem; color:#fff; background:#ff8201;}
+.talk_input_box input[type=button]{ float:right; width:5.9375rem; height:100%; line-height:2.1875rem; text-align:center; font-size:1rem; color:#fff; background:#ff8201;}
+.talk_input_box label.error{background:none; padding:0; margin:0; position:absolute; right:24%; line-height:2.25rem;}
+
+.Chat_con dl .name{ height:1rem; line-height:1rem; text-align:right;}
+.Chat_con dl.others .name{  text-align:left;}
+.Chat_con dl .name span{ display:block; height:100%;}
+
+/*设置*/
+.setting_con .member{ padding:1.25rem 0 0 1rem;overflow:hidden;width:20rem}
+.setting_con .member ul{}
+.setting_con .member ul li{ float:left; width:3.28125rem; height:4.28125rem; border-radius:100%; margin:0 1.7rem 1.25rem 0; text-align:center; line-height:3.28125rem; }
+.setting_con .member ul li img{ display:block; width:100%; height:3.28125rem; border-radius:100%;}
+.setting_con .member ul li p{ height:1rem; line-height:1rem; width:100%; overflow:hidden;}
+.setting_con .member ul li i{ font-size:1.5rem; color:#8a8a8a;}
+.setting_con .allpeople{ height:2.375rem; line-height:2.375rem; padding:0 0.64rem; color:#333; border-top:0.0625rem solid #e6e6e6;border-bottom:0.0625rem solid #e6e6e6; background:#fff;}
+
+
+/*选择群聊*/
+.talklist{ padding-top:0.9375rem;}
+.talklist .talk{ background:#fff;  border-bottom:0.064rem solid #e2e2e2; height:1.875rem; line-height:1.875rem; padding:0.46875rem 0.6875rem;position:relative}
+.talklist .talk .pic{ float:left; width:1.875rem; height:1.875rem;}
+.talklist .talk .pic img{ display:block;width:100%;height:100%;}
+.talklist .talk .userinfo{ float:left;height:2rem;overflow:hidden;width:16rem; padding-left:0.64rem; color:#333;}
+.talklist .talk .dvHint{height:1rem;position:absolute;top:0;left:2.2rem;width:1rem}
+

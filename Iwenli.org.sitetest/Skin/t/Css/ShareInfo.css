@@ -1,0 +1,44 @@
+﻿body {background:url("/Skin/t/Img/Store/body_bg.jpg") no-repeat left top; background-size:100% 100%;}
+img{ display:block; height:100%; width:auto;}
+
+.S_Page{ background:url("/Skin/t/Img/Share/fangshe.png") no-repeat left top; background-size:100% auto; padding:0.64rem; color:#616262; padding-top:2.8125rem;}
+.S_Page .title{ height:2.96875rem; position:absolute;left:0; top:3.625rem; width:100%; text-align:center;}
+.S_Page .title img{ margin:0 auto;}
+.S_Page .share_con{ background:#fff; border-radius:0.16rem; padding:1.75rem 0 0.64rem; }
+.S_Page .share_con .step_box{ padding:0 0.64rem;}
+.S_Page .share_con .step_box dl{padding:0.64rem; overflow:hidden;}
+.S_Page .share_con .step_box dl dt{ float:left; width:2.75rem; height:2.75rem; background:#ffe38e; border-radius:100%;}
+.S_Page .share_con .step_box dl dd{ float:left; width:12.125rem; line-height:1.03125rem; padding-left:0.96rem; padding-top:0.32rem;}
+.S_Page .share_con .way_box h4{ height:3.125rem; line-height:3.125rem; text-align:center; color:#666;}
+.S_Page .share_con .way_box .arrow{ display:block; width:1rem; margin:0 auto; height:1rem; overflow:hidden; }
+.S_Page .share_con .way_box .arrow em{ display:inline-block; width:0; height:0; border-bottom:1rem solid #f0efef; border-left:0.5rem solid transparent; border-right:0.5rem solid transparent; }
+.share_top .list{ background: #f7f7f7; overflow: hidden; border-bottom:1px solid #dedede; margin-bottom:0.5rem;background:#f0efef; padding:1.28rem 0.64rem; overflow:hidden;}
+.share_top .list li{float:left; text-align:center; width:5.1875rem; height: 6.5rem;  border-radius:0.25rem; }
+.share_top .list li:nth-of-type(2){ margin:0 0.7375rem;}
+.share_top .list li a{color:#fff; display:block;}
+.share_top .list li img{ width: 3.4375rem;height: 3.4375rem; display: block; margin:0.75rem auto;}
+.share_top .list li.li1{background: #ffa902;border: 1px solid #ec7002;}
+.share_top .list li.li2{background: #f26c6b;border: 1px solid #f54b4a;}
+.share_top .list li.li3{background: #5fc7de;border: 1px solid #0fa3c0;}
+.S_Page .share_con .pic_txt{ margin-top:1.25rem; height:21.875rem;}
+
+.share_index,.share_index1 { position: fixed; left: 0; top: 0; width: 100%; height: 100%; z-index: 1000; background: rgba(0,0,0,0.5); display: none; }
+.code_box_top{background:url(/Skin/t/Img/Share/share_logo.png) no-repeat center bottom; background-size:7.8125rem 5.9375rem; width:7.8125rem; height:5.9375rem; margin:5.375rem auto 0;}
+.code_box{ width:95%; margin:0 auto ; background:#fff; padding:0.25rem 0; border-radius:0.25rem; }
+.code_ul{ margin: 0 auto; width: 16.6875rem; border-bottom:0.125rem solid #cbcbcb;margin-top:1rem;}
+.code_ul:last-child{border:none;}
+.code_ul li{height:2.625rem;line-height: 2.625rem; padding:0 0.25rem;}
+.code_ul .li1{ background:#f0efef; border-radius:0.25rem; color:#09D317;}
+.code_box .bottom_btn{margin: 0.25rem auto; width: 16.6875rem; margin-bottom:1rem;}
+.code_box .bottom_btn em{ height: 1.6875rem;line-height: 1.6875rem;color:#afafaf;font-size:0.625rem; margin-bottom:0.25rem;}
+.code_box .bottom_btn a{display:block; text-align:center;height: 2.625rem; line-height: 2.625rem;background:#09D317;color:#fff; border-radius:0.125rem;}
+
+#setShareCode{ width:95%; margin:0 auto ; background:#fff; padding:0.25rem 0 0; border-radius:0.25rem;}
+#setShareCode ul{ margin: 0 auto; width: 16.6875rem;margin-top:1rem;}
+#setShareCode ul li{height:2.625rem;line-height: 2.625rem; padding:0 0.25rem;}
+#setShareCode ul .li1{ background:#f0efef; border-radius:0.25rem; color:#09D317; overflow:hidden;}
+#setShareCode ul .li1 input{ border:none; background:#f0efef; display:block; line-height: 0.625rem; font-size:0.625rem; padding:1rem 0; width:98%;}
+#setShareCode ul .li2{ height: 1.6875rem;line-height: 1.6875rem;color:#afafaf;font-size:0.625rem; margin-bottom:0.25rem;}
+#setShareCode .bottom_btn{ height: 2.625rem; line-height: 2.625rem; border-top:1px solid #cbcbcb;}
+#setShareCode .bottom_btn a{ display:block; float:left; width:50%; text-align:center;}
+#setShareCode .bottom_btn a.set_ok{ background:#09D317;color:#fff; border-radius:0 0 0.25rem 0 }

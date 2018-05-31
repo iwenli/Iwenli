@@ -1,0 +1,54 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>绑定手机</title>
+    <!--WL_TMP{tmp=/Skin/t/Pub/app_publiccss.html}-->
+    <link href="/Skin/t/Css/sui/index.css?v=3" rel="stylesheet" />
+</head>
+<body>
+    <div class="page-group binding" id="top">
+        <div id="page-member-bind-iframe-code" class="page">
+            <header class="bar bar-nav">
+                <!--<a class="icon pull-left close_bind_phone_modal"><i style="color:#000000;">&#xe679;</i></a>-->
+                <a class="icon pull-right go_to_mobile" style="color:#999;font-size:0.625rem;">跳过</a>
+                <h1 class="title">邀请人</h1>
+            </header>
+            <div class="content">
+                <div style="padding: 0 .75rem;margin-top:1.75rem;">
+                    <input type="text" class="input_share_code binding_input_text" placeholder="请填写邀请人手机号">
+                </div>
+                <div class="content-block" style="margin-top:1rem;">
+                    <p style="margin:0;font-size:0.7rem;color:#666">邀请人必须是已经在买客平台注册成功的会员，如果您忘记了TA的手机号，请联系您的朋友索要，没有邀请人可以跳过此步骤。</p>
+                    <p><a class="button button-fill button-warning button-big disabled get_share_code">下一步</a></p>
+                    <a class="content-block more_container go_to_mobile" style="display:block;">已有账号，直接绑定</a>
+                </div>
+            </div>
+        </div>
+        <div id="page-member-bind-iframe-mobile" class="page">
+            <header class="bar bar-nav">
+                <!--<a class="icon pull-left close_bind_phone_modal"><i style="color:#000000;">&#xe679;</i></a>-->
+                <h1 class="title">绑定手机号</h1>
+            </header>
+            <div class="content">
+                <div class="item-content" style="padding: 0 .75rem;margin-top:1.75rem;">
+                    <div class="item-input" style="border:1px solid #dedede;border-radius:0.25rem;height:2.25rem;background:#fff;margin-bottom:1rem;">
+                        <input type="text" class="binding_input_text_half user_mobile" placeholder="请输入手机号"><a class="getcode get_msg_code" href="">获取验证码</a>
+                    </div>
+                    <div class="item-input">
+                        <input type="text" class="input_mobile_code  binding_input_text" placeholder="请输入验证码">
+                    </div>
+                </div>
+                <div class="content-block">
+                    <p><a class="button button-fill button-warning button-big disabled sub_bind_mobile">提交</a></p>
+                    <div class="right get_voice_code" style="float:right;color:#ff6a00;font-size:0.7rem;">收不到验证码？</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--WL_TMP{tmp=/Skin/t/Pub/app_publicjs.html}-->
+    <script src="/Skin/t/Js/sui/index.js"></script>
+
+</body>
+</html>

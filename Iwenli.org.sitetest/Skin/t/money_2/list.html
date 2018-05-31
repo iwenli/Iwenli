@@ -1,0 +1,122 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>资产明细</title>
+    <!--WL_TMP{tmp=/Skin/t/Pub/app_publiccss.html}-->
+    <link href="/Skin/t/Css/sui/member.css" rel="stylesheet" />
+     
+</head>
+<body>
+    <div class="page-group">
+        <div id="page-money-list" class="page">
+            <header class="bar bar-nav bar_ff8201" >
+                <a class="icon icon-left pull-left" onclick="window.txapp.goBack()"></a>
+                <h1 class="title">资产明细</h1>
+            </header>
+            <div class="content pull-to-refresh-content pull_content_diy" data-ptr-distance="55">
+                <!-- 默认的下拉刷新层 -->
+                <div class="pull-to-refresh-layer">
+                    <div class="preloader"></div>
+                    <div class="pull-to-refresh-arrow"></div>
+                </div>
+                <div class="content-block list_block search_from_box">
+                    <div class="from_time_box">
+                        <input type="text" id="startTime" data-toggle='date' placeholder="开始时间" /><span>至</span><input type="text" id="endTime" data-toggle='date' placeholder="结束时间" />
+                    </div>
+
+                    <a class="search_time"><i>&#xe67d;</i></a>
+                </div>
+                <div id="account_list" class="infinite-scroll"></div>
+            </div>
+            <!--模板代码--------------开始------->
+            <!--账户类型-->
+            <script type="text/html" id="account_type_temp">
+                <div class="buttons-tab account_type_name">
+                    {{each list as value}}
+                    <a href="#tab{{value.account_type}}" class="tab-link button"><span>{{value.account_name}}</span></a>
+                    {{/each}}
+                </div>
+                <div class="tabs">
+                    {{each list as value}}
+                    <div id="tab{{value.account_type}}" class="tab">
+                        <div class="buttons-tab waste_type_name">
+                            {{each value.waste_type as v}}
+                            <a href="#tab{{value.account_type}}-{{v.id}}" class="tab-link button">{{v.name}}</a>
+                            {{/each}}
+                        </div>
+                        <div class="tabs">
+                            {{each value.waste_type as v}}
+                            <div class='tab' id='tab{{value.account_type}}-{{v.id}}'>
+                                <div class="list"></div>
+                                <!-- 加载提示符 -->
+                                <div class="infinite-scroll-preloader">
+                                    <div class="preloader">
+                                    </div>
+                                </div>
+                                <div class="content-block more_container">--------没有更多记录了--------</div>
+                            </div>
+                            {{/each}}
+                        </div>
+                    </div>
+                    {{/each}}
+                </div>
+            </script>
+            <!--流水列表-->
+            <script type="text/html" id="waste_list_temp">
+                {{each list as value}}
+                {{if value.OrderId>0 && value.WasteType!=17}}
+                <div class="card">
+                    <div class="card-header">
+                        订单号：{{value.OrderId}}
+                        <div class="right">{{value.WasteTime | dateFormat:'yyyy-MM-dd hh:mm','diy'}}</div>
+                    </div>
+                    <div class="card-content">
+                        <div class="card-content-inner"><p>付款人：{{value.NickName}}<span class="right">{{each waste_type_info as v}}{{if value.WasteType==v.id}}{{v.name}}{{/if}}{{/each}}</span></p><p>{{value.ProductName}}</p></div>
+                    </div>
+                    <div class="card-footer">
+                        {{if account_type==0}}
+                        <span>佣金<em>+{{value.WasteMoney}}</em>元</span><span>创业金<em>+{{value.WasteMoney}}</em>元</span>
+                        {{/if}}
+                        {{if account_type!=0}}
+                        <span>
+                            {{if value.AccountType==1}}佣金{{/if}}{{if value.AccountType==2}}创业金{{/if}}{{if value.AccountType==3}}V币{{/if}}
+                            <em>
+                                {{if value.WasteType==1 || value.WasteType==11 ||value.WasteType==13}}+{{/if}}
+                                {{if value.WasteType==9}}-{{/if}}
+                                {{value.WasteMoney}}
+                            </em>{{if value.AccountType==3}}个{{else}}元{{/if}}
+                        </span>
+                        {{/if}}
+                    </div>
+                </div>
+                {{/if}}
+                {{if value.OrderId==0 || value.WasteType==17}}
+                <div class="card">
+                    <div class="card-header">
+                        <span>{{each waste_type_info as v}}{{if value.WasteType==v.id}}{{v.name}}{{/if}}{{/each}}</span>
+                        <span class="right">{{value.WasteTime | dateFormat:'yyyy-MM-dd hh:mm','diy'}}</span>
+                    </div>
+                    <div class="card-content">
+                        <div class="card-content-inner">
+                            <span>{{value.WasteInfo}}</span>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <span>
+                            {{if value.AccountType==1}}佣金{{/if}}{{if value.AccountType==2}}创业金{{/if}}{{if value.AccountType==3}}V币{{/if}}
+                            <em>{{if value.WasteType==16 || (value.WasteType==5 && value.AccountType==1) || (value.InfoAccountUser=={$UserId} && value.WasteType==17)}}+{{/if}}{{if value.WasteType==9 || value.WasteType==4 || (value.WasteType==5 && value.AccountType!=1) || (value.WasteType==6 )|| (value.PayAccountUser=={$UserId} && value.WasteType==17)}}-{{/if}}{{value.WasteMoney}}</em>{{if value.AccountType==3}}个{{else}}元{{/if}}
+                        </span>
+                    </div>
+                </div>
+                {{/if}}
+                {{/each}}
+            </script>
+            <!--模板代码--------------结束------->
+        </div>
+        <!--WL_TMP{tmp=/Skin/t/Pub/app_publicjs.html}-->
+        <script src="/Skin/t/Js/sui/member.js"></script>
+    </div>
+</body>
+</html>

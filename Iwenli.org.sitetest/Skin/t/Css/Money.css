@@ -1,0 +1,248 @@
+﻿body { padding-bottom: 2.75rem; }
+.P_Top { height: 5.25rem; background: #09D317; color: #fff; padding: 0 0.5rem; overflow: hidden; position: relative; }
+.head_portrait { float: left; width: 2.75rem; height: 2.75rem; overflow: hidden; border-radius: 50%; background: #fff; margin-top: 1.25rem; }
+.user_name { height: 1rem; line-height: 1rem; margin-top: 1.25rem; font-size: 0.875rem; margin-left: 3.375rem; }
+.have_make { height: 1.6875rem; line-height: 2.625rem; font-size: 0.75rem; margin-left: 3.375rem; }
+.have_make .money { line-height: 1.6875rem; font-size: 1.625rem; margin: 0 0.625rem; }
+.champion { position: absolute; right: 0.5rem; top: 0.5625rem; line-height: 0.875rem; color: #FCF204; }
+.champion a { color: #FCF204 }
+.no_data { display: block; text-align: center; color: #999; }
+
+/*我的资产*/
+.index_pages { overflow: hidden; background: #F0F0F0; }
+
+.page_list { background: #fff; border-bottom: 1px solid #ececec; margin-bottom: 0.75rem; }
+.page_list .list_dt { line-height: 2.75rem; overflow: hidden; padding: 0 0.5rem; border-bottom: 1px solid #ececec; }
+.page_list .list_dt .tit { float: left; font-size: 1rem; }
+.page_list .list_dt .tit i { width: 1.375rem; }
+.page_list .list_dt .info { float: right; }
+.page_list .list_dt .info i { width: 0.75rem; color: #B6B6B6; }
+.page_list .list_dd { width: 95%; height: 3.375rem; border-bottom: 1px solid #ececec; margin: 0 0.5rem; }
+.page_list .list_dd_con { text-align: center; height: 100%; line-height: 1rem; overflow: hidden; }
+.page_list .list_dd_con .money { display: block; height: 1rem; margin-top: 0.75rem; color: #000; }
+.page_list .list_dd_con .money em { font-size: 0.875rem; color: #ff7900; }
+.page_list .list_dd_con .money_tit { display: block; height: 1rem; margin-top: 0.125rem; color: #585858; }
+.page_list .list_dd:last-child { border: none; }
+
+.fixed_btn { position: fixed; width: 100%; left: 0; bottom: 0; height: 2.75rem; line-height: 2.75rem; background: #EAEDF2; text-align: center; border-top: #E6E6E6; z-index: 98; }
+.fixed_btn .btn { float: left; width: 50%; font-size: 0.875rem; }
+.fixed_btn .extract { background: #09D317; }
+.fixed_btn .extract a { color: #fff; }
+
+/*收支明细*/
+.list_pages { }
+
+.List_nav { width: 100%; text-align: center; background: #F3F3F3; margin-top: 0.625rem; }
+.List_nav_menu { position: relative; margin: 0 1px; }
+.List_nav_menu:first-child { margin-left: 0; }
+.List_nav_menu:last-child { margin-right: 0; }
+.List_nav_menu .top { background: #D8D8D8; color: #131313; height: 2.5rem; padding-top: 0.25rem; line-height: 1.0625rem; }
+.List_nav_menu .ranking { height: 1.5rem; line-height: 1.5rem; background: #DDDDDD; color: #9B9B9B; }
+.List_nav_menu:after { content: ''; display: none; position: absolute; left: 50%; bottom: 0; transform: translateX(-50%); -webkit-transform: translateX(-50%); border-width: 0 0.3125rem 0.3125rem; border-style: solid; border-color: #fff transparent; }
+.List_nav_menu.current .top { background: #FF7900; color: #fff; }
+.List_nav_menu.current .ranking { background: #FF861B; color: #FEF702; }
+.List_nav_menu.current:after { display: block; }
+
+.List_con { display: none; overflow: hidden; margin-top: 0.5rem; }
+.List_con.current { display: block; }
+
+.List_con_nav { height: 2rem; line-height: 2rem; padding: 0 0.5rem; border-bottom: 1px solid #ececec; }
+.List_con_nav li { float: left; margin-right: 1.25rem; position: relative; }
+.List_con_nav li.active:after { content: ''; position: absolute; left: 0; bottom: -1px; width: 100%; height: 2px; background: #FA931C; }
+.List_con .shouru { position: relative; }
+.List_con .shouru .money_type { position: absolute; right: 0.5rem; bottom: 0; line-height: 2rem; }
+.List_con .shouru .money_type span { margin-left: 0.5rem; }
+
+.List_con_details { display: none; padding: 0 0.5rem; margin-top: 0.625rem; }
+.List_con_details.active { display: block; }
+.List_con_details .list { background: #F4F2F3; overflow: hidden; padding: 0 0.5rem; margin-bottom: 0.625rem; }
+.List_con_details .list .tit { line-height: 1.125rem; margin-top: 0.25rem; color: #525252; font-size: 0.6875rem; }
+.List_con_details .list .tit .right span { display: inline-block; margin-left: 0.5rem; }
+.List_con_details .list .name { line-height: 1.25rem; font-size: 0.6875rem; }
+.List_con_details .list .name .grade { margin-left: 0.5rem; }
+.List_con_details .list .name .friend { color: #000; margin: 0 0.25rem; }
+.List_con_details .list .introduce { line-height: 1rem; font-size: 0.625rem; color: #797778; }
+.List_con_details .list .time { line-height: 1.625rem; border-top: 1px solid #E4E4E4; color: #797778; font-size: 0.5625rem; margin-top: 0.25rem; }
+
+
+/*申请提现*/
+.info_box { padding: 0 0.5rem; margin-top: 0.625rem; }
+.info_box .usable_money { height: 2.5rem; line-height: 2.75rem; font-size: 0.875rem; }
+.info_box .usable_money em { line-height: 2.5rem; font-size: 1.25rem; }
+.info_box .info { line-height: 1.6875rem; }
+.info_box .balance { padding: 0.625rem 0; color: #ABA9AA; border-top: 1px dashed #DEDCDD; }
+.info_box .info_niubi { border-top: 1px dashed #DEDCDD; padding-top: 0.5rem; margin-top: 0.25rem; }
+.info_box .info_niubi .usable_nb { height: 2.5rem; line-height: 2.75rem; font-size: 0.875rem; }
+.info_box .info_niubi .usable_nb em { line-height: 2.5rem; font-size: 1.0625rem; }
+.info_box .info_niubi .nb_info { line-height: 1.6875rem; margin-bottom: 0.625rem; font-size: 0.625rem; }
+
+.box_fff { background: #fff; padding: 0 0.5rem; border-top: 1px solid #E6E6E6; border-bottom: 1px solid #E6E6E6; }
+.extract_box { position: relative; }
+.extract_box .input_money { display: block; height: 2.75rem; line-height: 2.75rem; border-bottom: 1px solid #E6E6E6; font-size: 0.75rem; }
+.extract_box .input_money span { }
+.extract_box .input_money input { width: 9rem; height: 1rem; line-height: 1rem; padding: 0.5rem 0.25rem; background: #E6E6E6; border: none; border-radius: 5px; margin: 0 0.375rem; }
+.extract_box .input_money_error { padding-left: 7rem; }
+
+.extract_box .no_border { border: none; }
+.extract_box .extract_niubi { line-height: 2.75rem; color: #636363; overflow: hidden; font-size: 0.875rem; }
+.extract_box .extract_niubi .tit { float: left; width: 7rem; text-align: right; }
+.extract_box .extract_niubi .con { float: left; margin-left: 0.375rem; }
+.extract_box .extract_niubi .con em { margin: 0 0.25rem; }
+
+.extract_box .tax { line-height: 1.5rem; padding: 0.5rem 0; }
+.extract_box .tax ul { }
+.extract_box .tax li { overflow: hidden; color: #C4C4C4; }
+.extract_box .tax li .tit { float: left; width: 6rem; text-align: right; }
+.extract_box .tax li .con { float: left; margin-left: 1rem; }
+.extract_box .tax_explain { line-height: 1.5rem; position: absolute; right: 0.5rem; bottom: 0.5rem; font-size: 0.625rem; }
+.extract_box .tax_explain a { color: #a2a1a1; }
+.extract_box .tax_explain i { color: #a2a1a1; padding: 0 0.25rem; }
+.bonus_pages .extract_box { margin-bottom: 1rem; }
+
+.bank_card_tit { line-height: 2.5rem; padding: 0 0.5rem; overflow: hidden; font-size: 0.75rem; }
+.bank_card_tit i { color: #B6B6B6; }
+.bank_card_tit .right { font-size: 0.625rem; }
+.bank_card_tit .right a { color: #999; }
+
+.bank_card { margin-bottom: 1.25rem; }
+.bank_card .bank { height: 3.3125rem; }
+.bank_card .bank .icon { width: 1.6875rem; line-height: 3.3125rem; }
+.bank_card .bank .icon img { width: 100%; vertical-align: middle; }
+.bank_card .bank .card { padding-left: 2.3125rem; }
+.bank_card .bank .card .bank_name { line-height: 1.8125rem; }
+.bank_card .bank .card .card_info { line-height: 1.1875rem; color: #a2a1a1; }
+.bank_card .bank .card .card_info .card_type { margin-left: 3rem; }
+.bank_card .list { height: 2.125rem; line-height: 2.125rem; border-top: 1px solid #E8E8E8; }
+.bank_card .list .tit { color: #666; }
+.bank_card .list .con { color: #a2a1a1; margin-left: 0.75rem; }
+
+.submit_btn { width: 95%; height: 2.5rem; line-height: 2.5rem; text-align: center; position: fixed; bottom: 0.5rem; }
+.submit_btn a { display: block; width: 100%; height: 100%; background: #FD8000; color: #fff; font-size: 1rem; border-radius: 4px; }
+
+.submit_btn_1 { width: 95%; height: 2.5rem; line-height: 2.5rem; text-align: center; margin: 0 0.5rem; position: fixed; bottom: 0.5rem; }
+.submit_btn_1 a { display: block; width: 100%; height: 100%; background: #FD8000; color: #fff; font-size: 1rem; border-radius: 4px; }
+
+/*提现记录*/
+.cashList_list { margin-bottom: 0.625rem; }
+.cashList_list .list_dt { line-height: 2.75rem; font-size: 0.875rem; border-bottom: 1px solid #DEDCDD; }
+.cashList_list .list_dd { line-height: 1.375rem; color: #3D3D3D; padding: 0.25rem 0; }
+.cashList_list .list_dd li { font-size: 0.6875rem; overflow: hidden; }
+.cashList_list .list_dd li .tit { margin-right: 0.625rem; }
+.cashList_list .to_account { line-height: 2.75rem; font-size: 0.875rem; border-top: 1px solid #DEDCDD; color: #000; text-align: right; }
+
+
+
+/*兑换成功*/
+.succeed_info { overflow: hidden; padding-bottom: 0.6875rem; background: #fff; }
+.succeed_info .top { height: 1.875rem; margin-top: 1.6875rem; line-height: 1.875rem; font-size: 0; text-align: center; margin-bottom: 1.375rem; }
+.succeed_info .top .icon { display: inline-block; width: 1.875rem; height: 1.875rem; font-size: 0.875rem; background: #F0EEEF; border-radius: 50%; margin-right: 0.5rem; font-weight: bold; }
+.succeed_info .top .txt { display: inline-block; font-size: 0.875rem; }
+.succeed_info .money { width: 100%; line-height: 1.75rem; font-size: 0.875rem; }
+.succeed_info .money .tit { float: left; width: 50%; text-align: right; }
+.succeed_info .money .con { float: left; width: 50%; }
+
+.succeed_list { background: #F0F0F0; line-height: 2.1875rem; padding: 0.75rem 0.5rem; border-top: 1px solid #DEDCDD; border-bottom: 1px solid #DEDCDD; margin-bottom: 1.125rem; }
+.succeed_list .list { }
+.succeed_list .list .con em { font-size: 1rem; margin: 0 0.25rem; }
+
+.succeed_btn { padding: 0 0.5rem; }
+.succeed_btn .btn { width: 9.1875rem; height: 2.5625rem; line-height: 2.5625rem; text-align: center; border: 1px solid #E4E4E4; border-radius: 4px; background: #fff; }
+.succeed_btn .btn.right { background: #FD8000; color: #fff; font-size: 0.875rem; }
+
+/*选择银行卡*/
+.bank_list dl { background: #fff; padding: 0.64rem; border-bottom: 1px solid #d7d7d7; box-shadow: 0 2px 3px rgba(0,0,0,0.3); overflow: hidden; height: 2.8125rem; margin-bottom: 0.64rem; }
+.bank_list dl dt { float: left; width: 2.5rem; height: 100%; line-height: 2.8125rem; }
+.bank_list dl dt .input_box { display: inline-block; width: 1rem; height: 1rem; vertical-align: middle; background: #fff; border: 1px solid #7f7f7f; border-radius: 100%; text-align: center; line-height: 1rem; }
+.bank_list dl dt .input_box input { display: none; }
+.bank_list dl dt .input_box.current { background: #fb8401; border: 1px solid #fb8401; color: #fff; }
+.bank_list dl dd { float: left; width: 12.5rem; height: 100%; overflow: hidden; }
+.bank_list dl dd .bank_logo { float: left; width: 1.875rem; height: 1.875rem; margin-right: 0.64rem; line-height: 2.8125rem; }
+.bank_list dl dd .bank_logo span { display: inline-block; height: 100%; border-radius: 100%; vertical-align: middle; }
+.bank_list dl dd .bank_logo span img { display: block; width: 100%; height: 100%; border-radius: 100%; }
+.bank_list dl dd .bank_info { float: left; width: 9.375rem; }
+.bank_list dl dd .bank_info span { display: block; font-size: 1.1rem; height: 1.875rem; }
+.bank_list dl dd .bank_info em { display: block; }
+
+/*资产曲线图*/
+.map_canvas { border-bottom: 1px solid #dedede; }
+.details { width: 95%; margin: 0.5rem auto 0.25rem; background: #fff; overflow: hidden; }
+.details #spMonth { float: left; height: 4.6875rem; width: 4.6875rem; line-height: 4.6875rem; background: #e6e7e7; text-align: center; margin-right: 1.25rem; }
+.details #spIncome { display: block; line-height: 2.125rem; margin-top: 0.25rem; }
+.details #spExpend { display: block; line-height: 2.125rem; }
+.detailsList { width: 95%; margin: 1rem auto 0.5rem; background: #fff; overflow: hidden; }
+.detailsList li { float: left; width: 33.3%; border-bottom: 1px solid #e1e1e1; line-height: 2.5rem; height: 2.5rem; text-align: center; overflow: hidden; }
+.detailsList_tit { height: 1rem; text-align: center; border-bottom: 1px solid #e1e1e1 }
+.detailsList_tit span { display: block; line-height: 2rem; background: #f0f0f0; width: 3rem; text-align: center; margin: 0 auto; }
+.map_top { width: 100%; height: 2rem; background: #fff; line-height: 2rem; margin-bottom: 0.5rem }
+.map_top li { float: left; width: 25%; text-align: center; }
+.map_top li.current { border-bottom: 1px solid #FF7900; }
+
+/*兑换创业金 选择金额*/
+.bouns_con .info_box .usable_money .bonus_count { font-size: 1.2rem; }
+.bouns_con .extract_box .input_money .right { color: #616262; }
+.bouns_con .extract_box .input_money .right em { color: #e8440b; }
+.bouns_con .extract_box .bonusList ul { height: 3.125rem; line-height: 3.125rem; border-bottom: 1px dashed #e6e6e6; list-style: none; color: #807f7f; }
+.bouns_con .extract_box .bonusList ul.current { background: #f4f4f4; }
+.bouns_con .extract_box .bonusList ul.bg_orange { background: #fff2e5; }
+.bouns_con .extract_box .bonusList ul:last-child { margin-bottom: 0.625rem; }
+.bouns_con .extract_box.box_fff { margin-bottom: 1rem; }
+.bouns_con .extract_box .bonusList li.select { width: 1.8rem; padding-left: 0.2rem; }
+.bouns_con .extract_box .bonusList li.select .input_box { display: inline-block; width: 0.96875rem; height: 1.09375rem; vertical-align: middle; background: url("/Skin/t/Img/Money/check_no.png") no-repeat left top; background-size: 100% 100%; }
+.bouns_con .extract_box .bonusList li.select .input_box.selected { background-image: url("/Skin/t/Img/Money/check_yes.png"); }
+.bouns_con .extract_box .bonusList li.select .input_box input { display: none; }
+.bouns_con .extract_box .bonusList li.money { width: 6rem; }
+.bouns_con .extract_box .bonusList li.money em { color: #666; }
+.bouns_con .extract_box .bonusList li.time { width: 10.9375rem; font-size: 0.625rem; }
+
+.no_address { margin: 0.5rem auto; width: 95%; border: 1px dashed #a2a1a1; height: 5.125rem; text-align: center; }
+.no_address i { font-size: 2.125rem; color: #a2a1a1; margin-top: 0.5rem; }
+.no_address p { color: #a2a1a1; }
+.no_address .no_card { line-height: 5.125rem; }
+.no_have { text-align: center; display: block; width: 100%; line-height: 1.75rem; margin-top: 0.64rem; color: #a2a1a1; font-size: 0.625rem; }
+
+
+.no_cash { height: 5.125rem; text-align: center; }
+.no_cash i { font-size: 4rem; color: #D6D6D6; margin-top: 6rem; }
+.no_cash p { color: #a2a1a1; font-size: 0.875rem; margin-top: 0.5rem; }
+.no_cash p a { color: #ff7900; margin-left: 0.5rem; }
+
+/*个税缴纳*/
+.Taxation { line-height: 1.2rem; }
+.Taxation .part_1 { padding: 0.64rem; background: #ffe9d8; color: #333; }
+.Taxation .arrow { text-align: center; height: 0.8125rem; overflow: hidden; }
+.Taxation .arrow span { display: inline-block; border-top: 0.8125rem solid #ffe9d8; border-left: 0.64rem solid transparent; border-right: 0.64rem solid transparent; /*box-shadow:0 1px 0 #d7d7d7,0 -1px 0 #d7d7d7;*/ margin-top: -1px; }
+.Taxation .part_2 { width: 18.96875rem; height: 6rem; margin: 0.64rem auto; }
+.Taxation .part_2 img { display: block; width: 100%; height: 100%; }
+.Taxation .part_3 { padding: 0 0.64rem; color: #868686; }
+.Taxation .part_3 dl { background: url("/Skin/t/Img/Money/dl_bg.png") no-repeat left 0.64rem; padding: 0.64rem 0 0 1.25rem; background-size: 0.6875rem 0.875rem; }
+.Taxation .part_3 dl dt { margin-bottom: 0.64rem; }
+.Taxation .part_3 dl dd { padding: 0.64rem 0.32rem; border-bottom: 1px dashed #d7d7d7; position: relative; }
+.Taxation .part_3 dl dd::before { content: ""; display: inline-block; border-bottom: 0.8125rem solid #e8e7e7; border-left: 0.64rem solid transparent; border-right: 0.64rem solid transparent; position: absolute; top: -0.1rem; left: 0.9375rem; }
+.Taxation .part_3 dl dd div { background: #e8e7e7; padding: 0.32rem; }
+
+.cashPopBox .shade { position: fixed; width: 100%; height: 100%; left: 0; top: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.7); z-index: 90; }
+.cashPopBox .con { width: 80%; border-radius: 0.32rem; background: #fff; position: fixed; left: 50%; top: 50%; transform: translate(-50%,-50%); -webkit-transform: translate(-50%,-50%); text-align: center; z-index: 99; }
+.cashPopBox .con .tip { padding: 1rem 0; line-height: 1.40625rem; color: #999; }
+.cashPopBox .con .tip p { color: #242424; }
+.cashPopBox .con .ok { border-top: 0.0625rem solid #d7d7d7; height: 1.875rem; line-height: 1.875rem; color: #1d8dff; }
+
+
+.money_time .sp_sjd { float: left; margin: 0 0.5rem; }
+.money_time #startTime { text-align: center; width: 6.5rem; }
+.money_time #endTime { text-align: center; width: 6.5rem; }
+.money_time { border: 1px solid #ff7900; background: #fff; width: 18rem; margin: 0.5rem auto 0.5rem; border-radius: 1rem; height: 1.5rem; box-sizing: border-box; line-height: 1.5rem; overflow: hidden; }
+.money_time .combo { border: none; vertical-align: middle; height: 1rem; line-height: 1rem; float: left; margin-left: 0.5rem; margin-top: 0.2rem; }
+.money_time .br_ { float: left; }
+
+.money_time .positive_button { background: #ff7900; float: right; border-radius: 0 1rem 1rem 0; color: #fff; height: 1.5rem; line-height: 1.25rem; width: 2.5rem; text-align: center; }
+.money_time .positive_button i { font-size: 1rem; }
+.money_time .combo-text { height: 1rem; line-height: 1rem; }
+.money_time .datebox .combo-arrow { background-size: cover; }
+.money_time .combo-arrow { width: 0.875rem; height: 1rem; }
+.dw-persp .dwwr { background: #fff; padding: 2rem 2rem 1rem 2rem; font-size: 0.875rem; }
+
+.dwbc { margin-top: 1rem; }
+.dw-li { color: #999; font-size: 0.75rem; }
+.dwwc:before { content: ""; display: block; position: absolute; height: 1px; width: 100%; margin-top: 40px; background: #dedede; }
+.dwwc:after { content: ""; display: block; position: absolute; height: 1px; width: 100%; margin-top: 80px; background: #dedede; }
+.dw-li.dw-sel { font-size: 0.875rem; color: #000; font-weight: bold; }

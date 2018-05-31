@@ -1,0 +1,99 @@
+﻿p,h1,h2,h3,ul,li{padding:0;margin:0;}
+ul,li{list-style:none;}
+
+.close-poster{position:absolute;right:0.5rem;top:0.5rem; width:1.25rem;z-index:1}
+.close-poster img{display:block;width:100%;}
+.poster-box{position:relative; }
+.poster-box img{width:100%}
+.poster-box .poster-btn{position:absolute;bottom:1.25rem;height:2.5rem;width:6rem;left:50%;margin-left:-3rem;text-indent:-9999rem}
+.activity-rule {padding:0 0.5rem;}
+.activity-rule h2{margin:0 ;padding:0;font-size:1rem;text-align:center;font-weight:normal;border-bottom:1px solid #999;margin-bottom:1rem;margin-top:-0.75rem;}
+.activity-rule h2 span{background:#fff;padding:0.25rem 0.5rem;line-height:2rem;position:relative;top:1rem;}
+.activity-rule .rule-text{font-size:0.75rem;line-height:1.25rem;border-bottom:1px solid #999;padding-bottom:0.5rem; margin-bottom:1rem;}
+ 
+
+
+.activity-top{height: 2.2rem;padding-right: .5rem;padding-left: .5rem;color:#fff;line-height:2.2rem;}
+.activity-top h1{font-size: .85rem;font-weight: 500;text-align:center;position:absolute;top:0;left:0;width:100%;padding:0;margin:0}
+.activity-top a {margin-top:0.5rem;position:relative;z-index:10;}
+.activity-top a img{width:1rem;height:1rem;display:block;}
+.activity-top .icon_close{float:left;}
+.activity-top .icon_share{float:right;}
+.activity-box{background:url(/Skin/t/Img/Activity/index.jpg) no-repeat top center;background-size:100% auto;height:100%;width:100%;}
+.checkbox-em{float:right;}
+.checkbox-em input{display:none;}
+.checkbox-em label{display:block;width:2.28125rem;height:1.625rem;background:url(/Skin/t/Img/Activity/checkoff.png) no-repeat center; background-size:cover;}
+.checkbox-em.current label{background:url(/Skin/t/Img/Activity/checkon.png) no-repeat center; background-size:cover;}
+.sign-check{color:#fff;margin-top:11.5rem;overflow:hidden;padding:0 0.5rem;height:1.625rem;line-height:1.625rem;}
+.sign-check span{float:right;margin-right:0.25rem;font-size:0.625rem}
+.sign-textinfo{margin:0.5rem; background:url(/Skin/t/Img/Activity/text_info.png)no-repeat top center;background-size:100% auto;overflow:hidden;padding:0.5rem;position:relative;}
+.sign-textinfo ul{padding-left:0.25rem;}
+.sign-textinfo ul li{font-size:0.625rem;line-height:0.875rem; margin-bottom:0.75rem;}
+.sign-textinfo ul li h2{font-weight:normal;font-size:0.625rem;}
+.sign-textinfo ul li span{font-weight:bold;margin:0 0.25rem;font-size:0.7rem;vertical-align:top;}
+.receive-btn{position:absolute;right:0.5rem;display:block;width:4.375rem;height:2.25rem;text-indent:-9999rem;top:1.5rem;}
+.sign-btn{height:2.5rem;background:url(/Skin/t/Img/Activity/sign_btn.png) no-repeat center top;background-size:auto 100%;}
+.sign-btn a{display:block;height:2.5rem;width:9rem;margin:0 auto;text-indent:-9999rem;}
+
+.history_sign{margin-top:2.5rem;position:relative;height:1.875rem;}
+.history_sign ul{height:1.875rem;display: flex; display: -webkit-flex;justify-content:center}
+.history_sign ul li{width:1.875rem;height:1.875rem;margin:0 0.35rem;flex:0 1 auto;text-align:center;line-height:1.875rem;}
+/*.history_sign ul li.isSign{background:#ffe512;border-radius:50%;font-size:0.625rem;font-style:italic;line-height:0.75rem;}
+.history_sign ul li.isSign span{display:block;font-style:normal;font-size:0.7rem;color:#ff0000;}
+.history_sign ul li.noSign{background:#e6e6e6;border-radius:50%;font-size:0.625rem;font-style:italic;line-height:0.75rem;position:relative;}
+.history_sign ul li.noSign:after{content:"";position:absolute;width:60%;height:60%;background:url(/Skin/t/Img/Activity/chaicon.png)no-repeat center; background-size:cover;top:20%;left:20%}
+.history_sign ul li.noSign span{display:block;font-style:normal;font-size:0.7rem;}*/
+
+.rili-container ul li.isSign {  background: #ffe512; border-radius: 50%; font-size: 0.625rem; font-style: italic; line-height: 0.75rem; }
+.rili-container ul li.isSign span { display: block; font-style: normal; font-size: 0.7rem; color: #ff0000; }
+.rili-container ul li.noSign { background: #e6e6e6; border-radius: 50%; font-size: 0.625rem; font-style: italic; line-height: 0.75rem; position: relative; }
+.rili-container ul li.noSign:after { content: ""; position: absolute; width: 60%; height: 60%; background: url(/Skin/t/Img/Activity/chaicon.png)no-repeat center; background-size: cover; top: 20%; left: 20% }
+.rili-container ul li.noSign span { display: block; font-style: normal; font-size: 0.7rem; }
+
+.sign_bottom{margin:1.2rem 0;text-align:center;}
+.sign_bottom a{color:#666;margin:0 2rem;text-decoration:underline;font-size:0.7rem;}
+
+
+.shade_box{position:fixed;top:0;width:100%;height:100%;left:0;background:rgba(0,0,0,0.5);display:none; z-index:11}
+.shade-box1 .activity-popup{width:100%;height:80%;overflow:hidden;}
+.shade-box1 .activity-popup .info{background:#fff;height:70%;overflow:auto;padding:0 1rem;font-size:0.75rem;line-height:1rem;box-sizing:border-box;padding-top:1rem;}
+.shade-box1 .activity-popup .bg-white{background:#fff;height:80%; width:200%; border-radius:0 0 50% 50%;margin-top:-1px;margin-top:-100%;margin-left:-50%;}
+.close-popup-box1{text-align:center;height:20%}
+.close-popup-box1 img{height:100%;}
+
+.shade-box2 .activity-popup{width:100%;height:80%;}
+.sign-success{margin:36% auto 0; width:14.7rem; background:#fff;border-radius:0.25rem;overflow:hidden; }
+.success-top{background:url(/Skin/t/Img/Activity/banner_02.png) no-repeat top center; background-size:100% auto;color:#fff;padding:0.75rem;}
+.success-top p{font-size:0.75rem;line-height:1.25rem;}
+.success-top h2{font-size:1.25rem;margin:0.25rem 0}
+.success_bottom{padding:0.75rem;font-size:0.75rem;}
+.success_bottom em{color:#09D317;font-size:0.65rem;font-style:normal;}
+.success_bottom span{color:#ff0000;}
+.success_bottom a{color:#fff;background:#09D317;display:block;text-align:center;width:6rem;height:2rem;line-height:2rem;font-size:0.75rem;border-radius:1.5rem;margin:0.75rem auto}
+.close-popup-box2{text-align:center;height:20%}
+.close-popup-box2 img{height:100%;}
+
+
+.shade-box3 .activity-popup{width:100%;height:80%;}
+.forget-sign{margin:36% auto 0; width:14.7rem; background:#fff url(/Skin/t/Img/Activity/banner.png) no-repeat center 2rem ; background-size:6.25rem auto; border-radius:0.25rem;overflow:hidden;position:relative;}
+.forget-sign h2{text-align:center;margin-top:4rem;font-size:1rem;margin-bottom:3.5rem;}
+.forget-sign p{text-align:center;line-height:1.5rem;font-size:0.75rem;}
+.forget-sign span{color:#09D317}
+.forget-sign a{color:#fff;background:#f6ab00;display:block;text-align:center;width:6rem;height:2rem;line-height:2rem;font-size:0.75rem;border-radius:1.25rem;margin:1.5rem auto}
+.close-popup-box3{position:absolute;right:0.75rem;top:0.75rem; width:1rem;z-index:1}
+.close-popup-box3 img{width:100%;}
+
+.shade-box4 .activity-popup{width:100%;height:80%;}
+.sign-rili{margin:36% auto 0; width:15.7rem; background:#fff;border-radius:0.25rem;overflow:hidden;border-radius:0.5rem;overflow:hidden;}
+.sign-rili .md_panel.show{border-radius:0.5rem;overflow:hidden;}
+.sign-rili .md_head{background:#ff0000;height:2.5rem;line-height:2.5rem;}
+.sign-rili .md_headtext{color:#fff;}
+.sign-rili .md_title { font-size: 0.65rem; text-align: center; margin-top: 10px; color: red; }
+.sign-rili .md_datearea li.current{background:#dedede;border-radius:50%;color:#666}
+
+.sign-rili .rili-container .md_datearea li{height:2.2rem;overflow:hidden;}
+.sign-rili .rili-container .md_datearea li.isSign{padding-top:0.25rem;}
+.sign-rili .rili-container .md_datearea li.noSign{padding-top:0.25rem;}
+
+
+ 

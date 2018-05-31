@@ -1,0 +1,217 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/html5/rem.js"></script>
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Public.css" />
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Money.css" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/jquery/jquery-1.7.2.min.js"></script>
+    <link rel="stylesheet" href="//cdn.txooo.com/public/jquery.validate/Css/Validate.css" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/jquery.validate/jquery.validate.js"></script>
+    <script type="text/javascript" src="//cdn.txooo.com/public/jquery.validate/validate-ex.js"></script>
+    <script src="/Skin/t/Js/Public.js"></script>
+    <script type="text/javascript" src="//cdn.txooo.com/public/aui.artTemplate/artTemplate.js"></script>
+    <title>提现申请</title>
+
+    <script type="text/javascript">
+        var $CanTaxCount = 0;
+        $(function () {
+            window.txservice.init();
+            var aid = getUrlParam("bankId");
+            $.get("/Txooo/SalesV2/Money/Ajax/MoneyAjax.ajax/GetSalesCashCountNew", function (data) {
+                var obj = eval("(" + data + ")");
+                $CanTaxCount = obj["@CanTaxCount"];
+                $(".bonus").text(parseInt(obj["@CanBonusCount"]));
+                if (parseFloat(obj["@CanBonusCount"]) == 0) {
+                    $('.info_box .info').hide();
+                }
+                $(".c_orange").text(obj["@CanTaxCount"]);
+            })
+            $.get("/Txooo/SalesV2/Member/Ajax/MemberAjax.ajax/GetOneBackInfo?r_id=" + aid, function (data) {
+                if (data != "[]") {
+                    var obj = eval("(" + data + ")");
+                    $('#bankInfo').html(template('bankTemp', obj));
+                } else {
+                    $('.bank_card_tit .right').hide();
+                    $('#bankInfo').html('<div class="no_cash"><i>&#xe637;</i><p class="no_card">您还没有绑定银行卡<a href="/member/BankPayPwd.html?ReturnUrl=" + encodeURIComponent("/money/cash.html");">去添加>></a></p></div>')
+                }
+            })
+            //截取银行卡
+            template.helper("IsCard", function (a) {
+                return "**** **** ***" + a.substr(a.length - 4);
+            });
+            template.helper("IsCardName", function (a) {
+                return "*" + a.substr(1, 2);
+            });
+        });
+
+        //验证输入正确性
+        function checkInput() {
+           
+            var can_money = $("input[name=can_money]").val();
+            //}
+            //如果0开头,第二位不是小数点不允许输入
+            if (can_money.substring(0, 1) == '0' && can_money.substring(1, 2) != '.') {
+                $("input[name=can_money]").val(can_money.substring(0, 1));
+            }
+            //如果出现第二个小数点不允许
+            if (can_money.indexOf('.') != can_money.lastIndexOf('.')) {
+                $("input[name=can_money]").val(can_money.substring(0, can_money.length - 1));
+            }
+            //如果是小数不能大于2位
+            if (can_money.indexOf('.') > 0 && can_money.split('.')[1].length > 2) {
+                $("input[name=can_money]").val(can_money.substring(0, can_money.indexOf('.') + 3));
+            }
+            //判断是否超过限额
+            if (parseFloat(can_money) > $CanTaxCount) {
+                dialogAlart("对不起，你最多只能提取" + $CanTaxCount + "");
+                $("input[name=can_money]").val($CanTaxCount);
+            }
+            BtnCanMoney();
+            //console.log('oninput' + can_money);
+        }
+
+        //提现
+        function BtnAddCashApply() {
+            var can_money = $("input[name=can_money]").val().trim();
+            if (can_money.length == 0) {
+                dialogAlart('请输入提现金额');
+                $("input[name=can_money]")[0].focus();
+                return;
+            }
+            else if (can_money == '0') {
+                dialogAlart('提现金额需大于0元');
+                $("input[name=can_money]")[0].focus();
+                return;
+            }
+            //安全性多验证一次
+            if (!/^[1-9]([0-9]*)+(.[0-9]{1,3})?$/.test(can_money)) {
+                dialogAlart('请输入正确的提现金额数字');
+                return;
+            }
+            //if (can_money == "" || can_money < 0 || /^[1-9]\d*$/.test(can_money) == false) {
+            //    dialogAlart('提现金额需大于0元');
+            //    return;
+            //}
+            //var regu = "^([+-]?)\\d*\\.?\\d+$"
+            //var re = new RegExp(regu);
+            //if (!re.test(can_money)) {
+            //    dialogAlart('请输入正确的提现金额数字');
+            //    return;
+            //}
+            var _brandid = $("input[name=bank_id]").val()
+            // debugger
+            if (_brandid == "" || _brandid == undefined) {
+                dialogAlart('请选择银行卡,没有银行卡，请先添加银行卡');
+                return;
+            }
+            $.post("/Txooo/SalesV2/Money/Ajax/MoneyAjax.ajax/AddCashApply", $("#EditForm").serialize(), function (data) {
+                var obj = eval(data);
+                if (obj.success != "false") {
+                    window.location.href = "/Money/cashList.html";
+                } else {
+                    dialogAlart(obj.msg);
+                }
+            });
+        };
+        //计算
+        function BtnCanMoney() {
+            if ($("input[name=can_money]")) {
+                var input = $("input[name=can_money]").val();
+                input = input == '' ? '0' : input;
+                var $val = parseFloat(input);
+                if ($val > $CanTaxCount) $val = $CanTaxCount;
+                //if ($val > $CanTaxCount) {
+                //    dialogAlart("对不起，你最多只能提取" + $CanTaxCount + "");
+                //    return;
+                //}
+                //if ($val < 0 || /^[1-9]\d*$/.test($val) == false) {
+                //    dialogAlart('提现金额需大于0元');
+                //    return;
+                //}
+                var $band = 0;//手续费
+                var $Arrival_money = 0;//到账金额
+                var $penson_tax = 0;//个人所得税
+                var $money_tax = 0;//税后金额
+                if ($val <= 800) {
+                    $Arrival_money = $val - $band;
+                } else if (801 <= $val <= 4000) {
+                    $penson_tax = ($val - 800) * 0.2;
+                } else if (4001 <= $val <= 20000) {
+                    $penson_tax = ($val * (1 - 0.2) * 0.2);
+
+                } else if (20001 <= ($val - ($val * 0.2)) <= 50000) {
+
+                    $penson_tax = $val * (1 - 0.2) * 0.3 - 2000;
+
+                } else if (50001 <= ($val - ($val * 0.2))) {
+                    $penson_tax = $val * (1 - 0.2) * 0.4 - 7000;
+                }
+                $money_tax = $val - $penson_tax;
+                $Arrival_money = $val - $penson_tax - $band;
+                $("#penson_tax").text($penson_tax.toFixed(1));
+                $("#money_tax").text($money_tax);
+                $("#hand_money").text($band);
+                $("#Arrival_money").text($Arrival_money);
+            }
+        }
+
+    </script>
+</head>
+<body class="bg_gray">
+    <!-- 头部信息begin -->
+    <header class="P_Header" id="header1">
+        <div class="P_goBack" onclick="if (window.txservice.success()) { window.txservice.call('goback'); } else { history.go(-1); }"><i>&#xe602;</i></div>
+        <div class="P_title">申请提现</div>
+        <div class="P_Header_info"><a href="/money/cashList.html">记录</a></div>
+    </header>
+    <!-- 头部信息end -->
+    <section class="cash_pages">
+        <div class="info_box">
+            <div class="usable_money">可提现金：<em class="c_orange">0</em>元</div>
+            <div class="info c_red">*您还有 <em class="bonus">0</em>元创业金，用V币兑换后就可以一起提现</div>
+            <!--<div class="balance">待提现金额<em class="money">698</em>元（20天以内金额不可提现，<a class="c_orange" href="#">查看说明</a>）</div>-->
+        </div>
+        <form id="EditForm" onsubmit="return false" method="post">
+            <div class="extract_box box_fff">
+                <label class="input_money">
+                    <span>请输入提现金额：</span><input type="text" value="" name="can_money"
+                                                onkeyup="value = value.replace(/[^\d.]/g, '');" oninput="checkInput()" onblur="BtnCanMoney()" />
+                    <span>元</span>
+                </label>
+                <ul class="tax">
+                    <li><span class="tit">个人所得税：</span><span class="con"><em id="penson_tax">0.00</em>元</span></li>
+                    <li><span class="tit">税后金额：</span><span class="con"><em id="money_tax">0.00</em>元</span></li>
+                    <li><span class="tit">手续费：</span><span class="con"><em id="hand_money">0.00</em>元</span></li>
+                    <li><span class="tit">到账金额：</span><span class="con"><em id="Arrival_money">0.00</em>元</span></li>
+                </ul>
+                <div class="tax_explain"><i class="left">&#xe638;</i><a href="taxation.html">查看个税缴纳说明</a></div>
+            </div>
+            <div class="bank_card_tit">
+                <div class="left">提现到银行卡</div>
+                <div class="right"><a class="left c_666" href="/money/bankList.html">选择其他银行卡</a><i class="left">&#xe603;</i></div>
+            </div>
+            <div class="bank_card box_fff" id="bankInfo">
+
+            </div>
+            <div class="submit_btn_1"><a href="javascript:BtnAddCashApply()">提交</a></div>
+        </form>
+
+    </section>
+
+    <script type="text/html" id="bankTemp">
+        <input type="hidden" name="bank_id" value="{{BankId}}" />
+        <div class="bank">
+            <div class="icon left"><img src="{{Logo}}" id="logo" /></div>
+            <div class="card">
+                <div class="bank_name" id="card_type">{{CardType}}</div>
+                <div class="card_info"><span class="number" id="card_num">{{IsCard(CardNum)}}</span><em class="card_type">储蓄卡</em></div>
+            </div>
+        </div>
+        <div class="master list"><span class="tit">持卡人姓名：</span><span class="con" id="card_name">{{IsCardName(CardName)}}</span></div>
+        <!--<div class="phone list"><span class="tit">银行预留手机号：</span><span class="con">186****6878</span></div>-->
+    </script>
+    <!--WL_TMP{tmp=/Skin/t/Pub/T_Public.html}-->
+</body>
+</html>

@@ -1,0 +1,29 @@
+﻿<script id="contentTemp" type="text/html">
+    {{if ContentType==0}}
+    <div class="p_info">
+        <a href="postInfo.html?id={{PostsId}}">{{#PostsContent | appBrChange}}</a>
+    </div>
+    <div class="posts_imgs">
+        <a href="postInfo.html?id={{PostsId}}">
+            {{#PostsImgs | ImgsHelper}}
+        </a>
+    </div>
+    {{/if}}
+    {{if ContentType==1}}
+    <div class="p_info">
+        <a href="javascript:;" target="_blank" class="link_temp" url="{{ContentHref}}">
+            <em class="pic"><img src="{{PostsImgs}},1,80,80,3" /></em>
+            <span>{{#PostsContent | appBrChange}}</span>
+        </a>
+    </div>
+    {{/if}}
+    {{if ContentType==2}}
+    <div class="p_info">
+        <a href="{{if CheckState==1}}/quan/usernews.html?postsid={{else}}/quan/usernewspreview.html?postsid={{/if}}{{PostsId}}" class="link_temp">
+            <em class="pic"><img src="{{PostsImgs}},1,80,80,3" /></em>
+            <span>{{#PostsContent | appBrChange}}</span>
+        </a>
+    </div>
+    {{/if}}
+
+</script>

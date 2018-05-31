@@ -1,0 +1,522 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/jquery/jquery-1.7.2.min.js"></script>
+
+    <script type="text/javascript" src="//cdn.txooo.com/public/html5/rem.js"></script>
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Public.css" />
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Member.css" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/aui.artTemplate/artTemplate.js"></script>
+    <link rel="stylesheet" href="//cdn.txooo.com/public/jquery.swiper/swiper.min.css" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/jquery.swiper/swiper.jquery.min.js"></script>
+    <script src="/Skin/t/Js/Public.js"></script>
+    <script src="/Skin/t/Js/Template.js"></script>
+    <title>创业系统</title>
+    <style>
+        /*.discount_0 {display:none;}*/
+        .point_0 {
+            display: none;
+        }
+
+        .postage_1 {
+            display: none;
+        }
+    </style>
+</head>
+<body style="padding: 0; background: #f0f0f0;">
+    <div class="share_er">
+        <div class="share_er_tit">
+            <p>
+                恭喜注册成功咯！<br />
+                长按二维码识别后关注公众号吧！
+            </p>
+            <img src="/Skin/Passport/Img/er_num.jpg" />
+        </div>
+        <div class="share_er_con">
+            Get更多的小秘籍，每日进账多多多哟！<br />
+        </div>
+    </div>
+
+    <div class="download clear" style="display:none">
+        <p><i>×</i>买客&nbsp;&nbsp; 一个能赚钱的电商APP<a href="//www.93390.cn/Index_wap.html" class="download_android">去下载</a></p>
+    </div>
+    <section class="Make_money">
+        <div class="Mm_num">
+            <div class="li_box" onclick="window.location.href = '/money/index.html'">
+                <p class="li1"><span>0</span>元</p>
+                <p class="li2">累计赚到</p>
+            </div>
+            <div class="Mm_table">
+                <ul class="list_1">
+                    <li onclick="window.location.href = '/Money/Index.html'"><p>0元</p>佣金</li>
+                    <li onclick="window.location.href = '/Money/Index.html'"><p>0元</p>创业基金</li>
+                    <li onclick="window.location.href = '/Money/Index.html'"><p>0个</p>V币</li>
+                    <li onclick="window.location.href = '/Member/team.html'"><p>0人</p>团队</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+    <section class="Mm_table" id="rTop10"></section>
+    <section class="show_mch">
+    </section>
+    <section class="produt_swiper">
+        <div id="produtTag" class="produt_nav clear">
+            <ul class="proTag swiper-wrapper">
+                <li data-cid="-1" class="swiper-slide current">热卖</li>
+                <li data-cid="0" class="swiper-slide">上新</li>
+            </ul>
+        </div>
+        <a class="proTag_link" href="javascript:void(0);" onclick="showTagInfo()">分类<i>&#xe640;</i></a>
+    </section>
+    
+
+    <section class="Mm_list" id="proList"></section>
+    <div class="more_btn">
+        <a href="javascript:void(0);" id="more">加载中...</a>
+    </div>
+    <div id="rightDialog" style="display:none;">
+        <div class="hideTag" onclick="hideTagInfo()"><i>&#xe652;</i></div>
+        <div id="skim" class="show_Tag">
+            <p><i>&#xe664;</i>最近浏览<span class="del_proTag" onclick="clearSkim()">&#xe605;</span></p>
+            <ul class="proTag clear"></ul>
+        </div>
+        <div id="hotTag" class="show_Tag">
+            <p><i>&#xe65c;</i>热门标签</p>
+            <ul class="proTag clear"></ul>
+        </div>
+        <!--<div id="classTag" class="show_Tag">
+            <p><i>&#xe65c;</i>分类标签</p>
+            <ul class="clear"></ul>
+        </div>-->
+    </div>
+
+    <section class="footprint-Top">
+        <a href="#top"><i>&#xe657;</i></a>
+        <a href="/Task/Index.html" title="任务" class="icon_store"><i>&#xe604;</i><em class="task_times"></em></a>
+        <a href="/Member/Footprint.html"><i>&#xe656;</i></a>
+    </section>
+
+    <!-- 底部begin -->
+    <!--WL_TMP{tmp=/Pub/T_Foot.html}-->
+    <!-- 底部end -->
+    <!--商品列表模板-->
+    <script type="text/html" id="proListTemp">
+        {{each info as i}}
+        <div class="list_box container">
+            <ul class="clear">
+                <li class="pic" onclick="window.location.href = '/shop.html?id={{i.ProductId}}'"><img class="defer_scr" src="/Skin/t/Img/nologo.png" data-src="{{i.ProductImgs}}" /></li>
+                <li class="tit" onclick="window.location.href = '/shop.html?id={{i.ProductId}}'">{{i.ProductName}}</li>
+                <li class="del"><i></i>{{i.RegionName}}</li>
+                <li class="free point_{{i.ProductPoint}}" style="background: #ffa627">牛</li>
+                <li class="free postage_{{i.ProductIspostage}}">包邮</li>
+                <!--<li class="total"><a href="/shop.html?id={{i.ProductId}}">佣金{{i.ProductBrokerage}} + 创业基金 {{i.ProductBonus}}</a></li>-->
+                <li class="money"><em>￥</em>{{i.ProductPrice}}</li>
+                
+            </ul>
+        </div>
+        {{/each}}
+    </script>
+    <script type="text/html" id="userInfoTemp">
+        <div class="Mm_num">
+            <div class="li_box" onclick="window.location.href = '/money/index.html'">
+                <p class="li1"><span>{{total_assets | toFloat}}</span>元</p>
+                <p class="li2">累计赚到</p>
+            </div>
+            <div class="Mm_table">
+                <ul class="list_1">
+                    <li onclick="window.location.href = '/Money/Index.html'"><p>{{total_brokerage | toFloat}}元</p>佣金</li>
+                    <li onclick="window.location.href = '/Money/Index.html'"><p>{{total_bonus | toFloat}}元</p>创业基金</li>
+                    <li onclick="window.location.href = '/Money/Index.html'"><p>{{total_points | toFloat}}个</p>V币</li>
+                    <li onclick="window.location.href = '/Member/team.html'"><p>{{team_users}}人</p>团队</li>
+                </ul>
+            </div>
+        </div>
+    </script>
+    <script id="rankTop10" type="text/html">
+        <dl class="page_list">
+            <dd class="list_dd">
+                <div class="list_dd_tit">
+                    <span class="money_tit first">赚钱排行榜</span>
+                </div>
+                <div class="list_dd_con">
+                    <ul>
+                        {{each list as l}}
+                        <li>
+                            <span><em class="name">{{l.nick_name}}</em>创业{{l.reg_days}}天</span>
+                            <span>已赚到{{l.total_assets | toFloat}}元</span>
+                            <span>排名{{l.total_assets_rank}}位</span>
+                        </li>
+                        {{/each}}
+                    </ul>
+                </div>
+            </dd>
+        </dl>
+    </script>
+    <script id="noLoginTemp" type="text/html">
+        <!--未登录头部模板-->
+        <div class="no_login">
+            <div class="title">赚钱达人</div>
+            <ul>
+                {{each list as l i}}
+                <li class="li_pic_{{i+1}}"><div class="pic"><img width="50" height="50" src="{{l.head_pic}}" /><em>{{i+1}}</em></div><p class="name">{{l.nick_name}}</p><p>已赚{{l.total_assets | toFloat}}元</p></li>
+                {{/each}}
+            </ul>
+            <div class="btn">
+                <a href="//passport.93390.cn/login.html?sharecode={$DomainShareCode}">立马去赚钱</a>
+            </div>
+        </div>
+    </script>
+    <!--商户推荐产品模板-->
+    <script type="text/html" id="S_mch_carousel">
+        <ul class="swiper-wrapper">
+            {{each list as l}}
+            <li class="swiper-slide"><a href="{{l.product_href}}"><img src="{{l.product_img}}" /></a></li>
+            {{/each}}
+        </ul>
+        <div class="show_mch_pagination">
+        </div>
+    </script>
+    <script type="text/html" id="S_mch">
+        {{each list as l}}
+        <a href="{{l.product_href}}"><img src="{{l.product_img}}" /></a>
+        {{/each}}
+    </script>
+    <script type="text/html" id="S_mch">
+        {{each list as l}}
+        <a href="{{l.product_href}}"><img src="{{l.product_img}}" /></a>
+        {{/each}}
+    </script>
+    <script type="text/html" id="pTag">
+        {{each list as l}}
+        <li data-cid="{{l.class_id}}" class="swiper-slide">{{l.class_name}}</li>
+        {{/each}}
+    </script>
+    <script type="text/html" id="rTag">
+        {{each list as l}}
+        <li data-cid="{{l.class_id}}">{{l.class_name}}</li>
+        {{/each}}
+    </script>
+    <script type="text/html" id="cTag1">
+        {{each list as l}}
+        <li data-cid="{{l.class_id}}">{{l.class_name}}<div></div></li>
+        {{/each}}
+    </script>
+    <script type="text/html" id="cTag2">
+        {{each list as l}}
+        <span data-cid="{{l.class_id}}">{{l.class_name}}</span>
+        {{/each}}
+    </script>
+    <script>
+        opensource.wx.bind(function () {
+            $('.download').css('display', 'block');
+        });
+
+        opensource.browser.bind(function () {
+            $('.download').css('display', 'block');
+        });
+        opensource.init();
+
+        if (window.sessionStorage.CloseDownLoad) {
+            $('.download').hide();
+        }
+
+        var pageIndex = 0;
+        var pageSize = 20;
+        var tagId = -1;
+        GetProductTag();
+        
+        LoadProList();
+        $(window).scroll(function () {
+            showImg();//显示当前滚动位置一下两屏且没有被加载的图片
+        });
+        function GetProductTag() {
+            $.get("/Txooo/SalesV2/Shop/Ajax/ShopOpenAjax.ajax/GetProTagIndex", function (data) {
+                var obj = eval(data);
+                $("#produtTag ul").append(template("pTag", { list: obj }));
+                $("#hotTag ul").html(template("rTag", { list: obj }));//热门标签
+                var swiper = new Swiper('#produtTag', {
+                    paginationClickable: true,
+                    slidesPerView: 5
+                });
+            })
+            
+        }
+        //加载商品列表-
+        function LoadProList() {
+            $.post("/Txooo/SalesV2/Shop/Ajax/ShopOpenAjax.ajax/GetProductInfo", { pageIndex: pageIndex, pageSize: pageSize, tagId: tagId }, function (data) {
+                var obj = eval("(" + data + ")");
+                if (obj.count > 0) {
+                    if (obj.count <= pageSize) {
+                        $("#more").parent().hide();
+                    }
+                    var list = eval(obj.list);
+                    if (list.length == 0) {
+                        $("#more").parent().hide();
+                    } else {
+                        scrollTrue = true;
+                        $.each(list, function (i, v) {
+                            var imgs = list[i].ProductImgs.split(",");
+                            list[i].ProductImgs = imgs[0];
+                        })
+                        var html = template("proListTemp", { info: list });
+                        $("#proList").append(html);
+                    }
+                    showImg();
+                } else {
+                    $("#more").parent().hide();
+                    $("#proList").html('没有数据！');
+                }
+            })
+        };
+        //懒加载图片
+        function showImg() {
+            var vtop = $(document).scrollTop();//滚动条滚动的距离
+            var wheight = $(window).height();//窗口高度　
+            $('.container .defer_scr').each(function () {//遍历img
+                if ($(this).offset().top <= (wheight + vtop)) {
+                    var truesrc = $(this).attr("data-src");//获取真实图片地址
+                    if (truesrc) { //如果truesrc存在且有值的时候加载。
+                        $(this).attr("src", truesrc).removeAttr("data-src").removeClass('defer_scr');//赋值真实图片地址并移除truesrc属性防止重复加载。
+                    }
+                }
+            });
+        };
+        //点击标签
+        $(".proTag li").live("click", function () {
+            tagId = $(this).attr("data-cid");
+            $("#produtTag .proTag").find("li:[data-cid=" + tagId + "]").addClass("current").siblings().removeClass("current");
+            //$(this).addClass("current").siblings().removeClass("current")
+            pageIndex = 0;
+            $("#proList").html("");
+            $("#rightDialog").hide();
+            LoadProList();
+            if (tagId > 0) {
+                setLocalSkim({class_id:tagId,class_name:$(this).html(),add_time:new Date().toLocaleString()});
+            }
+        })
+        function showTagInfo() {
+            var skim = getLocalSkim();
+            if (skim.length == 0) {
+                $("#skim").hide();
+            } else {
+                $("#skim").show();
+                $("#skim ul").html(template("rTag", { list: skim }));
+            }
+            $("#rightDialog").show();
+        }
+        function hideTagInfo() {
+            $("#rightDialog").hide();
+        }
+
+        var scrollTrue = true;
+        if (scrollTrue) {
+            window.onscroll = function () {
+                if (getScrollTop() + getClientHeight() == getScrollHeight()) {
+                    scrollTrue = false;
+                    pageIndex++;
+                    LoadProList();
+                }
+            }
+        }
+
+        //要执行的函数
+        function setTemplate(userInfo) {
+            $(".Make_money").html(template("userInfoTemp", userInfo));
+        }
+
+        if ("{$IsAuth}" == "true") {
+            GetUserInfo(setTemplate);
+            getMoneyRankTop(10, "#rTop10", "rankTop10");
+            LoadAdList();
+        } else {
+            getMoneyRankTop(3, ".Make_money", "noLoginTemp");
+        }
+
+        //获取排行榜
+        //top-前几条数据 ele-数据加载的元素 tempId-模板id
+        function getMoneyRankTop(top, ele, tempId) {
+            $.get("/Txooo/SalesV2/Shop/Ajax/ShopOpenAjax.ajax/GetMoneyRankTop10?top=" + top, { pageIndex: 1, pageSize: 10, money: 'total_assets', hisId: 0, direction: 1 }, function (data) {
+                var list = eval("(" + data + ")");
+                $(ele).html(template(tempId, { list: list }));
+            })
+        }
+
+        $(function () {
+            $('.P_Footer a').eq(0).addClass('current')
+            if ('{$z_source_type}' == 'open' && navigator.userAgent.toLowerCase().indexOf("micromessenger") > -1) {
+                $('.share_er').show();
+            }
+        })
+
+        function SharePro(proId) {
+            if ("{$IsAuth}" == "false") {
+                window.location.href = "//passport.93390.cn/login.html?ReturnUrl=" + encodeURIComponent(window.location.href);
+                return;
+            }
+            $.get("/Txooo/SalesV2/Shop/Ajax/ShopAjax.ajax/RandomSharePro?proId=" + proId, function (data) {
+                var obj = eval(data);
+                if (obj.success == "false") {
+                    dialogAlart("推广失败，请稍后再试！");
+                } else {
+                    window.location.href = "/shop/share.html?sId=" + obj.msg;
+                }
+            })
+        }
+
+        //加载广告位数据
+        function LoadAdList() {
+            $.get("/Txooo/SalesV2/Shop/Ajax/IndexShowMchAjax.ajax/GetIndexAdInfos", function (data) {
+                var obj = eval('(' + data + ')');
+                if (obj.count != 0) {
+                    $(".show_mch").html(template("S_mch", { list: eval(obj.list) }));
+                    switch (obj.templateId) {
+                        case 200004: $('.show_mch').addClass('show_mch_1'); break;
+                        case 200000: $('.show_mch').addClass('show_mch_2'); break;
+                        case 200002: $('.show_mch').addClass('show_mch_4'); break;
+                        case 200001: $('.show_mch').addClass('show_mch_3'); break;
+                        case 200003: $('.show_mch').addClass('show_mch_5');
+                            $(".show_mch_5").html(template("S_mch_carousel", { list: eval(obj.list) }));
+                            break;
+                    }
+                    var swiper = new Swiper('.show_mch_5', {
+                        pagination: '.show_mch_pagination',
+                        paginationClickable: true,
+                        autoplay: 3000,
+                        loop: true
+                    });
+                }
+            });
+        }
+
+        
+
+        $('.download i').click(function () {
+            $('.download').hide();
+            window.sessionStorage.CloseDownLoad = "true";
+        })
+
+
+        $(function () {
+            var num = 0;
+            var oTimer;
+            function fnTopAuto() {
+                var oNumber = $(".list_dd_con li").index();
+                $(".list_dd_con li").eq(num).fadeIn().siblings().fadeOut();
+                num++;
+                num = num % (oNumber + 1);
+            };
+            oTimer = setInterval(fnTopAuto, 3000);
+
+        })
+        
+        
+
+    </script>
+    <script>
+        if ("{$IsAuth}" == "true") {
+            IsUserUnfinishedAnyTask();
+        }
+        //getClassTag(1, loadClassLevel1);
+        //添加最近浏览记录
+        function setLocalSkim(tagJson) {
+
+            var skimObj = [];
+            if (window.localStorage.Skim) {
+                skimObj = eval(window.localStorage.Skim);
+                var isSkim = false;
+                for (var i = 0; i < skimObj.length; i++) {
+                    if (skimObj[i].class_id == tagJson.class_id) {
+                        tagJson.add_time = new Date().toLocaleString();
+                        skimObj[i] = tagJson;
+                        isSkim = true;
+                    }
+                }
+                if (isSkim == false) {
+                    skimObj.push(tagJson);
+                }
+                //skimObj.sort(createComparisonFunction("add_time"));
+                //if(isSkim==false){
+                //    if(skimObj.length==10){
+                //        skimObj[9]=tagJson;
+                //    }else{
+                //        skimObj.push(tagJson);
+                //    }
+                //}
+            } else {
+                skimObj.push(tagJson);
+            }
+
+            window.localStorage.Skim = JSON.stringify(skimObj);
+        }
+        //获取本地存储 最近浏览记录
+        function getLocalSkim() {
+            var skimObj = [];
+            if (window.localStorage.Skim) {
+                skimObj = eval(window.localStorage.Skim);
+                skimObj.sort(createComparisonFunction("add_time"));
+            }
+            return skimObj;
+        }
+
+        //删除最近浏览记录
+        function clearSkim() {
+            window.localStorage.Skim = "";
+            $("#skim .proTag").html("");
+            $("#skim").hide();
+        }
+
+        //按照某个属性对该对象的数组进行升序排序
+        function createComparisonFunction(propertyName) {
+            return function (object1, object2) {
+                var value1 = object1[propertyName];
+                var value2 = object2[propertyName];
+                if (value1 > value2) {
+                    return -1;
+                } else if (value1 < value2) {
+                    return 1;
+                } else {
+                    return 0;
+                }
+            }
+        }
+
+        //判断用户是否一个手动任务都没有完成，任务加红标
+        function IsUserUnfinishedAnyTask() {
+            $.get('/Txooo/SalesV2/MemberTask/Ajax/TaskAjax.ajax/IsUserUnfinishedAnyTask', function (data) {
+                var obj = eval(data);
+                if (obj.success == 'false') {
+                    $('.task_times').css('display', 'block');
+                }
+            });
+        }
+        
+        //function getClassTag(pid,callFun) {
+        //    $.get("/Txooo/SalesV2/Shop/Ajax/ShopOpenAjax.ajax/GetProductClassByParentId?parentId="+pid, function (data) {
+        //        var obj = eval(data);
+        //        callFun(obj);
+        //    })
+        //}
+        //var cTagId = 0;
+        //function loadClassLevel1(obj) {
+        //    $("#classTag ul").append(template("cTag1", { list: obj }));
+        //}
+        //function loadClassLevel2(obj) {
+        //    $("#classTag ul li[data-cid=" + cTagId + "] div").html(template("cTag2", { list: obj }));
+        //}
+        //$("#classTag ul li").live("click", function () {
+        //    $(this).siblings("li").find("div").hide();
+        //    $(this).find("div").show();
+        //    if ($(this).find("div").html() == "") {
+        //        cTagId = $(this).attr("data-cid");
+        //        getClassTag(cTagId, loadClassLevel2);
+        //    }
+        //})
+        //$("#classTag span").live("click", function () {
+        //    //alert($(this).attr("data-cid"));
+        //})
+    </script>
+    <!--WL_TMP{tmp=/Skin/t/Pub/T_Public.html}-->
+</body>
+</html>

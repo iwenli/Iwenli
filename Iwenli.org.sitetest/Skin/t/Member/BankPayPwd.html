@@ -1,0 +1,103 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/html5/rem.js"></script>
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Public.css" />
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Member.css" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/jquery/jquery-1.7.2.min.js"></script>
+    <link rel="stylesheet" href="//cdn.txooo.com/public/jquery.validate/Css/Validate.css" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/jquery.validate/jquery.validate.js"></script>
+    <script type="text/javascript" src="//cdn.txooo.com/public/jquery.validate/validate-ex.js"></script>
+    <script src="/Skin/t/Js/Public.js"></script>
+    <title>添加银行卡</title>
+    <script  type="text/javascript">
+        var r_id = 0;
+        var _url = "";
+        $(function () {
+            $("#EditForm").validate({
+                onfocusout: function (element) { $(element).valid(); }
+            });
+            r_id = getUrlParam("r_id");//修改时用的
+            if (r_id > 0) {
+                $('.P_title').text('修改银行卡');
+            }
+            _url = getUrlParam("ReturnUrl");
+           
+        })
+        function OrPlayPwd()
+        {
+            if ($("#EditForm").valid()) {
+                $.post("/Txooo/SalesV2/Member/Ajax/MemberAjax.ajax/SelectPlayPwd",
+                 $("#EditForm").serialize(), function (data) {
+                     var obj = eval(data);
+                     if (obj.success == "true") {
+                         
+                         if (_url != "") {
+                             window.location.href = "/Member/bankModify.html?ReturnUrl=" + _url;  //从兑现那来的
+                         } else {
+                             window.location.href = "/Member/bankModify.html?r_id=" + r_id;
+                         }
+                     } else {
+                         dialogAlart(obj.msg);
+                     }
+               });
+             }
+        
+        }
+        $(function () {
+            $(".eye").toggle(function () {
+                $(this).addClass("show");
+                $(this).siblings('dt').find('input[type=password]').hide();
+                $(this).siblings('dt').find('input[type=text]').show();
+            }, function () {
+                $(this).removeClass("show");
+                $(this).siblings('dt').find('input[type=password]').show();
+                $(this).siblings('dt').find('input[type=text]').hide();
+            })
+        })
+
+        //text框失去焦点把text框的值赋值给password框
+        function textBlur() {
+            $("#input_password").val($("#input_text").val());
+        }
+
+        //password框失去焦点把password框的值赋值给text框
+        function passwordBlur() {
+            $("#input_text").val($("#input_password").val());
+        }
+      
+        function ShowUrL() {
+                window.location.href = "/member/phoneCheck.html?ReturnUrl=" + encodeURIComponent("/member/BankPayPwd.html");
+            }
+     
+    </script>
+</head>
+<body style="background:#f0f0f0;">
+    <!-- 头部信息begin -->
+    <header class="P_Header" id="header1">
+        <div class="P_goBack" onclick="javascript:history.go(-1)"><i>&#xe602;</i></div>
+        <div class="P_title">添加银行卡</div>
+        <!--<div class="P_Header_info" onclick="OrPlayPwd()">下一步</div>-->
+    </header>
+    <!-- 头部信息end -->
+    <section class="P_Pages">
+        <form id="EditForm" onsubmit="return false" method="post">
+            <div class="modify_safety">
+                <p>请输入支付密码</p>
+                <dl class="safety_password">
+                    <dt class="no_eye">
+                        <input class="input_text {required:true}" placeholder="初始支付密码默认为登录密码" id="input_password" type="password" value="" name="password" />
+                    </dt>
+                </dl>
+            </div>
+        </form>
+     <a href="javascript:ShowUrL()" class="w_password">忘记支付密码?</a>
+        <div class="bottom_btn">
+            <input type="button" onclick="OrPlayPwd()" name="name" value="下一步" class="positive_button" />
+        </div>
+    </section>
+
+ <!--WL_TMP{tmp=/Skin/t/Pub/T_Public.html}--> </body>
+</html>

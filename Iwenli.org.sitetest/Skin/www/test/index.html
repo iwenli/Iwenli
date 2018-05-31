@@ -1,0 +1,36 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title></title>
+    <link href="skitter.styles.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="box_skitter box_skitter_large" style="height:358px;width:1000px; position:absolute;overflow:hidden">
+        <ul>
+            <li>
+                <img src="//www.jq22.com/demo/demo-141017224401/images/content/slide1.jpg" alt="" />
+            </li>
+            <li>
+                <img src="//www.jq22.com/demo/demo-141017224401/images/content/slide2.jpg" alt="" />
+            </li>
+            <li>
+                <img src="//www.jq22.com/demo/demo-141017224401/images/content/slide3.jpg" alt="" />
+            </li>
+        </ul>
+    </div>
+            <script src="jquery.js"></script>
+            <script src="jquery.animate-colors-min.js"></script>
+            <script src="jquery.skitter.min.js"></script>
+            <script src="jquery.easing.1.3.js"></script>
+            <script>
+                $('.box_skitter_large').skitter({
+                    interval:2500,
+                    hideTools: true,                    
+                    numbers: false,
+                    animation: 'random',
+                    navigation:false
+                    });
+            </script>
+</body>
+</html>

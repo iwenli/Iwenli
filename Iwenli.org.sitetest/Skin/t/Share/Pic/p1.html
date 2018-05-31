@@ -1,0 +1,36 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/html5/rem.js"></script>
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Public.css" />
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Share.css" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/jquery/jquery-1.7.2.min.js"></script>
+    <script src="/Skin/t/Js/Public.js"></script>
+    <title>我的推广图片</title>
+    
+</head>
+<body style="background: #d4d4d4; padding:0;">
+    <section class="sharePic_box">
+        <div class="sharePic_top">
+            <p>
+                邀请未注册用户一起参加！<br />
+                不但可获得三级<em>分润</em>，还可获得额外<em>奖励</em>！
+            </p>
+            <span id="back_html"><a href="/share/index.html"><img src="/Skin/t/Img/Share/false_x.png" /></a></span>
+        </div>
+        <div class="sharePic_con" id="sharePic_con">            
+            <img src="//passport.93390.cn/Txooo/SalesV2/Ajax/WebGraphics.ajax/MakeQrImg?uid={$UserId}" />
+        </div>
+        <div class="sharePic_bottom">
+            <em></em>
+            长按图片保存到手机，发送给微信/QQ好友
+        </div>
+    </section>
+    <div class="loading_box"><p><img src="/Skin/t/Img/loading.gif" />正在生成图片请稍后...</p></div>
+    <script>
+        $('.loading_box').show().delay(2000).hide(0);
+    </script>
+ <!--WL_TMP{tmp=/Skin/t/Pub/T_Public.html}--> </body>
+</html>

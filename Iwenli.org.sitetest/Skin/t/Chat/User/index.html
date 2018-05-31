@@ -1,0 +1,195 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/jquery/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="//cdn.txooo.com/public/aui.artTemplate/artTemplate.js"></script>
+    <script src="/Skin/t/Js/Public.js"></script>
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Public.css" />
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Chat.css" />
+    <title>单聊</title>
+    <script type="text/javascript">
+        var oldpageIndex = 0;
+        var newpageIndex = 0;
+        var pageSize = 10;
+        var scrollTrue;
+        var userId = getUrlParam("userid");
+        var chat_id = 0;
+        var others_head_pic = '';
+        $(function () {
+            //不能自己给自己发信消息
+            if (userId == '{$UserId}') { window.location.href = "/Member/index.html"; }
+            //$('.P_Header .P_goBack').attr('href', '/homepage/index.html?uid=' + userId);
+            $("#get_user_id").val(userId);
+            GetChatUser();
+            window.onscroll = function () {
+                if ($(document).scrollTop() == 0) {
+                    if (scrollTrue) {
+                        scrollTrue = false;
+                        GetChatUserList();
+                    }
+                }
+            }
+        });
+        //滚动到最下方
+        function SetScrollTo() {
+            var offset = $("#ChatUserList dl:last-child").offset();
+            var yPops = offset.top + 60;  //得到当前元素高的位置
+            var xPops = offset.left;  //得到当前元素左侧的位置
+            window.scrollTo(xPops, yPops);
+        }
+        //获取以往聊天记录
+        function GetChatUserList() {
+            $.get("/Txooo/SalesV2/Chat/Ajax/UserChatAjax.ajax/GetChatUserList",
+                { pageIndex: oldpageIndex, pageSize: pageSize, r_uid: userId },
+                function (data) {
+                    var obj = eval(data);
+                    if (obj.length > 0) {
+                        if (oldpageIndex == 0) {
+                            newChatInterval = window.setInterval(GetNewChatList, 5000);
+                            $('#ChatUserList').append(template('listTemp', { list: obj }));
+                            SetScrollTo();
+                        } else {
+                            $('#ChatUserList div:first-child').before(template('listTemp', { list: obj }));
+                        }
+                        GetUserInfo(setChatListInfo);
+                    }
+                    scrollTrue = true;
+                    if (obj.length < oldpageIndex) { scrollTrue = false; }
+                    oldpageIndex++;
+                })
+        };
+        //获取新的聊天记录
+        function GetNewChatList() {
+            $.get("/Txooo/SalesV2/Chat/Ajax/UserChatAjax.ajax/GetNewChatList", { chat_id: chat_id, r_uid: userId }, function (data) {
+                var obj = eval(data);
+                if (obj.length > 0) {
+                    $('#ChatUserList').append(template('listTemp', { list: obj }));
+                    SetScrollTo();
+                    GetUserInfo(setChatListInfo);
+                }
+            });
+        }
+        //得到聊天对象资料
+        function GetChatUser() {
+            $.get("/Txooo/SalesV2/Chat/Ajax/UserChatAjax.ajax/GetChatUser?r_uid=" + userId, function (data) {
+                var obj = eval('(' + data + ')');
+                if (obj.length == 0) {
+                    window.location.href = "/Member/index.html";
+                }
+                $('.P_Header .P_title').text(obj.NickName);
+                $('.P_Header .P_Header_info').text('');
+                others_head_pic = obj.HeadPic;
+                GetChatUserList();
+            })
+        }
+        //发送消息
+        function AddQuanUserChat() {
+            if ($.trim($("#msg").val()) == "") {
+                dialogAlart("发送内容不能为空");
+                return;
+            }
+            if ($("#msg").val().length > 900) {
+                dialogAlart("内容长度过长不得超过900字符");
+                return;
+            }
+            $.get("/Txooo/SalesV2/Chat/Ajax/UserChatAjax.ajax/AddChatUser", $("#postForm").serialize(), function (data) {
+                var obj = eval(data);
+                if (obj.success == "true") {
+                    GetUserInfo(setChatInfo);
+                } else {
+                    dialogAlart(obj.msg);
+                }
+            })
+        };
+        //即时发送消息展示
+        function setChatInfo(userInfo) {
+            var listArrary = [];
+            userInfo.set_user_id = '{$UserId}';
+            userInfo.msg_content = $("#msg").val();
+            listArrary.push(userInfo);
+            $('#new_msg .self_msg').html(template('listTemp', { list: listArrary }));
+            $('#ChatUserList').append($('#new_msg').html());
+            SetScrollTo();
+            $("#msg").val("");
+        };
+        //聊天头像设置
+        function setChatListInfo(userInfo) {
+            $('#ChatUserList .myself .pic_img').attr('src', userInfo.head_pic);
+            $('#ChatUserList .others .pic_img').attr('src', others_head_pic);
+            //设置最新消息标记
+            chat_id = $('#ChatUserList div:last').attr('data-chat_id');
+            $('#ChatUserList .self_msg').remove();
+        }
+
+        //时间格式化
+        template.helper('FormateDate', function (date, format) {
+            var oldDate = date;
+            /**/date = new Date(date);
+
+            var diffDays = (new Date() - date) / 3600 / 1000 / 24;
+            if (diffDays < 1) {
+                diffDays = diffDays * 24;
+                if (diffDays < 1) {
+                    diffDays = diffDays * 60;
+                    if (diffDays < 1) {
+                        return '刚刚';
+                    }
+                    return parseInt(diffDays) + '分钟前';
+                }
+                return parseInt(diffDays) + '小时前';
+            } else if (diffDays < 7) {
+                return parseInt(diffDays) + '天前';
+            } else if (diffDays > 7) {
+                return oldDate;
+            }
+            var date2 = new Date();
+            var h = date2.getHours() < 10 ? '0' + date2.getHours() : date2.getHours();
+            var m = date2.getMinutes() < 10 ? '0' + date2.getMinutes() : date2.getMinutes();
+            var s = date2.getSeconds() < 10 ? '0' + date2.getSeconds() : date2.getSeconds();
+            return h + ":" + m + ":" + s;
+        });
+    </script>
+</head>
+<body>
+    <script type="text/html" id="listTemp">
+        {{each list as l}}
+        {{if l.set_user_id =='{$UserId}'}}
+        <div class="time" data-chat_id="{{l.chat_id}}"><span>{{l.add_time | FormateDate}}</span></div>
+        <dl class="myself">
+            <dt class="pic" onclick="window.location.href = '/Money/Index.html'"><img class="pic_img" src="{{l.head_pic}}" /></dt>
+            <dd class="talk">{{l.msg_content}}</dd>
+        </dl>
+        {{/if}}
+        {{if l.get_user_id =='{$UserId}'}}
+        <div class="time" data-chat_id="{{l.chat_id}}"><span>{{l.add_time | FormateDate}}</span></div>
+        <dl class="others ">
+            <dt class="pic" onclick="window.location.href = '/homepage/index.html?uid={$U_QUERY_USERID}'"><img class="pic_img" src="{{l.head_pic}}" /></dt>
+            <dd class="talk">{{l.msg_content}}</dd>
+        </dl>
+        {{/if}}
+        {{/each}}
+    </script>
+    <!-- 头部信息begin -->
+    <!--WL_TMP{tmp=/Skin/t/Pub/T_Head_info.html}-->
+    <!-- 头部信息end -->
+    <div class="Chat_con" id="ChatUserList"></div>
+
+    <div class="talk_input_box">
+        <div class="talk_input">
+            <form id="postForm" method="post">
+                <input type="text" name="msg" id="msg" class="{required:true,messages:{required:'消息不能为空'}}" />
+                <input type="hidden" name="get_user_id" id="get_user_id" />
+            </form>
+        </div>
+        <!--<input type="button" value="发送" onclick="AddQuanUserChat()" />-->
+        <a href="javascript:void(0)" onclick="AddQuanUserChat()">发送</a>
+        <input type="hidden" name="lastIdHid" id="lastIdHid" value="0" />
+    </div>
+    <!--WL_TMP{tmp=/Skin/t/Pub/T_Public.html}-->
+    <div style="display:none" id="new_msg">
+        <div class="self_msg"></div>
+    </div>
+</body>
+</html>

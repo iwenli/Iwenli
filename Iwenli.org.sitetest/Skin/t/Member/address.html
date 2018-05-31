@@ -1,0 +1,124 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/html5/rem.js"></script>
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Public.css" />
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Member.css" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/jquery/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="//cdn.txooo.com/public/aui.artTemplate/artTemplate.js"></script>
+    <script src="/Skin/t/Js/Public.js"></script>
+    <title>地址管理</title>
+    <script type="text/javascript">
+
+        
+        $(function () {
+            GetAdddressList();
+            //$("#header1 .P_goBack").click(function () {
+            //    if(cookie("Cookie_SalesProInfo")!=null){
+            //        window.location.href="/shop/address.html";
+            //    }else{
+            //        window.location.href="/homepage/info.html";
+            //    }
+            //})
+            
+        })
+        //地址列表
+        function GetAdddressList(){
+            $.post("/Txooo/SalesV2/Member/Ajax/MemberAjax.ajax/GetSalesAddress", function (data) {
+                var obj = eval("(" + data + ")");
+                if (obj.length > 0) {
+                    var $list = { list: obj };
+                    $(".address_list").html(template("addresslist", $list));
+                    $("#isMain_1").addClass("current");
+                } else {
+                    $(".no_address").show();
+                }
+            })
+            template.helper("IsPhone", function (a) {
+                return a.substr(0,3)+"****"+a.substr(a.length-4);
+            });
+            template.helper("IsMain", function (a) {
+                return a==1?"默认地址":"设为默认地址";
+            });
+            template.helper("IsM", function (a) {
+                return a==true?"1":"0";
+            });
+        
+        }
+
+        //删除地址
+        function  DelAddress(me,addressid)
+        {
+            //if (dialogComfirm("确定删除吗？")) {
+                
+            //}
+            dialogComfirm("确定删除吗？",function () {
+                $.get("/Txooo/SalesV2/Member/Ajax/MemberAjax.ajax/DelteAddress?address_id="+addressid+"", function (data) {
+                    var obj = eval(data);
+                    if (obj.success == "true") {
+                        //$(me).parents("ul").remove();
+                        window.location.reload();
+                    }
+                })
+            })
+        }
+        //设为默认地址
+        function EditAddressIsMain(addressid)
+        {
+            $.get("/Txooo/SalesV2/Member/Ajax/MemberAjax.ajax/EditAddressIsMain?address_id="+addressid+"", function (data) {
+                var obj = eval(data);
+                if (obj.success == "true") {
+                    GetAdddressList();
+                }else{
+                    dialogAlart(obj.msg);
+                }
+            })
+        
+        }
+    </script>
+</head>
+
+<body style="background:#f0f0f0;">
+    <script type="text/html" id="addresslist">
+        {{each list as o}}
+        <ul>
+            <li><span class="name">{{o.TakeName}}</span><span class="phone">{{IsPhone(o.Phone)}}</span></li>
+            <li class="address">{{o.Area}}</li>
+            <li class="info">{{o.Address}}</li>
+            <li class="inter">
+                <span class="label" id="isMain_{{IsM(o.IsMain)}}" onclick="EditAddressIsMain({{o.AddressId}})">{{IsMain(o.IsMain)}}</span>
+                <span class="del" onclick="DelAddress(this,{{o.AddressId}})"><i>&#xe669;</i></span>
+                <span class="edit"><a href="/member/addressModify.html?r_id={{o.AddressId}}"><i>&#xe668;</i></a></span>
+            </li>
+        </ul>
+        {{/each}}
+    </script>
+    <!-- 头部信息begin -->
+    <header class="P_Header" id="header1">
+        <div class="P_goBack" onclick="history.go(-1)"><i>&#xe602;</i></div>
+        <div class="P_title">地址管理</div>
+        <!--<div class="P_Header_info">
+            <a href="/member/addressModify.html">添加</a>
+        </div>-->
+    </header>
+    <!-- 头部信息end -->
+    <section class="P_Pages">
+        <!--没有添加地址-->
+        <div class="no_address" style="display:none">
+            <i>&#xe607;</i>
+            <p>您还没有添加收货地址</p>
+        </div>
+
+        <!--地址列表-->
+        <div class="address_list">
+
+
+        </div>
+    </section>
+    <div class="bottom_btn">
+        <input type="button" onclick="window.location.href = '/member/addressModify.html'" name="name" value="+ 新增收货地址" class="positive_button" />
+    </div>
+ <!--WL_TMP{tmp=/Skin/t/Pub/T_Public.html}--> </body>
+</html>

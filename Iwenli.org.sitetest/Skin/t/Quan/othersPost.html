@@ -1,0 +1,49 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/html5/rem.js"></script>
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Public.css" />
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Quan.css" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/jquery/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="//cdn.txooo.com/public/aui.artTemplate/artTemplate.js"></script>
+    <script src="/Skin/t/Js/Public.js"></script>
+    <script src="/Skin/t/Js/Template.js"></script>
+    <title>我发表的</title>
+</head>
+<body>
+    <!-- 头部信息begin -->
+    <header class="P_Header">
+        <div class="P_goBack" onclick="history.go(-1)"><i>&#xe602;</i></div>
+        <div class="P_title">Ta发表的</div>
+        <div class="P_Header_info"><a href="addPost.html"><i style="font-size:1rem;">&#xe647;</i></a></div>
+    </header>
+    <!-- 头部信息end -->
+    <section class="P_main">
+        <section class="index_top">
+            <div class="index_top_bg"></div>
+            <ul>
+                <li class="tit" id="name"></li>
+                <li class="pic"><a href="JavaScript:void(0);"><img id="h_pic" src="/Skin/t/Img/no_pic.png" /></a></li>
+            </ul>
+        </section>
+        <!--帖子展示-->
+        <section id="posts_list" class="share_list"></section>
+
+    </section>
+
+    <!--WL_TMP{tmp=/Skin/t/Pub/T_Public.html}-->
+    <!--WL_TMP{tmp=/Skin/t/Pub/Quan_MyPost.html}-->
+    <script>
+        $.get('/Txooo/SalesV2/Member/Ajax/UserAjax.ajax/GetUserInfo', 'userid=' + getUrlParam("uId"), function (data) {
+            if (data != 'false') {
+                var obj = eval(data);
+                $(".index_top .index_top_bg").css("background-image", "url(" + obj[0].quan_head_pic + ")");
+                $(".index_top #name").html(obj[0].nick_name);
+                $(".index_top #h_pic").attr("src", obj[0].head_pic);
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,140 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Document</title>
+</head>
+<body>
+
+
+    <button onclick="test(this)" data-downurl="//0.u.93390.cn/App/passport.api/Download123" data-name="test.rar">点击下载</button>
+    <button id="close">停止下载</button>
+
+    <script>
+
+        var xhr = null;
+
+        // 停止下载
+        document.getElementById('close').onclick = function () {
+            xhr.stop();
+        };
+        
+        function test(self) {
+
+            var url = self.getAttribute('data-downurl');
+            var rename = self.getAttribute('data-name');
+
+            xhr = new downloadFile({
+                url: url,
+                rename: rename,
+                success: function (data) { 
+                    console.log(data);
+                }
+            });
+        }
+
+
+        /**
+         *  下载文件 不支持IE
+         */
+        (function () {
+            'use strict'
+            function DownloadFile(options) {
+                this.url = options.url;
+                this.rename = options.rename || '';
+                this.callback = options.success || null;
+                this.timeout = null;    // 定时器
+                this.newTime = 0;      // 当前时间
+                this.usedSize = 0;      // 文件字节
+                return this.init();
+            }
+            DownloadFile.prototype = {
+                constructor: DownloadFile,
+                // 初始化
+                init: function () {
+                    this.xhr();
+                    return this.xhrVSone();
+                },
+                // xhr对象
+                xhr: function () {
+                    try { return this.xhr = new XMLHttpRequest(); }
+                    catch (e) { alert('请使用标准浏览器！'); }
+                },
+                // 标准
+                xhrVSone: function () {
+                    this.xhr.responseType = "blob";
+                    this.xhr.addEventListener("progress", this.progress(this), false);
+                    this.readystatechange();
+                },
+                progress: function (_this) {
+                    return function (e) {
+                        if (e.lengthComputable) {
+                            var result = (e.loaded / e.total * 100).toFixed(2) + '%';
+                            // 计时
+                            _this.countTime();
+                            var speed = _this.countSpeed(e.loaded, _this.usedSize, _this.newTime ? _this.newTime : 1).toFixed(2);
+                            var time = parseInt((e.total - e.loaded) / 1024 / (speed != '0.00' ? speed : 1));
+                            _this.usedSize = e.loaded;
+                            // 回调反回参数
+                            var options = {
+                                'speed': speed,
+                                'time': time,
+                                'loaded': (e.loaded / 1024 / 1024).toFixed(2),
+                                'total': (e.total / 1024 / 1024).toFixed(2),
+                                'ratio': result
+                            };
+                            // 回调
+                            _this.callback && _this.callback(options);
+                            // 完成后，清除定时器
+                            e.loaded >= e.total ? clearInterval(_this.timeout) : '';
+                        }
+                    };
+                },
+                // 计算速度
+                countSpeed: function (newSize, usedSize, time) {
+                    return parseInt(newSize - usedSize) / time / 1024;
+                },
+                // 计时
+                countTime: function () {
+                    clearInterval(this.timeout);
+                    var _this = this;
+                    this.timeout = setInterval(function () {
+                        _this.newCount++;
+                    }, 1000);
+                },
+                // readystatechange 
+                readystatechange: function (cbOK) {
+                    var _this = this;
+                    this.xhr.onreadystatechange = function (e) {
+                        if (_this.xhr.readyState == 4 && _this.xhr.status == 200) {
+                            var response = _this.xhr.response;
+                            if (typeof window.chrome !== 'undefined') {
+                                // Chrome version
+                                var link = document.createElement('a');
+                                link.href = window.URL.createObjectURL(response);
+                                _this.rename ? link.download = _this.rename : null;
+                                link.click();
+                            }
+                            else {
+                                // Firefox version
+                                var file = new File([response], _this.rename, { type: 'application/force-download' });
+                                window.open(URL.createObjectURL(file));
+                            }
+                        }
+                    };
+                    this.xhr.open("GET", this.url);
+                    this.xhr.send();
+                },
+                // 取消ajax请求
+                stop: function () {
+                    this.xhr.abort();
+                }
+            };
+            window.downloadFile = DownloadFile;
+        })();
+
+
+    </script>
+
+</body>
+</html>

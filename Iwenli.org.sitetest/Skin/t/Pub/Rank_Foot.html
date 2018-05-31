@@ -1,0 +1,102 @@
+﻿ <!--个人排名底部追随-->
+<section class="my_rank_bottom"></section>
+<div class="dvLog" style="display:none">
+    <section class="my_rank MRank" style="display:none">
+        <div class="info">
+            <div class="pic mypic"><img src="" /></div>
+            <div class="num">我已赚到<em><span class="spTotalMoney"></span></em>元<span>排名<em><span class="spUserMoneyRank"></span></em>位</span></div>
+            <ul>
+                <li><span>佣金<span class="spUserTotalBrokerage"></span>元</span></li>
+                <li><span>创业金<span class="spUserTotalBonus"></span>元</span></li>
+                <li><span>V币<span class="spTotalPoint"></span>个</span></li>
+            </ul>
+        </div>
+        <div class="right_i"><i>&#xe603;</i></div>
+    </section>
+
+    <section class="my_rank PRank" style="display:none">
+        <div class="info">
+            <div class="pic mypic"><img src="" /></div>
+            <div class="num">我的佣金<em><span class="spUserTotalBrokerage"></span></em>元<span>排名<em><span class="spUserBrokerageRank"></span></em>位</span></div>
+            <ul>
+                <li><span>已赚到<span class="spTotalMoney"></span>元</span></li>
+                <li><span>创业金<span class="spUserTotalBonus"></span>元</span></li>
+                <li><span>V币<span class="spTotalPoint"></span>个</span></li>
+            </ul>
+        </div>
+        <div class="right_i"><i>&#xe603;</i></div>
+    </section>
+
+    <section class="my_rank BRank" style="display:none">
+        <div class="info">
+            <div class="pic mypic"><img src="" /></div>
+            <div class="num">我的创业金<em><span class="spUserTotalBonus"></span></em>元<span>排名<em><span class="spUserBonusRank"></span></em>位</span></div>
+            <ul>
+                <li><span>已赚到<span class="spTotalMoney"></span>元</span></li>
+                <li><span>佣金<span class="spUserTotalBrokerage"></span>元</span></li>
+                <li><span>V币<span class="spTotalPoint"></span>个</span></li>
+            </ul>
+        </div>
+        <div class="right_i"><i>&#xe603;</i></div>
+    </section>
+    <section class="my_rank NRank" style="display:none">
+        <div class="info">
+            <div class="pic mypic"><img src="" /></div>
+            <div class="num">我的V币<em><span class="spTotalPoint"></span></em>个<span>排名<em><span class="spUserPointRank"></span></em>位</span></div>
+            <ul>
+                <li><span>已赚到<span class="spTotalMoney"></span>元</span></li>
+                <li><span>佣金<span class="spUserTotalBrokerage"></span>元</span></li>
+                <li><span>创业金<span class="spUserTotalBonus"></span>元</span></li>
+            </ul>
+        </div>
+        <div class="right_i"><i>&#xe603;</i></div>
+    </section>
+</div>
+
+<div class="dvNoLog my_rank" style="display:none" onclick="GoToLogin()">
+    <div class="noinfo">
+        <div class="nopic">
+            <p>登录注册</p>
+        </div>
+        <div class="nocon">您未登录，暂不能查看个人排名</div>
+    </div>
+    <div class="right_i"><i>&#xe603;</i></div>
+</div>
+
+<script>
+    $.get("/Txooo/SalesV2/Rank/Ajax/RankAjax.ajax/GetMyEstateInfos", function (data) {
+        var obj1 = eval(data);
+        if (obj1.success != "false") {
+            var obj = obj1[0];
+            obj.head_pic = obj.head_pic == "" ? "/Skin/t/Img/no_pic.png" : obj.head_pic;
+            $('.mypic').children('img').attr("src", obj.head_pic + ',1,80,80,3');
+            $('.spTotalMoney').text(parseFloat(obj.total_assets));
+            $('.spUserMoneyRank').text(obj.total_assets_rank);
+            $('.spUserTotalBrokerage').text(parseFloat(obj.total_brokerage));
+            $('.spTotalPoint').text(obj.total_points);
+            $('.spUserBrokerageRank').text(parseFloat(obj.total_brokerage_rank));
+            $('.spUserBonusRank').text(obj.total_bonus_rank);
+            $('.spUserPointRank').text(obj.total_points_rank);
+            $('.dvLog').show();
+            $('.MRank').attr('onclick', 'window.location.href = "/Rank/MyRank.html?UserId=' + obj.user_id + '&type=1"');
+            $('.PRank').attr('onclick', 'window.location.href = "/Rank/MyRank.html?UserId=' + obj.user_id + '&type=3"');
+            $('.BRank').attr('onclick', 'window.location.href = "/Rank/MyRank.html?UserId=' + obj.user_id + '&type=2"');
+            $('.NRank').attr('onclick', 'window.location.href = "/Rank/MyRank.html?UserId=' + obj.user_id + '&type=4"');
+            $('.spUserTotalBonus').text(parseFloat(obj.total_bonus));
+        } else {
+            $('.dvNoLog').show();
+        }
+    });
+    //$.get("/Txooo/SalesV2/Rank/Ajax/RankAjax.ajax/GetMyCurrentBonus", function (data) {
+    //    var obj = eval('(' + data + ')');
+    //    if (obj.success != "false") {
+    //        $('.spUserTotalBonus').text(parseFloat(data));
+    //        $('.dvLog').show();
+    //    } else {
+    //        $('.dvNoLog').show();
+    //    }
+    //});
+    function GoToLogin() {
+        window.location.href = "//passport.93390.cn/login.html?ReturnUrl=" + encodeURIComponent(window.location.href);
+    }
+</script>

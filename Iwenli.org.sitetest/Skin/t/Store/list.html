@@ -1,0 +1,160 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/html5/rem.js"></script>
+    <script type="text/javascript" src="//cdn.txooo.com/public/jquery/jquery-1.7.2.min.js"></script>
+    <script src="/Skin/t/Js/Public.js"></script>
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Public.css" />
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Store.css" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/aui.artTemplate/artTemplate.js"></script>
+    <script src="/Skin/t/Js/Template.js"></script>
+    <title>查看我的申请</title>
+    <script type="text/javascript">
+        $(function () {
+            $(".P_title").text("查看我的申请");
+            $(".P_Header_info").text(" ");
+        })
+    </script>
+
+</head>
+<body style="background:#f5f5f5">
+    <header class="P_Header">
+        <div class="P_goBack" onclick="window.location.href = '/Member/index.html'"><i>&#xe602;</i></div>
+        <div class="P_title">我的资产</div>
+        <div class="P_Header_info"><a href="list.html">查看</a></div>
+    </header>
+    <script type="text/html" id="listTemp">
+        {{each list as l}}
+        <ul class="store_list" data-checkstate="{{l.CheckState}}">
+            <li>
+                <dl>
+                    <dt class="black">推荐号码：{{l.ApplyNum}}</dt>
+                    <dd class="orange">{{l.GoodsCheckState}}</dd>
+                    <dd><a href="/Store/EditStore.html?ApplyId={{l.ApplyId}}" class="check_failed" style="display:none">修改并提交</a></dd>
+                </dl>
+                <div class="check_no_pass" style="display:none">
+                    <h2>审核状态：审核失败</h2>
+                    <p>{{l.CheckReason}}</p>
+                </div>
+                <div class="detail_info gray">
+                    <p>推荐商品:{{l.GoodsName}}</p>
+                    <p>商品品牌:{{l.GoodsBrand}}</p>
+                    <p>零售价:{{l.GoodsPrice}}</p>
+                    <p>供货价:{{l.GoodsCost}}</p>
+                </div>
+                <div class="apply">
+                    <div class="check_pass" style="display:none">
+                        <p><i>&#xe625;</i>您的审核已通过，请牢记下面的商户端登录用户名</p>
+                        <p class="pad_l"><span>登录用户名：<b>{$UserId}@7518</b></span></p>
+                        <p class="pad_l"><span>登录密码：与您审核成功时设置的买客密码一致</span></p>
+                    </div>
+                    <div class="downloads clear">
+                        <h3>买客商户版下载地址</h3>
+                        <p class="download_android"><i><img src="/Skin/t/Img/task/down1.png" /></i><a href="//cdn.txooo.com/android/maike/maikemch.apk">适用于Android</a></p>
+                        <p class="download_ios"><i><img src="/Skin/t/Img/task/down2.png" /></i><a href="//itunes.apple.com/cn/app/chuang-ye-zhuan-qian/id1071994317?mt=8">适用于IOS</a></p>
+                    </div>
+                    <div class="check_ok_tips" style="display:none">
+                        <p>审核通过后可通过电脑激活商户，激活地址：http://mch.93390.cn</p>
+                    </div>
+                </div>
+                <dl>
+                    <dt class="gray_ccc">
+                        <a href="details.html?ApplyId={{l.ApplyId}}">{{l.AddTime | dateFormat:'yyyy年MM月dd日 hh:mm'}}&nbsp;&nbsp;&gt;</a>
+                    </dt>
+                    <dd class="black">
+                        <a href="/Store/details.html?ApplyId={{l.ApplyId}}"><i>查看详情&nbsp;&#xe603;</i></a>
+                    </dd>
+                </dl>
+            </li>
+        </ul>
+        {{/each}}
+    </script>
+    <!--apply success prompt-->
+
+
+    <section class="P_Pages bg_gray">
+        <div id="dvList">
+
+        </div>
+        <div id="dvNoMore">
+
+        </div>
+    </section>
+
+
+    <script>
+        var pageIndex = 0;
+        var pageSize = 10;
+        LoadData();
+        //load list
+        function LoadData() {
+            $.get("/Txooo/SalesV2/Store/Ajax/StoreAjax.ajax/GetGoodsList", { pageIndex: pageIndex, pageSize: pageSize }, function (data) {
+                var obj = eval('(' + data + ')');
+                if (obj.count > 0) {
+                    var list = eval(obj.list);
+                    var html = '';
+                    if (list.length > 0) {
+                        var datalist = { list: list };
+                        var html = template("listTemp", datalist);
+                        $("#dvList").append(html);
+                        var _agent = navigator.userAgent;
+                        if (!!_agent.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/)) {//ios
+                            $('.download_android').css('display', 'none');
+                        }
+                        if (_agent.indexOf('Android') > -1 || _agent.indexOf('Linux') > -1) {//android或uc浏览器
+                            $('.download_ios').css('display', 'none');
+                        }
+                        //审核成功、失败显示
+                        $(".store_list li").each(function (i, o) {
+                            var oTxt = $(o).find(".orange").text();
+                            if (oTxt == "审核失败") {
+                                $(o).find(".orange").addClass("change_color").css('display', 'none');
+                            }
+                        })
+                        $('.store_list').each(function (i, v) {
+                            if ($(v).attr('data-checkstate') == 1) {
+                                $('.check_pass').show();
+                                $('.check_ok_tips').css('display', 'block');
+                            }
+                            if ($(v).attr('data-checkstate') == 2) {
+                                $('.check_failed').show();
+                                $('.detail_info').css('display', 'none');
+                                $('.check_no_pass').css('display', 'block');
+                                $('.check_ok_tips').css('display', 'block');
+                            }
+                        });
+                    } else {
+                        $('#dvNoMore').empty();
+                        //$('#dvNoMore').append('已加载全部数据');
+                    }
+                } else {
+                    $("#dvList").append("<div class='no_shenqing'><span><i>&#xe604;</i></span><p>您还没有相关推荐</p></div>");
+                    if ($(".no_shenqing").length > 1) {
+                        $(".no_shenqing:gt(0)").remove();
+                    }
+                }
+            });
+        }
+        //加载更多
+        var scrollTrue = true;
+        window.onscroll = function () {
+            if (getScrollTop() + getClientHeight() == getScrollHeight()) {
+                if (scrollTrue) {
+                    scrollTrue = false;
+                    pageIndex++;
+                    LoadData();
+                    scrollTrue = true;
+                    $(".no_shenqing:gt(0)").remove();
+                }
+            }
+        }
+
+
+
+
+    </script>
+    <!--WL_TMP{tmp=/Skin/t/Pub/T_Public.html}-->
+</body>
+</html>

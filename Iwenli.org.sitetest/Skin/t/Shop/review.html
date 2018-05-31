@@ -1,0 +1,144 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/html5/rem.js"></script>
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Public.css" />
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Shop.css" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/jquery/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="//cdn.txooo.com/public/aui.artTemplate/artTemplate.js"></script>
+    <script src="/Skin/t/Js/Public.js"></script>
+    <script src="/Skin/t/Js/Template.js"></script>
+    <title>产品评价</title>
+</head>
+<body style="background:#f0f0f0;">
+    <header class="P_Header">
+        <div class="P_goBack" onclick="if (window.txservice.success()) { window.txservice.call('goback'); } else {history.go(-1); }"><i>&#xe602;</i></div>
+        <div class="P_title">商品评论</div>
+    </header>
+    <!--<div class="proimg_shop_list">
+        <ul>
+            <li class="first_li"><span><a href="javascript:void(0);" onclick="javascript: window.location.href = '/shop.html?id=' + getUrlParam('id')">图文</a></span></li>
+            <li class="current"><span><a href="javascript:void(0);">评价</a></span></li>
+            <li class="cusshow"><span><a href="javascript:void(0);" onclick="javascript: window.location.href = '/shop.html?id=' + getUrlParam('id')">售后</a></span></li>
+        </ul>
+    </div>-->
+    <section class="review_nav">
+        <ul>
+            <li data-val="-1" class="current"><span>全部评价</span><span class="r_count">(0)</span></li>
+            <li data-val="0"><span>好评</span><span class="r_good">(0)</span></li>
+            <li data-val="1"><span>中评</span><span class="r_center">(0)</span></li>
+            <li data-val="2"><span>差评</span><span class="r_bad">(0)</span></li>
+        </ul>
+    </section>
+    <section class="review_list">
+        
+    </section>
+
+    <div class="more_btn">
+        <a href="javascript:void(0);" class="more">加载中...</a>
+    </div>
+
+    <script type="text/html" id="reListTemp">
+        {{each info as i}}
+        <div class="list_box">
+            <div class="tit">
+                <span class="left"><img src="{{i.HeadPic}}" /> {{i.NickName}}</span>
+                <span class="time">{{i.AddTime | dateFormat:'yyyy年MM月dd日 hh:mm'}}</span>
+            </div>
+            <div class="info">
+                <div class="xing proReivew_{{i.ProductReview}}"></div>
+                <div class="content">
+                    {{i.ReviewContent}}
+                </div>
+            </div>
+            <div class="bottom">
+                <a href="javascript:void(0)" class="like" onclick="AddLikeCount('{{i.ReviewId}}',this)"><i>&#xe627;</i>(<span class="like_count">{{i.LikeCount}}</span>)</a>
+                <a href="reply.html?reviewId={{i.ReviewId}}&proId={{i.ProductId}}" class="reply"><i>&#xe61b;</i>({{i.ReplyCount}})</a>
+            </div>
+        </div>
+        {{/each}}
+    </script>
+    <script>
+        window.txservice.init();
+        var pageIndex = 0, pageSize = 5, reviewVal = -1, proId = getUrlParam("id");
+        var isAppend = 1;
+
+        $.post("/Txooo/SalesV2/Shop/Ajax/ShopOpenAjax.ajax/GetProReviewRate", { proId: proId }, function (data) {
+            var obj = eval("(" + data + ")");
+            $(".review_nav .r_good").html("(" + obj.good + ")");
+            $(".review_nav .r_center").html("(" + obj.center + ")");
+            $(".review_nav .r_bad").html("(" + obj.bad + ")");
+            $(".review_nav .r_count").html("(" + obj.total_count + ")");
+        })
+
+        GetComment();
+        //加载商品的评论
+        function GetComment() { 
+            $.post("/Txooo/SalesV2/Shop/Ajax/ShopOpenAjax.ajax/GetProductReview", { proId: proId, pageIndex: pageIndex, pageSize: pageSize, reviewVal: reviewVal, parentId: 0 }, function (data) {
+                var obj = eval("(" + data + ")");
+                if (obj.count > 0) {
+                    if (obj.count <= pageSize) {
+                        $(".more").hide();
+                    }
+                    if (isAppend == 0) {
+                        $(".review_list").html("");
+                    }
+                                        
+                    var list = eval(obj.list);
+                    if (list.length == 0) {
+                        $(".more").html("");
+                    } else {
+                        scrollTrue = true;
+                        var reHtml = template("reListTemp", { info: eval(obj.list) });
+                        $(".review_list").append(reHtml);
+                    }
+
+                } else {
+                    $(".more").hide();
+                    $(".review_list").html("<div class='review_no'><i>&#xe62b;</i>没有此类评价！</div>");
+                }
+                
+            })
+        }
+        $(".review_nav ul li").click(function () {
+            reviewVal = $(this).attr("data-val");
+            $(this).siblings().removeClass("current");
+            $(this).addClass("current");
+            $(".more").html("加载中...");
+            isAppend = 0;
+            pageIndex = 0;
+            GetComment();
+        })
+
+        var scrollTrue = true;
+        window.onscroll = function () {
+            if (getScrollTop() + getClientHeight() == getScrollHeight()) {
+                if (scrollTrue) {
+                    scrollTrue = false;
+                    isAppend = 1;
+                    pageIndex++;
+                    GetComment();
+                }
+            }
+        }
+
+        //function LoadMore(){
+        //    isAppend = 1;
+        //    pageIndex++;
+        //    GetComment();
+        //}
+
+        //评论点赞
+        function AddLikeCount(reviewId,me) {
+            $.get("/Txooo/SalesV2/Shop/Ajax/ShopOpenAjax.ajax/AddLikeCount?reviewId=" + reviewId, function (data) {
+                var obj = eval(data);
+                if (obj.success == "true") {
+                    $(me).find(".like_count").html(parseInt($(me).find(".like_count").html()) + 1);
+                }
+            })
+        }
+    </script>
+ <!--WL_TMP{tmp=/Skin/t/Pub/T_Public.html}--> </body>
+</html>

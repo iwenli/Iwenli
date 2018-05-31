@@ -1,0 +1,64 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/html5/rem.js"></script>
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Public.css" />
+    <link type="text/css" rel="stylesheet" href="/Skin/t/Css/Money.css" />
+    <script type="text/javascript" src="//cdn.txooo.com/public/jquery/jquery-1.7.2.min.js"></script>
+    <script src="/Skin/t/Js/Public.js"></script>
+    <title>兑换创业金成功页面</title>
+    <script type="text/javascript">
+        var _monery = getUrlParam("r_money");
+      
+        $(function () {
+            $(".BonusMoney").text(_monery);
+            $(".PointMoney").text(Math.ceil(_monery));
+            $.post("/Txooo/SalesV2/Money/Ajax/MoneyAjax.ajax/GetSalesCashCount", function (data) {
+                var obj = eval("(" + data + ")");
+                $(".bonus_count").text(obj["@CanBonusCount"]);
+                $(".can_poin").text(obj["@CanPoint"]);
+            })
+            window.txservice.init();
+        })
+       
+
+    </script>
+</head>
+<body style="background: #F0F0F0;">
+    <!-- 头部信息begin -->
+    <header class="P_Header" id="header1">
+        <div class="P_goBack" onclick="if (window.txservice.success()) { window.txservice.call('goback'); } else { history.go(-1); }"><i>&#xe602;</i></div>
+        <div class="P_title">兑换创业金</div>
+    </header>
+    <!-- 头部信息end -->
+    <section class="okbonus_pages">
+        <div class="succeed_info">
+            <div class="top"><i class="icon c_orange">&#xe61c;</i><div class="txt">兑换成功</div></div>
+            <div class="money">
+                <div class="tit">本次兑换创业金：</div>
+                <div class="con"><em class="BonusMoney">0</em>元</div>
+            </div>
+            <div class="money">
+                <div class="tit">消耗V币：</div>
+                <div class="con"><em class="PointMoney">0</em>个</div>
+            </div>
+        </div>
+        <div class="succeed_list">
+            <div class="list ov_h">
+            	<div class="left"><span class="tit">剩余可兑换创业金：</span><span class="con"><em class="c_orange bonus_count">0</em>元</span></div>
+            	<div class="right"><a class="c_orange" href="/index.html">我要赚钱 &gt;&gt;</a></div>
+            </div>
+            <div class="list ov_h">
+            	<div class="left"><span class="tit">可用V币：</span><span class="con"><em class="can_poin">0</em>个</span></div>
+            	<div class="right"><a class="c_orange" href="/index.html">我要赚V币 &gt;&gt;</a></div>
+            </div>
+        </div>
+        <div class="succeed_btn">
+            <a class="left btn" href="/Money/bonus.html">继续兑换</a>
+            <a class="right btn" onclick="if (window.txservice.success()) { window.txservice.call('goback'); } else { history.go(-1); }">返回我的资产</a>
+        </div>
+    </section>
+ <!--WL_TMP{tmp=/Skin/t/Pub/T_Public.html}--> </body>
+</html>

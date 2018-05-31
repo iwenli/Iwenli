@@ -1,0 +1,27 @@
+﻿<header class="R_Header">
+    <div class="R_goBack" onclick="javascript:history.go(-1)"><i>&#xe602;</i></div>
+    <div class="R_title"></div>
+</header>
+<div class="fudong">
+    <a href="javascript:void(0)" class="fudong_top"><i>&#xe657;</i></a>
+</div>
+<script type="text/javascript">
+    //返回顶部按钮
+    $(document).ready(function () {
+        $(function () {
+            $(window).scroll(function () {
+                if ($(window).scrollTop() > 480) {
+                    $(".fudong").addClass('fd_top')
+                }
+                else {
+                    $(".fudong").removeClass('fd_top')
+                }
+            });
+
+            $(".fudong_top").click(function () {
+                $('body,html').animate({ scrollTop: 0 }, 100);
+                return false;
+            });
+        });
+    });
+</script>

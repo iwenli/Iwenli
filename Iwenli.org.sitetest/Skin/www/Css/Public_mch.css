@@ -1,0 +1,59 @@
+﻿html{-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%;height:100%;width:100%}
+body{font-family:"Microsoft YaHei","微软雅黑",Helvetica,"黑体","宋体",Arial,Tahoma;color:#333;font-size:12px;height:100%;width:100%;min-width:1200px;}
+input,textarea,button,a,select{outline:0}
+body,h1,h2,h3,h4,h5,h6,div,p,ul,li,ol,dl,dd,fieldset,input,textarea{margin:0;padding:0;font-family:'微软雅黑';list-style:none;}
+h1,h2,h3,h4,h5,h6{font-style:normal; font-weight:normal; font-size:14px;}
+ul,li,ol{list-style-type:none}
+em,i{font-style:normal;}
+
+a img,fieldset{border:0;outline:none;}
+a{text-decoration:none;}
+.clear{-zoom:1;clear:both;overflow:hidden;}
+.clear_:after{content:"";display:block;clear:both;}
+
+.main{width:1200px;margin:0 auto;overflow:hidden;position:relative;height:100%;}
+
+
+#header{height:100%;width:100%;background:url(/download/Img/Mch/bj.jpg)no-repeat center ;background-size:auto 100%;min-height:680px;}
+.head_left{float:left;margin:156px 0 0 110px;width:500px;}
+.head_left h1{font-size:55px;color:#fff;}
+.head_btn{margin-top:50px;overflow:hidden;}
+.head_btn a{float:left;margin-right:26px;width:224px;height:72px;}
+.head_btn .btn1{background:url(/download/Img/Mch/btn-1.png)no-repeat;}
+.head_btn .btn2{background:url(/download/Img/Mch/btn-2.png)no-repeat;}
+.head_left p{font-size:18px;color:#fff;text-align:center; width:478px;margin-top:70px;}
+.head_left ul{margin-top:20px;overflow:hidden; text-align:center; width:478px;}
+.head_left ul li{float:left; width:50%;text-align:center;}
+.head_left ul li img{width:132px;height:132px;}
+.head_left p.pic{margin-top:40px;}
+.head_left p.pic img{width:132px;height:132px;} 
+.head_right{width:360px;height:690px;position:absolute;right:100px;bottom:0;}
+
+.module{height:500px;}
+.module img{width:520px;height:500px;float:left;}
+.module .module_box{float:left;margin-top:178px;margin-left:80px;}
+.module .module_box h2{font-size:42px;color:#666; border-left:10px #499cf1 solid;padding-left:6px;height:44px;line-height:44px;}
+.module .module_box p{line-height:46px;color:#565656;font-size:24px; margin-top:14px; padding-left:16px;}
+.module .module_box strong{font-size:30px;color:#499cf1;font-weight:normal;}
+
+.module.module_2{background:url(/download/Img/Mch/bj-1.jpg)no-repeat center ;background-size:auto 100%;}
+.module.module_2 img{float:right;margin-right:40px;}
+.module.module_2 .module_box{margin-top:160px;margin-left:130px;}
+.module.module_2 .module_box h2{border-right:10px #ffe345 solid;border-left:none; text-align:right;color:#fff;padding-right:6px;}
+.module.module_2 .module_box p{color:#fff;text-align:right;}
+.module.module_2 .module_box strong{color:#ffe345;}
+
+.module.module_3 .module_box strong{color:#cc5643;}
+.module.module_3 .module_box h2{border-color: #cc5643;}
+
+#footer{background:#3f3f3f;height:60px;padding:30px 0;color:#fff;}
+#footer dl{margin-left:60px;}
+#footer dl dt{float:left;width:52px;height:52px;margin-top:4px;margin-right:24px;}
+#footer dl dd{font-size:14px;line-height:30px;float:left;}
+#footer dl dd span{font-size:16px;}
+#footer dl dd.last_dd{float:right;margin-right:60px;}
+
+
+
+
+
