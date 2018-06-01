@@ -69,6 +69,8 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "Iwenli.Org.Passport.Site", 
 		SlnRelativePath = "Iwenli.Org.Passport.Site\"
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Iwenli.Push", "Iwenli.Push\Iwenli.Push.csproj", "{41648B2B-979D-46EF-A962-CF51F00882FE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -115,6 +117,10 @@ Global
 		{587B3D39-6259-4879-AB3C-EE830C901F1A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{587B3D39-6259-4879-AB3C-EE830C901F1A}.Release|Any CPU.ActiveCfg = Debug|Any CPU
 		{587B3D39-6259-4879-AB3C-EE830C901F1A}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{41648B2B-979D-46EF-A962-CF51F00882FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{41648B2B-979D-46EF-A962-CF51F00882FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{41648B2B-979D-46EF-A962-CF51F00882FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{41648B2B-979D-46EF-A962-CF51F00882FE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -128,6 +134,7 @@ Global
 		{9653BF28-F021-4C98-BBF8-E9D920EB9F8F} = {D99AAEB5-D1FF-4ADD-8BDC-0E6010130DEC}
 		{E8536404-5773-4511-8714-57E5B2DE32CE} = {D99AAEB5-D1FF-4ADD-8BDC-0E6010130DEC}
 		{587B3D39-6259-4879-AB3C-EE830C901F1A} = {6E2DBEA9-AB81-471D-B89F-EC30467ABBEC}
+		{41648B2B-979D-46EF-A962-CF51F00882FE} = {D99AAEB5-D1FF-4ADD-8BDC-0E6010130DEC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1F78F9BB-FACC-45EE-9ECD-71AEEFC878DD}

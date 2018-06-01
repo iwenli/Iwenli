@@ -29,7 +29,7 @@ namespace Iwenli.Mobile.Platform
         public ResImageMsg(string toUserName)
         {
             MsgType = ResMsgType.Image;
-            CreateTime = CommonFunction.GetDatetimeNowString();
+            CreateTime = DateTime.Now.ToUnixTicks().ToString();
             FuncFlag = "0";
             ToUserName = toUserName;
         }

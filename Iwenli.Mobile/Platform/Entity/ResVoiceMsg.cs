@@ -29,7 +29,7 @@ namespace Iwenli.Mobile.Platform
         public ResVoiceMsg(string toUserName)
         {
             MsgType = ResMsgType.Voice;
-            CreateTime = CommonFunction.GetDatetimeNowString();
+            CreateTime = DateTime.Now.ToUnixTicks().ToString();
             FuncFlag = "0";
             ToUserName = toUserName;
         }

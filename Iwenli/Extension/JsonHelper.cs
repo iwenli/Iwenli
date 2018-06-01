@@ -73,6 +73,16 @@ namespace Iwenli.Extension
         {
             return JsonConvert.DeserializeObject<T>(value);
         }
+
+        /// <summary>
+        /// json字符串转为对象
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static object DeserializeObject(string value)
+        {
+            return JsonConvert.DeserializeObject(value);
+        }
         #endregion
 
         #region json返回格式统一

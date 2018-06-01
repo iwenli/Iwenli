@@ -39,7 +39,7 @@ namespace Iwenli.Mobile.Platform
         public ResVideoMsg(string toUserName)
         {
             MsgType = ResMsgType.Video;
-            CreateTime = CommonFunction.GetDatetimeNowString();
+            CreateTime = DateTime.Now.ToUnixTicks().ToString();
             FuncFlag = "0";
             ToUserName = toUserName;
         }

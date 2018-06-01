@@ -54,7 +54,7 @@ namespace Iwenli.Mobile.Platform
         {
             List<MenuInfo> menuList = new List<MenuInfo>();
             DataTable dt;
-            using (Iwenli.TxDataHelper helper = Iwenli.TxDataHelper.GetDataHelper("IwenliMobile"))
+            using (DataHelper helper = DataHelper.GetDataHelper("IwenliMobile"))
             {
                 helper.SpFileValue["@tempid"] = tempId;
                 dt = helper.SpGetDataTable("SP_Service_ZDL_GetMenuInfo");

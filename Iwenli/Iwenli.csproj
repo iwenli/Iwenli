@@ -35,9 +35,8 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>lib\MySql.Data.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>lib\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
@@ -640,11 +639,11 @@
     <Content Include="lib\MySql\6.8.3\v4.5\MySql.Data.Entity.EF5.dll" />
     <Content Include="lib\MySql\6.8.3\v4.5\MySql.Data.Entity.EF6.dll" />
     <Content Include="lib\MySql\6.8.3\v4.5\MySql.Web.dll" />
-    <Content Include="lib\Newtonsoft.Json.dll" />
   </ItemGroup>
   <ItemGroup>
     <None Include="lib\MySql\6.8.3\v2.0\MySql.Data.InstallState" />
     <None Include="lib\MySql\6.8.3\v2.0\MySql.Web.InstallState" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\SR.en.resx">

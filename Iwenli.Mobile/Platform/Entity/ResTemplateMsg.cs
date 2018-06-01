@@ -17,7 +17,7 @@ namespace Iwenli.Mobile.Platform.Entity
         public ResTemplateMsg(ReqMsg reqmsg)
         {
             MsgType = ResMsgType.Template;
-            CreateTime = CommonFunction.GetDatetimeNowString();
+            CreateTime = DateTime.Now.ToUnixTicks().ToString();
             FuncFlag = "0";
             ToUserName = reqmsg.FromUserName;
             FromUserName = reqmsg.ToUserName;

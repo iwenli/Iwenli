@@ -32,7 +32,7 @@ namespace Iwenli.Mobile.Platform
         {
             MsgType = ResMsgType.News;
             ToUserName = toUserName;
-            CreateTime = CommonFunction.GetDatetimeNowString();
+            CreateTime = DateTime.Now.ToUnixTicks().ToString();
             FuncFlag = "0";
             Articles = new List<ResArticle>();
         }
@@ -46,7 +46,7 @@ namespace Iwenli.Mobile.Platform
             Platform = reqmsg.Platform;
             ToUserName = reqmsg.FromUserName;
             FromUserName = reqmsg.ToUserName;
-            CreateTime = CommonFunction.GetDatetimeNowString();
+            CreateTime = DateTime.Now.ToUnixTicks().ToString();
             MsgType = ResMsgType.News;
             FuncFlag = "0";
 

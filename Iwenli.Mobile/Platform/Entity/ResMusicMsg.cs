@@ -39,7 +39,7 @@ namespace Iwenli.Mobile.Platform
         public ResMusicMsg(string toUserName)
         {
             MsgType = ResMsgType.Music;
-            CreateTime = CommonFunction.GetDatetimeNowString();
+            CreateTime = DateTime.Now.ToUnixTicks().ToString();
             FuncFlag = "0";
             ToUserName = toUserName;
         }

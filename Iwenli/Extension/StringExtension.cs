@@ -20,9 +20,11 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -166,8 +168,66 @@ namespace System
             else return string.Format(value, args);
         }
 
-        static readonly Regex _emailReg = new Regex(@"^\w+[\.\-_0-9a-z]+@[0-9a-z]+([\-_\.][0-9a-z]+)*\.[a-z]{2,3}$", RegexOptions.IgnoreCase);
+        static readonly Regex _formatObjectReg = new Regex(@"^\w+[\.\-_0-9a-z]+@[0-9a-z]+([\-_\.][0-9a-z]+)*\.[a-z]{2,3}$", RegexOptions.Compiled);
+        /// <summary>
+        /// 通过指定参数对当前字符串格式化
+        /// </summary>
+        /// <param name="value">被格式化字符串,形如[{Param1}推荐友{Param2}购买...]</param>
+        /// <param name="obj">包含Param1，Param2的Class对象</param>
+        /// <returns></returns>
+        public static string FormatObj(this string value, object obj)
+        {
+            if (obj == null) return value;
 
+            Type type = obj.GetType();
+            PropertyInfo[] properties = type.GetProperties(
+                BindingFlags.GetProperty | BindingFlags.Public | BindingFlags.Instance);
+
+            MatchEvaluator evaluator = match =>
+            {
+                string propertyName = match.Groups["Name"].Value;
+                string propertyFormat = match.Groups["Format"].Value;
+
+                PropertyInfo propertyInfo = properties.FirstOrDefault(p => p.Name == propertyName);
+                if (propertyInfo != null)
+                {
+                    object propertyValue = propertyInfo.GetValue(obj, null);
+                    if (string.IsNullOrEmpty(propertyFormat) == false)
+                        return string.Format("{0:" + propertyFormat + "}", propertyValue);
+                    else return propertyValue.ToString();
+                }
+                else return match.Value;
+            };
+            return _formatObjectReg.Replace(value, evaluator);
+        }
+
+        /// <summary>
+        /// 通过指定参数对当前字符串格式化
+        /// </summary>
+        /// <param name="value">被格式化字符串,形如[{Param1}推荐友{Param2}购买...]</param>
+        /// <param name="obj">包含Param1，Param2的NameValueCollection对象</param>
+        /// <returns></returns>
+        public static string FormatDic(this string format, NameValueCollection table)
+        {
+            MatchEvaluator evaluator = match =>
+            {
+                string propertyName = match.Groups["Name"].Value;
+                string propertyFormat = match.Groups["Format"].Value;
+
+                var propertyInfo = table[propertyName];
+                if (propertyInfo != null)
+                {
+                    object propertyValue = propertyInfo;
+                    if (string.IsNullOrEmpty(propertyFormat) == false)
+                        return string.Format("{0:" + propertyFormat + "}", propertyValue);
+                    else return propertyValue.ToString();
+                }
+                else return match.Value;
+            };
+            return _formatObjectReg.Replace(format, evaluator);
+        }
+
+        static readonly Regex _emailReg = new Regex(@"^\w+[\.\-_0-9a-z]+@[0-9a-z]+([\-_\.][0-9a-z]+)*\.[a-z]{2,3}$", RegexOptions.IgnoreCase);
         /// <summary>
         /// 判断一个字符串是否是邮件地址
         /// </summary>
@@ -290,7 +350,6 @@ namespace System
         {
             return str.IndexOf(key, comparison) != -1;
         }
-
 
         /// <summary>
         /// 按照标签分割并枚举

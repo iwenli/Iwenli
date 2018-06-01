@@ -26,7 +26,7 @@ namespace Iwenli.Mobile.Platform
         public ResTextMsg(string toUserName)
         {
             MsgType = ResMsgType.Text;
-            CreateTime = CommonFunction.GetDatetimeNowString();
+            CreateTime = DateTime.Now.ToUnixTicks().ToString();
             FuncFlag = "0";
             ToUserName = toUserName;
         }
@@ -38,7 +38,7 @@ namespace Iwenli.Mobile.Platform
         public ResTextMsg(ReqMsg reqmsg)
         {
             MsgType = ResMsgType.Text;
-            CreateTime = CommonFunction.GetDatetimeNowString();
+            CreateTime = DateTime.Now.ToUnixTicks().ToString();
             FuncFlag = "0";
             ToUserName = reqmsg.FromUserName;
             FromUserName = reqmsg.ToUserName;

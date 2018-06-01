@@ -1,0 +1,113 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{41648B2B-979D-46EF-A962-CF51F00882FE}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Iwenli.Push</RootNamespace>
+    <AssemblyName>Iwenli.Push</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AppMessageService.cs" />
+    <Compile Include="JPush\Common\APIRequestException.cs" />
+    <Compile Include="JPush\Common\AudienceConverter.cs" />
+    <Compile Include="JPush\Common\BaseHttpClient.cs" />
+    <Compile Include="JPush\Common\BaseResult.cs" />
+    <Compile Include="JPush\Common\DeviceType.cs" />
+    <Compile Include="JPush\Common\PlatformConverter.cs" />
+    <Compile Include="JPush\Common\ResponseWrapper.cs" />
+    <Compile Include="JPush\Common\Response\APIConnectionException.cs" />
+    <Compile Include="JPush\Common\Response\BooleanResult.cs" />
+    <Compile Include="JPush\Common\Response\DefaultResult.cs" />
+    <Compile Include="JPush\Common\ServiceHelper.cs" />
+    <Compile Include="JPush\Common\TimeUnit.cs" />
+    <Compile Include="JPush\DeviceApi\AliasDeviceListResult.cs" />
+    <Compile Include="JPush\DeviceApi\DeviceClient.cs" />
+    <Compile Include="JPush\DeviceApi\TagAliasResult.cs" />
+    <Compile Include="JPush\DeviceApi\TagListResult.cs" />
+    <Compile Include="JPush\JPushAPI.cs" />
+    <Compile Include="JPush\JPushClient.cs" />
+    <Compile Include="JPush\PushApi\audience\AudienceTarget.cs" />
+    <Compile Include="JPush\PushApi\audience\AudienceType.cs" />
+    <Compile Include="JPush\PushApi\MessageResult.cs" />
+    <Compile Include="JPush\PushApi\Entity\Audience.cs" />
+    <Compile Include="JPush\PushApi\Entity\Message.cs" />
+    <Compile Include="JPush\PushApi\Entity\Notification.cs" />
+    <Compile Include="JPush\PushApi\Entity\Options.cs" />
+    <Compile Include="JPush\PushApi\Entity\Platform.cs" />
+    <Compile Include="JPush\PushApi\Entity\PushPayload.cs" />
+    <Compile Include="JPush\PushApi\Notification\AndroidNotification.cs" />
+    <Compile Include="JPush\PushApi\Notification\IosNotification.cs" />
+    <Compile Include="JPush\PushApi\Notification\PlatformNotification.cs" />
+    <Compile Include="JPush\PushApi\Notification\WinphoneNotification.cs" />
+    <Compile Include="JPush\PushApi\PushClient.cs" />
+    <Compile Include="JPush\ReportApi\MessagesResult.cs" />
+    <Compile Include="JPush\ReportApi\ReceivedResult.cs" />
+    <Compile Include="JPush\ReportApi\ReportClient.cs" />
+    <Compile Include="JPush\ReportApi\UsersResult.cs" />
+    <Compile Include="JPush\Util\Base64.cs" />
+    <Compile Include="JPush\Util\JsonTool.cs" />
+    <Compile Include="JPush\Util\Md5.cs" />
+    <Compile Include="JPush\Util\Preconditions.cs" />
+    <Compile Include="JPush\Util\StringUtil.cs" />
+    <Compile Include="Notify\AppMessage.cs" />
+    <Compile Include="Notify\EmallMessage.cs" />
+    <Compile Include="Notify\SystemMessage.cs" />
+    <Compile Include="Notify\MessageBase.cs" />
+    <Compile Include="Notify\SmsMessage.cs" />
+    <Compile Include="Notify\WeiXinMessage.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PushDAL.cs" />
+    <Compile Include="SmsMessageService.cs" />
+    <Compile Include="WeiXinMessageService.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Iwenli.Mobile\Iwenli.Mobile.csproj">
+      <Project>{9de070e0-ffbf-40a1-932e-1822fbd6d92f}</Project>
+      <Name>Iwenli.Mobile</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Iwenli\Iwenli.csproj">
+      <Project>{8cc1dc47-f654-4fd6-b853-9b0184272d2b}</Project>
+      <Name>Iwenli</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
