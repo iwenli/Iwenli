@@ -17,5 +17,8 @@ packages
 /Iwenli.org.sitetest/bin
 /IwenliTests/obj
 /IwenliTests/bin
-/Iwenli.org.sitetest/log/20170904
+/Iwenli.Push/obj
+/Iwenli.Push/bin
+/Iwenli.org.sitetest/log
 *.log
+/Iwenli.Org.Passport.Site/bin

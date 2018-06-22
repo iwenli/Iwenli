@@ -40,7 +40,19 @@ namespace Iwenli.Mobile.Platform
         /// </summary>
         public string CreateTime { set; get; }
 
-        #endregion        
+        #endregion
+
+        /// <summary>
+        /// 获取基本信息
+        /// </summary>
+        /// <param name="m_requestBody"></param>
+        public void GetBaseInfo(string m_requestBody)
+        {
+            MsgId = m_requestBody.SearchStringTag("<MsgId>", "</MsgId>", 0, false).ToInt64();
+            ToUserName = m_requestBody.SearchStringTag("<ToUserName><![CDATA[", "]]></ToUserName>", 0, false);
+            FromUserName = m_requestBody.SearchStringTag("<FromUserName><![CDATA[", "]]></FromUserName>", 0, false);
+            CreateTime = m_requestBody.SearchStringTag("<CreateTime>", "</CreateTime>", 0, false);
+        }
                      
     } 
 

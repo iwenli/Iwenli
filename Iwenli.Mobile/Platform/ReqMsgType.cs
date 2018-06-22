@@ -38,6 +38,10 @@ namespace Iwenli.Mobile.Platform
         /// <summary>
         /// 链接消息
         /// </summary>
-        Link = 5
+        Link = 5,
+        /// <summary>
+        /// 小视频消息
+        /// </summary>
+        ShortVideo = 6
     }   
 }

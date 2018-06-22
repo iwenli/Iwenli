@@ -16,11 +16,11 @@ namespace Iwenli.Mobile.Platform
         /// </summary>
         public PlatformType Platform { set; get; }
         /// <summary>
-        /// 消息接收方微信号，一般为公众平台账号微信号
+        /// 消息接收方微信号，收到的OpenID
         /// </summary>
         public string ToUserName { set; get; }
         /// <summary>
-        /// 消息发送方微信号
+        /// 消息发送方微信号 一般为公众平台账号微信号
         /// </summary>
         public string FromUserName { set; get; }
         /// <summary>

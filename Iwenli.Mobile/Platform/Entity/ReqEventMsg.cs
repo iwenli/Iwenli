@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Iwenli.Mobile.Platform
+﻿namespace Iwenli.Mobile.Platform
 {
+    /// <summary>
+    /// 事件
+    /// </summary>
     public class ReqEventMsg : ReqMsg
     {
         /// <summary>
-        /// 事件类型
+        /// 接收事件推送
         /// </summary>
         public ReqEventType EventType { set; get; }
 

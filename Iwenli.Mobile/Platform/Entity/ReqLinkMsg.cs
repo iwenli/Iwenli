@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Iwenli.Mobile.Platform
+﻿namespace Iwenli.Mobile.Platform
 {
+    /// <summary>
+    /// 链接消息
+    /// </summary>
     public class ReqLinkMsg : ReqMsg
     {
         /// <summary>

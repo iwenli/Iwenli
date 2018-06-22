@@ -1,16 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using Iwenli.Text;
-using Iwenli;
-using Newtonsoft.Json;
-using Iwenli.Data;
 
 namespace Test1
 {
@@ -34,14 +23,17 @@ namespace Test1
             //    txtOutput.Text = JsonConvert.SerializeObject(_dt);
             //}
 
-            using (DataHelper helper = DataHelper.GetDataHelper("Iwenli"))
-            {
-                //string _sql = @"SELECT * FROM [Customer] order by [CustomerId] desc";
-                //var _dt = helper.SqlGetDataTable(_sql);
- 
-                var baseList = helper.GetDatabaseList();
-                txtOutput.Text = JsonConvert.SerializeObject(helper.GetDatabaseList());
-            }
+            //using (DataHelper helper = DataHelper.GetDataHelper("Iwenli"))
+            //{
+            //    //string _sql = @"SELECT * FROM [Customer] order by [CustomerId] desc";
+            //    //var _dt = helper.SqlGetDataTable(_sql);
+
+            //    //var baseList = helper.GetDatabaseList();
+            //    //txtOutput.Text = JsonConvert.SerializeObject(helper.GetDatabaseList());
+            //}
+
+            var text  = txtInput.Text.ToString().AESEncrypt();
+            this.txtOutput.Text = text;
         }
     }
 }

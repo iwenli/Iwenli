@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Iwenli.Mobile.Platform
+﻿namespace Iwenli.Mobile.Platform
 {
+    /// <summary>
+    /// 地理位置消息
+    /// </summary>
     public class ReqLocationMsg : ReqMsg
     {       
         #region 地理位置内消息

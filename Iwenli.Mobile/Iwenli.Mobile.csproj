@@ -48,12 +48,16 @@
     <Compile Include="AccountInfo.cs" />
     <Compile Include="Api\ApiHelper.cs" />
     <Compile Include="Api\WeixinApiHelper.cs" />
+    <Compile Include="Msgx\DefaultHandler.cs" />
+    <Compile Include="Msgx\MessageFactory.cs" />
+    <Compile Include="Msgx\MessageHandler.cs" />
     <Compile Include="PlatformType.cs" />
     <Compile Include="Platform\Entity\ReqEventMsg.cs" />
     <Compile Include="Platform\Entity\ReqImageMsg.cs" />
     <Compile Include="Platform\Entity\ReqLinkMsg.cs" />
     <Compile Include="Platform\Entity\ReqLocationMsg.cs" />
-    <Compile Include="Platform\Entity\ReqTextMag.cs" />
+    <Compile Include="Platform\Entity\ReqShortVideoMsg.cs" />
+    <Compile Include="Platform\Entity\ReqTextMsg.cs" />
     <Compile Include="Platform\Entity\ReqVideoMsg.cs" />
     <Compile Include="Platform\Entity\ReqVoiceMsg.cs" />
     <Compile Include="Platform\Entity\ResImageMsg.cs" />
