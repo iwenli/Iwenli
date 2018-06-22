@@ -96,6 +96,7 @@
       <DependentUpon>SR.resx</DependentUpon>
     </Compile>
     <Compile Include="StringHelper.cs" />
+    <Compile Include="Text\AES.cs" />
     <Compile Include="Web\Ajax\AjaxFactory.cs" />
     <Compile Include="Web\Ajax\AjaxHandler.cs" />
     <Compile Include="Web\Authorization\User.cs" />

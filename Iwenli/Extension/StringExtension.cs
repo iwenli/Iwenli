@@ -18,6 +18,7 @@
 ----------------------------------------------------------------*/
 #endregion
 
+using Iwenli.Text;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -988,7 +989,6 @@ namespace System
 
         #endregion
 
-
         #region MD5
 
         /// <summary>
@@ -1137,6 +1137,10 @@ namespace System
         #region AES加密解密方法
         const string _iKey = @")O[N-]6*^NKI,YF}+efc{}JK#JH8>Z'e9M";
         const string _iIV = @"L+\~fUF($#:KL*C4,I+)bkf";
+        /// <summary>
+        /// AES加密 向量 和 秘钥缓存
+        /// </summary>
+        static Dictionary<string, string> _keyCache = new Dictionary<string, string>();
 
         /// <summary>
         /// 使用默认密钥加密
@@ -1156,27 +1160,19 @@ namespace System
         /// <returns>密文</returns>
         public static string AESEncrypt(this string plainStr, string key, string iv)
         {
-            byte[] bKey = Encoding.Default.GetBytes(key);
-            byte[] bIV = Encoding.Default.GetBytes(iv);
-            byte[] byteArray = Encoding.Default.GetBytes(plainStr);
-
-            string encrypt = null;
-            Rijndael aes = Rijndael.Create();
-            try
+            if (string.IsNullOrEmpty(plainStr))
             {
-                using (MemoryStream mStream = new MemoryStream())
-                {
-                    using (CryptoStream cStream = new CryptoStream(mStream, aes.CreateEncryptor(bKey, bIV), CryptoStreamMode.Write))
-                    {
-                        cStream.Write(byteArray, 0, byteArray.Length);
-                        cStream.FlushFinalBlock();
-                        encrypt = Convert.ToBase64String(mStream.ToArray());
-                    }
-                }
+                return string.Empty;
             }
-            catch { }
-            aes.Clear();
-            return encrypt;
+            string encrypt = new AES(key, iv).AESEncrypt(plainStr);//加密
+            if (string.IsNullOrEmpty(encrypt))
+            {
+                return string.Empty;
+            }
+            else
+            {
+                return encrypt.Base16Encode();//转换
+            }
         }
 
         /// <summary>
@@ -1197,28 +1193,20 @@ namespace System
         /// <returns>明文</returns>
         public static string AESDecrypt(this string decryptStr, string key, string iv)
         {
-            byte[] bKey = Encoding.Default.GetBytes(key);
-            byte[] bIV = Encoding.Default.GetBytes(iv);
-            byte[] byteArray = decryptStr.ConvertBase64ToBytes();
-
-            string decrypt = null;
-            Rijndael aes = Rijndael.Create();
-            try
+            decryptStr = decryptStr.Base16Decode();//16进制转换
+            if (string.IsNullOrEmpty(decryptStr))
             {
-                using (MemoryStream mStream = new MemoryStream())
-                {
-                    using (CryptoStream cStream = new CryptoStream(mStream, aes.CreateDecryptor(bKey, bIV), CryptoStreamMode.Write))
-                    {
-                        cStream.Write(byteArray, 0, byteArray.Length);
-                        cStream.FlushFinalBlock();
-                        decrypt = Encoding.Default.GetString(mStream.ToArray());
-                    }
-                }
+                return string.Empty;
             }
-            catch { }
-            aes.Clear();
-
-            return decrypt;
+            string decrypt = new AES(key, iv).AESDecrypt(decryptStr);//解密
+            if (string.IsNullOrEmpty(decrypt))
+            {
+                return string.Empty;
+            }
+            else
+            {
+                return decrypt;//返回
+            }
         }
 
         #endregion

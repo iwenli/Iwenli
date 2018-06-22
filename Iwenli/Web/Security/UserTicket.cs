@@ -194,37 +194,8 @@ namespace Iwenli.Web.Security
         /// </summary>
         class RBACAES
         {
-            #region AES
-
             const string key = @")O[N-]6,YF}+efcaj{+oESb9d8>Z'e9M";
             const string iv = @"L+\~f4,I+)b$=pkf";
-
-            private static string _key;
-            private static string Key
-            {
-                get
-                {
-                    if (string.IsNullOrEmpty(_key))
-                    {
-                        _key = (key + SecurityConfig.Instance.Key).MD5();
-                    }
-                    return _key;
-                }
-            }
-
-            private static string _iv;
-            private static string IV
-            {
-                get
-                {
-                    if (string.IsNullOrEmpty(_iv))
-                    {
-                        _iv = (iv + SecurityConfig.Instance.Key).MD5().Substring(0, 16);
-                    }
-                    return _iv;
-                }
-            } 
-            #endregion
 
             #region 加密解密方法
 
@@ -235,19 +206,7 @@ namespace Iwenli.Web.Security
             /// <returns>密文</returns>
             internal static string AESEncrypt(string plainStr)
             {
-                if (string.IsNullOrEmpty(plainStr))
-                {
-                    return string.Empty;
-                }
-                string encrypt = plainStr.AESEncrypt(Key, IV);
-                if (string.IsNullOrEmpty(encrypt))
-                {
-                    return string.Empty;
-                }
-                else
-                {
-                    return encrypt.Base16Encode();
-                }
+                return plainStr.AESEncrypt(key, iv);
             }
 
             /// <summary>
@@ -257,20 +216,7 @@ namespace Iwenli.Web.Security
             /// <returns>明文</returns>
             internal static string AESDecrypt(string decryptStr)
             {
-                decryptStr = decryptStr.Base16Decode();
-                if (string.IsNullOrEmpty(decryptStr))
-                {
-                    return string.Empty;
-                }
-                string decrypt = decryptStr.AESDecrypt(Key, IV);
-                if (string.IsNullOrEmpty(decrypt))
-                {
-                    return string.Empty;
-                }
-                else
-                {
-                    return decrypt;
-                }
+                return decryptStr.AESDecrypt(key, iv);
             }
 
             #endregion
