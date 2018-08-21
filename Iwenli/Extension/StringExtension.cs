@@ -1189,7 +1189,7 @@ namespace System
         /// </summary>
         /// <param name="decryptStr">密文字符串</param>
         /// <param name="key">蜜钥</param>
-        /// <param name="iv">向量</param>
+        /// <param name="iv">向量</param> 
         /// <returns>明文</returns>
         public static string AESDecrypt(this string decryptStr, string key, string iv)
         {
@@ -1205,7 +1205,7 @@ namespace System
             }
             else
             {
-                return decrypt;//返回
+                return decrypt;         //返回
             }
         }
 

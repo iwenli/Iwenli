@@ -106,15 +106,15 @@ namespace Iwenli.Text
         /// <param name="decryptStr">密文字符串</param>
         /// <returns>明文</returns>
         public string AESDecrypt(string decryptStr)
-        {
-            byte[] bKey = Encoding.Default.GetBytes(Key);
-            byte[] bIV = Encoding.Default.GetBytes(IV);
-            byte[] byteArray = decryptStr.ConvertBase64ToBytes();
-
+        { 
             string decrypt = null;
             Rijndael aes = Rijndael.Create();
             try
             {
+                byte[] bKey = Encoding.Default.GetBytes(Key);
+                byte[] bIV = Encoding.Default.GetBytes(IV);
+                byte[] byteArray = decryptStr.ConvertBase64ToBytes();
+
                 using (MemoryStream mStream = new MemoryStream())
                 {
                     using (CryptoStream cStream = new CryptoStream(mStream, aes.CreateDecryptor(bKey, bIV), CryptoStreamMode.Write))
