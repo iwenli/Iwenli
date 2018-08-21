@@ -32,7 +32,7 @@ namespace Test1
             //    //txtOutput.Text = JsonConvert.SerializeObject(helper.GetDatabaseList());
             //}
 
-            var text  = txtInput.Text.ToString().AESEncrypt();
+            var text  = txtInput.Text.ToString().AESDecrypt();
             this.txtOutput.Text = text;
         }
     }
