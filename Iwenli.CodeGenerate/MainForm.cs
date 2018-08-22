@@ -73,7 +73,7 @@ namespace Iwenli.CodeGenerate
 			tscbDataStyle.Items.Add("TxoooMapping");
 			tscbDataStyle.Items.Add("LinqMapping");
 			tscbDataStyle.Items.Add("SqlSugarMapping");
-			tscbDataStyle.SelectedIndex = 0;
+			tscbDataStyle.SelectedIndex = 1;
 
 			//输出方式
 			tscbOutputStyle.Items.Clear();
@@ -155,18 +155,19 @@ namespace Iwenli.CodeGenerate
 		{
 			StringBuilder _codeSb = new StringBuilder();
 			_codeSb.AppendLineDescription(DbTableInfo.Description);
+			var _className = GetFormatName(DbTableInfo.Name) + EntitySuffix;
 			if (DataStyle == 3)
 			{
 				_codeSb.AppendLine($"[SugarTable(\"{DbTableInfo.Name}\")]");
 			}
 
-			_codeSb.AppendLine($"public class {GetFormatName(DbTableInfo.Name) + EntitySuffix}");
+			_codeSb.AppendLine($"public class {_className}");
 			_codeSb.AppendLine("{");
 			#region 属性
 			_codeSb.AppendLineWithIndentation("#region 属性");
 			foreach (var column in ColumnList)
 			{
-				var _className = GetFormatName(column.TableName);
+				var _columnName = GetFormatName(column.DbColumnName);
 				var _netType = GetNetType(column.DataType);
 
 				_codeSb.AppendLineDescription(column.ColumnDescription, "\t");
@@ -184,7 +185,7 @@ namespace Iwenli.CodeGenerate
 				}
 				if (OutputStyle == 1)
 				{
-					_codeSb.AppendLineWithIndentation($"[ExtColumnModel(\"{column.ColumnDescription}\", \"{GetFirstLower(_className)}\", false)]");
+					_codeSb.AppendLineWithIndentation($"[ExtColumnModel(\"{column.ColumnDescription}\", \"{GetFirstLower(_columnName)}\", false)]");
 				}
 				else if (OutputStyle == 2)
 				{
@@ -192,24 +193,61 @@ namespace Iwenli.CodeGenerate
 				}
 				else if (OutputStyle == 3)
 				{
-					_codeSb.AppendLineWithIndentation($"[ExtColumnModel(\"{column.ColumnDescription}\", \"{GetFirstLower(_className)}\", false)]");
+					_codeSb.AppendLineWithIndentation($"[ExtColumnModel(\"{column.ColumnDescription}\", \"{GetFirstLower(_columnName)}\", false)]");
 					_codeSb.AppendLineWithIndentation($"[JsonProperty(\"{column.DbColumnName}\")]");
 				}
-				_codeSb.AppendLineWithIndentation($"public {_netType} {_className} " + "{ get; set; }");
+				_codeSb.AppendLineWithIndentation($"public {_netType} {_columnName} " + "{ get; set; }");
 			}
 			_codeSb.AppendLineWithIndentation("#endregion");
 			#endregion
 			_codeSb.AppendLine();
+			#region 工厂方法
 			_codeSb.AppendLineWithIndentation("#region 工厂方法");
+			if (DataStyle == 1)
+			{
+				#region Query
+				_codeSb.AppendLineWithIndentation($"public static List<{_className}> Get(IEnumerable<long> idList = null)");
+				_codeSb.AppendLineWithIndentation("{");
+				_codeSb.AppendLineWithIndentation($"using (TxDataHelper helper = TxDataHelper.GetDataHelper(\"{DatabaseInfo.Name}\"))", "\t\t");
+				_codeSb.AppendLineWithIndentation("{", "\t\t");
+
+				_codeSb.AppendLineWithIndentation($"StringBuilder _sql = new StringBuilder(\"SELECT * FROM {DbTableInfo.Name} WITH(NOLOCK)\");", "\t\t\t");
+				_codeSb.AppendLineWithIndentation($"if (idList != null && idList.Count() > 0)", "\t\t\t");
+				_codeSb.AppendLineWithIndentation("{", "\t\t\t");
+				_codeSb.AppendLineWithIndentation("_sql.Append($\" WHERE id IN({ string.Join(\",\", idList)})\");", "\t\t\t\t");
+				_codeSb.AppendLineWithIndentation("}", "\t\t\t");
+				_codeSb.AppendLineWithIndentation("var _dt = helper.SqlGetDataTable(_sql.ToString());", "\t\t\t");
+				_codeSb.AppendLineWithIndentation($"return DataEntityHelper.GetDataRowEntityList<{_className}>(_dt);", "\t\t\t");
+
+				_codeSb.AppendLineWithIndentation("}", "\t\t");
+				_codeSb.AppendLineWithIndentation("}");
+				#endregion
+
+				#region Insert
+				_codeSb.AppendLineWithIndentation($"public static bool Insert({_className} model)");
+				_codeSb.AppendLineWithIndentation("{");
+				_codeSb.AppendLineWithIndentation($"using (TxDataHelper helper = TxDataHelper.GetDataHelper(\"{DatabaseInfo.Name}\"))", "\t\t");
+				_codeSb.AppendLineWithIndentation("{", "\t\t");
+				var _conlmus = ColumnList.Where(m => !m.IsPrimarykey).ToList();  //非主键列
+				_codeSb.AppendLineWithIndentation($"var _sql = \"INSERT INTO {DbTableInfo.Name}({string.Join(",", _conlmus.Select(m => m.DbColumnName))}) VALUES({string.Join(",", _conlmus.Select(m => "@" + m.DbColumnName))})\";", "\t\t\t");
+				foreach (var col in _conlmus)
+				{
+					_codeSb.AppendLineWithIndentation($"helper.SpFileValue[\"@{col.DbColumnName}\"] = model.{GetFormatName(col.DbColumnName)};", "\t\t\t");
+				}
+				_codeSb.AppendLineWithIndentation("return helper.SqlExecute(_sql.ToString(),helper.SpFileValue) == 1;", "\t\t\t");
+
+				_codeSb.AppendLineWithIndentation("}", "\t\t");
+				_codeSb.AppendLineWithIndentation("}");
+				#endregion
+			}
 			_codeSb.AppendLineWithIndentation("#endregion");
+			#endregion
 
 			_codeSb.AppendLine("}");
 
 			rtbEntity.Text = _codeSb.ToString();
 		}
 		#endregion
-
-
 
 		private void toolStripButton1_Click(object sender, EventArgs e)
 		{
