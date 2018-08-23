@@ -317,6 +317,9 @@ namespace Iwenli.CodeGenerate
 			_codeSb.AppendLineWithIndentation("#region 工厂方法");
 			if (DataStyle == 1)
 			{
+
+				var _conlmus = ColumnList.Where(m => !m.IsPrimarykey).ToList();  //非主键列
+				var _mConlmus = ColumnList.OrderByDescending(m => m.IsPrimarykey).FirstOrDefault();  //主键列
 				#region Query
 				_codeSb.AppendLineWithIndentation($"public static List<{_className}> Get(IEnumerable<long> idList = null)");
 				_codeSb.AppendLineWithIndentation("{");
@@ -326,7 +329,7 @@ namespace Iwenli.CodeGenerate
 				_codeSb.AppendLineWithIndentation($"StringBuilder _sql = new StringBuilder(\"SELECT * FROM {DbTableInfo.Name} WITH(NOLOCK)\");", "\t\t\t");
 				_codeSb.AppendLineWithIndentation($"if (idList != null && idList.Count() > 0)", "\t\t\t");
 				_codeSb.AppendLineWithIndentation("{", "\t\t\t");
-				_codeSb.AppendLineWithIndentation("_sql.Append($\" WHERE id IN({ string.Join(\",\", idList)})\");", "\t\t\t\t");
+				_codeSb.AppendLineWithIndentation("_sql.Append($\" WHERE " + _mConlmus?.DbColumnName ?? "id" + " IN({ string.Join(\",\", idList)})\");", "\t\t\t\t");
 				_codeSb.AppendLineWithIndentation("}", "\t\t\t");
 				_codeSb.AppendLineWithIndentation("var _dt = helper.SqlGetDataTable(_sql.ToString());", "\t\t\t");
 				_codeSb.AppendLineWithIndentation($"return DataEntityHelper.GetDataRowEntityList<{_className}>(_dt);", "\t\t\t");
@@ -340,7 +343,6 @@ namespace Iwenli.CodeGenerate
 				_codeSb.AppendLineWithIndentation("{");
 				_codeSb.AppendLineWithIndentation($"using (TxDataHelper helper = TxDataHelper.GetDataHelper(\"{DatabaseInfo.Name}\"))", "\t\t");
 				_codeSb.AppendLineWithIndentation("{", "\t\t");
-				var _conlmus = ColumnList.Where(m => !m.IsPrimarykey).ToList();  //非主键列
 				_codeSb.AppendLineWithIndentation($"var _sql = \"INSERT INTO {DbTableInfo.Name}({string.Join(",", _conlmus.Select(m => m.DbColumnName))}) VALUES({string.Join(",", _conlmus.Select(m => "@" + m.DbColumnName))})\";", "\t\t\t");
 				foreach (var col in _conlmus)
 				{

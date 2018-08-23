@@ -5,12 +5,16 @@ using System;
 using System.Data;
 using System.Linq;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Iwenli.CodeGenerate
 {
 	public partial class MainForm : Form
-	{ 
+	{
+
+
 		public MainForm()
 		{
 			InitializeComponent();
@@ -97,7 +101,10 @@ namespace Iwenli.CodeGenerate
 				{
 					//表或视图名信息
 					DbTableInfo = control.SelectedItem as DbTableInfo;
-					TextArea.Text = GenerateEntityCode();
+					OperateTask(() =>
+					{
+						TextArea.Text = GenerateEntityCode();
+					});
 				}
 				catch
 				{
@@ -116,17 +123,20 @@ namespace Iwenli.CodeGenerate
 			var control = sender as ToolStripComboBox;
 			if (control.Name == "tscbDbList")
 			{
-				try
+				OperateTask(() =>
 				{
-					DatabaseInfo = DatabaseConfig.Instance.GetDatabaseInfoByCache(control.SelectedItem.ToString());
-					lbDbObjectList.DataSource = null;
-					lbDbObjectList.DataSource = TableViewList.OrderBy(m => m.DbObjectType).ThenBy(m => m.Name).ToList();
-					lbDbObjectList.DisplayMember = "Name";
-				}
-				catch (Exception ex)
-				{
-					MessageBox.Show("数据连接错误[{0}]，请检查配置文件".FormatWith(ex.Message));
-				}
+					try
+					{
+						DatabaseInfo = DatabaseConfig.Instance.GetDatabaseInfoByCache(control.SelectedItem.ToString());
+						lbDbObjectList.DataSource = null;
+						lbDbObjectList.DataSource = TableViewList.OrderBy(m => m.DbObjectType).ThenBy(m => m.Name).ToList();
+						lbDbObjectList.DisplayMember = "Name";
+					}
+					catch (Exception ex)
+					{
+						MessageBox.Show("数据连接错误[{0}]，请检查配置文件".FormatWith(ex.Message));
+					}
+				});
 			}
 			if (control.Name.ToLower() == "tscbdatastyle")
 			{
@@ -137,11 +147,52 @@ namespace Iwenli.CodeGenerate
 				OutputStyle = tscbOutputStyle.SelectedIndex;
 			}
 		}
-		 
+		/// <summary>
+		/// 任务的方式执行
+		/// </summary>
+		/// <param name="task"></param>
+		private void OperateTask(Action task)
+		{
+			if (Cursor == Cursors.Default)
+			{
+				Task.Run(() =>
+				{
+					BenginOperate();
+					Invoke(new Action(() =>
+					{
+						task();
+					}));
+					EndOperate();
+				});
+			}
+		}
 
 		private void toolStripButton1_Click(object sender, EventArgs e)
 		{
 			new JsonForm().Show(this);
+		}
+
+		void BenginOperate()
+		{
+			if (InvokeRequired)
+			{
+				Invoke(new Action(BenginOperate));
+				return;
+			}
+			Cursor = Cursors.WaitCursor;
+			pb.Style = ProgressBarStyle.Marquee;
+		}
+
+		void EndOperate()
+		{
+			if (InvokeRequired)
+			{
+				Invoke(new Action(EndOperate));
+				return;
+			}
+
+			Cursor = Cursors.Default;
+			pb.Style = ProgressBarStyle.Continuous;
 		}
 	}
 }

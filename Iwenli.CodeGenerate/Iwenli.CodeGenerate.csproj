@@ -121,6 +121,7 @@
     <ProjectReference Include="..\Iwenli\Iwenli.csproj">
       <Project>{8cc1dc47-f654-4fd6-b853-9b0184272d2b}</Project>
       <Name>Iwenli</Name>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

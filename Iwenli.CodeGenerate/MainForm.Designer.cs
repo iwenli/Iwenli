@@ -46,6 +46,7 @@
 			this.tabControl1 = new System.Windows.Forms.TabControl();
 			this.tabPage1 = new System.Windows.Forms.TabPage();
 			this.TextArea = new ScintillaNET.Scintilla();
+			this.pb = new System.Windows.Forms.ProgressBar();
 			this.toolStrip1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
 			this.splitContainer1.Panel1.SuspendLayout();
@@ -157,6 +158,7 @@
 			// splitContainer1.Panel1
 			// 
 			this.splitContainer1.Panel1.Controls.Add(this.lbDbObjectList);
+			this.splitContainer1.Panel1.Controls.Add(this.pb);
 			// 
 			// splitContainer1.Panel2
 			// 
@@ -172,7 +174,7 @@
 			this.lbDbObjectList.ItemHeight = 12;
 			this.lbDbObjectList.Location = new System.Drawing.Point(0, 0);
 			this.lbDbObjectList.Name = "lbDbObjectList";
-			this.lbDbObjectList.Size = new System.Drawing.Size(171, 425);
+			this.lbDbObjectList.Size = new System.Drawing.Size(171, 409);
 			this.lbDbObjectList.TabIndex = 0;
 			// 
 			// tabControl1
@@ -204,6 +206,16 @@
 			this.TextArea.Name = "TextArea";
 			this.TextArea.Size = new System.Drawing.Size(611, 393);
 			this.TextArea.TabIndex = 1;
+			// 
+			// pb
+			// 
+			this.pb.BackColor = System.Drawing.SystemColors.AppWorkspace;
+			this.pb.Dock = System.Windows.Forms.DockStyle.Bottom;
+			this.pb.Enabled = false;
+			this.pb.Location = new System.Drawing.Point(0, 409);
+			this.pb.Name = "pb";
+			this.pb.Size = new System.Drawing.Size(171, 16);
+			this.pb.TabIndex = 3;
 			// 
 			// MainForm
 			// 
@@ -247,6 +259,7 @@
 		private System.Windows.Forms.ToolStripLabel toolStripLabel6;
 		private System.Windows.Forms.ToolStripComboBox tscbOutputStyle;
 		private ScintillaNET.Scintilla TextArea;
+		private System.Windows.Forms.ProgressBar pb;
 	}
 }
 
