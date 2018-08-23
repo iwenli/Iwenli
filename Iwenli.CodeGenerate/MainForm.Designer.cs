@@ -30,6 +30,9 @@
         {
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
 			this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+			this.toolStripLabel2 = new System.Windows.Forms.ToolStripLabel();
+			this.tscbDbList = new System.Windows.Forms.ToolStripComboBox();
+			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
 			this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
 			this.tscbDataStyle = new System.Windows.Forms.ToolStripComboBox();
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
@@ -37,15 +40,12 @@
 			this.tscbOutputStyle = new System.Windows.Forms.ToolStripComboBox();
 			this.toolStripLabel3 = new System.Windows.Forms.ToolStripLabel();
 			this.toolStripLabel5 = new System.Windows.Forms.ToolStripSeparator();
-			this.toolStripLabel2 = new System.Windows.Forms.ToolStripLabel();
-			this.tscbDbList = new System.Windows.Forms.ToolStripComboBox();
-			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
 			this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
 			this.lbDbObjectList = new System.Windows.Forms.ListBox();
 			this.tabControl1 = new System.Windows.Forms.TabControl();
 			this.tabPage1 = new System.Windows.Forms.TabPage();
-			this.rtbEntity = new System.Windows.Forms.RichTextBox();
+			this.TextArea = new ScintillaNET.Scintilla();
 			this.toolStrip1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
 			this.splitContainer1.Panel1.SuspendLayout();
@@ -74,6 +74,27 @@
 			this.toolStrip1.Size = new System.Drawing.Size(800, 25);
 			this.toolStrip1.TabIndex = 0;
 			this.toolStrip1.Text = "toolStrip1";
+			// 
+			// toolStripLabel2
+			// 
+			this.toolStripLabel2.Name = "toolStripLabel2";
+			this.toolStripLabel2.Size = new System.Drawing.Size(80, 22);
+			this.toolStripLabel2.Text = "选择数据库：";
+			// 
+			// tscbDbList
+			// 
+			this.tscbDbList.DropDownWidth = 120;
+			this.tscbDbList.Items.AddRange(new object[] {
+            "1",
+            "2",
+            "3"});
+			this.tscbDbList.Name = "tscbDbList";
+			this.tscbDbList.Size = new System.Drawing.Size(120, 25);
+			// 
+			// toolStripSeparator2
+			// 
+			this.toolStripSeparator2.Name = "toolStripSeparator2";
+			this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
 			// 
 			// toolStripLabel1
 			// 
@@ -116,27 +137,6 @@
 			// 
 			this.toolStripLabel5.Name = "toolStripLabel5";
 			this.toolStripLabel5.Size = new System.Drawing.Size(6, 25);
-			// 
-			// toolStripLabel2
-			// 
-			this.toolStripLabel2.Name = "toolStripLabel2";
-			this.toolStripLabel2.Size = new System.Drawing.Size(80, 22);
-			this.toolStripLabel2.Text = "选择数据库：";
-			// 
-			// tscbDbList
-			// 
-			this.tscbDbList.DropDownWidth = 120;
-			this.tscbDbList.Items.AddRange(new object[] {
-            "1",
-            "2",
-            "3"});
-			this.tscbDbList.Name = "tscbDbList";
-			this.tscbDbList.Size = new System.Drawing.Size(120, 25);
-			// 
-			// toolStripSeparator2
-			// 
-			this.toolStripSeparator2.Name = "toolStripSeparator2";
-			this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
 			// 
 			// toolStripButton1
 			// 
@@ -187,7 +187,7 @@
 			// 
 			// tabPage1
 			// 
-			this.tabPage1.Controls.Add(this.rtbEntity);
+			this.tabPage1.Controls.Add(this.TextArea);
 			this.tabPage1.Location = new System.Drawing.Point(4, 22);
 			this.tabPage1.Name = "tabPage1";
 			this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
@@ -196,14 +196,14 @@
 			this.tabPage1.Text = "实体";
 			this.tabPage1.UseVisualStyleBackColor = true;
 			// 
-			// rtbEntity
+			// TextArea
 			// 
-			this.rtbEntity.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.rtbEntity.Location = new System.Drawing.Point(3, 3);
-			this.rtbEntity.Name = "rtbEntity";
-			this.rtbEntity.Size = new System.Drawing.Size(611, 393);
-			this.rtbEntity.TabIndex = 0;
-			this.rtbEntity.Text = "";
+			this.TextArea.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.TextArea.Lexer = ScintillaNET.Lexer.Cpp;
+			this.TextArea.Location = new System.Drawing.Point(3, 3);
+			this.TextArea.Name = "TextArea";
+			this.TextArea.Size = new System.Drawing.Size(611, 393);
+			this.TextArea.TabIndex = 1;
 			// 
 			// MainForm
 			// 
@@ -241,12 +241,12 @@
         private System.Windows.Forms.ToolStripComboBox tscbDataStyle;
         private System.Windows.Forms.ToolStripLabel toolStripLabel3;
         private System.Windows.Forms.ToolStripComboBox tscbDbList;
-        private System.Windows.Forms.RichTextBox rtbEntity;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
 		private System.Windows.Forms.ToolStripButton toolStripButton1;
 		private System.Windows.Forms.ToolStripSeparator toolStripLabel5;
 		private System.Windows.Forms.ToolStripLabel toolStripLabel6;
 		private System.Windows.Forms.ToolStripComboBox tscbOutputStyle;
+		private ScintillaNET.Scintilla TextArea;
 	}
 }
 

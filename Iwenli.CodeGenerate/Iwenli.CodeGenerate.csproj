@@ -76,7 +76,12 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ScintillaCode.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="StringBuilderEx.cs" />
+    <Compile Include="Utils\HotKeyManager.cs" />
+    <Compile Include="Utils\SearchManager.cs" />
     <EmbeddedResource Include="JsonForm.resx">
       <DependentUpon>JsonForm.cs</DependentUpon>
     </EmbeddedResource>
