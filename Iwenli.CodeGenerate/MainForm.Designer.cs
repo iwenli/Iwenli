@@ -43,17 +43,26 @@
 			this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
 			this.lbDbObjectList = new System.Windows.Forms.ListBox();
-			this.tabControl1 = new System.Windows.Forms.TabControl();
-			this.tabPage1 = new System.Windows.Forms.TabPage();
-			this.TextArea = new ScintillaNET.Scintilla();
 			this.pb = new System.Windows.Forms.ProgressBar();
+			this.tabControl1 = new System.Windows.Forms.TabControl();
+			this.tpRepository = new System.Windows.Forms.TabPage();
+			this.tpService = new System.Windows.Forms.TabPage();
+			this.scintillaRepository = new ScintillaNET.Scintilla();
+			this.scintillaService = new ScintillaNET.Scintilla();
+			this.tpCache = new System.Windows.Forms.TabPage();
+			this.scintillaCache = new ScintillaNET.Scintilla();
+			this.tpEntity = new System.Windows.Forms.TabPage();
+			this.scintillaEntity = new ScintillaNET.Scintilla();
 			this.toolStrip1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
 			this.splitContainer1.Panel1.SuspendLayout();
 			this.splitContainer1.Panel2.SuspendLayout();
 			this.splitContainer1.SuspendLayout();
 			this.tabControl1.SuspendLayout();
-			this.tabPage1.SuspendLayout();
+			this.tpRepository.SuspendLayout();
+			this.tpService.SuspendLayout();
+			this.tpCache.SuspendLayout();
+			this.tpEntity.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// toolStrip1
@@ -177,36 +186,6 @@
 			this.lbDbObjectList.Size = new System.Drawing.Size(171, 409);
 			this.lbDbObjectList.TabIndex = 0;
 			// 
-			// tabControl1
-			// 
-			this.tabControl1.Controls.Add(this.tabPage1);
-			this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.tabControl1.Location = new System.Drawing.Point(0, 0);
-			this.tabControl1.Name = "tabControl1";
-			this.tabControl1.SelectedIndex = 0;
-			this.tabControl1.Size = new System.Drawing.Size(625, 425);
-			this.tabControl1.TabIndex = 0;
-			// 
-			// tabPage1
-			// 
-			this.tabPage1.Controls.Add(this.TextArea);
-			this.tabPage1.Location = new System.Drawing.Point(4, 22);
-			this.tabPage1.Name = "tabPage1";
-			this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage1.Size = new System.Drawing.Size(617, 399);
-			this.tabPage1.TabIndex = 0;
-			this.tabPage1.Text = "实体";
-			this.tabPage1.UseVisualStyleBackColor = true;
-			// 
-			// TextArea
-			// 
-			this.TextArea.Dock = System.Windows.Forms.DockStyle.Fill;
-			this.TextArea.Lexer = ScintillaNET.Lexer.Cpp;
-			this.TextArea.Location = new System.Drawing.Point(3, 3);
-			this.TextArea.Name = "TextArea";
-			this.TextArea.Size = new System.Drawing.Size(611, 393);
-			this.TextArea.TabIndex = 1;
-			// 
 			// pb
 			// 
 			this.pb.BackColor = System.Drawing.SystemColors.AppWorkspace;
@@ -216,6 +195,96 @@
 			this.pb.Name = "pb";
 			this.pb.Size = new System.Drawing.Size(171, 16);
 			this.pb.TabIndex = 3;
+			// 
+			// tabControl1
+			// 
+			this.tabControl1.Controls.Add(this.tpEntity);
+			this.tabControl1.Controls.Add(this.tpRepository);
+			this.tabControl1.Controls.Add(this.tpService);
+			this.tabControl1.Controls.Add(this.tpCache);
+			this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.tabControl1.Location = new System.Drawing.Point(0, 0);
+			this.tabControl1.Name = "tabControl1";
+			this.tabControl1.SelectedIndex = 0;
+			this.tabControl1.Size = new System.Drawing.Size(625, 425);
+			this.tabControl1.TabIndex = 0;
+			// 
+			// tpRepository
+			// 
+			this.tpRepository.Controls.Add(this.scintillaRepository);
+			this.tpRepository.Location = new System.Drawing.Point(4, 22);
+			this.tpRepository.Name = "tpRepository";
+			this.tpRepository.Size = new System.Drawing.Size(617, 399);
+			this.tpRepository.TabIndex = 1;
+			this.tpRepository.Text = "仓储";
+			this.tpRepository.UseVisualStyleBackColor = true;
+			// 
+			// tpService
+			// 
+			this.tpService.Controls.Add(this.scintillaService);
+			this.tpService.Location = new System.Drawing.Point(4, 22);
+			this.tpService.Name = "tpService";
+			this.tpService.Size = new System.Drawing.Size(617, 399);
+			this.tpService.TabIndex = 2;
+			this.tpService.Text = "服务";
+			this.tpService.UseVisualStyleBackColor = true;
+			// 
+			// scintillaRepository
+			// 
+			this.scintillaRepository.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.scintillaRepository.Lexer = ScintillaNET.Lexer.Cpp;
+			this.scintillaRepository.Location = new System.Drawing.Point(0, 0);
+			this.scintillaRepository.Name = "scintillaRepository";
+			this.scintillaRepository.Size = new System.Drawing.Size(617, 399);
+			this.scintillaRepository.TabIndex = 2;
+			// 
+			// scintillaService
+			// 
+			this.scintillaService.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.scintillaService.Lexer = ScintillaNET.Lexer.Cpp;
+			this.scintillaService.Location = new System.Drawing.Point(0, 0);
+			this.scintillaService.Name = "scintillaService";
+			this.scintillaService.Size = new System.Drawing.Size(617, 399);
+			this.scintillaService.TabIndex = 3;
+			// 
+			// tpCache
+			// 
+			this.tpCache.Controls.Add(this.scintillaCache);
+			this.tpCache.Location = new System.Drawing.Point(4, 22);
+			this.tpCache.Name = "tpCache";
+			this.tpCache.Size = new System.Drawing.Size(617, 399);
+			this.tpCache.TabIndex = 3;
+			this.tpCache.Text = "缓存";
+			this.tpCache.UseVisualStyleBackColor = true;
+			// 
+			// scintillaCache
+			// 
+			this.scintillaCache.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.scintillaCache.Lexer = ScintillaNET.Lexer.Cpp;
+			this.scintillaCache.Location = new System.Drawing.Point(0, 0);
+			this.scintillaCache.Name = "scintillaCache";
+			this.scintillaCache.Size = new System.Drawing.Size(617, 399);
+			this.scintillaCache.TabIndex = 3;
+			// 
+			// tpEntity
+			// 
+			this.tpEntity.Controls.Add(this.scintillaEntity);
+			this.tpEntity.Location = new System.Drawing.Point(4, 22);
+			this.tpEntity.Name = "tpEntity";
+			this.tpEntity.Padding = new System.Windows.Forms.Padding(3);
+			this.tpEntity.Size = new System.Drawing.Size(617, 399);
+			this.tpEntity.TabIndex = 0;
+			this.tpEntity.Text = "实体";
+			this.tpEntity.UseVisualStyleBackColor = true;
+			// 
+			// scintillaEntity
+			// 
+			this.scintillaEntity.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.scintillaEntity.Lexer = ScintillaNET.Lexer.Cpp;
+			this.scintillaEntity.Location = new System.Drawing.Point(3, 3);
+			this.scintillaEntity.Name = "scintillaEntity";
+			this.scintillaEntity.Size = new System.Drawing.Size(611, 393);
+			this.scintillaEntity.TabIndex = 1;
 			// 
 			// MainForm
 			// 
@@ -234,7 +303,10 @@
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
 			this.splitContainer1.ResumeLayout(false);
 			this.tabControl1.ResumeLayout(false);
-			this.tabPage1.ResumeLayout(false);
+			this.tpRepository.ResumeLayout(false);
+			this.tpService.ResumeLayout(false);
+			this.tpCache.ResumeLayout(false);
+			this.tpEntity.ResumeLayout(false);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -246,7 +318,6 @@
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.ListBox lbDbObjectList;
         private System.Windows.Forms.TabControl tabControl1;
-        private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripLabel toolStripLabel1;
         private System.Windows.Forms.ToolStripLabel toolStripLabel2;
@@ -258,8 +329,15 @@
 		private System.Windows.Forms.ToolStripSeparator toolStripLabel5;
 		private System.Windows.Forms.ToolStripLabel toolStripLabel6;
 		private System.Windows.Forms.ToolStripComboBox tscbOutputStyle;
-		private ScintillaNET.Scintilla TextArea;
 		private System.Windows.Forms.ProgressBar pb;
+		private System.Windows.Forms.TabPage tpRepository;
+		private System.Windows.Forms.TabPage tpService;
+		private ScintillaNET.Scintilla scintillaRepository;
+		private ScintillaNET.Scintilla scintillaService;
+		private System.Windows.Forms.TabPage tpEntity;
+		private ScintillaNET.Scintilla scintillaEntity;
+		private System.Windows.Forms.TabPage tpCache;
+		private ScintillaNET.Scintilla scintillaCache;
 	}
 }
 

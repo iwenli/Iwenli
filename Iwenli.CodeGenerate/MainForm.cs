@@ -13,8 +13,6 @@ namespace Iwenli.CodeGenerate
 {
 	public partial class MainForm : Form
 	{
-
-
 		public MainForm()
 		{
 			InitializeComponent();
@@ -76,14 +74,13 @@ namespace Iwenli.CodeGenerate
 		/// </summary>
 		void InitScintilla()
 		{
-			TextArea.WrapMode = WrapMode.None;
-			TextArea.IndentationGuides = IndentView.LookBoth;
+			scintillaEntity.WrapMode = scintillaRepository.WrapMode = scintillaService.WrapMode = scintillaCache.WrapMode = WrapMode.None;
+			scintillaEntity.IndentationGuides = scintillaRepository.IndentationGuides = scintillaService.IndentationGuides = scintillaCache.IndentationGuides = IndentView.LookBoth;
 
-			InitColors();
-			InitSyntaxColoring();
-			InitNumberMargin();
-			InitBookmarkMargin();
-			InitCodeFolding();
+			InitScintilla(scintillaEntity);
+			InitScintilla(scintillaRepository);
+			InitScintilla(scintillaService);
+			InitScintilla(scintillaCache);
 		}
 
 
@@ -103,7 +100,16 @@ namespace Iwenli.CodeGenerate
 					DbTableInfo = control.SelectedItem as DbTableInfo;
 					OperateTask(() =>
 					{
-						TextArea.Text = GenerateEntityCode();
+						var _frm = new DiaForm(ObjectName);
+						_frm.GetEntityName += (en) => { ObjectName = en; };
+						if (_frm.ShowDialog(this) == DialogResult.OK)
+						{
+							scintillaEntity.Text = GenerateEntityCode();
+							scintillaRepository.Text = GenerateRepositoryCode();
+							scintillaCache.Text = GenerateCacheCode();
+							scintillaService.Text = GenerateServiceCode();
+						}
+						ObjectName = "";
 					});
 				}
 				catch

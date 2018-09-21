@@ -57,6 +57,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DiaForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DiaForm.Designer.cs">
+      <DependentUpon>DiaForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Entity\DbColumnInfo.cs" />
     <Compile Include="Entity\DbTableInfo.cs" />
     <Compile Include="JsonForm.cs">
@@ -82,6 +88,9 @@
     <Compile Include="StringBuilderEx.cs" />
     <Compile Include="Utils\HotKeyManager.cs" />
     <Compile Include="Utils\SearchManager.cs" />
+    <EmbeddedResource Include="DiaForm.resx">
+      <DependentUpon>DiaForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="JsonForm.resx">
       <DependentUpon>JsonForm.cs</DependentUpon>
     </EmbeddedResource>

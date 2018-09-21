@@ -16,6 +16,23 @@ namespace Iwenli.CodeGenerate
 		int DataStyle = 0;
 		int OutputStyle = 0;
 
+		string m_em = "";
+		/// <summary>
+		/// 即将生成项目统一标识（无后缀）
+		/// </summary>
+		string ObjectName
+		{
+			get
+			{
+				if (m_em.IsNullOrEmpty())
+				{
+					m_em = GetFormatName(DbTableInfo.Name);
+				}
+				return m_em;
+			}
+			set { m_em = value; }
+		}
+
 		/// <summary>
 		/// 数据库链接信息
 		/// </summary>
@@ -34,6 +51,18 @@ namespace Iwenli.CodeGenerate
 		/// 实体后缀
 		/// </summary>
 		string EntitySuffix = "Info";
+		/// <summary>
+		/// 仓储后缀
+		/// </summary>
+		string RepositorySuffix = "Repository";
+		/// <summary>
+		/// 服务后缀
+		/// </summary>
+		string ServiceSuffix = "Service";
+		/// <summary>
+		/// 缓存后缀
+		/// </summary>
+		string CacheSuffix = "Cache";
 
 		/// <summary>
 		/// 获取视图和表信息列表sql
@@ -260,14 +289,14 @@ namespace Iwenli.CodeGenerate
 
 		#region 生成代码的方法
 		/// <summary>
-		/// 获取代码
+		/// 生成实体层代码
 		/// </summary>
 		/// <returns></returns>
 		private string GenerateEntityCode()
 		{
 			StringBuilder _codeSb = new StringBuilder();
 			_codeSb.AppendLineDescription(DbTableInfo.Description);
-			var _className = GetFormatName(DbTableInfo.Name) + EntitySuffix;
+			var _className = ObjectName + EntitySuffix;
 			if (DataStyle == 3)
 			{
 				_codeSb.AppendLine($"[SugarTable(\"{DbTableInfo.Name}\")]");
@@ -359,6 +388,82 @@ namespace Iwenli.CodeGenerate
 
 			_codeSb.AppendLine("}");
 
+			return _codeSb.ToString();
+		}
+
+		/// <summary>
+		/// 生成仓储层代码
+		/// </summary>
+		/// <returns></returns>
+		private string GenerateRepositoryCode()
+		{
+			StringBuilder _codeSb = new StringBuilder();
+			var _entityName = ObjectName + EntitySuffix;
+			var _repositoryName = ObjectName + RepositorySuffix;
+
+			_codeSb.AppendLineDescription($"{DbTableInfo.Description} 仓储接口");
+			_codeSb.AppendLine($"public interface I{_repositoryName} : IBaseRepository<{_entityName}>");
+			_codeSb.AppendLine("{");
+			_codeSb.AppendLineWithIndentation("#region 领域方法");
+			_codeSb.AppendLineWithIndentation("#endregion");
+			_codeSb.AppendLine("}");
+			_codeSb.AppendLine();
+			_codeSb.AppendLine();
+
+			_codeSb.AppendLineDescription($"{DbTableInfo.Description} 仓储实现");
+			_codeSb.AppendLine($"public class {_repositoryName} : BaseRepository<{_entityName}>,I{_repositoryName}");
+			_codeSb.AppendLine("{");
+			_codeSb.AppendLineWithIndentation("#region 领域方法");
+			_codeSb.AppendLineWithIndentation("#endregion");
+			_codeSb.AppendLine("}");
+			return _codeSb.ToString();
+		}
+
+		/// <summary>
+		/// 生成缓存层代码
+		/// </summary>
+		/// <returns></returns>
+		private string GenerateCacheCode()
+		{
+			StringBuilder _codeSb = new StringBuilder();
+			var _entityName = ObjectName + EntitySuffix;
+			var _cacheName = ObjectName + CacheSuffix;
+
+			_codeSb.AppendLineDescription($"{DbTableInfo.Description} 缓存接口");
+			_codeSb.AppendLine($"public interface I{_cacheName} : IBaseCache<{_entityName}>");
+			_codeSb.AppendLine("{");
+			_codeSb.AppendLine("}");
+			_codeSb.AppendLine();
+			_codeSb.AppendLine();
+
+			_codeSb.AppendLineDescription($"{DbTableInfo.Description} 缓存实现");
+			_codeSb.AppendLine($"public class {_cacheName} : BaseCache<{_entityName}>,I{_cacheName}");
+			_codeSb.AppendLine("{");
+			_codeSb.AppendLine("}");
+			return _codeSb.ToString();
+		}
+
+		/// <summary>
+		/// 生成服务层代码
+		/// </summary>
+		/// <returns></returns>
+		private string GenerateServiceCode()
+		{
+			StringBuilder _codeSb = new StringBuilder();
+			var _entityName = ObjectName + EntitySuffix;
+			var _serviceName = ObjectName + ServiceSuffix;
+
+			_codeSb.AppendLineDescription($"{DbTableInfo.Description} 服务接口");
+			_codeSb.AppendLine($"public interface I{_serviceName} : IBaseService<{_entityName}>");
+			_codeSb.AppendLine("{");
+			_codeSb.AppendLine("}");
+			_codeSb.AppendLine();
+			_codeSb.AppendLine();
+
+			_codeSb.AppendLineDescription($"{DbTableInfo.Description} 服务实现");
+			_codeSb.AppendLine($"public class {_serviceName} : BaseService<{_entityName}>,I{_serviceName}");
+			_codeSb.AppendLine("{");
+			_codeSb.AppendLine("}");
 			return _codeSb.ToString();
 		}
 		#endregion
