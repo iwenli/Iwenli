@@ -245,44 +245,40 @@ namespace Iwenli.CodeGenerate
 			string result;
 			switch (dbTypeName)
 			{
-				case "nvarchar":
-					result = "string";
-					return result;
-				case "varchar":
-					result = "string";
-					return result;
-				case "bigint":
-					result = "long";
-					return result;
-				case "int":
-					result = "int";
-					return result;
-				case "tinyint":
-					result = "int";
-					return result;
-				case "smalldatetime":
-					result = "DateTime";
-					return result;
-				case "money":
-					result = "double";
-					return result;
-				case "decimal":
-					result = "double";
-					return result;
-				case "bit":
-					result = "bool";
-					return result;
-				case "datetime":
-					result = "DateTime";
-					return result;
-				case "float":
-					result = "double";
-					return result;
-				case "numeric":
-					result = "int";
-					return result;
+				case "bigint": result = "long"; break;
+				case "binary": result = "byte[]"; break;
+				case "bit": result = "bool"; break;
+				case "char": result = "string"; break;
+				case "date": result = "DateTime"; break;
+				case "datetime": result = "DateTime"; break;
+				case "datetime2": result = "DateTime"; break;
+				case "datetimeoffset": result = "DateTimeOffset"; break;
+				case "decimal": result = "decimal"; break;
+				case "float": result = "double"; break;
+				case "image": result = "byte[]"; break;
+				case "int": result = "int"; break;
+				case "money": result = "decimal"; break;
+				case "nchar": result = "string"; break;
+				case "ntext": result = "string"; break;
+				case "numeric": result = "decimal"; break;
+				case "nvarchar": result = "string"; break;
+				case "real": result = "Single"; break;
+				case "smalldatetime": result = "DateTime"; break;
+				case "smallint": result = "short"; break;
+				case "smallmoney": result = "decimal"; break;
+				case "sql_variant": result = "object"; break;
+				case "sysname": result = "object"; break;
+				case "text": result = "string"; break;
+				case "time": result = "TimeSpan"; break;
+				case "timestamp": result = "byte[]"; break;
+				case "tinyint": result = "byte"; break;
+				case "uniqueidentifier": result = "Guid"; break;
+				case "varbinary": result = "byte[]"; break;
+				case "varchar": result = "string"; break;
+				case "xml": result = "string"; break;
+				default: this.LogInfo($"未知sql字段：{dbTypeName}"); result = "object"; break;
 			}
-			result = "string";
+
 			return result;
 		}
 		#endregion
@@ -302,7 +298,7 @@ namespace Iwenli.CodeGenerate
 				_codeSb.AppendLine($"[SugarTable(\"{DbTableInfo.Name}\")]");
 			}
 
-			_codeSb.AppendLine($"public class {_className}");
+			_codeSb.AppendLine($"public class {_className}{(DataStyle == 1 ? " : DataRowEntityBase" : "")}");
 			_codeSb.AppendLine("{");
 			#region 属性
 			_codeSb.AppendLineWithIndentation("#region 属性");
@@ -346,7 +342,6 @@ namespace Iwenli.CodeGenerate
 			_codeSb.AppendLineWithIndentation("#region 工厂方法");
 			if (DataStyle == 1)
 			{
-
 				var _conlmus = ColumnList.Where(m => !m.IsPrimarykey).ToList();  //非主键列
 				var _mConlmus = ColumnList.OrderByDescending(m => m.IsPrimarykey).FirstOrDefault();  //主键列
 				#region Query
@@ -358,7 +353,7 @@ namespace Iwenli.CodeGenerate
 				_codeSb.AppendLineWithIndentation($"StringBuilder _sql = new StringBuilder(\"SELECT * FROM {DbTableInfo.Name} WITH(NOLOCK)\");", "\t\t\t");
 				_codeSb.AppendLineWithIndentation($"if (idList != null && idList.Count() > 0)", "\t\t\t");
 				_codeSb.AppendLineWithIndentation("{", "\t\t\t");
-				_codeSb.AppendLineWithIndentation("_sql.Append($\" WHERE " + _mConlmus?.DbColumnName ?? "id" + " IN({ string.Join(\",\", idList)})\");", "\t\t\t\t");
+				_codeSb.AppendLineWithIndentation("_sql.Append($\" WHERE " + (_mConlmus?.DbColumnName ?? "id") + " IN({ string.Join(\",\", idList)})\");", "\t\t\t\t");
 				_codeSb.AppendLineWithIndentation("}", "\t\t\t");
 				_codeSb.AppendLineWithIndentation("var _dt = helper.SqlGetDataTable(_sql.ToString());", "\t\t\t");
 				_codeSb.AppendLineWithIndentation($"return DataEntityHelper.GetDataRowEntityList<{_className}>(_dt);", "\t\t\t");
@@ -402,7 +397,7 @@ namespace Iwenli.CodeGenerate
 			var _repositoryName = ObjectName + RepositorySuffix;
 
 			_codeSb.AppendLineDescription($"{DbTableInfo.Description} 仓储接口");
-			_codeSb.AppendLine($"public interface I{_repositoryName} : IBaseRepository<{_entityName}>");
+			_codeSb.AppendLine($"public interface I{_repositoryName} : IRepositoryBase<{_entityName}>");
 			_codeSb.AppendLine("{");
 			_codeSb.AppendLineWithIndentation("#region 领域方法");
 			_codeSb.AppendLineWithIndentation("#endregion");
@@ -411,7 +406,7 @@ namespace Iwenli.CodeGenerate
 			_codeSb.AppendLine();
 
 			_codeSb.AppendLineDescription($"{DbTableInfo.Description} 仓储实现");
-			_codeSb.AppendLine($"public class {_repositoryName} : BaseRepository<{_entityName}>,I{_repositoryName}");
+			_codeSb.AppendLine($"public class {_repositoryName} : RepositoryBase<{_entityName}>,I{_repositoryName}");
 			_codeSb.AppendLine("{");
 			_codeSb.AppendLineWithIndentation("#region 领域方法");
 			_codeSb.AppendLineWithIndentation("#endregion");

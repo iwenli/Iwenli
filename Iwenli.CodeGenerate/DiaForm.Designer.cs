@@ -39,7 +39,7 @@
 			this.btnOk.Name = "btnOk";
 			this.btnOk.Size = new System.Drawing.Size(75, 23);
 			this.btnOk.TabIndex = 6;
-			this.btnOk.Text = "确认";
+			this.btnOk.Text = "确认(&A)";
 			this.btnOk.UseVisualStyleBackColor = true;
 			// 
 			// txtEntity

@@ -22,3 +22,4 @@ packages
 /Iwenli.org.sitetest/log
 *.log
 /Iwenli.Org.Passport.Site/bin
+/.vs/Iwenli/v15/Server/sqlite3

@@ -85,7 +85,7 @@
     <Compile Include="ScintillaCode.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="StringBuilderEx.cs" />
+    <Compile Include="Extension\StringBuilderExtension.cs" />
     <Compile Include="Utils\HotKeyManager.cs" />
     <Compile Include="Utils\SearchManager.cs" />
     <EmbeddedResource Include="DiaForm.resx">
