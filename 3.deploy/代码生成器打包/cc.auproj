@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<AuProject xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <UpdateInfo>
+    <AppName>代码生成器</AppName>
+    <AppVersion>G:\0.Project\Donet\Iwenli\3.deploy\代码生成器打包\sourcePackage</AppVersion>
+    <FileExecuteBefore />
+    <ExecuteTimeout>0</ExecuteTimeout>
+    <TreatErrorAsNotUpdated>false</TreatErrorAsNotUpdated>
+    <PromptUserBeforeAutomaticUpgrade>true</PromptUserBeforeAutomaticUpgrade>
+    <AutoCloseSucceedWindow>true</AutoCloseSucceedWindow>
+    <Desc>新增项目说明</Desc>
+    <DeleteMethod>None</DeleteMethod>
+    <PackageSize>0</PackageSize>
+    <ForceUpdate>false</ForceUpdate>
+    <Packages />
+    <HideBeforeExecuteWindow>false</HideBeforeExecuteWindow>
+    <HideAfterExecuteWindow>false</HideAfterExecuteWindow>
+    <MustUpdate>false</MustUpdate>
+    <AutoExitCurrentProcess>false</AutoExitCurrentProcess>
+    <AutoEndProcessesWithinAppDir>true</AutoEndProcessesWithinAppDir>
+    <AutoKillProcesses>false</AutoKillProcesses>
+    <RequreAdminstrorPrivilege>false</RequreAdminstrorPrivilege>
+  </UpdateInfo>
+  <DefaultFileVerificationLevel>Size Hash</DefaultFileVerificationLevel>
+  <DefaultUpdateMethod>VersionCompare</DefaultUpdateMethod>
+  <Files />
+  <ApplicationDirectory>sourcePackage</ApplicationDirectory>
+  <DestinationDirectory>targetPackage</DestinationDirectory>
+  <CreateCompatiblePackage>true</CreateCompatiblePackage>
+  <CompressPackage>true</CompressPackage>
+  <EnableIncreaseUpdate>true</EnableIncreaseUpdate>
+  <VersionUpdateSrc>sourcePackage\代码生成器.exe</VersionUpdateSrc>
+  <PackageExtension>zip</PackageExtension>
+  <UseRandomPackageNaming>true</UseRandomPackageNaming>
+  <CleanBeforeBuild>true</CleanBeforeBuild>
+  <ComponentFlags />
+</AuProject>

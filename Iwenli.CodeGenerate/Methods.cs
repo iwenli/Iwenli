@@ -32,6 +32,10 @@ namespace Iwenli.CodeGenerate
 			}
 			set { m_em = value; }
 		}
+		/// <summary>
+		/// 业务说明
+		/// </summary>
+		string BusinessDes { set; get; }
 
 		/// <summary>
 		/// 数据库链接信息
@@ -291,7 +295,7 @@ namespace Iwenli.CodeGenerate
 		private string GenerateEntityCode()
 		{
 			StringBuilder _codeSb = new StringBuilder();
-			_codeSb.AppendLineDescription(DbTableInfo.Description);
+			_codeSb.AppendLineDescription($"{DbTableInfo.Description?? BusinessDes} 实体");
 			var _className = ObjectName + EntitySuffix;
 			if (DataStyle == 3)
 			{
@@ -396,7 +400,7 @@ namespace Iwenli.CodeGenerate
 			var _entityName = ObjectName + EntitySuffix;
 			var _repositoryName = ObjectName + RepositorySuffix;
 
-			_codeSb.AppendLineDescription($"{DbTableInfo.Description} 仓储接口");
+			_codeSb.AppendLineDescription($"{DbTableInfo.Description ?? BusinessDes} 仓储接口");
 			_codeSb.AppendLine($"public interface I{_repositoryName} : IRepositoryBase<{_entityName}>");
 			_codeSb.AppendLine("{");
 			_codeSb.AppendLineWithIndentation("#region 领域方法");
@@ -405,7 +409,7 @@ namespace Iwenli.CodeGenerate
 			_codeSb.AppendLine();
 			_codeSb.AppendLine();
 
-			_codeSb.AppendLineDescription($"{DbTableInfo.Description} 仓储实现");
+			_codeSb.AppendLineDescription($"{DbTableInfo.Description ?? BusinessDes} 仓储实现");
 			_codeSb.AppendLine($"public class {_repositoryName} : RepositoryBase<{_entityName}>,I{_repositoryName}");
 			_codeSb.AppendLine("{");
 			_codeSb.AppendLineWithIndentation("#region 领域方法");
@@ -424,14 +428,14 @@ namespace Iwenli.CodeGenerate
 			var _entityName = ObjectName + EntitySuffix;
 			var _cacheName = ObjectName + CacheSuffix;
 
-			_codeSb.AppendLineDescription($"{DbTableInfo.Description} 缓存接口");
+			_codeSb.AppendLineDescription($"{DbTableInfo.Description ?? BusinessDes} 缓存接口");
 			_codeSb.AppendLine($"public interface I{_cacheName} : IBaseCache<{_entityName}>");
 			_codeSb.AppendLine("{");
 			_codeSb.AppendLine("}");
 			_codeSb.AppendLine();
 			_codeSb.AppendLine();
 
-			_codeSb.AppendLineDescription($"{DbTableInfo.Description} 缓存实现");
+			_codeSb.AppendLineDescription($"{DbTableInfo.Description ?? BusinessDes} 缓存实现");
 			_codeSb.AppendLine($"public class {_cacheName} : BaseCache<{_entityName}>,I{_cacheName}");
 			_codeSb.AppendLine("{");
 			_codeSb.AppendLine("}");
@@ -448,14 +452,14 @@ namespace Iwenli.CodeGenerate
 			var _entityName = ObjectName + EntitySuffix;
 			var _serviceName = ObjectName + ServiceSuffix;
 
-			_codeSb.AppendLineDescription($"{DbTableInfo.Description} 服务接口");
+			_codeSb.AppendLineDescription($"{DbTableInfo.Description ?? BusinessDes} 服务接口");
 			_codeSb.AppendLine($"public interface I{_serviceName} : IBaseService<{_entityName}>");
 			_codeSb.AppendLine("{");
 			_codeSb.AppendLine("}");
 			_codeSb.AppendLine();
 			_codeSb.AppendLine();
 
-			_codeSb.AppendLineDescription($"{DbTableInfo.Description} 服务实现");
+			_codeSb.AppendLineDescription($"{DbTableInfo.Description ?? BusinessDes} 服务实现");
 			_codeSb.AppendLine($"public class {_serviceName} : BaseService<{_entityName}>,I{_serviceName}");
 			_codeSb.AppendLine("{");
 			_codeSb.AppendLine("}");

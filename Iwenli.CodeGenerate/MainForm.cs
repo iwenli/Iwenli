@@ -100,8 +100,8 @@ namespace Iwenli.CodeGenerate
 					DbTableInfo = control.SelectedItem as DbTableInfo;
 					OperateTask(() =>
 					{
-						var _frm = new DiaForm(ObjectName);
-						_frm.GetEntityName += (en) => { ObjectName = en; };
+						var _frm = new DiaForm(ObjectName, BusinessDes);
+						_frm.GetEntityName += (on, bn) => { ObjectName = on; BusinessDes = bn; };
 						if (_frm.ShowDialog(this) == DialogResult.OK)
 						{
 							scintillaEntity.Text = GenerateEntityCode();

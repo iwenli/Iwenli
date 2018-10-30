@@ -7,7 +7,7 @@
     <ProjectGuid>{E8536404-5773-4511-8714-57E5B2DE32CE}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>Iwenli.CodeGenerate</RootNamespace>
-    <AssemblyName>Iwenli.CodeGenerate</AssemblyName>
+    <AssemblyName>代码生成器</AssemblyName>
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -43,6 +43,9 @@
     </Reference>
     <Reference Include="ScintillaNET, Version=3.6.3.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\jacobslusser.ScintillaNET.3.6.3\lib\net40\ScintillaNET.dll</HintPath>
+    </Reference>
+    <Reference Include="SimpleUpdater, Version=4.0.0.0, Culture=neutral, PublicKeyToken=c532149a76b9a64b, processorArchitecture=MSIL">
+      <HintPath>..\packages\fishlee.net.simpleupdater.4.3.0.0\lib\net45\SimpleUpdater.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -86,6 +89,7 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Extension\StringBuilderExtension.cs" />
+    <Compile Include="Update.cs" />
     <Compile Include="Utils\HotKeyManager.cs" />
     <Compile Include="Utils\SearchManager.cs" />
     <EmbeddedResource Include="DiaForm.resx">

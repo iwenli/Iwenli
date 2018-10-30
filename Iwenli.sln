@@ -67,6 +67,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Iwenli.Push", "Iwenli.Push\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Iwenli", "Iwenli\Iwenli.csproj", "{8CC1DC47-F654-4FD6-B853-9B0184272D2B}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3.deploy", "3.deploy", "{6831F2FD-1F4E-48B6-A738-4D580A9EEA18}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
