@@ -275,7 +275,7 @@ namespace Iwenli.CodeGenerate
 				case "text": result = "string"; break;
 				case "time": result = "TimeSpan"; break;
 				case "timestamp": result = "byte[]"; break;
-				case "tinyint": result = "byte"; break;
+				case "tinyint": result = "int"; break;
 				case "uniqueidentifier": result = "Guid"; break;
 				case "varbinary": result = "byte[]"; break;
 				case "varchar": result = "string"; break;
