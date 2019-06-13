@@ -201,7 +201,7 @@ namespace Iwenli.CodeGenerate
 		/// <returns></returns>
 		private string GetFormatName(string fieldName)
 		{
-			var arr = fieldName.Split('_');
+			var arr = fieldName.Split(new char[] { '_' }, StringSplitOptions.RemoveEmptyEntries);
 			var result = string.Empty;
 			foreach (var str in arr)
 			{
@@ -295,7 +295,7 @@ namespace Iwenli.CodeGenerate
 		private string GenerateEntityCode()
 		{
 			StringBuilder _codeSb = new StringBuilder();
-			_codeSb.AppendLineDescription($"{DbTableInfo.Description?? BusinessDes} 实体");
+			_codeSb.AppendLineDescription($"{DbTableInfo.Description ?? BusinessDes} 实体");
 			var _className = ObjectName + EntitySuffix;
 			if (DataStyle == 3)
 			{

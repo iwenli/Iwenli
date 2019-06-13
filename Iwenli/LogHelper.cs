@@ -115,7 +115,7 @@ namespace Iwenli
                     }
                 }
             }
-            return "./Log/";
+            return "./_log/";
         }
 
         #endregion

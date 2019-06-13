@@ -77,10 +77,11 @@ namespace Iwenli.CodeGenerate
 			scintillaEntity.WrapMode = scintillaRepository.WrapMode = scintillaService.WrapMode = scintillaCache.WrapMode = WrapMode.None;
 			scintillaEntity.IndentationGuides = scintillaRepository.IndentationGuides = scintillaService.IndentationGuides = scintillaCache.IndentationGuides = IndentView.LookBoth;
 
-			InitScintilla(scintillaEntity);
-			InitScintilla(scintillaRepository);
-			InitScintilla(scintillaService);
-			InitScintilla(scintillaCache);
+			//scintillaEntity.InitScintilla();
+			scintillaEntity.Styler = new CSharpStyler();
+			scintillaRepository.Styler = new CSharpStyler();
+			scintillaService.Styler = new CSharpStyler();
+			scintillaCache.Styler = new CSharpStyler();
 		}
 
 
@@ -175,7 +176,7 @@ namespace Iwenli.CodeGenerate
 
 		private void toolStripButton1_Click(object sender, EventArgs e)
 		{
-			new JsonForm().Show(this);
+			new JsonForm().ShowDialog(this);
 		}
 
 		void BenginOperate()

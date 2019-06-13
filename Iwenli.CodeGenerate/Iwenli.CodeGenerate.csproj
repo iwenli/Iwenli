@@ -41,6 +41,9 @@
     <Reference Include="EasyScintilla, Version=1.0.3.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\EasyScintilla.1.0.4\lib\net40\EasyScintilla.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="ScintillaNET, Version=3.6.3.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\jacobslusser.ScintillaNET.3.6.3\lib\net40\ScintillaNET.dll</HintPath>
     </Reference>
@@ -49,6 +52,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity.Design" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -68,6 +72,18 @@
     </Compile>
     <Compile Include="Entity\DbColumnInfo.cs" />
     <Compile Include="Entity\DbTableInfo.cs" />
+    <Compile Include="Extension\FormatExtension.cs" />
+    <Compile Include="JsonClassGenerator\CodeWriters\CSharpCodeWriter.cs" />
+    <Compile Include="JsonClassGenerator\CodeWriters\JavaCodeWriter.cs" />
+    <Compile Include="JsonClassGenerator\CodeWriters\TypeScriptCodeWriter.cs" />
+    <Compile Include="JsonClassGenerator\CodeWriters\VisualBasicCodeWriter.cs" />
+    <Compile Include="JsonClassGenerator\FieldInfo.cs" />
+    <Compile Include="JsonClassGenerator\ICodeWriter.cs" />
+    <Compile Include="JsonClassGenerator\IJsonClassGeneratorConfig.cs" />
+    <Compile Include="JsonClassGenerator\JsonClassGenerator.cs" />
+    <Compile Include="JsonClassGenerator\JsonClassHelper.cs" />
+    <Compile Include="JsonClassGenerator\JsonType.cs" />
+    <Compile Include="JsonClassGenerator\JsonTypeEnum.cs" />
     <Compile Include="JsonForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -85,9 +101,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ScintillaCode.cs">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="ScintillaCode.cs" />
     <Compile Include="Extension\StringBuilderExtension.cs" />
     <Compile Include="Update.cs" />
     <Compile Include="Utils\HotKeyManager.cs" />
@@ -109,6 +123,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
@@ -137,5 +152,6 @@
       <EmbedInteropTypes>False</EmbedInteropTypes>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
