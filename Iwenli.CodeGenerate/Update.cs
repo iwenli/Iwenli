@@ -23,14 +23,14 @@ namespace Iwenli.CodeGenerate
 			if (Enable)
 			{
 				//任务模式检测更新
-				var updater = Updater.CreateUpdaterInstance(@"http://iwenli.org/soft/cc/{0}", "update_c.xml");
+				var updater = Updater.CreateUpdaterInstance(@"http://oa.txooo.com/soft/code_generate/{0}", "update_c.xml");
 				try
 				{
 					newVersion = await updater.CheckUpdateTask();
 				}
 				catch (Exception ex)
 				{
-					Iwenli.LogHelper.GetLogger("App-Update").Error("升级程序异常", ex);
+					Iwenli.LogHelper.GetLogger("app_update").Error("升级程序异常", ex);
 				}
 			}
 			return newVersion;

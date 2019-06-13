@@ -125,6 +125,16 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="2b3dff8660384b4ba41cb0b68f4150a7.zip" />
+    <None Include="4b177be0555046da936385f5175eabbd.zip" />
+    <None Include="8847f84991634d9b8ca10bf3c956685a.zip" />
+    <None Include="926b02fd9b314ea19084c7c93836243c.zip" />
+    <None Include="a10fe14ced034fe7b8eb8347e3e4591f.zip" />
+    <None Include="ae9e0f8ff9604a8fa8e6426da6f09bb9.zip" />
+    <None Include="b915b2cc78d548d7bcda4ada94b7dc9c.zip" />
+    <None Include="b956e77c69854176b3c7008a199589ea.zip" />
+    <None Include="cb1b2c6f4a7c414dbd9c0250b56cd374.zip" />
+    <None Include="f18292ce9c3e41c1892b760b28a2aa82.zip" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -144,6 +154,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="3.ico" />
+    <Content Include="update.xml" />
+    <Content Include="update_c.xml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Iwenli\Iwenli.csproj">
