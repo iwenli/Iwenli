@@ -4,6 +4,7 @@ using ScintillaNET;
 using System;
 using System.Data;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -11,9 +12,9 @@ using System.Windows.Forms;
 
 namespace Iwenli.CodeGenerate
 {
-	public partial class MainForm : Form
+	public partial class MainForm : BaseForm
 	{
-		public MainForm()
+		public MainForm() : base()
 		{
 			InitializeComponent();
 			Load += MainForm_Load;
@@ -21,6 +22,7 @@ namespace Iwenli.CodeGenerate
 
 		private void MainForm_Load(object sender, EventArgs e)
 		{
+			InitSetting();
 			InitEvent();
 			Init();
 			InitScintilla();

@@ -15,9 +15,10 @@ using Xamasoft.JsonClassGenerator.CodeWriters;
 
 namespace Iwenli.CodeGenerate
 {
-	public partial class JsonForm : Form
+	public partial class JsonForm : BaseForm
 	{
-		public JsonForm()
+		protected override string ModelName => "Json转实体";
+		public JsonForm() : base()
 		{
 			InitializeComponent();
 			Load += JsonForm_Load;
@@ -25,6 +26,7 @@ namespace Iwenli.CodeGenerate
 
 		private void JsonForm_Load(object sender, EventArgs e)
 		{
+			InitSetting();
 			lblDoneClipboard.Text = "";
 			InitScintilla();
 			InitEvent();
