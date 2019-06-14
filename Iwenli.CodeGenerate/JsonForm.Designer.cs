@@ -32,13 +32,15 @@
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
 			this.scintillaJson = new EasyScintilla.SimpleEditor();
 			this.panel2 = new System.Windows.Forms.Panel();
+			this.lblDoneClipboard = new System.Windows.Forms.Label();
+			this.btnGennrate = new System.Windows.Forms.Button();
+			this.btnJsonCompact = new System.Windows.Forms.Button();
+			this.btnJsonBeautify = new System.Windows.Forms.Button();
 			this.panel3 = new System.Windows.Forms.Panel();
 			this.groupBox2 = new System.Windows.Forms.GroupBox();
 			this.scintillaClass = new EasyScintilla.SimpleEditor();
-			this.btnJsonBeautify = new System.Windows.Forms.Button();
-			this.btnJsonCompact = new System.Windows.Forms.Button();
-			this.btnGennrate = new System.Windows.Forms.Button();
-			this.lblDoneClipboard = new System.Windows.Forms.Label();
+			this.txtClass = new System.Windows.Forms.TextBox();
+			this.label1 = new System.Windows.Forms.Label();
 			this.panel1.SuspendLayout();
 			this.groupBox1.SuspendLayout();
 			this.panel2.SuspendLayout();
@@ -69,6 +71,7 @@
 			// scintillaJson
 			// 
 			this.scintillaJson.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.scintillaJson.IndentationGuides = ScintillaNET.IndentView.LookBoth;
 			this.scintillaJson.Lexer = ScintillaNET.Lexer.Cpp;
 			this.scintillaJson.Location = new System.Drawing.Point(3, 17);
 			this.scintillaJson.Name = "scintillaJson";
@@ -78,6 +81,8 @@
 			// 
 			// panel2
 			// 
+			this.panel2.Controls.Add(this.label1);
+			this.panel2.Controls.Add(this.txtClass);
 			this.panel2.Controls.Add(this.lblDoneClipboard);
 			this.panel2.Controls.Add(this.btnGennrate);
 			this.panel2.Controls.Add(this.btnJsonCompact);
@@ -87,6 +92,43 @@
 			this.panel2.Name = "panel2";
 			this.panel2.Size = new System.Drawing.Size(800, 40);
 			this.panel2.TabIndex = 1;
+			// 
+			// lblDoneClipboard
+			// 
+			this.lblDoneClipboard.AutoSize = true;
+			this.lblDoneClipboard.ForeColor = System.Drawing.SystemColors.MenuHighlight;
+			this.lblDoneClipboard.Location = new System.Drawing.Point(490, 13);
+			this.lblDoneClipboard.Name = "lblDoneClipboard";
+			this.lblDoneClipboard.Size = new System.Drawing.Size(53, 12);
+			this.lblDoneClipboard.TabIndex = 3;
+			this.lblDoneClipboard.Text = "操作提示";
+			// 
+			// btnGennrate
+			// 
+			this.btnGennrate.Location = new System.Drawing.Point(379, 7);
+			this.btnGennrate.Name = "btnGennrate";
+			this.btnGennrate.Size = new System.Drawing.Size(91, 23);
+			this.btnGennrate.TabIndex = 2;
+			this.btnGennrate.Text = "生成C#实体(&G)";
+			this.btnGennrate.UseVisualStyleBackColor = true;
+			// 
+			// btnJsonCompact
+			// 
+			this.btnJsonCompact.Location = new System.Drawing.Point(103, 7);
+			this.btnJsonCompact.Name = "btnJsonCompact";
+			this.btnJsonCompact.Size = new System.Drawing.Size(85, 23);
+			this.btnJsonCompact.TabIndex = 1;
+			this.btnJsonCompact.Text = "JSON压缩(&C)";
+			this.btnJsonCompact.UseVisualStyleBackColor = true;
+			// 
+			// btnJsonBeautify
+			// 
+			this.btnJsonBeautify.Location = new System.Drawing.Point(13, 7);
+			this.btnJsonBeautify.Name = "btnJsonBeautify";
+			this.btnJsonBeautify.Size = new System.Drawing.Size(84, 23);
+			this.btnJsonBeautify.TabIndex = 0;
+			this.btnJsonBeautify.Text = "JSON美化(&B)";
+			this.btnJsonBeautify.UseVisualStyleBackColor = true;
 			// 
 			// panel3
 			// 
@@ -111,6 +153,7 @@
 			// scintillaClass
 			// 
 			this.scintillaClass.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.scintillaClass.IndentationGuides = ScintillaNET.IndentView.LookBoth;
 			this.scintillaClass.Lexer = ScintillaNET.Lexer.Cpp;
 			this.scintillaClass.Location = new System.Drawing.Point(3, 17);
 			this.scintillaClass.Name = "scintillaClass";
@@ -118,41 +161,22 @@
 			this.scintillaClass.Styler = null;
 			this.scintillaClass.TabIndex = 5;
 			// 
-			// btnJsonBeautify
+			// txtClass
 			// 
-			this.btnJsonBeautify.Location = new System.Drawing.Point(13, 7);
-			this.btnJsonBeautify.Name = "btnJsonBeautify";
-			this.btnJsonBeautify.Size = new System.Drawing.Size(84, 23);
-			this.btnJsonBeautify.TabIndex = 0;
-			this.btnJsonBeautify.Text = "JSON美化(&B)";
-			this.btnJsonBeautify.UseVisualStyleBackColor = true;
+			this.txtClass.Location = new System.Drawing.Point(272, 8);
+			this.txtClass.Name = "txtClass";
+			this.txtClass.Size = new System.Drawing.Size(100, 21);
+			this.txtClass.TabIndex = 4;
+			this.txtClass.Text = "Class1";
 			// 
-			// btnJsonCompact
+			// label1
 			// 
-			this.btnJsonCompact.Location = new System.Drawing.Point(103, 7);
-			this.btnJsonCompact.Name = "btnJsonCompact";
-			this.btnJsonCompact.Size = new System.Drawing.Size(85, 23);
-			this.btnJsonCompact.TabIndex = 1;
-			this.btnJsonCompact.Text = "JSON压缩(&C)";
-			this.btnJsonCompact.UseVisualStyleBackColor = true;
-			// 
-			// btnGennrate
-			// 
-			this.btnGennrate.Location = new System.Drawing.Point(217, 7);
-			this.btnGennrate.Name = "btnGennrate";
-			this.btnGennrate.Size = new System.Drawing.Size(91, 23);
-			this.btnGennrate.TabIndex = 2;
-			this.btnGennrate.Text = "生成C#实体(&G)";
-			this.btnGennrate.UseVisualStyleBackColor = true;
-			// 
-			// lblDoneClipboard
-			// 
-			this.lblDoneClipboard.AutoSize = true;
-			this.lblDoneClipboard.ForeColor = System.Drawing.SystemColors.MenuHighlight;
-			this.lblDoneClipboard.Location = new System.Drawing.Point(332, 14);
-			this.lblDoneClipboard.Name = "lblDoneClipboard";
-			this.lblDoneClipboard.Size = new System.Drawing.Size(0, 12);
-			this.lblDoneClipboard.TabIndex = 3;
+			this.label1.AutoSize = true;
+			this.label1.Location = new System.Drawing.Point(231, 13);
+			this.label1.Name = "label1";
+			this.label1.Size = new System.Drawing.Size(41, 12);
+			this.label1.TabIndex = 5;
+			this.label1.Text = "类名：";
 			// 
 			// JsonForm
 			// 
@@ -188,5 +212,7 @@
 		private System.Windows.Forms.Button btnJsonBeautify;
 		private System.Windows.Forms.Button btnGennrate;
 		private System.Windows.Forms.Label lblDoneClipboard;
+		private System.Windows.Forms.Label label1;
+		private System.Windows.Forms.TextBox txtClass;
 	}
 }

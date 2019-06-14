@@ -25,6 +25,7 @@ namespace Iwenli.CodeGenerate
 
 		private void JsonForm_Load(object sender, EventArgs e)
 		{
+			lblDoneClipboard.Text = "";
 			InitScintilla();
 			InitEvent();
 		}
@@ -81,14 +82,14 @@ namespace Iwenli.CodeGenerate
 				CodeWriter = new CSharpCodeWriter(),
 				DeduplicateClasses = false,
 				TargetFolder = "",
-				UseProperties = true,
-				MainClass = "Class1",
+				UseProperties = false,
+				MainClass = txtClass.Text.IsNullOrEmpty() ? "Class1" : txtClass.Text,
 				SortMemberFields = true,
 				UsePascalCase = true,
 				UseNestedClasses = false,
 				ApplyObfuscationAttributes = false,
 				SingleFile = false,
-				ExamplesInDocumentation = false,
+				ExamplesInDocumentation = true,
 				Namespace = null,
 				NoHelperClass = false,
 				SecondaryNamespace = null,
