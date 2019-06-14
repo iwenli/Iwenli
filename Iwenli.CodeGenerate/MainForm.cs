@@ -40,7 +40,10 @@ namespace Iwenli.CodeGenerate
 				{
 					this.tscbDbList.Items.Add(item.Key);
 				}
-				tscbDbList.SelectedIndex = 0;
+				if (dbList.Count > 0)
+				{
+					tscbDbList.SelectedIndex = 0;
+				}
 			}
 			//数据绑定方式
 			tscbDataStyle.Items.Clear();

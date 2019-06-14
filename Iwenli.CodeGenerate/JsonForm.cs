@@ -82,7 +82,7 @@ namespace Iwenli.CodeGenerate
 				CodeWriter = new CSharpCodeWriter(),
 				DeduplicateClasses = false,
 				TargetFolder = "",
-				UseProperties = false,
+				UseProperties = true,
 				MainClass = txtClass.Text.IsNullOrEmpty() ? "Class1" : txtClass.Text,
 				SortMemberFields = true,
 				UsePascalCase = true,
