@@ -74,6 +74,7 @@
     <Compile Include="Extension\Diagnostics\ProcessExtension.cs" />
     <Compile Include="Extension\DistinctExtensions.cs" />
     <Compile Include="Extension\ArrayExtension.cs" />
+    <Compile Include="Extension\ImageExtension.cs" />
     <Compile Include="Extension\JsonHelper.cs" />
     <Compile Include="Extension\ObjectExtension.cs" />
     <Compile Include="Extension\StringExtension.cs" />

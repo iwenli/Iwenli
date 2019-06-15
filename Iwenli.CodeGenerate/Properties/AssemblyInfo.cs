@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // 有关程序集的一般信息由以下
 // 控制。更改这些特性值可修改
 // 与程序集关联的信息。
-[assembly: AssemblyTitle("代码生成工具")]
-[assembly: AssemblyDescription("多层代码生成器")]
+[assembly: AssemblyTitle("研发工具集")]
+[assembly: AssemblyDescription("公司内部使用工具集合")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("代码生成工具")]
+[assembly: AssemblyProduct("研发工具集")]
 [assembly: AssemblyCopyright("Copyright ©  2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

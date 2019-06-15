@@ -206,5 +206,10 @@ namespace Iwenli.CodeGenerate
 			Cursor = Cursors.Default;
 			pb.Style = ProgressBarStyle.Continuous;
 		}
+
+		private void TsBtnImageUpload_Click(object sender, EventArgs e)
+		{
+			new ImageUpload().ShowDialog(this);
+		}
 	}
 }

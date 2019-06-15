@@ -41,6 +41,7 @@
 			this.toolStripLabel3 = new System.Windows.Forms.ToolStripLabel();
 			this.toolStripLabel5 = new System.Windows.Forms.ToolStripSeparator();
 			this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
+			this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
 			this.splitContainer1 = new System.Windows.Forms.SplitContainer();
 			this.lbDbObjectList = new System.Windows.Forms.ListBox();
 			this.pb = new System.Windows.Forms.ProgressBar();
@@ -53,6 +54,7 @@
 			this.scintillaService = new EasyScintilla.SimpleEditor();
 			this.tpCache = new System.Windows.Forms.TabPage();
 			this.scintillaCache = new EasyScintilla.SimpleEditor();
+			this.tsBtnImageUpload = new System.Windows.Forms.ToolStripButton();
 			this.toolStrip1.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
 			this.splitContainer1.Panel1.SuspendLayout();
@@ -78,7 +80,9 @@
             this.tscbOutputStyle,
             this.toolStripLabel3,
             this.toolStripLabel5,
-            this.toolStripButton1});
+            this.toolStripButton1,
+            this.toolStripSeparator3,
+            this.tsBtnImageUpload});
 			this.toolStrip1.Location = new System.Drawing.Point(0, 0);
 			this.toolStrip1.Name = "toolStrip1";
 			this.toolStrip1.Size = new System.Drawing.Size(800, 25);
@@ -154,8 +158,13 @@
 			this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
 			this.toolStripButton1.Name = "toolStripButton1";
 			this.toolStripButton1.Size = new System.Drawing.Size(102, 22);
-			this.toolStripButton1.Text = "Json实体生成";
+			this.toolStripButton1.Text = "Json生成实体";
 			this.toolStripButton1.Click += new System.EventHandler(this.toolStripButton1_Click);
+			// 
+			// toolStripSeparator3
+			// 
+			this.toolStripSeparator3.Name = "toolStripSeparator3";
+			this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
 			// 
 			// splitContainer1
 			// 
@@ -222,12 +231,13 @@
 			// scintillaEntity
 			// 
 			this.scintillaEntity.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.scintillaEntity.IndentationGuides = ScintillaNET.IndentView.LookBoth;
 			this.scintillaEntity.Lexer = ScintillaNET.Lexer.Cpp;
 			this.scintillaEntity.Location = new System.Drawing.Point(3, 3);
 			this.scintillaEntity.Name = "scintillaEntity";
 			this.scintillaEntity.Size = new System.Drawing.Size(611, 393);
 			this.scintillaEntity.Styler = null;
-			this.scintillaEntity.TabIndex = 1;
+			this.scintillaEntity.TabIndex = 3;
 			// 
 			// tpRepository
 			// 
@@ -242,12 +252,13 @@
 			// scintillaRepository
 			// 
 			this.scintillaRepository.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.scintillaRepository.IndentationGuides = ScintillaNET.IndentView.LookBoth;
 			this.scintillaRepository.Lexer = ScintillaNET.Lexer.Cpp;
 			this.scintillaRepository.Location = new System.Drawing.Point(0, 0);
 			this.scintillaRepository.Name = "scintillaRepository";
 			this.scintillaRepository.Size = new System.Drawing.Size(617, 399);
 			this.scintillaRepository.Styler = null;
-			this.scintillaRepository.TabIndex = 2;
+			this.scintillaRepository.TabIndex = 3;
 			// 
 			// tpService
 			// 
@@ -262,6 +273,7 @@
 			// scintillaService
 			// 
 			this.scintillaService.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.scintillaService.IndentationGuides = ScintillaNET.IndentView.LookBoth;
 			this.scintillaService.Lexer = ScintillaNET.Lexer.Cpp;
 			this.scintillaService.Location = new System.Drawing.Point(0, 0);
 			this.scintillaService.Name = "scintillaService";
@@ -282,12 +294,22 @@
 			// scintillaCache
 			// 
 			this.scintillaCache.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.scintillaCache.IndentationGuides = ScintillaNET.IndentView.LookBoth;
 			this.scintillaCache.Lexer = ScintillaNET.Lexer.Cpp;
 			this.scintillaCache.Location = new System.Drawing.Point(0, 0);
 			this.scintillaCache.Name = "scintillaCache";
 			this.scintillaCache.Size = new System.Drawing.Size(617, 399);
 			this.scintillaCache.Styler = null;
 			this.scintillaCache.TabIndex = 3;
+			// 
+			// tsBtnImageUpload
+			// 
+			this.tsBtnImageUpload.Image = ((System.Drawing.Image)(resources.GetObject("tsBtnImageUpload.Image")));
+			this.tsBtnImageUpload.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.tsBtnImageUpload.Name = "tsBtnImageUpload";
+			this.tsBtnImageUpload.Size = new System.Drawing.Size(76, 22);
+			this.tsBtnImageUpload.Text = "上传图片";
+			this.tsBtnImageUpload.Click += new System.EventHandler(this.TsBtnImageUpload_Click);
 			// 
 			// MainForm
 			// 
@@ -335,12 +357,14 @@
 		private System.Windows.Forms.ProgressBar pb;
 		private System.Windows.Forms.TabPage tpRepository;
 		private System.Windows.Forms.TabPage tpService;
-		private EasyScintilla.SimpleEditor scintillaRepository;
 		private EasyScintilla.SimpleEditor scintillaService;
-		private System.Windows.Forms.TabPage tpEntity;
-		private EasyScintilla.SimpleEditor scintillaEntity;
 		private System.Windows.Forms.TabPage tpCache;
 		private EasyScintilla.SimpleEditor scintillaCache;
+		private System.Windows.Forms.TabPage tpEntity;
+		private EasyScintilla.SimpleEditor scintillaEntity;
+		private EasyScintilla.SimpleEditor scintillaRepository;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+		private System.Windows.Forms.ToolStripButton tsBtnImageUpload;
 	}
 }
 

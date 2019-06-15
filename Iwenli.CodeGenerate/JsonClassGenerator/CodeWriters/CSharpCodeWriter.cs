@@ -195,7 +195,7 @@ namespace Xamasoft.JsonClassGenerator.CodeWriters
 				{
 					sw.WriteLine(prefix + "/// <summary>");
 					sw.WriteLine(prefix + "/// ");
-					sw.WriteLine(prefix + "/// <示例值: " + field.GetExamplesText() + ">");
+					sw.WriteLine(prefix + "/// 示例值: " + field.GetExamplesText());
 					sw.WriteLine(prefix + "/// </summary>");
 				}
 

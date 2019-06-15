@@ -28,10 +28,13 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(JsonForm));
 			this.panel1 = new System.Windows.Forms.Panel();
 			this.groupBox1 = new System.Windows.Forms.GroupBox();
 			this.scintillaJson = new EasyScintilla.SimpleEditor();
 			this.panel2 = new System.Windows.Forms.Panel();
+			this.label1 = new System.Windows.Forms.Label();
+			this.txtClass = new System.Windows.Forms.TextBox();
 			this.lblDoneClipboard = new System.Windows.Forms.Label();
 			this.btnGennrate = new System.Windows.Forms.Button();
 			this.btnJsonCompact = new System.Windows.Forms.Button();
@@ -39,8 +42,6 @@
 			this.panel3 = new System.Windows.Forms.Panel();
 			this.groupBox2 = new System.Windows.Forms.GroupBox();
 			this.scintillaClass = new EasyScintilla.SimpleEditor();
-			this.txtClass = new System.Windows.Forms.TextBox();
-			this.label1 = new System.Windows.Forms.Label();
 			this.panel1.SuspendLayout();
 			this.groupBox1.SuspendLayout();
 			this.panel2.SuspendLayout();
@@ -92,6 +93,23 @@
 			this.panel2.Name = "panel2";
 			this.panel2.Size = new System.Drawing.Size(800, 40);
 			this.panel2.TabIndex = 1;
+			// 
+			// label1
+			// 
+			this.label1.AutoSize = true;
+			this.label1.Location = new System.Drawing.Point(231, 13);
+			this.label1.Name = "label1";
+			this.label1.Size = new System.Drawing.Size(41, 12);
+			this.label1.TabIndex = 5;
+			this.label1.Text = "类名：";
+			// 
+			// txtClass
+			// 
+			this.txtClass.Location = new System.Drawing.Point(272, 8);
+			this.txtClass.Name = "txtClass";
+			this.txtClass.Size = new System.Drawing.Size(100, 21);
+			this.txtClass.TabIndex = 4;
+			this.txtClass.Text = "Class1";
 			// 
 			// lblDoneClipboard
 			// 
@@ -161,23 +179,6 @@
 			this.scintillaClass.Styler = null;
 			this.scintillaClass.TabIndex = 5;
 			// 
-			// txtClass
-			// 
-			this.txtClass.Location = new System.Drawing.Point(272, 8);
-			this.txtClass.Name = "txtClass";
-			this.txtClass.Size = new System.Drawing.Size(100, 21);
-			this.txtClass.TabIndex = 4;
-			this.txtClass.Text = "Class1";
-			// 
-			// label1
-			// 
-			this.label1.AutoSize = true;
-			this.label1.Location = new System.Drawing.Point(231, 13);
-			this.label1.Name = "label1";
-			this.label1.Size = new System.Drawing.Size(41, 12);
-			this.label1.TabIndex = 5;
-			this.label1.Text = "类名：";
-			// 
 			// JsonForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -186,8 +187,8 @@
 			this.Controls.Add(this.panel3);
 			this.Controls.Add(this.panel2);
 			this.Controls.Add(this.panel1);
+			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.Name = "JsonForm";
-			this.ShowIcon = false;
 			this.Text = "JSON解析生成实体工具";
 			this.panel1.ResumeLayout(false);
 			this.groupBox1.ResumeLayout(false);
