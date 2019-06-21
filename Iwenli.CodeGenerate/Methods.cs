@@ -250,7 +250,7 @@ namespace Iwenli.CodeGenerate
 			switch (dbTypeName)
 			{
 				#region int
-				case "int": result = "int"; break;
+				case "int":
 				case "tinyint": result = "int"; break;
 				#endregion
 
@@ -269,11 +269,11 @@ namespace Iwenli.CodeGenerate
 				#endregion
 
 				#region datetime
-				case "date": result = "DateTime"; break;
-				case "datetime": result = "DateTime"; break;
-				case "datetime2": result = "DateTime"; break;
+				case "timestamp":
+				case "date":
+				case "datetime": 
+				case "datetime2": 
 				case "smalldatetime": result = "DateTime"; break;
-				case "timestamp": result = "byte[]"; break;
 				#endregion
 
 				#region bool
