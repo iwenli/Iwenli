@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+<UpdateInfo xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <AppName>代码生成器</AppName>
+  <AppVersion>1.2019.615.0</AppVersion>
+  <FileExecuteBefore />
+  <ExecuteTimeout>0</ExecuteTimeout>
+  <TreatErrorAsNotUpdated>false</TreatErrorAsNotUpdated>
+  <PromptUserBeforeAutomaticUpgrade>true</PromptUserBeforeAutomaticUpgrade>
+  <AutoCloseSucceedWindow>true</AutoCloseSucceedWindow>
+  <Desc>v 1.2019.614.1  
+优化无数据库默认选择bug
+优化json属性生成
+v 1.2019.615
+优化json属性生成注释
+集成图片上传</Desc>
+  <Package>7d2c1298e6fe4dbcb84aab557dd8f7e0.zip</Package>
+  <MD5>C714485068F439BB39165BA57BC770E5</MD5>
+  <DeleteMethod>None</DeleteMethod>
+  <PackageSize>487016</PackageSize>
+  <ForceUpdate>false</ForceUpdate>
+  <Packages>
+    <PackageInfo>
+      <FilePath>Iwenli.dll</FilePath>
+      <FileSize>923136</FileSize>
+      <Version>1.0.0.0</Version>
+      <PackageHash>A9C1AA7912A401124BDC71E958A738B0</PackageHash>
+      <PackageName>dc89fb4152254c249f28228a1b2866ed.zip</PackageName>
+      <PackageSize>369005</PackageSize>
+      <Method>VersionCompare</Method>
+      <VerificationLevel>Size Hash</VerificationLevel>
+      <FileHash>1535788693475D95C3937CE26ACB5E2B</FileHash>
+      <Files>
+        <string>Iwenli.dll</string>
+      </Files>
+    </PackageInfo>
+    <PackageInfo>
+      <FilePath>研发工具集.exe</FilePath>
+      <FileSize>363008</FileSize>
+      <Version>1.2019.615.0</Version>
+      <PackageHash>2350A85958FA04E067BE76C2AD491A54</PackageHash>
+      <PackageName>57ac854facaf4f03bc35faa9be5a9a3b.zip</PackageName>
+      <PackageSize>117559</PackageSize>
+      <Method>VersionCompare</Method>
+      <VerificationLevel>Size Hash</VerificationLevel>
+      <FileHash>F2479AC7B7B1B436712ACA61EDB98078</FileHash>
+      <Files>
+        <string>研发工具集.exe</string>
+      </Files>
+    </PackageInfo>
+    <PackageInfo>
+      <FilePath>研发工具集.exe.config</FilePath>
+      <FileSize>843</FileSize>
+      <Version>0.0.0.0</Version>
+      <PackageHash>0EDA1B967E14EC0693AF263A673012BE</PackageHash>
+      <PackageName>67f515ec87734563970b91f5664e3eba.zip</PackageName>
+      <PackageSize>496</PackageSize>
+      <Method>VersionCompare</Method>
+      <VerificationLevel>Size Hash</VerificationLevel>
+      <FileHash>FFB0FCAFB2999A70CB7E6A648A425C67</FileHash>
+      <Files>
+        <string>研发工具集.exe.config</string>
+      </Files>
+    </PackageInfo>
+  </Packages>
+  <HideBeforeExecuteWindow>false</HideBeforeExecuteWindow>
+  <HideAfterExecuteWindow>false</HideAfterExecuteWindow>
+  <MustUpdate>false</MustUpdate>
+  <AutoExitCurrentProcess>false</AutoExitCurrentProcess>
+  <AutoEndProcessesWithinAppDir>true</AutoEndProcessesWithinAppDir>
+  <AutoKillProcesses>false</AutoKillProcesses>
+  <RequreAdminstrorPrivilege>false</RequreAdminstrorPrivilege>
+</UpdateInfo>

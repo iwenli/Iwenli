@@ -249,37 +249,75 @@ namespace Iwenli.CodeGenerate
 			string result;
 			switch (dbTypeName)
 			{
+				#region int
+				case "int": result = "int"; break;
+				case "tinyint": result = "int"; break;
+				#endregion
+
+				#region string
+				case "xml":
+				case "nchar":
+				case "char": 
+				case "ntext": 
+				case "nvarchar": 
+				case "varchar":
+				case "text": result = "string"; break;
+				#endregion
+
+				#region long
 				case "bigint": result = "long"; break;
-				case "binary": result = "byte[]"; break;
-				case "bit": result = "bool"; break;
-				case "char": result = "string"; break;
+				#endregion
+
+				#region datetime
 				case "date": result = "DateTime"; break;
 				case "datetime": result = "DateTime"; break;
 				case "datetime2": result = "DateTime"; break;
-				case "datetimeoffset": result = "DateTimeOffset"; break;
-				case "decimal": result = "decimal"; break;
-				case "float": result = "double"; break;
-				case "image": result = "byte[]"; break;
-				case "int": result = "int"; break;
-				case "money": result = "decimal"; break;
-				case "nchar": result = "string"; break;
-				case "ntext": result = "string"; break;
-				case "numeric": result = "decimal"; break;
-				case "nvarchar": result = "string"; break;
-				case "real": result = "Single"; break;
 				case "smalldatetime": result = "DateTime"; break;
+				case "timestamp": result = "byte[]"; break;
+				#endregion
+
+				#region bool
+				case "bit":
+				case "boolean":
+				case "bool": result = "bool"; break;
+				#endregion
+
+				#region Decimal
+				case "single":
+				case "smallmoney":
+				case "decimal":
+				case "numeric":
+				case "money": result = "decimal"; break;
+				#endregion
+
+				#region float
+				case "real": result = "float"; break;
+				#endregion
+
+				#region Double
+				case "float": result = "double"; break;
+				#endregion
+
+				#region Byte[]
+				case "varbinary":
+				case "binary":
+				case "image":
+					result = "byte[]";
+					break;
+				#endregion
+
+				#region Short
 				case "smallint": result = "short"; break;
-				case "smallmoney": result = "decimal"; break;
+				#endregion
+
+				case "uniqueidentifier": result = "Guid"; break;
+
+				case "datetimeoffset": result = "DateTimeOffset"; break;
+				case "time": result = "TimeSpan"; break;
+
 				case "sql_variant": result = "object"; break;
 				case "sysname": result = "object"; break;
-				case "text": result = "string"; break;
-				case "time": result = "TimeSpan"; break;
-				case "timestamp": result = "byte[]"; break;
-				case "tinyint": result = "int"; break;
-				case "uniqueidentifier": result = "Guid"; break;
-				case "varbinary": result = "byte[]"; break;
-				case "varchar": result = "string"; break;
-				case "xml": result = "string"; break;
+
 				default: this.LogInfo($"未知sql字段：{dbTypeName}"); result = "object"; break;
 			}
 

@@ -30,6 +30,7 @@
   <CompressPackage>true</CompressPackage>
   <EnableIncreaseUpdate>true</EnableIncreaseUpdate>
   <VersionUpdateSrc>sourcePackage\代码生成器.exe</VersionUpdateSrc>
+  <UpdateContentSrc>升级说明.txt</UpdateContentSrc>
   <PackageExtension>zip</PackageExtension>
   <UseRandomPackageNaming>true</UseRandomPackageNaming>
   <CleanBeforeBuild>true</CleanBeforeBuild>
