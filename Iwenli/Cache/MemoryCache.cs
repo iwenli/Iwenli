@@ -81,7 +81,7 @@ namespace Iwenli.Cache
             else
             {
                 V _value = getUncachedValue(cacheKey);
-                _memoryCache.Set(ParseKey(cacheKey), getUncachedValue, dateTimeOffset);
+                _memoryCache.Set(ParseKey(cacheKey), _value, dateTimeOffset);
                 return _value;
             }
         }
@@ -103,7 +103,7 @@ namespace Iwenli.Cache
             else
             {
                 V _value = getUncachedValue(cacheKey);
-                _memoryCache.Set(ParseKey(cacheKey), getUncachedValue, policy);
+                _memoryCache.Set(ParseKey(cacheKey), _value, policy);
                 return _value;
             }
         }
